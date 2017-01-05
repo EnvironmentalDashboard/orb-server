@@ -3,25 +3,27 @@
  */
 
 /**
- * Dependencies
+ * Exteneral dependencies
  */
 
 let express = require('express'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
     exphbs = require('express-handlebars'),
-    http = require('http'),
-    dbconfig = require('./config/db'),
-    dbconnect = require('./lib/dbconnect')(dbconfig),
-    routes = require('./routes'),
+    http = require('http');
+
+/**
+ * Local dependencies
+ */
+
+let routes = require('./routes'),
     controllers = require('./controllers');
-
-
-var app = express();
 
 /**
  * App configuration
  */
+
+let app = express();
 
 http.createServer(app).listen(3000);
 
