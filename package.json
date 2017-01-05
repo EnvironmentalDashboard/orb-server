@@ -1,0 +1,24 @@
+{
+  "name": "orb-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremyfifty9/orb-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeremyfifty9/orb-server/issues"
+  },
+  "homepage": "https://github.com/jeremyfifty9/orb-server#readme",
+  "dependencies": {
+    "bookshelf": "^0.10.2",
+    "express": "^4.14.0",
+    "knex": "^0.12.6"
+  }
+}
