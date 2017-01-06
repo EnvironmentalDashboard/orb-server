@@ -1,0 +1,20 @@
+{
+  "name": "orb-server",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "jeremy"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/jeremyfifty9/orb-server",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
