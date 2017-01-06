@@ -6,7 +6,8 @@
  * Exteneral dependencies
  */
 
-let express = require('express'),
+let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
+    express = require('express'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
     exphbs = require('express-handlebars'),
@@ -39,10 +40,11 @@ app.set('view engine', '.hbs');
 app.set('views', './views');
 
 app.use(session({
-    secret: 'secret'
+    secret: process.env.SESS_SECRET
 }));
 
 app.use(express.static('./public'));
+app.use(express.static('./bower_components'));
 
 app.use(bodyParser.urlencoded({
     extended: true
