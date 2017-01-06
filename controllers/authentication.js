@@ -15,12 +15,12 @@ let authentication = {
 
         let query = querystring.stringify({
             client_id: process.env.LIFX_CLIENT_ID,
-            scope: "remote_control:all",
-            state: process.env.LIFX_STATE,
-            response_type: "code"
+            scope: 'remote_control:all',
+            state: 'state',
+            response_type: 'code'
         });
 
-        res.redirect("https://cloud.lifx.com/oauth/authorize?" + query);
+        res.redirect('https://cloud.lifx.com/oauth/authorize?' + query);
     },
 
     /**
