@@ -13,4 +13,8 @@ exports.setup = function (params) {
 
     //Home
     app.get('/', controllers.pages.index);
+
+    //Authentication
+    app.get('/auth', controllers.authentication.authenticate);
+    app.get('/redirect', controllers.authentication.redirect);
 };
