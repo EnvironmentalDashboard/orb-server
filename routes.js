@@ -13,8 +13,10 @@ module.exports.setup = function (params) {
     //Home
     app.get('/', controllers.pages.index);
 
+    //Authorization
+    app.get('/auth', controllers.authorization.authorize);
+    app.get('/redirect', controllers.authorization.redirect);
+
     //Authentication
-    app.get('/auth', controllers.authentication.authenticate);
-    app.get('/redirect', controllers.authentication.redirect);
 
 };

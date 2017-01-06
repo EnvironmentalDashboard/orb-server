@@ -1,7 +1,7 @@
 /**
  * @overview Authentication controller
  *
- * Uses LifX's authentication
+ * Uses LifX's OAuth 2.0 authorization
  */
 
 let querystring = require('querystring'),
@@ -9,10 +9,10 @@ let querystring = require('querystring'),
 
 let lifx_api = "https://cloud.lifx.com/oauth";
 
-let authentication = {
+let authorization = {
 
     /**
-     * Redirects client to LifX for authentication
+     * Redirects client to LifX for authorization
      */
     authenticate: function (req, res) {
 
@@ -80,4 +80,4 @@ let authentication = {
     }
 };
 
-module.exports = authentication;
+module.exports = authorization;
