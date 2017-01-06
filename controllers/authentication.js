@@ -16,7 +16,7 @@ let authentication = {
         let query = querystring.stringify({
             client_id: process.env.LIFX_CLIENT_ID,
             scope: 'remote_control:all',
-            state: 'state',
+            state: 'state', //@TODO prevent CSS attacks
             response_type: 'code'
         });
 

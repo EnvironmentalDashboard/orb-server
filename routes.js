@@ -3,10 +3,9 @@
  */
 
 /**
- * @param  Object params Object literal with controllers, app, and views
+ * @param  Object params An Oject literal with controllers and app
  */
-
-exports.setup = function (params) {
+module.exports.setup = function (params) {
 
     let app = params.app,
         controllers = params.controllers;
@@ -17,4 +16,5 @@ exports.setup = function (params) {
     //Authentication
     app.get('/auth', controllers.authentication.authenticate);
     app.get('/redirect', controllers.authentication.redirect);
+
 };

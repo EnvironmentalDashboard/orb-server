@@ -56,7 +56,9 @@ app.use(bodyParser.json());
  * Routing
  */
 
-routes.setup({
+let routerParams = {
     controllers: controllers,
     app: app
-});
+};
+
+routes.setup(routerParams);
