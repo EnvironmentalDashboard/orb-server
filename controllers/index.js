@@ -8,7 +8,8 @@
  */
 
 let controllers = [
-    'pages'
+    'pages',
+    'authentication'
 ];
 
 /**
