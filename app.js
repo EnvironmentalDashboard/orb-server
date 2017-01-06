@@ -40,7 +40,9 @@ app.set('view engine', '.hbs');
 app.set('views', './views');
 
 app.use(session({
-    secret: process.env.SESS_SECRET
+    secret: process.env.SESS_SECRET,
+    resave: false,
+    saveUninitialized: true
 }));
 
 app.use(express.static('./public'));
