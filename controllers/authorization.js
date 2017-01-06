@@ -1,5 +1,5 @@
 /**
- * @overview Authentication controller
+ * @overview Authorization controller
  *
  * Uses LifX's OAuth 2.0 authorization
  */
@@ -14,7 +14,7 @@ let authorization = {
     /**
      * Redirects client to LifX for authorization
      */
-    authenticate: function (req, res) {
+    authorize: function (req, res) {
 
         /**
          * Random, unguessable string to prevent CSS attacks: base64 encodes the
