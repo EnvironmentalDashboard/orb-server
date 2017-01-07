@@ -23,9 +23,11 @@
     "express": "^4.14.0",
     "knex": "^0.12.6",
     "node-cache": "^4.1.1",
+    "node-gyp": "^3.4.0",
     "passport-local": "^1.0.0",
     "querystring": "^0.2.0",
     "request": "^2.79.0",
+    "sodium": "^2.0.1",
     "validator": "^6.2.1",
     "when": "^3.7.7"
   },

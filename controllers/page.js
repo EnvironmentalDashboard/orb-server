@@ -13,6 +13,12 @@ let page = {
         return new Promise(function (resolve, reject){
             resolve();
         });
+    },
+
+    signupSuccess: function(req, cache) {
+        return new Promise(function (resolve, reject){
+            resolve();
+        });
     }
 };
 

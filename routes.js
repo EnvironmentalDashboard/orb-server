@@ -47,6 +47,7 @@ module.exports.setup = function (params) {
     // Notice: 'signup' on the frontend (i.e., URLs and page controller name) and
     // 'register' on the backend
     app.get('/account/signup', pair(controllers.page.signup, views.page.signup));
+    app.get('/account/signup/success', pair(controllers.page.signupSuccess, views.page.signupSuccess));
     app.post('/account/signup', pair(controllers.account.register, views.account.register));
 
     /*/ Authorization

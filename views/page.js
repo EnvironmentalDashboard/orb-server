@@ -11,6 +11,11 @@ let page = {
     signup: function(res, cache) {
 
         res.render('register');
+    },
+
+    signupSuccess: function(res, cache) {
+
+        res.render('register-success');
     }
 };
 

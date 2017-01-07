@@ -9,7 +9,7 @@
             {{#if errors}}
 
             <div class="alert alert-danger">
-                <p><strong>Some information could not validate.</strong> Please check for errors.</p>
+                <p><strong>There was a problem with your registration.</strong> Please check for errors.</p>
             </div>
 
             {{/if}}
@@ -25,26 +25,69 @@
                         <input type="text" class="form-control" name="lname" id="lname" value="{{form.lname}}" placeholder="Last Name">
                     </div>
                 </div>
-                <div class="row">
 
+                {{#if errors.name}}
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning">
+                            {{#each errors.name}}
+                                <p>{{this}}</p>
+                            {{/each}}
+                        </div>
+                    </div>
                 </div>
+
+                {{/if}}
+
+
                 <div class="row form-group">
                     <div class="col-sm-12">
                         <label for="email">Email <span class="text-info">*</span></label>
-                        <input type="email" required class="form-control" name="email" id="email" placeholder="Email">
+                        <input type="email" required class="form-control" name="email" id="email" value="{{form.email}}" placeholder="Email">
                     </div>
                 </div>
+
+                {{#if errors.email}}
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning">
+                            {{#each errors.email}}
+                                <p>{{this}}</p>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+
+                {{/if}}
+
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label for="password">Password <span class="text-info">*</span></label>
-                        <input type="password" required minlength="5" class="form-control" name="password" id="password" placeholder="Password">
-                        <p class="help-block">Minimum 5 characters.</p>
+                        <input type="password" required minlength="5" class="form-control" aria-describedby="pwd-help" name="password" id="password" placeholder="Password">
+                        <p id="pwd-help" class="help-block">Minimum 5 characters.</p>
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="confirm">Confirm Password <span class="text-info">*</span></label>
                         <input type="password" required minlength="5" class="form-control" name="confirm" id="confirm" placeholder="Confirm Password">
                     </div>
                 </div>
+
+                {{#if errors.password}}
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning">
+                            {{#each errors.password}}
+                                <p>{{this}}</p>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+
+                {{/if}}
+
                 <div class="row form-group">
                     <div class="col-sm-12">
                         <p>By clicking register, you affirm that you agree to the <a href="#tac">Terms and Conditions</a>.</p>

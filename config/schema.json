@@ -1,7 +1,7 @@
 {
   "orb-server_users": {
       "id": {"type": "increments", "nullable": false, "primary": true},
-      "token": {"type": "string", "fieldtype": "varchar", "maxlength": 255, "nullable": false, "unique": true},
+      "token": {"type": "string", "fieldtype": "varchar", "maxlength": 255, "nullable": true, "unique": true},
       "email": {"type": "string", "nullable": true},
       "fname": {"type": "string", "maxlength": 100, "nullable": true},
       "lname": {"type": "string", "maxlength": 100, "nullable": true},
