@@ -1,8 +1,10 @@
 /**
+ * @overview This script is used to rebuild the relevent table structures in the
+ * database following the schema delineated in ../config/schema.json. Adapted from
+ * script found linked below.
+ *
  * @url https://blog.ragingflame.co.za/2014/7/21/using-nodejs-with-mysql
  * @author Qawelesizwe Mlilo
- *
- * @overview Used to 'migrate' (construct) database
  */
 
 var dotenv = require('dotenv').config({path: "../config/orb-server.env"});
