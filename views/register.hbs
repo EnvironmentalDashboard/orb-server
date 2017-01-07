@@ -1,0 +1,46 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h2>Register Your Account</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+            <p>Required fields indicated with asterisk (*).</p>
+
+            <form action="/account/signup" method="post">
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="fname">First name</label>
+                        <input type="text" class="form-control" name="fname" id="fname" placeholder="First Name">
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="lname">Last name</label>
+                        <input type="text" class="form-control" name="lname" id="lname" placeholder="Last Name">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-12">
+                        <label for="email">Email <span class="text-info">*</span></label>
+                        <input type="email" required class="form-control" name="email" id="email" placeholder="Email">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="password">Password <span class="text-info">*</span></label>
+                        <input type="password" required minlength="5" class="form-control" name="password" id="password" placeholder="Password">
+                        <p class="help-block">Minimum 5 characters.</p>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="confirm">Confirm Password <span class="text-info">*</span></label>
+                        <input type="password" required minlength="5" class="form-control" name="confirm" id="confirm" placeholder="Confirm Password">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-12">
+                        <p>By clicking register, you affirm that you agree to the <a href="#tac">Terms and Conditions</a>.</p>
+                        <input type="submit" name="register" class="btn btn-default btn-primary" value="Register">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

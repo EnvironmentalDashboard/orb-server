@@ -2,15 +2,19 @@
   "orb-server_users": {
       "id": {"type": "increments", "nullable": false, "primary": true},
       "token": {"type": "string", "fieldtype": "varchar", "maxlength": 255, "nullable": false, "unique": true},
-      "name": {"type": "string", "maxlength": 150, "nullable": false}
+      "email": {"type": "string", "nullable": true},
+      "fname": {"type": "string", "maxlength": 100, "nullable": true},
+      "lname": {"type": "string", "maxlength": 100, "nullable": true},
+      "password": {"type": "string", "nullable": false}
   },
 
   "orb-server_orbs": {
       "id": {"type": "increments", "nullable": false, "primary": true},
+      "owner": {"type": "integer", "unsigned": true},
       "name": {"type": "string", "maxlength": 150, "nullable": false},
       "location": {"type": "string", "maxlength": 90, "nullable": false},
       "selector": {"type": "string", "fieldtype": "varchar", "maxlength": 255, "nullable": false},
       "meter1": {"type": "string", "maxlength": 150, "fieldtype": "varchar", "nullable": false},
-      "meter2": {"type": "string", "maxlength": 150, "fieldtype": "varchar", "nullable": false},
+      "meter2": {"type": "string", "maxlength": 150, "fieldtype": "varchar", "nullable": false}
   }
 }

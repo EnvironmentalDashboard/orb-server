@@ -73,9 +73,9 @@ let authorization = {
 
             console.log(token);
 
-            //req.session.access_token
-
-            //if (Services.recognition.knows(token))
+            /**
+             * @todo save this somehow
+             */
         });
     }
 };

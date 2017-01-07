@@ -1,5 +1,6 @@
 /**
  * @overview Main application file; handles all bootstrapping
+ * @author jeremyfifty9
  */
 
 /**
@@ -18,7 +19,8 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
  */
 
 let routes = require('./routes'),
-    controllers = require('./controllers');
+    controllers = require('./controllers'),
+    views = require('./views');
 
 /**
  * App configuration
@@ -33,11 +35,11 @@ app.set('port', 80);
 app.engine('.hbs', exphbs({
     defaultLayout: 'main',
     extname: '.hbs',
-    layoutsDir: './views/layouts'
+    layoutsDir: './presentations/layouts'
 }));
 
 app.set('view engine', '.hbs');
-app.set('views', './views');
+app.set('views', './presentations');
 
 app.use(session({
     secret: process.env.SESS_SECRET,
@@ -60,6 +62,7 @@ app.use(bodyParser.json());
 
 let routerParams = {
     controllers: controllers,
+    views: views,
     app: app
 };
 

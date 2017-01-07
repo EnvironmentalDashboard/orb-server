@@ -5,11 +5,20 @@
  * @overview Used to 'migrate' (construct) database
  */
 
-var config = require('../config/db'),
-    knex = require('knex')({
+var dotenv = require('dotenv').config({path: "../config/orb-server.env"});
+
+var knex = require('knex')({
     client: 'mysql',
-    connection: config,
+    connection: {
+        "host": process.env.DB_HOST,
+        "port": process.env.DB_PORT,
+        "user": process.env.DB_USER,
+        "password": process.env.DB_PWD,
+        "database": process.env.DB_NAME,
+        "charset": process.env.DB_ENCODING
+    }
 });
+
 var Schema = require('../config/schema');
 var sequence = require('when/sequence');
 var _ = require('lodash');

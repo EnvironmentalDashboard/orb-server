@@ -1,5 +1,5 @@
 /**
- * @overview Handles all controllers
+ * @overview Ties together all controls for easy importation to application
  */
 
 /**
@@ -8,8 +8,9 @@
  */
 
 let controllers = [
-    'pages',
-    'authentication'
+    'page',
+    'authorization',
+    'account'
 ];
 
 /**
