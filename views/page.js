@@ -31,10 +31,26 @@ let page = Object.assign(base, {
             return res.render('denied');
         }
 
-        let orbList = cache.get('orb-list');
+        let orbList = cache.get('orb-list'),
+            bulbList = cache.get('bulb-list');
 
         res.render('dashboard', {
-            orbs: orbList
+            orbs: orbList,
+            bulbs: bulbList,
+            helpers: {
+                selectOrbList: function(orbs, defaultSelected){
+                    let out = '<option value="">No orb selected</option>';
+                    console.log(orbs);
+
+                    orbs.forEach(function(orb){
+                        let selected = orb.id === defaultSelected ? 'selected' : '';
+
+                        out += '<option value="'+orb.id+'" '+selected+'>'+orb.title+'</option>';
+                    });
+
+                    return out;
+                }
+            }
         });
     },
 

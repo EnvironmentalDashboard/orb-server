@@ -26,7 +26,7 @@ let generateBulbList = function(user) {
         return LifxBulbAPI.getBulbList(user.token);
     });
 
-    let bulbCollectionPromise = Entity.Bulb.collection().query('where', 'owner', '=', user.id).fetch();
+    let bulbCollectionPromise = Entity.Bulb.collection().query('where', 'owner', '=', user.id).fetch({withRelated: ['orb']});
 
     return Promise.all([listFromAPIPromise, bulbCollectionPromise]).then(function (val){
         let bulbsFromAPI = JSON.parse(val[0]), bulbCollection = val[1];
@@ -48,12 +48,12 @@ let generateBulbList = function(user) {
             if (!bulbList[bulb.get('selector')]) {
                 bulbList[bulb.get('selector')] = {info: null};
             }
-
+            console.log(bulb);
             bulbList[bulb.get('selector')].config = bulb;
         });
 
         return bulbList;
-    });
+    }).catch(console.log.bind(console.log));
 };
 
 let Dashboard = {

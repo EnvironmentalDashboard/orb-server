@@ -6,7 +6,7 @@
 
             <div class="container-fluid ui-rounded-container">
                 {{#each orbs}}
-                <div class="col-sm-2 ui-rounded-item-wrap">
+                <div class="col-sm-4 ui-rounded-item-wrap">
                     <div class="ui-rounded-item">
                         <div class="ui-rounded-icon">
                             <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
@@ -16,7 +16,7 @@
                 </div>
                 {{/each}}
 
-                <div class="col-sm-2 ui-rounded-item-wrap">
+                <div class="col-sm-4 ui-rounded-item-wrap">
                     <div class="ui-rounded-item">
                         <div class="ui-rounded-icon">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -30,13 +30,45 @@
 
             <div class="container-fluid ui-rounded-container">
                 {{#each bulbs}}
-                <div class="col-sm-2 ui-rounded-item-wrap">
+                <div class="col-sm-4 ui-rounded-item-wrap">
                     <div class="ui-rounded-item">
-                        <div class="ui-rounded-icon">
-                            <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
-                        </div>
                         <div class="ui-rounded-info">
-                            <p>{{this.selector}}</p>
+
+                            <p>{{@key}}</p>
+                            {{#if this.info}}
+                            <p>{{this.info.location.name}}</p>
+                            <p>{{this.info.group.name}}</p>
+                            {{/if}}
+
+                            <div class="ui-btn-toggle form-group">
+                                {{#if this.config.attributes.enabled}}
+                                <label for="enable">
+                                    <input type="radio" id="enable" name="enabled" value="true" checked>
+                                    <span class="btn">On</span>
+                                </label>
+
+                                <label for="disable">
+                                    <input type="radio" id="disable" name="enabled" value="false">
+                                    <span class="btn">Off</span>
+                                </label>
+
+                                {{else}}
+
+                                <label for="enable">
+                                    <input type="radio" id="enable" name="enabled" value="true">
+                                    <span class="btn">On</span>
+                                </label>
+
+                                <label for="disable">
+                                    <input type="radio" id="disable" name="enabled" value="false" checked>
+                                    <span class="btn">Off</span>
+                                </label>
+                                {{/if}}
+                            </div>
+
+                            <select class="form-control">
+                                {{#selectOrbList ../orbs this.config.relations.orb.id}}{{/selectOrbList}}
+                            </select>
                         </div>
                     </div>
                 </div>
