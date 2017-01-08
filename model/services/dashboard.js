@@ -13,10 +13,6 @@ let Dashboard = {
             return done();
         }
 
-        new Entity.Meter().fetchAll().then(function (results) {
-            console.log(results);
-        });
-
         return done();
     }
 };

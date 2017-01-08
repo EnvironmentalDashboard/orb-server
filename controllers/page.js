@@ -37,9 +37,9 @@ let page = {
 
     neworb: function(req, cache) {
         return new Promise(function (resolve, reject){
-            Service.Recognition.test(cache, req.session, resolve);
+            Service.Meter.initializeMeterList(cache, req.session, resolve);
         });
-    },
+    }
 };
 
 module.exports = page;

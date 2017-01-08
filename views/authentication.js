@@ -11,8 +11,6 @@ let authentication = {
              */
             if (val !== undefined) {
 
-                console.log('err');
-
                 res.render('login', {
                     errors: val
                 });

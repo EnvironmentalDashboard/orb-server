@@ -1,10 +1,8 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
+        <div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
             <h2>Add an Orb</h2>
-            <p>Configure your new orb below.</p>
-
-            <p class="alert alert-info">This is not where you select the bulb(s) which emulate this orb. You must configure an orb prior to assigning a bulb.</p>
+            <p>In order to active your bulb(s) to emulate an orb, you need to create an orb first. Configure your new orb below.</p>
 
             {{#if errors}}
 
@@ -30,7 +28,9 @@
                     <div class="col-sm-12">
                         <div class="alert alert-warning">
                             {{#each errors.title}}
-                                <p>{{this}}</p>
+
+                            <p>{{this}}</p>
+
                             {{/each}}
                         </div>
                     </div>
@@ -40,9 +40,17 @@
 
                 <div class="row">
                     <div class="form-group col-sm-12">
-                        <label for="title">Meter #1</label>
+                        <label for="meter1">Meter #1</label>
 
-                        <select class="form-control"></select>
+                        <select name="meter1" id="meter1" class="form-control">
+                            {{#each buildings}}
+                            <optgroup label="{{@key}}">
+                                {{#each this}}
+                                <option value="{{this.api}}">{{this.name}}</option>
+                                {{/each}}
+                            </optgroup>
+                            {{/each}}
+                        </select>
                     </div>
                 </div>
 
@@ -52,7 +60,9 @@
                     <div class="col-sm-12">
                         <div class="alert alert-warning">
                             {{#each errors.title}}
-                                <p>{{this}}</p>
+
+                            <p>{{this}}</p>
+
                             {{/each}}
                         </div>
                     </div>
@@ -62,9 +72,17 @@
 
                 <div class="row">
                     <div class="form-group col-sm-12">
-                        <label for="title">Meter #2</label>
+                        <label for="meter2">Meter #2</label>
 
-                        <select class="form-control"></select>
+                        <select name="meter2" id="meter2" class="form-control">
+                            {{#each buildings}}
+                            <optgroup label="{{@key}}">
+                                {{#each this}}
+                                <option value="{{this.api}}">{{this.name}}</option>
+                                {{/each}}
+                            </optgroup>
+                            {{/each}}
+                        </select>
                     </div>
                 </div>
 
@@ -74,7 +92,9 @@
                     <div class="col-sm-12">
                         <div class="alert alert-warning">
                             {{#each errors.title}}
-                                <p>{{this}}</p>
+
+                            <p>{{this}}</p>
+
                             {{/each}}
                         </div>
                     </div>

@@ -6,9 +6,13 @@
 
 let Bookshelf = require('./base');
 
+let Building = require('./building');
 
-var Meter = Bookshelf.Model.extend({
-    tableName: 'meters'
+let Meter = Bookshelf.Model.extend({
+    tableName: 'meters',
+    building: function() {
+        return this.belongsTo(Building, 'building_id');
+    }
 });
 
 module.exports = Meter;

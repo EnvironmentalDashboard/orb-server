@@ -39,8 +39,12 @@ let page = Object.assign(base, {
         if(this.caughtAuthError(cache)) {
             return res.render('denied');
         }
-        
-        res.render('addorb');
+
+        let meterList = cache.get('meter-list');
+
+        res.render('addorb', {
+            buildings: meterList
+        });
     }
 });
 

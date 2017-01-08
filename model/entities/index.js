@@ -16,7 +16,9 @@ let _ = require('lodash');
 let entities = [
     'User',
     'Orb',
-    'Meter'
+    'Meter',
+    'Meters',
+    'Building'
 ];
 
 /**
