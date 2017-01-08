@@ -11,7 +11,8 @@ let controllers = [
     'page',
     'authorization',
     'account',
-    'authentication'
+    'authentication',
+    'dashboard'
 ];
 
 /**

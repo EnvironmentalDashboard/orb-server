@@ -12,7 +12,8 @@ let _ = require('lodash');
 let views = [
     'page',
     'account',
-    'authentication'
+    'authentication',
+    'dashboard'
 ];
 
 /**

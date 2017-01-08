@@ -11,7 +11,8 @@ let groups = [
     'User',
     'Recognition',
     'Dashboard',
-    'Meter'
+    'Meter',
+    'Orb'
 ];
 
 /**

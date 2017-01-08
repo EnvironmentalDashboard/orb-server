@@ -7,7 +7,7 @@ let Entity = require('../entities'),
 
 let Dashboard = {
 
-    create: function(reqCache, sess, done) {
+    initializeDashboard: function(reqCache, sess, done) {
         if (!Recognition.knowsClient(sess)) {
             reqCache.set('auth-error', true);
             return done();

@@ -13,7 +13,7 @@ let Recognition = {
     },
 
     knowsClient: function(sess) {
-        return !!sess.authenticatedUser;
+        return sess.authenticatedUser || false;
     },
 
     login: function(params, reqCache, sess, done) {
@@ -35,7 +35,7 @@ let Recognition = {
             done();
         }
 
-        new Entity.User({email: params.email}).fetch().then(function ( match ) {
+        new Entity.User({email: params.email}).fetch().then(function (match) {
             if (match) {
                 let pwdHash = Buffer.from(match.get('password')),
                     pwdBuffer = Buffer.from(params.password);

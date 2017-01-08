@@ -4,6 +4,8 @@
             <h2>Add an Orb</h2>
             <p>In order to active your bulb(s) to emulate an orb, you need to create an orb first. Configure your new orb below.</p>
 
+            <p>Required fields indicated with asterisk (*).</p>
+
             {{#if errors}}
 
             <div class="alert alert-danger">
@@ -12,12 +14,12 @@
 
             {{/if}}
 
-            <form action="/account/signup" method="post">
+            <form action="/dash/orb/new" method="post">
                 <div class="row">
                     <div class="form-group col-sm-12">
                         <label for="title">Title</label>
 
-                        <input type="text" maxlength="150" class="form-control" aria-describedby="title-help" name="title" id="title" placeholder="Title">
+                        <input type="text" class="form-control" aria-describedby="title-help" name="title" id="title" placeholder="Title" value="{{form.title}}" maxlength="150">
                         <p id="title-help" class="help-block">Title your orb for easy recognition.</p>
                     </div>
                 </div>
@@ -40,13 +42,13 @@
 
                 <div class="row">
                     <div class="form-group col-sm-12">
-                        <label for="meter1">Meter #1</label>
+                        <label for="meter1">Meter #1 <span class="text-info">*</span></label>
 
-                        <select name="meter1" id="meter1" class="form-control">
+                        <select required name="meter1" id="meter1" class="form-control">
                             {{#each buildings}}
                             <optgroup label="{{@key}}">
                                 {{#each this}}
-                                <option value="{{this.api}}">{{this.name}}</option>
+                                <option value="{{this.id}}">{{this.name}}</option>
                                 {{/each}}
                             </optgroup>
                             {{/each}}
@@ -59,7 +61,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="alert alert-warning">
-                            {{#each errors.title}}
+                            {{#each errors.meter1}}
 
                             <p>{{this}}</p>
 
@@ -72,13 +74,13 @@
 
                 <div class="row">
                     <div class="form-group col-sm-12">
-                        <label for="meter2">Meter #2</label>
+                        <label for="meter2">Meter #2 <span class="text-info">*</span></label>
 
-                        <select name="meter2" id="meter2" class="form-control">
+                        <select required name="meter2" id="meter2" class="form-control">
                             {{#each buildings}}
                             <optgroup label="{{@key}}">
                                 {{#each this}}
-                                <option value="{{this.api}}">{{this.name}}</option>
+                                <option value="{{this.id}}">{{this.name}}</option>
                                 {{/each}}
                             </optgroup>
                             {{/each}}
@@ -91,7 +93,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="alert alert-warning">
-                            {{#each errors.title}}
+                            {{#each errors.meter2}}
 
                             <p>{{this}}</p>
 

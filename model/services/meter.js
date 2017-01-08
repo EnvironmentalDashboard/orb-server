@@ -23,7 +23,7 @@ let Meter = {
 
                 meterList[meter.relations.building.get('name')].push({
                     name: meter.get('name'),
-                    api: meter.get('url')
+                    id: meter.get('id')
                 });
             });
 

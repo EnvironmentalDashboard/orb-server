@@ -45,6 +45,15 @@ let page = Object.assign(base, {
         res.render('addorb', {
             buildings: meterList
         });
+    },
+
+    orbSuccess: function (res, cache) {
+
+        if(this.caughtAuthError(cache)) {
+            return res.render('denied');
+        }
+
+        res.render('neworb-success');
     }
 });
 

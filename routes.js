@@ -46,6 +46,8 @@ module.exports.setup = function (params) {
     // Dashboard
     app.get('/dash', pair(controllers.page.dashboard, views.page.dashboard.bind(views.page)));
     app.get('/dash/orb/new', pair(controllers.page.neworb, views.page.neworb.bind(views.page)));
+    app.post('/dash/orb/new', pair(controllers.dashboard.createOrb, views.dashboard.createOrb.bind(views.dashboard)));
+    app.get('/dash/orb/success', pair(controllers.page.orbSuccess, views.page.orbSuccess.bind(views.page)));
 
     // Authentication
     app.get('/account/signin', pair(controllers.page.signin, views.page.signin));
