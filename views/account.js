@@ -2,7 +2,7 @@
  * Account view
  */
 
-let user = {
+let account = {
     register: function (res, cache) {
 
         cache.get('errors', function (err, val) {
@@ -27,4 +27,4 @@ let user = {
 
 };
 
-module.exports = user;
+module.exports = account;
