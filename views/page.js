@@ -2,21 +2,46 @@
  * Page view
  */
 
-let page = {
-    index: function(res, cache) {
+let base = require('./base');
+
+let page = Object.assign(base, {
+    index: function (res, cache) {
 
         res.render('default');
     },
 
-    signup: function(res, cache) {
+    signin: function (res, cache) {
+
+        res.render('login');
+    },
+
+    signup: function (res, cache) {
 
         res.render('register');
     },
 
-    signupSuccess: function(res, cache) {
+    signupSuccess: function (res, cache) {
 
         res.render('register-success');
+    },
+
+    dashboard: function (res, cache) {
+
+        if(this.caughtAuthError(cache)) {
+            return res.render('denied');
+        }
+
+        res.render('dashboard');
+    },
+
+    neworb: function (res, cache) {
+
+        if(this.caughtAuthError(cache)) {
+            return res.render('denied');
+        }
+        
+        res.render('addorb');
     }
-};
+});
 
 module.exports = page;

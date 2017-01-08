@@ -12,8 +12,6 @@
       "id": {"type": "increments", "nullable": false, "primary": true},
       "owner": {"type": "integer", "unsigned": true},
       "name": {"type": "string", "maxlength": 150, "nullable": false},
-      "location": {"type": "string", "maxlength": 90, "nullable": false},
-      "selector": {"type": "string", "fieldtype": "varchar", "maxlength": 255, "nullable": false},
       "meter1": {"type": "string", "maxlength": 150, "fieldtype": "varchar", "nullable": false},
       "meter2": {"type": "string", "maxlength": 150, "fieldtype": "varchar", "nullable": false}
   }

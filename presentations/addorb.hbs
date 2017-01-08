@@ -1,0 +1,93 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h2>Add an Orb</h2>
+            <p>Configure your new orb below.</p>
+
+            <p class="alert alert-info">This is not where you select the bulb(s) which emulate this orb. You must configure an orb prior to assigning a bulb.</p>
+
+            {{#if errors}}
+
+            <div class="alert alert-danger">
+                <p><strong>There was a problem with these configuration settings.</strong> Please fix the indicated errors.</p>
+            </div>
+
+            {{/if}}
+
+            <form action="/account/signup" method="post">
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <label for="title">Title</label>
+
+                        <input type="text" maxlength="150" class="form-control" aria-describedby="title-help" name="title" id="title" placeholder="Title">
+                        <p id="title-help" class="help-block">Title your orb for easy recognition.</p>
+                    </div>
+                </div>
+
+                {{#if errors.title}}
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning">
+                            {{#each errors.title}}
+                                <p>{{this}}</p>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+
+                {{/if}}
+
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <label for="title">Meter #1</label>
+
+                        <select class="form-control"></select>
+                    </div>
+                </div>
+
+                {{#if errors.meter1}}
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning">
+                            {{#each errors.title}}
+                                <p>{{this}}</p>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+
+                {{/if}}
+
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <label for="title">Meter #2</label>
+
+                        <select class="form-control"></select>
+                    </div>
+                </div>
+
+                {{#if errors.meter2}}
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning">
+                            {{#each errors.title}}
+                                <p>{{this}}</p>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+
+                {{/if}}
+
+                <div class="row form-group">
+                    <div class="col-sm-12">
+                        <input type="submit" name="save" class="btn btn-default btn-primary" value="Save">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

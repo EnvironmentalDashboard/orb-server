@@ -10,7 +10,8 @@
 let controllers = [
     'page',
     'authorization',
-    'account'
+    'account',
+    'authentication'
 ];
 
 /**

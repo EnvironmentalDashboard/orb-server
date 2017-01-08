@@ -18,9 +18,9 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
  * Local dependencies
  */
 
-let routes = require('./routes'),
-    controllers = require('./controllers'),
-    views = require('./views');
+let controllers = require('./controllers'),
+    views = require('./views'),
+    routes = require('./routes');
 
 /**
  * App configuration

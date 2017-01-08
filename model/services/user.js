@@ -22,7 +22,7 @@ let User = {
             password2 = params.password2;
 
         /**
-         * Need to keep trackk of errors
+         * Need to keep track of errors
          * @type {Object}
          */
         let errors = {};
@@ -99,7 +99,6 @@ let User = {
                 fname: fname,
                 password: hash
             }).save().then(function() {
-                console.log('User registered');
                 return resolve();
             });
 

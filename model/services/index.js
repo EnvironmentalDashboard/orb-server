@@ -8,7 +8,9 @@
  * @type {Array}
  */
 let groups = [
-    'User'
+    'User',
+    'Recognition',
+    'Dashboard'
 ];
 
 /**

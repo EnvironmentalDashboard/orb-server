@@ -2,8 +2,16 @@
  * Page controller
  */
 
+let Service = require('../model/services');
+
 let page = {
     index: function(req, cache) {
+        return new Promise(function (resolve, reject){
+            resolve();
+        });
+    },
+
+    signin: function(req, cache) {
         return new Promise(function (resolve, reject){
             resolve();
         });
@@ -19,7 +27,19 @@ let page = {
         return new Promise(function (resolve, reject){
             resolve();
         });
-    }
+    },
+
+    dashboard: function(req, cache) {
+        return new Promise(function (resolve, reject){
+            Service.Dashboard.create(cache, req.session, resolve);
+        });
+    },
+
+    neworb: function(req, cache) {
+        return new Promise(function (resolve, reject){
+            Service.Recognition.test(cache, req.session, resolve);
+        });
+    },
 };
 
 module.exports = page;
