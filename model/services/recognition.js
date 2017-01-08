@@ -16,16 +16,6 @@ let Recognition = {
         return !!sess.authenticatedUser;
     },
 
-    test: function (reqCache, sess, done) {
-        if (this.knowsClient(sess)) {
-
-        } else {
-            reqCache.set('auth-error', true);
-        }
-
-        return done();
-    },
-
     login: function(params, reqCache, sess, done) {
 
         /**

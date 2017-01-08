@@ -1,5 +1,5 @@
 /**
- * User view
+ * Account view
  */
 
 let user = {
