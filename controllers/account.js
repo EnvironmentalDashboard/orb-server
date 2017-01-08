@@ -1,10 +1,10 @@
 /**
- * User controller
+ * Account controller
  */
 
 let Service = require('../model/services');
 
-let user = {
+let account = {
     register: function(req, cache) {
         return new Promise(function (resolve, reject) {
             Service.User.register({
@@ -19,4 +19,4 @@ let user = {
 
 };
 
-module.exports = user;
+module.exports = account;
