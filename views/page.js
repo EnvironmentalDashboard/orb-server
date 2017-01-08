@@ -31,7 +31,11 @@ let page = Object.assign(base, {
             return res.render('denied');
         }
 
-        res.render('dashboard');
+        let orbList = cache.get('orb-list');
+
+        res.render('dashboard', {
+            orbs: orbList
+        });
     },
 
     neworb: function (res, cache) {

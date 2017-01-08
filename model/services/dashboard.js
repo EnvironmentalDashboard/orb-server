@@ -8,12 +8,29 @@ let Entity = require('../entities'),
 let Dashboard = {
 
     initializeDashboard: function(reqCache, sess, done) {
-        if (!Recognition.knowsClient(sess)) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
             reqCache.set('auth-error', true);
             return done();
         }
 
-        return done();
+        /**
+         * Get all orbs related to this user
+         */
+         Entity.Orb.collection().query('where', 'owner', '=', client.id).fetch().then(function (results) {
+             let orbList = [];
+
+             results.forEach(function (orb) {
+                 orbList.push({
+                    id: orb.get('id'),
+                    title: orb.get('title')
+                 });
+             });
+
+             reqCache.set('orb-list', orbList);
+             return done();
+         });
     }
 };
 

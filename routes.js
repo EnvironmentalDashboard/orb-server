@@ -61,8 +61,8 @@ module.exports.setup = function (params) {
     app.post('/account/signup', pair(controllers.account.register, views.account.register));
     app.get('/account/signup/success', pair(controllers.page.signupSuccess, views.page.signupSuccess));
 
-    /*/ Authorization
-    app.get('/auth', controllers.authorization.authorize);
-    app.get('/redirect', controllers.authorization.redirect);*/
+    // Authorization
+    app.get('/auth', pair(controllers.authorization.authorize, views.authorization.authorize.bind(views.authorization)));
+    app.get('/redirect', pair(controllers.authorization.redirect, views.authorization.redirect.bind(views.authorization)));
 
 };

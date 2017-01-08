@@ -12,7 +12,8 @@ let groups = [
     'Recognition',
     'Dashboard',
     'Meter',
-    'Orb'
+    'Orb',
+    'Authorization'
 ];
 
 /**

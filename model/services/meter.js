@@ -13,7 +13,7 @@ let Meter = {
             return done();
         }
 
-        new Entity.Meters().fetch({withRelated: ['building']}).then(function (results) {
+        Entity.Meter.collection().fetch({withRelated: ['building']}).then(function (results) {
             let meterList = {};
 
             results.forEach(function (meter) {

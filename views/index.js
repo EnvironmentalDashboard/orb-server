@@ -13,7 +13,8 @@ let views = [
     'page',
     'account',
     'authentication',
-    'dashboard'
+    'dashboard',
+    'authorization'
 ];
 
 /**
