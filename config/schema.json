@@ -14,5 +14,14 @@
       "title": {"type": "string", "maxlength": 150, "nullable": false},
       "meter1": {"type": "integer", "nullable": false},
       "meter2": {"type": "integer", "nullable": false}
+  },
+
+  "orb-server_bulbs": {
+      "id": {"type": "increments", "nullable": false, "primary": true},
+      "owner": {"type": "integer", "nullable": false},
+      "selector": {"type": "string", "nullable": false},
+      "orb": {"type": "integer", "nullable": true},
+      "enabled": {"type": "integer", "nullable": false},
+      "status": {"type": "integer", "nullable": false}
   }
 }

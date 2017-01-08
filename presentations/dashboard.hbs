@@ -25,6 +25,24 @@
                     </div>
                 </div>
             </div>
+
+            <h3>Your Bulbs</h3>
+
+            <div class="container-fluid ui-rounded-container">
+                {{#each bulbs}}
+                <div class="col-sm-2 ui-rounded-item-wrap">
+                    <div class="ui-rounded-item">
+                        <div class="ui-rounded-icon">
+                            <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+                        </div>
+                        <div class="ui-rounded-info">
+                            <p>{{this.selector}}</p>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
         </div>
     </div>
 </div>

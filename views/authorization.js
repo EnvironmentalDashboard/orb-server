@@ -23,7 +23,7 @@ let authorization = Object.assign(base, {
             return res.render('denied');
         }
 
-        console.log('auth view');
+        return res.render('authcomplete');
     }
 
 });

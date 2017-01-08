@@ -86,9 +86,11 @@ let Authorization = {
                 { token: token, },
                 { patch: true }
             ).then(function() {
-                console.log('saved');
+                return done();
+            }).catch(function (reason) {
+                console.log(reason);
+                return done();
             });
-
         });
     }
 };
