@@ -1,7 +1,5 @@
 /**
  * @overview Authorization controller
- *
- * Uses LifX's OAuth 2.0 authorization
  */
 
 let Service = require('../model/services');

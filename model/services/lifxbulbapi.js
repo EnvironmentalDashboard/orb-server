@@ -1,5 +1,5 @@
 /**
- * @overview Responsible for user authentication
+ * @overview LifX API wrapper
  */
 
 let requestPromise = require('request-promise-native');

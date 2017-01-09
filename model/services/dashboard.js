@@ -1,5 +1,5 @@
 /**
- * @overview Responsible for user authentication
+ * @overview Responsible for dashboard services (dashboard generation)
  */
 
 let Entity = require('../entities'),

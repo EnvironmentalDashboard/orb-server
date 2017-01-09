@@ -1,5 +1,5 @@
 /**
- * @overview User entitiy
+ * @overview Orb entitiy
  */
 
 let Bookshelf = require('./base');

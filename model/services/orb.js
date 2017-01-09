@@ -1,5 +1,5 @@
 /**
- * @overview Responsible for user authentication
+ * @overview Responsible for orb services
  */
 
 let validator = require('validator');

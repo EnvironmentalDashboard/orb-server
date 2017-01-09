@@ -1,5 +1,5 @@
 /**
- * @overview Responsible for user authentication
+ * @overview Responsible for user authorization through LifX OAuth 2.0 API
  */
 
 let querystring = require('querystring'),

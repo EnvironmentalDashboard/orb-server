@@ -1,5 +1,5 @@
 /**
- * @overview Responsible for user authentication
+ * @overview Responsible for bulb services (saving)
  */
 
 let validator = require('validator');

@@ -1,5 +1,5 @@
 /**
- * @overview Responsible for user authentication
+ * @overview Responsible for meter services
  */
 
 let Entity = require('../entities'),

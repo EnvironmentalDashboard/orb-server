@@ -1,5 +1,5 @@
 /**
- * @overview Responsible for user authentication
+ * @overview Responsible for user recognition
  */
 
 let sodium = require('sodium').api;
