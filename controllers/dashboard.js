@@ -15,6 +15,16 @@ let dashboard = {
         });
     },
 
+    updateBulb: function(req, cache) {
+        return new Promise(function (resolve, reject) {
+            Service.Bulb.save({
+                selector: req.body.selector,
+                enabled: req.body.enabled,
+                orb: req.body.orb
+            }, req.session, cache, resolve);
+        });
+    }
+
 };
 
 module.exports = dashboard;

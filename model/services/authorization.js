@@ -70,7 +70,6 @@ let Authorization = {
          * Request the access token
          */
         request.post(lifx_api + '/token', options, function (err, res, bod) {
-            console.log(sess.request_state);
 
             /**
              * Reject the token if client has incorrect state parameter (see line
@@ -88,7 +87,6 @@ let Authorization = {
             ).then(function() {
                 return done();
             }).catch(function (reason) {
-                console.log(reason);
                 return done();
             });
         });

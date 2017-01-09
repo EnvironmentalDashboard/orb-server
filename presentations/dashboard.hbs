@@ -27,6 +27,12 @@
             </div>
 
             <h3>Your Bulbs</h3>
+            {{#if authorizationNotice}}
+            <div class="alert alert-info clearfix ui-alert-action">
+                <p>{{authorizationNotice}}</p>
+                <a href="/auth" class="btn pull-right btn-primary">Authorize</a>
+            </div>
+            {{/if}}
 
             <div class="container-fluid ui-rounded-container">
                 {{#each bulbs}}
@@ -40,35 +46,43 @@
                             <p>{{this.info.group.name}}</p>
                             {{/if}}
 
-                            <div class="ui-btn-toggle form-group">
-                                {{#if this.config.attributes.enabled}}
-                                <label for="enable">
-                                    <input type="radio" id="enable" name="enabled" value="true" checked>
-                                    <span class="btn">On</span>
-                                </label>
+                            <form action="/dash/bulb/update" method="post">
 
-                                <label for="disable">
-                                    <input type="radio" id="disable" name="enabled" value="false">
-                                    <span class="btn">Off</span>
-                                </label>
+                                <div class="ui-btn-toggle form-group">
+                                    {{#if this.config.attributes.enabled}}
+                                    <label for="enable">
+                                        <input type="radio" id="enable" onchange="this.form.submit()" name="enabled" value="true" checked>
+                                        <span class="btn">On</span>
+                                    </label>
 
-                                {{else}}
+                                    <label for="disable">
+                                        <input type="radio" id="disable" onchange="this.form.submit()" name="enabled" value="false">
+                                        <span class="btn">Off</span>
+                                    </label>
 
-                                <label for="enable">
-                                    <input type="radio" id="enable" name="enabled" value="true">
-                                    <span class="btn">On</span>
-                                </label>
+                                    {{else}}
 
-                                <label for="disable">
-                                    <input type="radio" id="disable" name="enabled" value="false" checked>
-                                    <span class="btn">Off</span>
-                                </label>
-                                {{/if}}
-                            </div>
+                                    <label for="enable">
+                                        <input type="radio" id="enable" onchange="this.form.submit()" name="enabled" value="true">
+                                        <span class="btn">On</span>
+                                    </label>
 
-                            <select class="form-control">
-                                {{#selectOrbList ../orbs this.config.relations.orb.id}}{{/selectOrbList}}
-                            </select>
+                                    <label for="disable">
+                                        <input type="radio" id="disable" onchange="this.form.submit()" name="enabled" value="false" checked>
+                                        <span class="btn">Off</span>
+                                    </label>
+                                    {{/if}}
+                                </div>
+
+                                <div class="form-group">
+                                    <select name="orb" class="form-control" onchange="this.form.submit()">
+                                        {{#selectOrbList ../orbs this.config.relations.orb.id}}{{/selectOrbList}}
+                                    </select>
+                                </div>
+
+                                <input type="hidden" value="{{@key}}" name="selector">
+                                <noscript><input type="submit" value="Save" name="save" class="btn btn-default"></noscript>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -32,15 +32,16 @@ let page = Object.assign(base, {
         }
 
         let orbList = cache.get('orb-list'),
-            bulbList = cache.get('bulb-list');
+            bulbList = cache.get('bulb-list'),
+            authorizationNotice = cache.get('authorization-notice');
 
         res.render('dashboard', {
             orbs: orbList,
             bulbs: bulbList,
+            authorizationNotice: authorizationNotice,
             helpers: {
                 selectOrbList: function(orbs, defaultSelected){
                     let out = '<option value="">No orb selected</option>';
-                    console.log(orbs);
 
                     orbs.forEach(function(orb){
                         let selected = orb.id === defaultSelected ? 'selected' : '';

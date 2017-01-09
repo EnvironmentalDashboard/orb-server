@@ -48,6 +48,7 @@ module.exports.setup = function (params) {
     app.get('/dash/orb/new', pair(controllers.page.neworb, views.page.neworb.bind(views.page)));
     app.post('/dash/orb/new', pair(controllers.dashboard.createOrb, views.dashboard.createOrb.bind(views.dashboard)));
     app.get('/dash/orb/success', pair(controllers.page.orbSuccess, views.page.orbSuccess.bind(views.page)));
+    app.post('/dash/bulb/update', pair(controllers.dashboard.updateBulb, views.dashboard.updateBulb.bind(views.dashboard)));
 
     // Authentication
     app.get('/account/signin', pair(controllers.page.signin, views.page.signin));

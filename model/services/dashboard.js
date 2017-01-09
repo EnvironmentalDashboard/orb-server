@@ -6,7 +6,7 @@ let Entity = require('../entities'),
     Recognition = require('./recognition'),
     LifxBulbAPI = require('./lifxbulbapi');
 
-let generateOrbList = function(user, cache) {
+let generateOrbList = function(user) {
     return Entity.Orb.collection().query('where', 'owner', '=', user.id).fetch().then(function (results) {
         let orbList = [];
 
@@ -21,39 +21,46 @@ let generateOrbList = function(user, cache) {
     });
 };
 
-let generateBulbList = function(user) {
-    let listFromAPIPromise = new Entity.User({id: user.id}).fetch().then(function(){
-        return LifxBulbAPI.getBulbList(user.token);
+let generateBulbList = function(user, cache) {
+    let listFromAPIPromise = new Entity.User({id: user.id}).fetch().then(function(client){
+        if (client.get('token') == null || client.get('token') == '') {
+            return Promise.reject('This account isn\'t authorized with a LifX account. Please authorize to link your accounts.');
+        }
+
+        return LifxBulbAPI.getBulbList(client.get('token')).catch(function() {
+            return Promise.reject('The access token associated with your account went bad. Please reauthorize to link your acacounts.');
+        });
+    }).catch(function (reason) {
+        return Promise.reject(reason);
     });
 
     let bulbCollectionPromise = Entity.Bulb.collection().query('where', 'owner', '=', user.id).fetch({withRelated: ['orb']});
 
-    return Promise.all([listFromAPIPromise, bulbCollectionPromise]).then(function (val){
-        let bulbsFromAPI = JSON.parse(val[0]), bulbCollection = val[1];
 
-        let bulbList = {};
+    let bulbList = {};
+    return bulbCollectionPromise.then(function (bulbCollection) {
 
-        bulbsFromAPI.forEach(function (bulb) {
-            bulbList[bulb.id] = {
-                info: bulb,
-                config: null
-            };
+        bulbCollection.forEach(function (bulb) {
+            bulbList[bulb.get('selector')] = {info: null, config: bulb};
         });
 
-        /**
-         * Loop through all bulbs in database and remove bulbs in the database
-         * from the `bulbsFromAPI` array
-         */
-        bulbCollection.forEach(function(bulb) {
-            if (!bulbList[bulb.get('selector')]) {
-                bulbList[bulb.get('selector')] = {info: null};
-            }
-            console.log(bulb);
-            bulbList[bulb.get('selector')].config = bulb;
-        });
+        return listFromAPIPromise.then(function (bulbsFromAPI) {
+            JSON.parse(bulbsFromAPI).forEach(function (bulb) {
+                if (!bulbList[bulb.id]) {
+                    bulbList[bulb.id] = {config: null}
+                }
 
-        return bulbList;
-    }).catch(console.log.bind(console.log));
+                bulbList[bulb.id].info = bulb;
+            });
+
+            return bulbList;
+
+        }).catch(function (reason) {
+            cache.set("authorization-notice", reason);
+            return {};
+        });
+    });
+
 };
 
 let Dashboard = {
@@ -74,7 +81,7 @@ let Dashboard = {
          /**
           * Get all bulbs related to this user
           */
-        let bulbListPromise = generateBulbList(client);
+        let bulbListPromise = generateBulbList(client, reqCache);
 
         Promise.all([orbListPromise, bulbListPromise]).then(function (val) {
             reqCache.set('orb-list', val[0]);

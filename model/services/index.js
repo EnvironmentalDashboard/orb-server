@@ -13,6 +13,7 @@ let groups = [
     'Dashboard',
     'Meter',
     'Orb',
+    'Bulb',
     'Authorization'
 ];
 

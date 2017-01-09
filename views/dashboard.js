@@ -34,6 +34,14 @@
 
     },
 
+    updateBulb: function (res, cache) {
+        if(this.caughtAuthError(cache)) {
+            return res.render('denied');
+        }
+
+        res.redirect('/dash');
+    }
+
 });
 
 module.exports = dashboard;

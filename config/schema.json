@@ -19,9 +19,9 @@
   "orb-server_bulbs": {
       "id": {"type": "increments", "nullable": false, "primary": true},
       "owner": {"type": "integer", "nullable": false},
-      "selector": {"type": "string", "nullable": false},
+      "selector": {"type": "string", "nullable": false, "unique": true},
       "orb": {"type": "integer", "nullable": true},
-      "enabled": {"type": "integer", "nullable": false},
-      "status": {"type": "integer", "nullable": false}
+      "enabled": {"type": "boolean"},
+      "status": {"type": "integer", "nullable": true}
   }
 }
