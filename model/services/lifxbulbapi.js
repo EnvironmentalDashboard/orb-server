@@ -18,6 +18,14 @@ let LifxBulbAPI = {
         });
     },
 
+    /**
+    .setBreathe({
+         period: 2,
+         cycles: 5,
+         color: 'green',
+         from_color: 'red'
+     }, 'c9e66ba4c539cd973acb294d9f1b3b48eb7b4b9ce3d5b8d836a3d51ebd541341')
+     */
     setBreathe: function(params, token) {
         return requestPromise({
             url: 'https://api.lifx.com/v1/lights/all/effects/breathe',
@@ -28,6 +36,7 @@ let LifxBulbAPI = {
             form: params
         });
     }
+
 };
 
 module.exports = LifxBulbAPI;

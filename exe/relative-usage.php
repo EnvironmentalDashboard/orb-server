@@ -5,7 +5,6 @@
  * Gauge class
  */
 
-
 require __DIR__ . '/../../includes/class.Gauge.php';
 require __DIR__ . '/../../includes/db.php';
 
