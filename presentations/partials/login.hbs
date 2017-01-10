@@ -1,0 +1,19 @@
+{{#if loggedIn}}
+<div class="alert alert-info">You are already logged in. <a href="/dash" class="alert-link">Click here to go to your dashboard.</a></div>
+{{else}}
+<form action="/account/signin" method="post">
+    <div class="form-group">
+        <label for="email" class="control-label">Email</label>
+        <input type="text" class="form-control" name="email" id="email" value="jfeinst2@oberlin.edu" placeholder="Email">
+    </div>
+    <div class="form-group">
+        <label for="password" class="control-label">Password</label>
+        <input type="password" class="form-control" name="password" id="password" value="qweqwe" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <p>
+            <button type="submit" class="btn btn-primary">Login</button> or <a href="/account/signup">register for an account.</a>
+        </p>
+    </div>
+</form>
+{{/if}}

@@ -11,6 +11,7 @@ let account = {
              */
             if (val !== undefined) {
                 res.render('register', {
+                    loggedIn: cache.get('loggedIn'),
                     errors: val,
                     form: cache.get('form')
                 });

@@ -12,11 +12,31 @@ let Recognition = {
         sess.authenticatedUser = user;
     },
 
-    knowsClient: function(sess) {
+    knowsClient: function(sess, cache) {
+        if (cache) {
+            /**
+             * NOTE we filter the authenticated user's information here. Although
+             * it wouldn't be a huge deal, we do not want to expose the user's
+             * hash or API token to the presentation layer.
+             */
+            let loggedIn = false;
+
+            if (sess.authenticatedUser) {
+                loggedIn = {
+                    id: sess.authenticatedUser.id,
+                    fname: sess.authenticatedUser.fname,
+                    lname: sess.authenticatedUser.lname,
+                    email: sess.authenticatedUser.email
+                };
+            }
+
+            cache.set('loggedIn', loggedIn);
+        }
+
         return sess.authenticatedUser || false;
     },
 
-    login: function(params, reqCache, sess, done) {
+    login: function(params, cache, sess, done) {
 
         /**
          * Need to keep track of errors
@@ -30,7 +50,7 @@ let Recognition = {
          */
         let resolve = function() {
             if(Object.keys(errors).length !== 0) {
-                reqCache.set('errors', errors);
+                cache.set('errors', errors);
             }
             done();
         }

@@ -5,6 +5,8 @@
 
 let NodeCache = require('node-cache');
 
+let Service = require('./model/services');
+
 /**
  * Routes a controller and view together
  * @param  {Array} components Functions to pass req, res to
@@ -17,6 +19,11 @@ let pair = function (controller, view) {
         let reqCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
         /**
+         * Initialize authorization and attempt to recognize client
+         */
+        Service.Recognition.knowsClient(req.session, reqCache);
+
+        /**
          * Route request; pass request object to controller, response object to
          * the view, and pass both the request cache.
          *
@@ -24,7 +31,6 @@ let pair = function (controller, view) {
          * the service to manipulate. The view will be able to chekc the request
          * cache as insight into the model's state.
          */
-
         controller(req, reqCache).then(function(){
             return view(res, reqCache);
         });
@@ -64,6 +70,7 @@ module.exports.setup = function (params) {
 
     // Authorization
     app.get('/auth', pair(controllers.authorization.authorize, views.authorization.authorize.bind(views.authorization)));
+    app.get('/auth/confirm', pair(controllers.page.authConfirm, views.page.authConfirm.bind(views.page)));
     app.get('/redirect', pair(controllers.authorization.redirect, views.authorization.redirect.bind(views.authorization)));
 
 };

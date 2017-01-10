@@ -22,6 +22,19 @@ let controllers = require('./controllers'),
     views = require('./views'),
     routes = require('./routes');
 
+let api = require('./model/services/lifxbulbapi.js');
+
+api.setBreathe({
+    period: 2,
+    cycles: 5,
+    color: 'green',
+    from_color: 'red'
+}, 'c9e66ba4c539cd973acb294d9f1b3b48eb7b4b9ce3d5b8d836a3d51ebd541341').then(function(res){
+    console.log(res);
+}).catch(function(reason){
+    console.log(reason);
+})
+
 /**
  * App configuration
  */
@@ -35,7 +48,8 @@ app.set('port', 80);
 app.engine('.hbs', exphbs({
     defaultLayout: 'main',
     extname: '.hbs',
-    layoutsDir: './presentations/layouts'
+    layoutsDir: './presentations/layouts',
+    partialsDir: './presentations/partials'
 }));
 
 app.set('view engine', '.hbs');

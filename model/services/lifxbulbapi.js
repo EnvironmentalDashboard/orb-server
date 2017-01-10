@@ -9,12 +9,23 @@ let Entity = require('../entities'),
 
 let LifxBulbAPI = {
 
-    getBulbList: function(token) {
+    getBulbList: function (token) {
         return requestPromise({
             url: 'https://api.lifx.com/v1/lights/all',
             headers: {
                 "Authorization": "Bearer " + token
             }
+        });
+    },
+
+    setBreathe: function(params, token) {
+        return requestPromise({
+            url: 'https://api.lifx.com/v1/lights/all/effects/breathe',
+            method: 'POST',
+            headers: {
+                "Authorization": "Bearer " + token
+            },
+            form: params
         });
     }
 };

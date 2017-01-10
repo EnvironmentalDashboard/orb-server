@@ -45,6 +45,12 @@ let page = {
         return new Promise(function (resolve, reject){
             resolve();
         });
+    },
+
+    authConfirm: function(req, cache) {
+        return new Promise(function (resolve, reject){
+            resolve();
+        });
     }
 };
 

@@ -28,7 +28,7 @@ let generateBulbList = function(user, cache) {
         }
 
         return LifxBulbAPI.getBulbList(client.get('token')).catch(function() {
-            return Promise.reject('The access token associated with your account went bad. Please reauthorize to link your acacounts.');
+            return Promise.reject('The access token associated with your account went bad. Please reauthorize to link your accounts.');
         });
     }).catch(function (reason) {
         return Promise.reject(reason);
@@ -45,6 +45,7 @@ let generateBulbList = function(user, cache) {
         });
 
         return listFromAPIPromise.then(function (bulbsFromAPI) {
+            console.log(bulbsFromAPI);
             JSON.parse(bulbsFromAPI).forEach(function (bulb) {
                 if (!bulbList[bulb.id]) {
                     bulbList[bulb.id] = {config: null}
@@ -66,7 +67,7 @@ let generateBulbList = function(user, cache) {
 let Dashboard = {
 
     initializeDashboard: function(reqCache, sess, done) {
-        let client = Recognition.knowsClient(sess);
+        let client = Recognition.knowsClient(sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);

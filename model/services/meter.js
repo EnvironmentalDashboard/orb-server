@@ -8,7 +8,7 @@ let Entity = require('../entities'),
 let Meter = {
 
     initializeMeterList: function(reqCache, sess, done) {
-        if (!Recognition.knowsClient(sess)) {
+        if (!Recognition.knowsClient(sess, reqCache)) {
             reqCache.set('auth-error', true);
             return done();
         }
