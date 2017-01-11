@@ -31,13 +31,13 @@ let page = {
 
     dashboard: function(req, cache) {
         return new Promise(function (resolve, reject){
-            Service.Dashboard.initializeDashboard(cache, req.session, resolve);
+            Service.DashboardInformation.initializeDashboard(cache, req.session, resolve);
         });
     },
 
     neworb: function(req, cache) {
         return new Promise(function (resolve, reject){
-            Service.Meter.initializeMeterList(cache, req.session, resolve);
+            Service.DashboardInformation.initializeMeterList(cache, req.session, resolve);
         });
     },
 

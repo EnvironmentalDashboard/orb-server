@@ -7,7 +7,7 @@ let Service = require('../model/services');
 let dashboard = {
     createOrb: function(req, cache) {
         return new Promise(function (resolve, reject) {
-            Service.Orb.create({
+            Service.Account.createOrb({
                 title: req.body.title,
                 meter1: req.body.meter1,
                 meter2: req.body.meter2
@@ -17,7 +17,7 @@ let dashboard = {
 
     updateBulb: function(req, cache) {
         return new Promise(function (resolve, reject) {
-            Service.Bulb.save({
+            Service.Account.saveBulb({
                 selector: req.body.selector,
                 enabled: req.body.enabled,
                 orb: req.body.orb

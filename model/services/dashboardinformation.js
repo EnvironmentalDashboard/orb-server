@@ -64,7 +64,7 @@ let generateBulbList = function(user, cache) {
 
 };
 
-let Dashboard = {
+let DashboardInformation = {
 
     initializeDashboard: function(reqCache, sess, done) {
         let client = Recognition.knowsClient(sess, reqCache);
@@ -90,7 +90,32 @@ let Dashboard = {
 
             return done();
         });
+    },
+
+    initializeMeterList: function(reqCache, sess, done) {
+        if (!Recognition.knowsClient(sess, reqCache)) {
+            reqCache.set('auth-error', true);
+            return done();
+        }
+
+        Entity.Meter.collection().fetch({withRelated: ['building']}).then(function (results) {
+            let meterList = {};
+
+            results.forEach(function (meter) {
+                if (!meterList[meter.relations.building.get('name')]) {
+                    meterList[meter.relations.building.get('name')] = [];
+                }
+
+                meterList[meter.relations.building.get('name')].push({
+                    name: meter.get('name'),
+                    id: meter.get('id')
+                });
+            });
+
+            reqCache.set('meter-list', meterList);
+            return done();
+        });
     }
 };
 
-module.exports = Dashboard;
+module.exports = DashboardInformation;

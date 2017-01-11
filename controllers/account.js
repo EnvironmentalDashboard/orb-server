@@ -7,7 +7,7 @@ let Service = require('../model/services');
 let account = {
     register: function(req, cache) {
         return new Promise(function (resolve, reject) {
-            Service.User.register({
+            Service.Account.register({
                 email: req.body.email,
                 fname: req.body.fname,
                 lname: req.body.lname,

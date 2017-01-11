@@ -2,100 +2,86 @@
  * @overview Responsible for orb services
  */
 
-let validator = require('validator');
+let validator = require('validator'),
+    exec = require('child_process').exec;
 
 let Entity = require('../entities'),
-    Recognition = require('./recognition'),
-    Meter = require('./meter');
+    Recognition = require('./recognition');
 
 
 let Orb = {
 
-    create: function(params, sess, reqCache, done) {
-        let client = Recognition.knowsClient(sess);
+    /**
+     * Calculaes relative usage by delegating the calculation to a shell script, which
+     * outsources it.
+     *
+     * WARNING! This service passes raw parameter input to the shell. ONLY pass safe
+     * filtered values to this function.
+     *
+     * @param  {Object}   params   Object with id, daysets, start, end parameters
+     * @return {Promise}           Returns a promise with error or stdout
+     */
+    relativeUsageCalculator: function (params) {
+        let id = params.id, //meter ID
+            daySets = params.daySets,
+            start = params.start,
+            end = params.end;
 
-        if (!client) {
-            reqCache.set('auth-error', true);
-            return done();
-        }
+        return new Promise(function (resolve, reject) {
+            exec(
+                "php ./exe/relative-usage.php '" + id + "' '" + daySets + "' '" + start + "' '" + end + "'",
+                function (err, stdout, stderr) {
+                    if (err) {
+                        reject(err);
+                    }
 
-        /**
-         * Validation
-         */
-
-        let title = params.title.trim(),
-            meter1 = params.meter1,
-            meter2 = params.meter2;
-
-        /**
-         * Need to track errors
-         * @type {Object}
-         */
-        let errors = {};
-
-        /**
-         * Set a resolve function to store the errors in the request cache
-         * before calling the done callback, only if there are errors.
-         */
-        let resolve = function() {
-            if(Object.keys(errors).length !== 0) {
-                reqCache.set('errors', errors);
-                reqCache.set('form', {
-                    title: title,
-                    meter1: meter1,
-                    meter2: meter2
-                });
-
-                Meter.initializeMeterList(reqCache, sess, done);
-            } else {
-                done();
-            }
-        };
-
-        if (title.length > 150) {
-            errors.title = ['Title too long. 150 characters maximum.'];
-        }
-
-        if (!validator.isNumeric(meter1)) {
-            errors.meter1 = ['Meter not found in our database.'];
-        }
-
-        if (!validator.isNumeric(meter2)) {
-            errors.meter2 = ['Meter not found in our database.'];
-        }
-
-        if(errors.meter1 || errors.meter2) {
-            return resolve();
-        }
-
-        new Entity.Meter({id: meter1}).fetch().then(function (match) {
-            if (!match) {
-                errors.meter1 = ['Meter not found in our database.'];
-            }
-
-            new Entity.Meter({id: meter2}).fetch().then(function (match2) {
-                if (!match2) {
-                    errors.meter2 = ['Meter not found in our database.'];
+                    resolve(stdout);
                 }
-
-                if(Object.keys(errors).length !== 0) {
-                    return resolve();
-                }
-
-
-                /**
-                 * Save to database if validation has passed
-                 */
-                new Entity.Orb({
-                    title: title,
-                    owner: client.id,
-                    meter1: meter1,
-                    meter2: meter2
-                }).save().then(function() {
-                    return resolve();
-                })
-            });
+            );
         });
+
+    },
+
+    /**
+     * Emulates an inputted orb
+     * @param {Promise} orb Resolves with an object with hue and frequeny.
+     */
+    emulate: function (orb) {
+
+        let now = +new Date()/1000|0; //get unix milliseconds, divide by 1000, floor
+        console.log(orb.get('meter1'));
+        return this.relativeUsageCalculator({
+            id: orb.get('meter1'),
+            daySets: '[1,2,3,4,5,6,7]',
+            end: now,
+            start: now - 60*60*24*7*2
+        }).then(function (percentage) {
+
+            let hue = 140 - ((percentage/100) * 140),
+                frequency = ((percentage/100)*2.5) + .5; //times per second
+
+            return new Promise(function(resolve) {
+                resolve({
+                    hue: hue,
+                    frequency: frequency
+                });
+            })
+
+        }).catch(console.log.bind(console));
+
+    },
+
+    dispatchInstruction: function (instruction, bulb) {
+
+        return LifxBulbAPI.setBreathe({
+            from_color: 'hue:' + instruction.hue + ' brightness:.5 saturation:1',
+            color: 'hue:' + instruction.hue + ' brightness:.8 saturation:1',
+            period: 1/instruction.frequency,
+            cycles: 10*instruction.frequency,
+        }, 'c44d8b51d65e94af62de72dac6ea3cf8475bfb61665ed7b6d968311e854af34a').then(function (mes){
+            console.log(mes);
+        }).catch(console.log.bind(console));
+
     }
 };
 

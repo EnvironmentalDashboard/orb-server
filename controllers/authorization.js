@@ -10,7 +10,7 @@ let authorization = {
 
     authorize: function (req, cache) {
         return new Promise(function (resolve, reject) {
-            Service.Authorization.prepareRedirect(req.session, cache, resolve);
+            Service.Account.authorizationRedirect(req.session, cache, resolve);
         });
     },
 
@@ -19,7 +19,7 @@ let authorization = {
      */
     redirect: function (req, cache) {
         return new Promise(function (resolve, reject) {
-            Service.Authorization.authorizeUser({
+            Service.Account.authorize({
                 code: req.query.code,
                 state: req.query.state
             }, req.session, cache, resolve);

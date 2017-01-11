@@ -26,8 +26,8 @@ let controllers = require('./controllers'),
 /**
  * testing
  */
-let dispatcher = require('./model/services/simulatebulborbs');
-dispatcher();
+//let dispatcher = require('./model/services/simulatebulborbs');
+//dispatcher();
 
 
 /**

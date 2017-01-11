@@ -8,13 +8,11 @@
  * @type {Array}
  */
 let groups = [
-    'User',
-    'Recognition',
-    'Dashboard',
-    'Meter',
+    'Account',
+    'DashboardInformation',
+    'LifxBulbAPI',
     'Orb',
-    'Bulb',
-    'Authorization'
+    'Recognition'
 ];
 
 /**
