@@ -45,7 +45,6 @@ let generateBulbList = function(user, cache) {
         });
 
         return listFromAPIPromise.then(function (bulbsFromAPI) {
-            console.log(bulbsFromAPI);
             JSON.parse(bulbsFromAPI).forEach(function (bulb) {
                 if (!bulbList[bulb.id]) {
                     bulbList[bulb.id] = {config: null}

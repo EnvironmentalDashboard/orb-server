@@ -10,11 +10,17 @@ let User = require('./user'),
 
 var Bulb = Bookshelf.Model.extend({
     tableName: 'orb-server_bulbs',
+
     owner: function() {
         return this.belongsTo(User, 'owner');
     },
+
     orb: function() {
         return this.belongsTo(Orb, 'orb');
+    },
+
+    validate: function() {
+        return Promise.resolve();
     }
 });
 

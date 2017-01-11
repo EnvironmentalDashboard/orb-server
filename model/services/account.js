@@ -5,35 +5,14 @@
 let querystring = require('querystring'),
     request = require('request'),
     validator = require('validator'),
-    sodium = require('sodium').api;
+    sodium = require('sodium').api,
+    Bookshelf = require('../../lib/dbconnect.js'),
+    util = require('util');
 
 let Entity = require('../entities'),
     Recognition = require('./recognition');
 
-let lifx_api = "https://cloud.lifx.com/oauth";
-
-/**
- * Deprecate this...
- */
-let updateOrSaveBulb = function(selector, owner, enabled, orb) {
-    return Entity.Bulb.where('selector', selector).fetch().then(function (match) {
-        if (match) {
-            return new Entity.Bulb({
-                id: match.get('id'),
-                owner: owner.id,
-                enabled: enabled,
-                orb: orb
-            }, {patch: true}).save();
-        } else {
-            return new Entity.Bulb({
-                selector: selector,
-                owner: owner.id,
-                enabled: enabled,
-                orb: orb
-            }).save();
-        }
-    });
-}
+const lifx_api = "https://cloud.lifx.com/oauth";
 
 let Account = {
 
@@ -83,10 +62,6 @@ let Account = {
          });
 
         return user.validate().then(function (validationErrs) {
-            /**
-             * If there were validation errors with the user, merge those with
-             * the errors already present
-             */
             if (validationErrs) {
                 Object.assign(errors, validationErrs);
             }
@@ -123,84 +98,6 @@ let Account = {
                 password: hash
             });
         }).catch(console.log.bind(console));
-    },
-
-    authorizationRedirect: function(sess, reqCache, done) {
-        let client = Recognition.knowsClient(sess);
-
-        if (!client) {
-            reqCache.set('auth-error', true);
-            return done();
-        }
-
-        /**
-         * Random, unguessable string to prevent CSS attacks: base64 encodes the
-         * timestamp multipled by a psuedorandom decimal (0-1) and removes non-
-         * alphanumerics
-         * @type {String}
-         */
-        let state = (Buffer.from(''+(Math.random() * +new Date())).toString('base64'))
-            .replace(/[^0-9a-z]/gi, '');
-
-        sess.request_state = state;
-
-        let query = querystring.stringify({
-            client_id: process.env.LIFX_CLIENT_ID,
-            scope: 'remote_control:all',
-            state: state,
-            response_type: 'code'
-        });
-
-        reqCache.set('query', query);
-        return done();
-
-    },
-
-    authorize: function(params, sess, reqCache, done) {
-        let client = Recognition.knowsClient(sess);
-
-        if (!client) {
-            reqCache.set('auth-error', true);
-            return done();
-        }
-
-        let data = {
-            client_id: process.env.LIFX_CLIENT_ID,
-            client_secret: process.env.LIFX_CLIENT_SECRET,
-            code: params.code,
-            grant_type: 'authorization_code'
-        };
-
-        let options = {
-            json: data,
-            headers: {'User-Agent': 'node.js'}
-        };
-
-
-        /**
-         * Request the access token
-         */
-        request.post(lifx_api + '/token', options, function (err, res, bod) {
-
-            /**
-             * Reject the token if client has incorrect state parameter (see line
-             * 25)
-             */
-            if (sess.request_state != params.state) {
-                return ;
-            }
-
-            let token = bod.access_token;
-
-            new Entity.User({id: client.id}).save(
-                { token: token, },
-                { patch: true }
-            ).then(function() {
-                return done();
-            }).catch(function (reason) {
-                return done();
-            });
-        });
     },
 
     createOrb: function(params, sess, reqCache) {
@@ -264,7 +161,7 @@ let Account = {
         }).catch(console.log.bind(console));
     },
 
-    saveBulb: function(params, sess, reqCache, done) {
+    saveBulb: function(params, sess, reqCache) {
         let client = Recognition.knowsClient(sess);
 
         if (!client) {
@@ -272,25 +169,131 @@ let Account = {
             return done();
         }
 
+        let errors = {};
+
         let selector = params.selector,
             enabled = params.enabled,
             orb = params.orb;
 
-        if (orb != null && orb != "") {
-            new Entity.Orb({id: orb}).fetch().then(function (match){
-                if (!match || match.get('owner') !== client.id) {
-                    return done();
-                } else {
-                    return updateOrSaveBulb(selector, client, enabled === "true", orb).then(function(){
-                        done();
-                    });
-                }
-            });
-        } else {
-            return updateOrSaveBulb(selector, client, enabled === "true", null).then(function(){
-                done();
-            });
+        let bulbParams = {
+                owner: client.id,
+                selector: selector,
+                enabled: enabled === "true",
+                orb: orb
+            },
+            bulb = new Entity.Bulb(bulbParams);
+
+        return bulb.validate().then(function (validationErrs) {
+            if (validationErrs) {
+                Object.assign(errors, validationErrs);
+            }
+
+            if(orb == null || orb == "") {
+                return Promise.resolve();
+            }
+
+            return new Entity.Orb({id: orb}).fetch();
+        }).then(function (match) {
+            if((match && match.get('owner') === client.id)
+                || (orb == null || orb == "")) {
+
+                /**
+                 * NOTICE: here we break the service layer/data mapper separation
+                 * because Knex.js and Bookshelf.js do not support upserts
+                 */
+                let query = util.format(`\
+                    INSERT INTO \`%s\` (owner, enabled, orb, selector)
+                        VALUES (:owner, :enabled, :orb, :selector)
+                    ON DUPLICATE KEY UPDATE
+                        enabled = :enabled,
+                        orb = :orb,
+                        owner = :owner
+                `, bulb.tableName);
+
+                return Bookshelf.knex.raw(query, bulbParams);
+
+            }
+
+            return Promise.resolve();
+        })
+
+    },
+
+    authorizationRedirect: function(sess, reqCache, done) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            reqCache.set('auth-error', true);
+            return done();
         }
+
+        /**
+         * Random, unguessable string to prevent CSS attacks: base64 encodes the
+         * timestamp multipled by a psuedorandom decimal (0-1) and removes non-
+         * alphanumerics
+         * @type {String}
+         */
+        let state = (Buffer.from(''+(Math.random() * +new Date())).toString('base64'))
+            .replace(/[^0-9a-z]/gi, '');
+
+        sess.request_state = state;
+
+        let query = querystring.stringify({
+            client_id: process.env.LIFX_CLIENT_ID,
+            scope: 'remote_control:all',
+            state: state,
+            response_type: 'code'
+        });
+
+        reqCache.set('query', query);
+        return done();
+
+    },
+
+    authorize: function(params, sess, reqCache, done) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            reqCache.set('auth-error', true);
+            return done();
+        }
+
+        let data = {
+            client_id: process.env.LIFX_CLIENT_ID,
+            client_secret: process.env.LIFX_CLIENT_SECRET,
+            code: params.code,
+            grant_type: 'authorization_code'
+        };
+
+        let options = {
+            json: data,
+            headers: {'User-Agent': 'node.js'}
+        };
+
+
+        /**
+         * Request the access token
+         */
+        request.post(lifx_api + '/token', options, function (err, res, bod) {
+
+            /**
+             * Reject the token if client has incorrect state parameter
+             */
+            if (sess.request_state != params.state) {
+                return ;
+            }
+
+            let token = bod.access_token;
+
+            new Entity.User({id: client.id}).save(
+                { token: token, },
+                { patch: true }
+            ).then(function() {
+                return done();
+            }).catch(function (reason) {
+                return done();
+            });
+        });
     }
 
 };

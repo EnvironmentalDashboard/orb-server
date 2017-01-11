@@ -5,6 +5,6 @@
  */
 
 
- let dbconnect = require('../../lib/dbconnect'); // Bookshelf
+let dbconnect = require('../../lib/dbconnect'); // Bookshelf
 
 module.exports = dbconnect;
