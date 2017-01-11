@@ -88,6 +88,20 @@
 
                 {{/if}}
 
+                {{#if errors.confirm}}
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning">
+                            {{#each errors.confirm}}
+                                <p>{{this}}</p>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+
+                {{/if}}
+
                 <div class="row form-group">
                     <div class="col-sm-12">
                         <p>By clicking register, you affirm that you agree to the <a href="#tac">Terms and Conditions</a>.</p>

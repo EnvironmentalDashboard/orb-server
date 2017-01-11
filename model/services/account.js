@@ -37,11 +37,7 @@ let updateOrSaveBulb = function(selector, owner, enabled, orb) {
 
 let Account = {
 
-    register: function (params, reqCache, done) {
-
-        /**
-         * Validation
-         */
+    register: function (params, reqCache) {
 
         let email = params.email.trim(),
             fname = params.fname.trim(),
@@ -49,69 +45,69 @@ let Account = {
             password1 = params.password1,
             password2 = params.password2;
 
-        /**
-         * Need to keep track of errors
-         * @type {Object}
-         */
         let errors = {};
 
         /**
-         * Set a resolve function to store the errors in the request cache
-         * before calling the done callback, only if there are errors.
+         * Make sure the passwords are equal
          */
-        let resolve = function() {
-            if(Object.keys(errors).length !== 0) {
-                reqCache.set('errors', errors);
-                reqCache.set('form', {
-                    email: email,
-                    fname: fname,
-                    lname: lname
-                });
-            }
-
-            done();
-        };
-
-        // Name must be alphanumeric
-        if ((!fname.match(/^[0-9a-z ]+$/i) && fname.length !== 0)
-            || (!lname.match(/^[0-9a-z ]+$/i) && lname.length !== 0)) {
-            errors.name = ['Name fields must be alphanumeric (0-9a-Z).'];
-        }
-
-        // Passwords must match
-        if (password1 != password2) {
-            errors.password = ['Passwords must match.'];
-
-        // Passwords have minlneghth 5
-        } else if (password1.length < 5) {
-            errors.password = ['Password too short (5 characters minimum).'];
-        }
-
-        // Invalid email
-        if (!validator.isEmail(email)) {
-            errors.email = ['Email not valid'];
-
-            // We don't need to check if the email is already taken in the case
-            // that the email is invalid. So just resolve here
-            return resolve();
+        if (password1 !== password2) {
+            errors.confirm = ['Passwords must match.'];
         }
 
         /**
-         * Resolve if email is already taken or there exists other errors
-         * @param {[type]} {email: email} [description]
+         * Resolution function
          */
-        new Entity.User({email: email}).fetch().then(function (match) {
-            if (match) {
-                errors.email = ['This email already exists in our database.'];
+        let resolve = function () {
+            reqCache.set('errors', errors);
+            reqCache.set('form', {
+                email: email,
+                fname: fname,
+                lname: lname
+            });
+
+            return Promise.resolve(errors);
+        };
+
+        /**
+         * Create a user domain object from the inputted values and validate
+         * this information
+         */
+
+         let user = new Entity.User({
+             email: email,
+             fname: fname,
+             lname: lname,
+             password: password1
+         });
+
+        return user.validate().then(function (validationErrs) {
+            /**
+             * If there were validation errors with the user, merge those with
+             * the errors already present
+             */
+            if (validationErrs) {
+                Object.assign(errors, validationErrs);
             }
 
-            if(Object.keys(errors).length !== 0) {
+            /**
+             * If the user's email didn't validate
+             */
+            if (errors.email) {
                 return resolve();
             }
 
             /**
-             * Save to the database if you've made it this far
+             * We need to make sure the user's email deosn't exist already
              */
+            return new Entity.User({email: email}).fetch();
+        }).then(function (match){
+            if (match) {
+                errors.email = ['Email already taken.'];
+            }
+
+            if (Object.keys(errors).length !== 0) {
+                return resolve();
+            }
 
             let pwdBuffer = Buffer.from(password1);
 
@@ -121,16 +117,10 @@ let Account = {
                 sodium.crypto_pwhash_MEMLIMIT_INTERACTIVE
             ));
 
-            new Entity.User({
-                email: email,
-                lname: lname,
-                fname: fname,
+            return user.save({
                 password: hash
-            }).save().then(function() {
-                return resolve();
             });
-
-        });
+        }).catch(console.log.bind(console));
     },
 
     authorizationRedirect: function(sess, reqCache, done) {
