@@ -55,7 +55,10 @@ let Account = {
         }
 
         /**
-         * Resolution function
+         * This function is called to stop the promise chain that will occur below
+         * when errors should stop the service from completing registration
+         *
+         * Saves the errors and related form information to cache
          */
         let resolve = function () {
             reqCache.set('errors', errors);
@@ -72,7 +75,6 @@ let Account = {
          * Create a user domain object from the inputted values and validate
          * this information
          */
-
          let user = new Entity.User({
              email: email,
              fname: fname,
@@ -201,17 +203,13 @@ let Account = {
         });
     },
 
-    createOrb: function(params, sess, reqCache, done) {
+    createOrb: function(params, sess, reqCache) {
         let client = Recognition.knowsClient(sess);
 
         if (!client) {
             reqCache.set('auth-error', true);
-            return done();
+            return Promise.resolve();
         }
-
-        /**
-         * Validation
-         */
 
         let title = params.title.trim(),
             meter1 = params.meter1,
@@ -223,69 +221,47 @@ let Account = {
          */
         let errors = {};
 
-        /**
-         * Set a resolve function to store the errors in the request cache
-         * before calling the done callback, only if there are errors.
-         */
-        let resolve = function() {
-            if(Object.keys(errors).length !== 0) {
-                reqCache.set('errors', errors);
-                reqCache.set('form', {
-                    title: title,
-                    meter1: meter1,
-                    meter2: meter2
-                });
+        let resolve = function () {
+            reqCache.set('errors', errors);
+            reqCache.set('form', {
+                title: title,
+                meter1: meter1,
+                meter2: meter2
+            });
 
-                Meter.initializeMeterList(reqCache, sess, done);
-            } else {
-                done();
-            }
+            return DashboardInformation.initializeMeterList(reqCache, sess);
         };
 
-        if (title.length > 150) {
-            errors.title = ['Title too long. 150 characters maximum.'];
-        }
+        let orb = new Entity.Orb({
+            title: title,
+            meter1: meter1,
+            meter2: meter2,
+            owner: client.id
+        });
 
-        if (!validator.isNumeric(meter1)) {
-            errors.meter1 = ['Meter not found in our database.'];
-        }
+        return orb.validate().then(function (validationErrs) {
+            if (validationErrs) {
+                Object.assign(errors, validationErrs);
+            }
 
-        if (!validator.isNumeric(meter2)) {
-            errors.meter2 = ['Meter not found in our database.'];
-        }
-
-        if(errors.meter1 || errors.meter2) {
-            return resolve();
-        }
-
-        new Entity.Meter({id: meter1}).fetch().then(function (match) {
+            return new Entity.Meter({id: meter1}).fetch();
+        }).then(function (match) {
             if (!match) {
                 errors.meter1 = ['Meter not found in our database.'];
             }
 
-            new Entity.Meter({id: meter2}).fetch().then(function (match2) {
-                if (!match2) {
-                    errors.meter2 = ['Meter not found in our database.'];
-                }
+            return new Entity.Meter({id: meter2}).fetch();
+        }).then(function (match) {
+            if (!match) {
+                errors.meter2 = ['Meter not found in our database.'];
+            }
 
-                if(Object.keys(errors).length !== 0) {
-                    return resolve();
-                }
+            if (Object.keys(errors).length !== 0) {
+                return resolve();
+            }
 
-
-                /**
-                 * Save to database if validation has passed
-                 */
-                new Entity.Orb({
-                    title: title,
-                    owner: client.id,
-                    meter1: meter1,
-                    meter2: meter2
-                }).save().then(function() {
-                    return resolve();
-                })
-            });
-        });
+            return orb.save();
+        }).catch(console.log.bind(console));
     },
 
     saveBulb: function(params, sess, reqCache, done) {
