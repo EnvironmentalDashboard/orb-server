@@ -30,15 +30,13 @@ let page = {
     },
 
     dashboard: function(req, cache) {
-        return new Promise(function (resolve, reject){
-            Service.DashboardInformation.initializeDashboard(cache, req.session, resolve);
+        return Service.DashboardInformation.initializeOrbList(cache, req.session).then(function() {
+            return Service.DashboardInformation.initializeBulbList(cache, req.session);
         });
     },
 
     neworb: function(req, cache) {
-        return new Promise(function (resolve, reject){
-            Service.DashboardInformation.initializeMeterList(cache, req.session, resolve);
-        });
+        return Service.DashboardInformation.initializeMeterList(cache, req.session);
     },
 
     orbSuccess: function(req, cache) {
