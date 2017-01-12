@@ -76,7 +76,9 @@ let page = Object.assign(base, {
             return res.render('denied');
         }
 
-        res.render('neworb-success');
+        res.render('neworb-success', {
+            loggedIn: cache.get('loggedIn')
+        });
     },
 
     authConfirm: function (res, cache) {

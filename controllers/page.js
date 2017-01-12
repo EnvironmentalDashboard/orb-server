@@ -6,27 +6,19 @@ let Service = require('../model/services');
 
 let page = {
     index: function(req, cache) {
-        return new Promise(function (resolve, reject){
-            resolve();
-        });
+        return Promise.resolve();
     },
 
     signin: function(req, cache) {
-        return new Promise(function (resolve, reject){
-            resolve();
-        });
+        return Promise.resolve();
     },
 
     signup: function(req, cache) {
-        return new Promise(function (resolve, reject){
-            resolve();
-        });
+        return Promise.resolve();
     },
 
     signupSuccess: function(req, cache) {
-        return new Promise(function (resolve, reject){
-            resolve();
-        });
+        return Promise.resolve();
     },
 
     dashboard: function(req, cache) {
@@ -40,15 +32,13 @@ let page = {
     },
 
     orbSuccess: function(req, cache) {
-        return new Promise(function (resolve, reject){
-            resolve();
-        });
+        Service.Recognition.knowsClient(req.session, cache);
+
+        return Promise.resolve();
     },
 
     authConfirm: function(req, cache) {
-        return new Promise(function (resolve, reject){
-            resolve();
-        });
+        return Promise.resolve();
     }
 };
 

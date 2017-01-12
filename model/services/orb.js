@@ -6,8 +6,8 @@ let validator = require('validator'),
     exec = require('child_process').exec;
 
 let Entity = require('../entities'),
-    Recognition = require('./recognition');
-
+    Recognition = require('./recognition'),
+    LifxBulbAPI = require('./lifxbulbapi');
 
 let Orb = {
 
@@ -49,7 +49,7 @@ let Orb = {
     emulate: function (orb) {
 
         let now = +new Date()/1000|0; //get unix milliseconds, divide by 1000, floor
-        console.log(orb.get('meter1'));
+
         return this.relativeUsageCalculator({
             id: orb.get('meter1'),
             daySets: '[1,2,3,4,5,6,7]',
@@ -60,12 +60,10 @@ let Orb = {
             let hue = 140 - ((percentage/100) * 140),
                 frequency = ((percentage/100)*2.5) + .5; //times per second
 
-            return new Promise(function(resolve) {
-                resolve({
-                    hue: hue,
-                    frequency: frequency
-                });
-            })
+            return Promise.resolve({
+                hue: hue,
+                frequency: frequency
+            });
 
         }).catch(console.log.bind(console));
 
@@ -73,15 +71,30 @@ let Orb = {
 
     dispatchInstruction: function (instruction, bulb) {
 
-        return LifxBulbAPI.setBreathe({
-            from_color: 'hue:' + instruction.hue + ' brightness:.5 saturation:1',
-            color: 'hue:' + instruction.hue + ' brightness:.8 saturation:1',
-            period: 1/instruction.frequency,
-            cycles: 10*instruction.frequency,
-        }, 'c44d8b51d65e94af62de72dac6ea3cf8475bfb61665ed7b6d968311e854af34a').then(function (mes){
-            console.log(mes);
-        }).catch(console.log.bind(console));
+        new Entity.User({id: bulb.get('owner')}).fetch().then(function (owner) {
+            return LifxBulbAPI.setBreathe({
+                from_color: 'hue:' + instruction.hue + ' brightness:.5 saturation:1',
+                color: 'hue:' + instruction.hue + ' brightness:.8 saturation:1',
+                period: 1/instruction.frequency,
+                cycles: 10*instruction.frequency,
+            }, owner.get('token')).then(function (mes){
+                console.log(mes);
+            }).catch(console.log.bind(console));
+        });
 
+    },
+
+    dispatchAll: function () {
+        let me = this;
+
+        Entity.Bulb.collection().query('where', 'enabled', '=', '1').fetch({withRelated: ['orb']})
+        .then(function (bulbs) {
+            bulbs.forEach(function (bulb){
+                me.emulate(bulb.relations.orb).then(function (instruction) {
+                    me.dispatchInstruction(instruction, bulb);
+                });
+            });
+        })
     }
 };
 

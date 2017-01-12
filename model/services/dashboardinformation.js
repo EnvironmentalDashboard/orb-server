@@ -9,7 +9,7 @@ let Entity = require('../entities'),
 
 let DashboardInformation = {
 
-    initializeOrbList: function(reqCache, sess, done) {
+    initializeOrbList: function(reqCache, sess) {
         client = Recognition.knowsClient(sess, reqCache);
 
         if (!client) {
@@ -34,7 +34,7 @@ let DashboardInformation = {
         });
     },
 
-    initializeBulbList: function(reqCache, sess, done) {
+    initializeBulbList: function(reqCache, sess) {
         client = Recognition.knowsClient(sess, reqCache);
 
         if (!client) {

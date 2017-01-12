@@ -36,7 +36,7 @@ let Recognition = {
         return sess.authenticatedUser || false;
     },
 
-    login: function(params, cache, sess, done) {
+    login: function(params, cache, sess) {
 
         /**
          * Need to keep track of errors
@@ -52,10 +52,11 @@ let Recognition = {
             if(Object.keys(errors).length !== 0) {
                 cache.set('errors', errors);
             }
-            done();
-        }
 
-        new Entity.User({email: params.email}).fetch().then(function (match) {
+            return Promise.resolve();
+        };
+
+        return new Entity.User({email: params.email}).fetch().then(function (match) {
             if (match) {
                 let pwdHash = Buffer.from(match.get('password')),
                     pwdBuffer = Buffer.from(params.password);

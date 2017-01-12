@@ -20,15 +20,8 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
 
 let controllers = require('./controllers'),
     views = require('./views'),
-    routes = require('./routes');
-
-
-/**
- * testing
- */
-//let dispatcher = require('./model/services/simulatebulborbs');
-//dispatcher();
-
+    routes = require('./routes'),
+    Service = require('./model/services');
 
 /**
  * App configuration
@@ -76,3 +69,13 @@ let routerParams = {
 };
 
 routes.setup(routerParams);
+
+/**
+ * Orb instruction dispatching
+ */
+
+/*setInterval(function() {*/
+
+    Service.Orb.dispatchAll();
+    
+/*}, 30000);*/

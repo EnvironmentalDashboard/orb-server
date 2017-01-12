@@ -166,14 +166,14 @@ let Account = {
 
         if (!client) {
             reqCache.set('auth-error', true);
-            return done();
+            return Promise.resolve();
         }
 
         let errors = {};
 
         let selector = params.selector,
             enabled = params.enabled,
-            orb = params.orb;
+            orb = params.orb === "" ? null : params.orb;
 
         let bulbParams = {
                 owner: client.id,
@@ -195,7 +195,7 @@ let Account = {
             return new Entity.Orb({id: orb}).fetch();
         }).then(function (match) {
             if((match && match.get('owner') === client.id)
-                || (orb == null || orb == "")) {
+                || orb == null) {
 
                 /**
                  * NOTICE: here we break the service layer/data mapper separation
@@ -219,12 +219,12 @@ let Account = {
 
     },
 
-    authorizationRedirect: function(sess, reqCache, done) {
+    authorizationRedirect: function(sess, reqCache) {
         let client = Recognition.knowsClient(sess);
 
         if (!client) {
             reqCache.set('auth-error', true);
-            return done();
+            return Promise.resolve();
         }
 
         /**
@@ -246,16 +246,16 @@ let Account = {
         });
 
         reqCache.set('query', query);
-        return done();
+        return Promise.resolve();
 
     },
 
-    authorize: function(params, sess, reqCache, done) {
+    authorize: function(params, sess, reqCache) {
         let client = Recognition.knowsClient(sess);
 
         if (!client) {
             reqCache.set('auth-error', true);
-            return done();
+            return Promise.resolve();
         }
 
         let data = {
@@ -274,7 +274,7 @@ let Account = {
         /**
          * Request the access token
          */
-        request.post(lifx_api + '/token', options, function (err, res, bod) {
+        return request.post(lifx_api + '/token', options, function (err, res, bod) {
 
             /**
              * Reject the token if client has incorrect state parameter
@@ -285,15 +285,13 @@ let Account = {
 
             let token = bod.access_token;
 
-            new Entity.User({id: client.id}).save(
+            return new Entity.User({id: client.id}).save(
                 { token: token, },
                 { patch: true }
-            ).then(function() {
-                return done();
-            }).catch(function (reason) {
-                return done();
-            });
-        });
+            );
+        }).then(function() {
+            return Promise.resolve();
+        }).catch(console.log.bind(console));
     }
 
 };
