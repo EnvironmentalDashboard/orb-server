@@ -5,7 +5,7 @@
 let Service = require('../model/services');
 
 let account = {
-    register: function(req, cache) {a
+    register: function(req, cache) {
         return Service.Account.register({
             email: req.body.email,
             fname: req.body.fname,
