@@ -65,6 +65,29 @@
         float: right;
     }
 
+    .ui-orb {
+        width: 30%;
+        padding-top: 30%;
+        border-radius: 50%;
+        position: relative;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .ui-orb:after {
+        content: "";
+        position: absolute;
+        top: 0; bottom: 0; left: 0; right: 0;
+        background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0), rgba(0, 0, 0, .2));
+    }
+
+    .ui-orb .ui-color-block {
+        position: absolute;
+        overflow: hidden;
+        top: 0; bottom: 0; left: 0; right: 0;
+        background: #000;
+    }
+
     </style>
 
     <title>Environmental Orb</title>

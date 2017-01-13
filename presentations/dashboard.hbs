@@ -12,10 +12,10 @@
 
             <div class="container-fluid ui-rounded-container">
                 {{#each orbs}}
-                <div class="col-sm-4 ui-rounded-item-wrap ui-orb" data-orb="{{this.id}}">
+                <div class="col-sm-4 ui-rounded-item-wrap">
                     <div class="ui-rounded-item">
-                        <div class="ui-rounded-icon">
-                            <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+                        <div class="ui-rounded-icon ui-orb" data-orb="{{this.id}}">
+                            <div class="ui-color-block"></div>
                         </div>
                         <p><a href="/dash/orb/{{this.id}}">{{this.title}}</a></p>
                     </div>
@@ -116,20 +116,18 @@
 
 var orbKeyframes = function(id, hue) {
     return '@keyframes orb-' + id + ' {\
-        0% { color: hsl(' + hue + ', 100%, 50%); }\
-        100% { color: hsl(' + hue + ', 100%, 80%); }\
+        0% { background-color: hsl(' + hue + ', 100%, 50%); }\
+        100% { background-color: hsl(' + hue + ', 100%, 80%); }\
     }';
 };
 
-var orbInstructions = ; //fetch client's orb instructions
-
-$.post("/json/orb/instructions", function (instructions) {
-    var orbInstructions = JSON.parse(instructions);
+$.get("/json/orb/instructions", function (instructions) {
+    var orbInstructions = instructions;
 
     $('.ui-orb').each(function () {
         $('head').append('<style type="text/css">' + orbKeyframes(this.dataset.orb, orbInstructions[this.dataset.orb].hue) + '</style>');
 
-        $(this).css({
+        $(this).find('.ui-color-block').css({
             animationDuration: 1/orbInstructions[this.dataset.orb].frequency + 's',
             animationName: 'orb-' + this.dataset.orb,
             animationIterationCount: 'infinite',

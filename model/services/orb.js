@@ -50,6 +50,8 @@ let Orb = {
 
         let now = +new Date()/1000|0; //get unix milliseconds, divide by 1000, floor
 
+        let hues = [120, 83, 60, 38, 0];
+
         return this.relativeUsageCalculator({
             id: orb.get('meter1'),
             daySets: '[1,2,3,4,5,6,7]',
@@ -57,7 +59,7 @@ let Orb = {
             start: now - 60*60*24*7*2
         }).then(function (percentage) {
 
-            let hue = 140 - ((percentage/100) * 140),
+            let hue = hues[Math.round((percentage/100) * 4)],
                 frequency = ((percentage/100)*2.5) + .5; //times per second
 
             return Promise.resolve({
@@ -71,7 +73,7 @@ let Orb = {
 
     dispatchInstruction: function (instruction, bulb) {
 
-        new Entity.User({id: bulb.get('owner')}).fetch().then(function (owner) {
+        return new Entity.User({id: bulb.get('owner')}).fetch().then(function (owner) {
             return LifxBulbAPI.setBreathe({
                 from_color: 'hue:' + instruction.hue + ' brightness:.5 saturation:1',
                 color: 'hue:' + instruction.hue + ' brightness:.8 saturation:1',
