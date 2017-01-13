@@ -15,7 +15,6 @@ $start = $argv[3];
 $end = $argv[4];
 
 $gauge = new Gauge($db);
-<<<<<<< HEAD:exe/relative-usage.php
 
 $stmt = $db->prepare('SELECT id, current, units FROM meters WHERE id = ?');
 $stmt->execute([$id]);
@@ -27,8 +26,5 @@ $data = $gauge->filterArray(
     $daySets
 );
 
-echo $gauge->relativeValue($data, $meter['current']);
-=======
 echo $gauge->relativeValueNow($id, $daySets, $start, $end);
->>>>>>> eeb05002885a3678866038be23b74b735cf25241:exe/relative-usage-new.php
 ?>
