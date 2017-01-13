@@ -12,7 +12,7 @@ let Entity = require('../entities'),
 let Orb = {
 
     /**
-     * Calculaes relative usage by delegating the calculation to a shell script, which
+     * Calculates relative usage by delegating the calculation to a shell script, which
      * outsources it.
      *
      * WARNING! This service passes raw parameter input to the shell. ONLY pass safe
