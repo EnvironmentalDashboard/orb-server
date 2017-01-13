@@ -16,7 +16,7 @@ $end = $argv[4];
 
 $gauge = new Gauge($db);
 
-$stmt = $db->prepare('SELECT current FROM meters WHERE id = ?');
+$stmt = $db->prepare('SELECT id, current, units FROM meters WHERE id = ?');
 $stmt->execute([$id]);
 
 $meter = $stmt->fetch();
@@ -27,5 +27,4 @@ $data = $gauge->filterArray(
 );
 
 echo $gauge->relativeValue($data, $meter['current']);
-
 ?>

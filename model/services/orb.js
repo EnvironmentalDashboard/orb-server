@@ -76,7 +76,7 @@ let Orb = {
                 from_color: 'hue:' + instruction.hue + ' brightness:.5 saturation:1',
                 color: 'hue:' + instruction.hue + ' brightness:.8 saturation:1',
                 period: 1/instruction.frequency,
-                cycles: 10*instruction.frequency,
+                cycles: 10*instruction.frequency
             }, owner.get('token')).then(function (mes){
                 console.log(mes);
             }).catch(console.log.bind(console));
