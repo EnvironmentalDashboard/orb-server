@@ -14,7 +14,8 @@ let views = [
     'account',
     'authentication',
     'dashboard',
-    'authorization'
+    'authorization',
+    'json'
 ];
 
 /**

@@ -73,4 +73,7 @@ module.exports.setup = function (params) {
     app.get('/auth/confirm', pair(controllers.page.authConfirm, views.page.authConfirm.bind(views.page)));
     app.get('/redirect', pair(controllers.authorization.redirect, views.authorization.redirect.bind(views.authorization)));
 
+    // JSON pages
+    app.get('/json/orb/instructions', pair(controllers.json.orbInstructionList, views.json.orbInstructionList.bind(views.json)));
+
 };

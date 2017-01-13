@@ -77,5 +77,13 @@ routes.setup(routerParams);
 /*setInterval(function() {*/
 
     Service.Orb.dispatchAll();
-    
+
 /*}, 30000);*/
+let now = +new Date();
+
+Service.Orb.relativeUsageCalculator({
+    id: 314,
+    daySets: '[1,2,3,4,5,6,7]',
+    end: now,
+    start: now - 60*60*24*7*2
+}).then(console.log);

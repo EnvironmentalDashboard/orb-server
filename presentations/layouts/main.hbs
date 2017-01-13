@@ -82,11 +82,12 @@
                     <ul class="nav navbar-nav navbar-right">
                         {{#if loggedIn}}
                         <li><a>{{loggedIn.email}}</a></li>
+                        <li><a href="/guide">Help guide</a></li>
                         <li><a href="/dash">Dashboard</a></li>
                         <li><a href="/account/signout">Sign out</a></li>
                         {{else}}
 
-                        <li><a href="/account/signin">About</a></li>
+                        <li><a href="/guide">Help guide</a></li>
                         <li><a href="/account/signin">Login</a></li>
                         <li><a href="/account/signup">Sign up</a></li>
 

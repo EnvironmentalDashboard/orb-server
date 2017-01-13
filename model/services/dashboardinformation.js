@@ -4,7 +4,8 @@
 
 let Entity = require('../entities'),
     Recognition = require('./recognition'),
-    LifxBulbAPI = require('./lifxbulbapi');
+    LifxBulbAPI = require('./lifxbulbapi'),
+    Orb = require('./orb');
 
 
 let DashboardInformation = {
@@ -95,6 +96,39 @@ let DashboardInformation = {
             });
 
             reqCache.set('meter-list', meterList);
+            return Promise.resolve();
+        });
+    },
+
+    initializeOrbInstructionsList: function(reqCache, sess) {
+        if (!Recognition.knowsClient(sess, reqCache)) {
+            reqCache.set('auth-error', true);
+            return Promise.resolve();
+        }
+
+        return Entity.Orb.collection().query('where', 'owner', '=', client.id).fetch().then(function (orbs) {
+            let relativeUsagePromises = [], keyToOrb = [], instructions = {};
+
+            let now = +new Date();
+
+            orbs.forEach(function (orb) {
+                relativeUsagePromises.push(Orb.emulate(orb));
+
+                keyToOrb.push(orb);
+            });
+
+            return Promise.all(relativeUsagePromises).then(function (instructionsReturned) {
+                console.log(instructionsReturned);
+
+                instructionsReturned.forEach(function(instruction, key){
+                    instructions[ keyToOrb[key].get('id') ] = instruction;
+                });
+
+                return instructions;
+            });
+
+        }).then(function (list) {
+            reqCache.set('orb-instruction-list', list);
             return Promise.resolve();
         });
     }
