@@ -48,6 +48,7 @@ module.exports.setup = function (params) {
 
     // Home
     app.get('/', pair(controllers.page.index, views.page.index.bind(views.page)));
+    app.get('/guide', pair(controllers.page.guide, views.page.guide.bind(views.page)));
 
     // Dashboard
     app.get('/dash', pair(controllers.page.dashboard, views.page.dashboard.bind(views.page)));

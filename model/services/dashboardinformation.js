@@ -53,19 +53,20 @@ let DashboardInformation = {
 
             if (client.token == null || client.token === '') {
                 reqCache.set('authorization-notice', 'This account isn\'t authorized with a LifX account. Please authorize to link your accounts.');
-                return Promise.resolve();
+                return Promise.resolve({authorizationNotice: true});
             }
             return LifxBulbAPI.getBulbList(client.token);
         }).then(function (bulbsFromAPI) {
-            JSON.parse(bulbsFromAPI).forEach(function (bulb) {
-                if(!bulbList[bulb.id]) {
-                    bulbList[bulb.id] = {config: null};
-                }
+            if(bulbsFromAPI && !bulbsFromAPI.authorizationNotice) {
+                JSON.parse(bulbsFromAPI).forEach(function (bulb) {
+                    if(!bulbList[bulb.id]) {
+                        bulbList[bulb.id] = {config: null};
+                    }
 
-                bulbList[bulb.id].info = bulb;
-            });
+                    bulbList[bulb.id].info = bulb;
+                });
+            }
 
-            reqCache.set('bulb-list', bulbList);
             return Promise.resolve();
         }).catch(function(reason) {
             console.log(reason);

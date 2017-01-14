@@ -88,6 +88,30 @@
         background: #000;
     }
 
+    .ui-main-list li {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .ui-main-list li p {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    .ui-table tr:nth-child(2n) {
+        background: rgb(245, 245, 245);
+    }
+
+    .ui-table td {
+        width: 12.5%;
+        text-align: center;
+        padding: 5px;
+    }
+
+    .ui-table .ui-table-left {
+        text-align: left;
+    }
+
     </style>
 
     <title>Environmental Orb</title>
@@ -105,12 +129,12 @@
                     <ul class="nav navbar-nav navbar-right">
                         {{#if loggedIn}}
                         <li><a>{{loggedIn.email}}</a></li>
-                        <li><a href="/guide">Help guide</a></li>
+                        <li><a href="/guide">Guide</a></li>
                         <li><a href="/dash">Dashboard</a></li>
                         <li><a href="/account/signout">Sign out</a></li>
                         {{else}}
 
-                        <li><a href="/guide">Help guide</a></li>
+                        <li><a href="/guide">Guide</a></li>
                         <li><a href="/account/signin">Login</a></li>
                         <li><a href="/account/signup">Sign up</a></li>
 

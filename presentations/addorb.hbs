@@ -2,7 +2,6 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
             <h2>Add an Orb</h2>
-            <p>In order to active your bulb(s) to emulate an orb, you need to create an orb first. Configure your new orb below.</p>
 
             <p>Required fields indicated with asterisk (*).</p>
 
@@ -89,6 +88,78 @@
                 </div>
 
                 {{#if errors.meter2}}
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning">
+                            {{#each errors.meter2}}
+
+                            <p>{{this}}</p>
+
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+
+                {{/if}}
+
+                <!-- DAY SETS -->
+
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <label for="meter2">Typical usage day sets <span class="text-info">*</span></label>
+
+                        <table class="ui-table col-sm-12">
+                            <tr>
+                                <td>&nbsp;</td>
+
+                                {{#each days}}
+                                <td>{{this}}</td>
+                                {{/each}}
+                            </tr>
+
+                            {{#each days}}
+
+                            <tr>
+                                <td class="ui-table-left">Group {{@key}}</td>
+
+                                {{#each ../days}}
+                                <td><input type="radio" name="{{@key}}"></td>
+                                {{/each}}
+                            </tr>
+
+                            {{/each}}
+                        </table>
+                    </div>
+                </div>
+
+                {{#if errors.daySets}}
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning">
+                            {{#each errors.daySets}}
+
+                            <p>{{this}}</p>
+
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+
+                {{/if}}
+
+                <!-- /DAY SETS -->
+
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <label for="interval">Typical usage interval <span class="text-info">*</span></label>
+
+                        <input type="number" min="5" max="55" value="5" class="form-control">
+                    </div>
+                </div>
+
+                {{#if errors.interval}}
 
                 <div class="row">
                     <div class="col-sm-12">

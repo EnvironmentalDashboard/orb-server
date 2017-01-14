@@ -62,11 +62,13 @@ let page = Object.assign(base, {
             return res.render('denied');
         }
 
-        let meterList = cache.get('meter-list');
+        let meterList = cache.get('meter-list'),
+            days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
         res.render('addorb', {
             loggedIn: cache.get('loggedIn'),
-            buildings: meterList
+            buildings: meterList,
+            days: days
         });
     },
 
@@ -87,6 +89,12 @@ let page = Object.assign(base, {
         }
 
         res.render('authconfirm');
+    },
+
+    guide: function (res, cache) {
+        res.render('guide', {
+            loggedIn: cache.get('loggedIn')
+        });
     }
 });
 
