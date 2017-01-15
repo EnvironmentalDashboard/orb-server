@@ -121,10 +121,10 @@
                             {{#each days}}
 
                             <tr>
-                                <td class="ui-table-left">Group {{@key}}</td>
+                                <td class="ui-table-left">Group</td>
 
                                 {{#each ../days}}
-                                <td><input type="radio" name="{{@key}}"></td>
+                                <td><input type="radio" name="day_{{@key}}" value="{{@../key}}">{{@../key}}</td>
                                 {{/each}}
                             </tr>
 
