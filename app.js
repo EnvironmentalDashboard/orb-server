@@ -78,7 +78,7 @@ routes.setup(routerParams);
 
     Service.Orb.dispatchAll();
 
-}, 30000);*/
+}, 30000);
 let now = +new Date();
 
 Service.Orb.relativeUsageCalculator({
@@ -86,4 +86,4 @@ Service.Orb.relativeUsageCalculator({
     daySets: '[1,2,3,4,5,6,7]',
     end: now,
     start: now - 60*60*24*7*2
-}).then(console.log);
+}).then(console.log);*/

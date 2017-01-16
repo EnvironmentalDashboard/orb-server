@@ -110,7 +110,10 @@ let Account = {
 
         let title = params.title.trim(),
             meter1 = params.meter1,
-            meter2 = params.meter2;
+            meter2 = params.meter2,
+            inputtedDaySets = params.daySets;
+
+        let daySets = [];
 
         /**
          * Need to track errors
@@ -118,12 +121,22 @@ let Account = {
          */
         let errors = {};
 
+        inputtedDaySets.forEach(function (val, key) {
+            if (!daySets[val]) {
+                daySets[val] = [];
+            }
+
+            daySets[val].push(key);
+        });
+
+        console.log(daySets);
+
         let resolve = function () {
             reqCache.set('errors', errors);
             reqCache.set('form', {
                 title: title,
                 meter1: meter1,
-                meter2: meter2
+                meter2: meter2 //@TODO update this with sample and day sets
             });
 
             return DashboardInformation.initializeMeterList(reqCache, sess);
@@ -198,7 +211,7 @@ let Account = {
                 || orb == null) {
 
                 /**
-                 * NOTICE: here we break the service layer/data mapper separation
+                 * NOTICE: here we leak data mapper logic into the service layer
                  * because Knex.js and Bookshelf.js do not support upserts
                  */
                 let query = util.format(`\
