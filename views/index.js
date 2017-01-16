@@ -1,5 +1,5 @@
 /**
- * @overview Ties together all views for easy importation to application
+ * @overview Ties together all views for easy importing to application
  */
 
 let _ = require('lodash');

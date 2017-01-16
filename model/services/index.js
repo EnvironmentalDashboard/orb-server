@@ -1,5 +1,5 @@
 /**
- * @overview Handles all services for easy import
+ * @overview Handles all services for easy importing
  */
 
 /**

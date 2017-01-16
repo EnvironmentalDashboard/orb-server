@@ -1,5 +1,5 @@
 /**
- * @overview Ties together all controls for easy importation to application
+ * @overview Ties together all controls for easy importing to application
  */
 
 /**
