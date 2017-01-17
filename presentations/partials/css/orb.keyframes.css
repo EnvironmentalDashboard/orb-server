@@ -1,0 +1,4 @@
+@keyframes orb-{{id}} {
+    0% { background-color: hsl({{hue}}, 100%, 50%); }
+    100% { background-color: hsl({{hue}}, 100%, 80%); }
+}
