@@ -7,7 +7,7 @@
  let json = Object.assign(base, {
     orbInstructionList: function (res, cache) {
         if(this.caughtAuthError(cache)) {
-            return res.render('denied');
+            return res.send('Denied.');
         }
 
         let instructionList = cache.get('orb-instruction-list');
