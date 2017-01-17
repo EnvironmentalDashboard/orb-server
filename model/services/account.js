@@ -3,7 +3,7 @@
  */
 
 let querystring = require('querystring'),
-    request = require('request'),
+    request = require('request-promise-native'),
     validator = require('validator'),
     sodium = require('sodium').api,
     Bookshelf = require('../../lib/dbconnect.js'),
@@ -309,23 +309,24 @@ let Account = {
          * Request the access token
          */
         return request.post(lifx_api + '/token', options, function (err, res, bod) {
+            (function() {
+                /**
+                 * Reject the token if client has incorrect state parameter
+                 */
+                if (sess.request_state != params.state) {
+                    return Promise.reject('Did not validate.');
+                }
 
-            /**
-             * Reject the token if client has incorrect state parameter
-             */
-            if (sess.request_state != params.state) {
-                return ;
-            }
+                let token = bod.access_token;
 
-            let token = bod.access_token;
-
-            return new Entity.User({id: client.id}).save(
-                { token: token, },
-                { patch: true }
-            );
-        }).then(function() {
-            return Promise.resolve();
-        }).catch(console.log.bind(console));
+                return new Entity.User({id: client.id}).save(
+                    { token: token, },
+                    { patch: true }
+                );
+            }()).then(function() {
+                return Promise.resolve();
+            }).catch(console.log.bind(console));
+        });
     }
 
 };

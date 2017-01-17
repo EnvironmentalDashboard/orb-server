@@ -45,20 +45,39 @@ let Orb = {
      * Emulates an inputted orb
      * @param {Promise} orb Resolves with an object with hue and frequeny.
      */
-    emulate: function (orb) {
+    emulate: function (orb, meter) {
 
-        let now = +new Date()/1000|0; //get unix milliseconds, divide by 1000, floor
+        if (isNaN(meter)) {
+            return Promise.reject('Unknown meter');
+        }
 
-        let hues = [120, 83, 60, 38, 0];
+        /**
+         * Holds arrays of orb percentile hues
+         * @type {Array}
+         */
+        let hues = [
+            [120, 83, 60, 38, 0], //meter1 colors
+            [180, 220, 250, 285, 315] //meter2 colors
+        ];
+
+        /**
+         * Decide on meter id
+         */
+        let meterId = meter === 1 ? orb.get('meter1') : orb.get('meter2');
+
+        console.log('using meter ' + meterId);
+        console.log('using hues ' + hues[meter-1].toString());
 
         return this.relativeUsageCalculator({
-            id: orb.get('meter1'),
+            id: meterId,
             daySets: orb.get('daySets'),
             sampleSize: orb.get('sampleSize')
         }).then(function (percentage) {
 
-            let hue = hues[Math.round((percentage/100) * 4)],
+            let hue = hues[meter-1][Math.round((percentage/100) * 4)],
                 frequency = ((percentage/100)*2.5) + .5; //times per second
+
+            console.log('using hue ' + hue)
 
             return Promise.resolve({
                 hue: hue,
@@ -73,12 +92,12 @@ let Orb = {
 
         return new Entity.User({id: bulb.get('owner')}).fetch().then(function (owner) {
             return LifxBulbAPI.setBreathe({
-                from_color: 'hue:' + instruction.hue + ' brightness:.5 saturation:1',
-                color: 'hue:' + instruction.hue + ' brightness:.8 saturation:1',
+                from_color: 'hue:' + instruction.hue + ' brightness:.6 saturation:1',
+                color: 'hue:' + instruction.hue + ' brightness:.3 saturation:1',
                 period: 1/instruction.frequency,
                 cycles: 10*instruction.frequency
             }, owner.get('token')).then(function (mes){
-                console.log(mes);
+                Promise.resolve();
             }).catch(console.log.bind(console));
         });
 
@@ -90,7 +109,8 @@ let Orb = {
         Entity.Bulb.collection().query('where', 'enabled', '=', '1').fetch({withRelated: ['orb']})
         .then(function (bulbs) {
             bulbs.forEach(function (bulb){
-                me.emulate(bulb.relations.orb).then(function (instruction) {
+                let meter = +new Date()/20000|0;
+                me.emulate(bulb.relations.orb, (meter%2)+1).then(function (instruction) {
                     me.dispatchInstruction(instruction, bulb);
                 });
             });

@@ -74,16 +74,8 @@ routes.setup(routerParams);
  * Orb instruction dispatching
  */
 
-/*setInterval(function() {
-
+setInterval(function() {
+    
     Service.Orb.dispatchAll();
 
-}, 30000);
-let now = +new Date();
-
-Service.Orb.relativeUsageCalculator({
-    id: 788,
-    daySets: '[1,2,3,4,5,6,7]',
-    end: now,
-    start: now - 60*60*24*7*2
-}).then(console.log);*/
+}, 5000);
