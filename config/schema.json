@@ -15,7 +15,7 @@
       "meter1": {"type": "integer", "nullable": false},
       "meter2": {"type": "integer", "nullable": false},
       "daySets": {"type": "string", "nullable": false},
-      "dataPoints": {"type": "integer", "nullable": false}
+      "sampleSize": {"type": "integer", "nullable": false}
   },
 
   "orb-server_bulbs": {

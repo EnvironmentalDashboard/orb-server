@@ -24,12 +24,11 @@ let Orb = {
     relativeUsageCalculator: function (params) {
         let id = params.id, //meter ID
             daySets = params.daySets,
-            start = params.start,
-            end = params.end;
+            sampleSize = params.sampleSize;
 
         return new Promise(function (resolve, reject) {
             exec(
-                "php ./exe/relative-usage.php '" + id + "' '" + daySets + "' '" + start + "' '" + end + "'",
+                "php ./exe/relative-usage.php '" + id + "' '" + daySets + "' '" + sampleSize + "'",
                 function (err, stdout, stderr) {
                     if (err) {
                         reject(err);
@@ -54,9 +53,8 @@ let Orb = {
 
         return this.relativeUsageCalculator({
             id: orb.get('meter1'),
-            daySets: '[1,2,3,4,5,6,7]',
-            end: now,
-            start: now - 60*60*24*7*2
+            daySets: orb.get('daySets'),
+            sampleSize: orb.get('sampleSize')
         }).then(function (percentage) {
 
             let hue = hues[Math.round((percentage/100) * 4)],

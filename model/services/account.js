@@ -111,9 +111,8 @@ let Account = {
         let title = params.title.trim(),
             meter1 = params.meter1,
             meter2 = params.meter2,
-            inputtedDaySets = params.daySets;
-
-        let daySets = [];
+            inputtedDaySets = params.daySets,
+            sampleSize = params.sampleSize;
 
         /**
          * Need to track errors
@@ -121,15 +120,35 @@ let Account = {
          */
         let errors = {};
 
-        inputtedDaySets.forEach(function (val, key) {
-            if (!daySets[val]) {
-                daySets[val] = [];
+        /**
+         * Convert inputted array (where each key represents a day and each value
+         * represents a group) to a parseable, day-grouped string
+         * @type {[type]}
+         */
+        let unfilteredDaySets = [];
+
+        inputtedDaySets.forEach(function (val, index) {
+            let key = parseInt(val, 10) || 0;
+
+            if (!unfilteredDaySets[key]) {
+                unfilteredDaySets[key] = [];
             }
 
-            daySets[val].push(key);
+            unfilteredDaySets[key].push(index + 1);
         });
 
-        console.log(daySets);
+        /**
+         * Sample size must be between 5 and 20
+         */
+        if (sampleSize < 5) {
+            sampleSize = 5;
+        } else if (sampleSize > 50) {
+            sampleSize = 50;
+        }
+
+        let daySets = JSON.stringify(unfilteredDaySets.filter(function (val) {
+            return val;
+        })).slice(1, -1);
 
         let resolve = function () {
             reqCache.set('errors', errors);
@@ -146,7 +165,9 @@ let Account = {
             title: title,
             meter1: meter1,
             meter2: meter2,
-            owner: client.id
+            owner: client.id,
+            daySets: daySets,
+            sampleSize: sampleSize
         });
 
         return orb.validate().then(function (validationErrs) {

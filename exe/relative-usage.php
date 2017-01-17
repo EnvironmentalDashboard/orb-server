@@ -8,13 +8,12 @@
 require __DIR__ . '/../../includes/db.php';
 require __DIR__ . '/../../includes/class.Meter.php';
 
-// ..$id, $daySets, $start, $end
+// ..$id, $daySets, $sampleSize
 $id = $argv[1];
 $daySets = $argv[2];
-$start = $argv[3];
-$end = $argv[4];
+$sampleSize = $argv[3];
 
 $meter = new Meter($db);
-echo $meter->relativeValueOfMeterFromTo($id, $daySets, $start, $end);
+echo $meter->relativeValueOfMeterWithPoints($id, $daySets, $sampleSize);
 
 ?>
