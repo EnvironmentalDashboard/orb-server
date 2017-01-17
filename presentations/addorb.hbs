@@ -18,8 +18,12 @@
                     <div class="form-group col-sm-12">
                         <label for="title">Title</label>
 
+                        <p id="title-help">An orb's title is used as a label when assigning an orb to a bulb. Brief and descriptive titles make recognition easy.</p>
+
                         <input type="text" class="form-control" aria-describedby="title-help" name="title" id="title" placeholder="Title" value="{{form.title}}" maxlength="150">
-                        <p id="title-help" class="help-block">Title your orb for easy recognition.</p>
+
+                        <p class="help-block">Maximum 150 characters.</p>
+
                     </div>
                 </div>
 
@@ -109,7 +113,9 @@
                     <div class="form-group col-sm-12">
                         <label for="meter2">Data groupings <span class="text-info">*</span></label>
 
-                        <table class="ui-table col-sm-12">
+                        <p id="datagroupings-help">Our typical usage algorthm allows simarily-intensive days to be grouped together. For example, office and school buildings are normally employed less on weekends. Tagging weekends and weekdays separately embodies this in the calculation.</p>
+
+                        <table class="ui-table col-sm-12" aria-describedby="datagroupings-help">
                             <tr>
                                 <td>&nbsp;</td>
 
@@ -155,7 +161,11 @@
                     <div class="form-group col-sm-12">
                         <label for="interval">Sample size <span class="text-info">*</span></label>
 
+                        <p>Historic data points are used to calculate typical usage. Sample size dictates how many data points to use.</p>
+
                         <input type="number" min="5" max="50" value="5" class="form-control" name="sample">
+
+                        <p class="help-block">Minimum 5 points, maximum 50 points.</p>
                     </div>
                 </div>
 
