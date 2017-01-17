@@ -77,4 +77,7 @@ module.exports.setup = function (params) {
     // JSON pages
     app.get('/json/orb/instructions', pair(controllers.json.orbInstructionList, views.json.orbInstructionList.bind(views.json)));
 
+    // Dynamic CSS
+    app.get('/css/orbs.animation.css', pair(controllers.json.orbInstructionList, views.css.orbAnimations.bind(views.css)));
+
 };

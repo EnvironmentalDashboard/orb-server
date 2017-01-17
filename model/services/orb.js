@@ -81,7 +81,8 @@ let Orb = {
 
             return Promise.resolve({
                 hue: hue,
-                frequency: frequency
+                frequency: frequency,
+                period: 1/frequency
             });
 
         }).catch(console.log.bind(console));

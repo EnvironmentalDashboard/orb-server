@@ -14,8 +14,13 @@
                 {{#each orbs}}
                 <div class="col-sm-4 ui-rounded-item-wrap">
                     <div class="ui-rounded-item">
-                        <div class="ui-rounded-icon ui-orb" data-orb="{{this.id}}">
-                            <div class="ui-color-block"></div>
+                        <div class="container-fluid ui-orb-display">
+                            <div class="ui-orb-column col-sm-6">
+                                <div class="ui-orb orb-{{this.id}}-meter-1"></div>
+                            </div>
+                            <div class="ui-orb-column col-sm-6">
+                                <div class="ui-orb orb-{{this.id}}-meter-2"></div>
+                            </div>
                         </div>
                         <p><a href="/dash/orb/{{this.id}}">{{this.title}}</a></p>
                     </div>
@@ -111,29 +116,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-
-var orbKeyframes = function(id, hue) {
-    return '@keyframes orb-' + id + ' {\
-        0% { background-color: hsl(' + hue + ', 100%, 50%); }\
-        100% { background-color: hsl(' + hue + ', 100%, 80%); }\
-    }';
-};
-
-$.get("/json/orb/instructions", function (instructions) {
-    var orbInstructions = instructions;
-
-    $('.ui-orb').each(function () {
-        $('head').append('<style type="text/css">' + orbKeyframes(this.dataset.orb, orbInstructions[this.dataset.orb].hue) + '</style>');
-
-        $(this).find('.ui-color-block').css({
-            animationDuration: 1/orbInstructions[this.dataset.orb].frequency + 's',
-            animationName: 'orb-' + this.dataset.orb,
-            animationIterationCount: 'infinite',
-            animationDirection: 'alternate'
-        });
-    });
-});
-
-</script>

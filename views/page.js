@@ -52,7 +52,8 @@ let page = Object.assign(base, {
 
                     return out;
                 }
-            }
+            },
+            additionalStylesheets: ['/css/orbs.animation.css']
         });
     },
 

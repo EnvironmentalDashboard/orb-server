@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="icon" href="images/logo.png">
 
+
+    {{#if additionalStylesheets}}
+
+    {{#each additionalStylesheets}}
+    <link rel="stylesheet" type="text/css" href="{{this}}">
+    {{/each}}
+
+    {{/if}}
+
     <script src="/jquery/dist/jquery.min.js"></script>
     <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -66,12 +75,12 @@
     }
 
     .ui-orb {
-        width: 30%;
-        padding-top: 30%;
+        padding-top: 100%;
         border-radius: 50%;
         position: relative;
         margin: 0 auto;
         overflow: hidden;
+        background: green;
     }
 
     .ui-orb:after {
@@ -79,13 +88,6 @@
         position: absolute;
         top: 0; bottom: 0; left: 0; right: 0;
         background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0), rgba(0, 0, 0, .2));
-    }
-
-    .ui-orb .ui-color-block {
-        position: absolute;
-        overflow: hidden;
-        top: 0; bottom: 0; left: 0; right: 0;
-        background: #000;
     }
 
     .ui-main-list li {
@@ -112,6 +114,38 @@
         text-align: left;
     }
 
+    /**
+     * Quick n' dirty theming...
+     */
+
+    .ui-navbar {
+        background: #5ABA50;
+        color: #fff;
+        border-color: #418e39;
+    }
+
+    .ui-navbar li > a, .ui-navbar a.navbar-brand {
+        color: #fff !important;
+    }
+
+    a {
+        color: #5ABA50;
+    }
+
+    a:hover {
+        color: #418e39;
+    }
+
+    .btn-primary, .btn-primary:link {
+        background: #5ABA50;
+        border-color: #418e39;
+    }
+
+    .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+        background: #418e39 !important;
+        border-color: #418e39;
+    }
+
     </style>
 
     <title>Environmental Orb</title>
@@ -120,7 +154,7 @@
 <body>
     <div class="page-wrap">
         <header>
-            <nav class="navbar navbar-inverse navbar-static-top">
+            <nav class="navbar navbar-inverse navbar-static-top ui-navbar">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <a class="navbar-brand" href="/">Environmental Orb</a>

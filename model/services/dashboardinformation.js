@@ -43,20 +43,27 @@ let DashboardInformation = {
             return Promise.resolve();
         }
 
-        let bulbCollectionPromise = Entity.Bulb.collection().query('where', 'owner', '=', client.id).fetch({withRelated: ['orb']}),
-            bulbList = {};
+        let bulbList = {}, updatedClient;
 
-        return bulbCollectionPromise.then(function (bulbCollection) {
-            bulbCollection.forEach(function (bulb) {
-                bulbList[bulb.get('selector')] = {info: null, config: bulb};
-            });
+        return new Entity.User({id: client.id}).fetch().then(function (user) {
+            updatedClient = user;
 
-            if (client.token == null || client.token === '') {
+            if (user.get('token') == null || user.get('token') === '') {
                 reqCache.set('authorization-notice', 'This account isn\'t authorized with a LifX account. Please authorize to link your accounts.');
                 return Promise.resolve({authorizationNotice: true});
             }
 
-            return LifxBulbAPI.getBulbList(client.token);
+            return Entity.Bulb.collection().query('where', 'owner', '=', user.get('id')).fetch({withRelated: ['orb']});
+        }).then(function (bulbCollection) {
+            if (bulbCollection.authorizationNotice) {
+                return Promise.resolve(bulbCollection);
+            }
+
+            bulbCollection.forEach(function (bulb) {
+                bulbList[bulb.get('selector')] = {info: null, config: bulb};
+            });
+
+            return LifxBulbAPI.getBulbList(updatedClient.get('token'));
         }).then(function (bulbsFromAPI) {
             console.log(bulbsFromAPI);
             if(bulbsFromAPI && !bulbsFromAPI.authorizationNotice) {
@@ -117,15 +124,22 @@ let DashboardInformation = {
 
             orbs.forEach(function (orb) {
                 relativeUsagePromises.push(Orb.emulate(orb, 1));
+                relativeUsagePromises.push(Orb.emulate(orb, 2));
 
-                keyToOrb.push(orb);
+                keyToOrb.push({orb: orb, meter: 1});
+                keyToOrb.push({orb: orb, meter: 2});
             });
 
             return Promise.all(relativeUsagePromises).then(function (instructionsReturned) {
-                console.log(instructionsReturned);
-
                 instructionsReturned.forEach(function(instruction, key){
-                    instructions[ keyToOrb[key].get('id') ] = instruction;
+                    let orbId = keyToOrb[key].orb.get('id'),
+                        meter = keyToOrb[key].meter;
+
+                    if (!instructions[orbId]) {
+                        instructions[orbId] = {meters: []};
+                    }
+
+                    instructions[orbId].meters[meter] = instruction;
                 });
 
                 return instructions;
