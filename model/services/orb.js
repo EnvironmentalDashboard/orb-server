@@ -66,9 +66,6 @@ let Orb = {
          */
         let meterId = meter === 1 ? orb.get('meter1') : orb.get('meter2');
 
-        console.log('using meter ' + meterId);
-        console.log('using hues ' + hues[meter-1].toString());
-
         return this.relativeUsageCalculator({
             id: meterId,
             daySets: orb.get('daySets'),
@@ -77,8 +74,6 @@ let Orb = {
 
             let hue = hues[meter-1][Math.round((percentage/100) * 4)],
                 frequency = ((percentage/100)*2.5) + .5; //times per second
-
-            console.log('using hue ' + hue)
 
             return Promise.resolve({
                 hue: hue,

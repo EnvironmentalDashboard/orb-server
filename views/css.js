@@ -12,8 +12,6 @@
 
         let instructionList = cache.get('orb-instruction-list');
 
-        console.log(instructionList);
-
         res.setHeader('Content-Type', 'text/css');
         res.render('css/orb.animation.css.hbs', {
             instructions: instructionList,
