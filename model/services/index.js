@@ -12,7 +12,8 @@ let groups = [
     'DashboardInformation',
     'LifxBulbAPI',
     'Orb',
-    'Recognition'
+    'Recognition',
+    'Configuration'
 ];
 
 /**
