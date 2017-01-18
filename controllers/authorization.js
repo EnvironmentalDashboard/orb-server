@@ -1,5 +1,5 @@
 /**
- * @overview Authorization controller
+ * Authorization controller
  */
 
 let Service = require('../model/services');

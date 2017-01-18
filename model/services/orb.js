@@ -44,6 +44,7 @@ let Orb = {
     /**
      * Emulates an inputted orb
      * @param {Promise} orb Resolves with an object with hue and frequeny.
+     * @param {Integer} meter The meter that should be emulated
      */
     emulate: function (orb, meter) {
 

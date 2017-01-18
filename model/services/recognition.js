@@ -12,13 +12,18 @@ let Recognition = {
         sess.authenticatedUser = user;
     },
 
+    /**
+     * Returns the authenticated client's account information or false if the
+     * server can't recognize the client
+     * @param  {Object} sess  Persisting session object
+     * @param  {Object} cache Cache object to write to
+     * @return {Object}       User's info or false.
+     */
     knowsClient: function(sess, cache) {
+        /**
+         * If a cache object was passed, store the user's data there
+         */
         if (cache) {
-            /**
-             * NOTE we filter the authenticated user's information here. Although
-             * it wouldn't be a huge deal, we do not want to expose the user's
-             * hash or API token to the presentation layer.
-             */
             let loggedIn = false;
 
             if (sess.authenticatedUser) {
@@ -30,12 +35,22 @@ let Recognition = {
                 };
             }
 
+            /**
+             * Save login details (or false if can't authenticate)
+             */
             cache.set('loggedIn', loggedIn);
         }
 
         return sess.authenticatedUser || false;
     },
 
+    /**
+     * Recognizes (login) a client
+     * @param  {Object} params Object with user's email, password
+     * @param  {Object} cache  Cache object to write to
+     * @param  {[type]} sess   [description]
+     * @return {[type]}        [description]
+     */
     login: function(params, cache, sess) {
 
         /**
