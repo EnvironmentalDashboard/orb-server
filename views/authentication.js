@@ -1,5 +1,5 @@
 /**
- * Authentication view
+ * Authentication view - blah
  */
 
 let authentication = {
