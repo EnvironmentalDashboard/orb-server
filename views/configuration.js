@@ -4,8 +4,8 @@
 
  let base = require('./base');
 
- let dashboard = Object.assign(base, {
-    createOrb: function (res, cache) {
+ let configuration = Object.assign(base, {
+    orb: function (res, cache) {
         if(this.caughtAuthError(cache)) {
             return res.render('denied');
         }
@@ -35,7 +35,7 @@
 
     },
 
-    updateBulb: function (res, cache) {
+    bulb: function (res, cache) {
         if(this.caughtAuthError(cache)) {
             return res.render('denied');
         }
@@ -45,4 +45,4 @@
 
 });
 
-module.exports = dashboard;
+module.exports = configuration;

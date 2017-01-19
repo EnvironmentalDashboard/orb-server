@@ -23,7 +23,7 @@ let Orb = {
      */
     relativeUsageCalculator: function (params) {
         let id = params.id, //meter ID
-            daySets = params.daySets,
+            daySets = params.daySets.slice(1, -1),
             sampleSize = params.sampleSize;
 
         return new Promise(function (resolve, reject) {

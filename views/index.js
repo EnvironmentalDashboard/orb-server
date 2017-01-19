@@ -13,8 +13,8 @@ let views = [
     'page',
     'account',
     'authentication',
-    'dashboard',
     'authorization',
+    'configuration',
     'json',
     'css'
 ];

@@ -33,7 +33,7 @@ let pair = function (controller, view) {
          */
         controller(req, reqCache).then(function(){
             return view(res, reqCache);
-        });
+        }).catch(console.log.bind(console));
     };
 };
 
@@ -52,14 +52,25 @@ module.exports.setup = function (params) {
 
     // Dashboard
     app.get('/dash', pair(controllers.page.dashboard, views.page.dashboard.bind(views.page)));
-    app.get('/dash/orb/new', pair(controllers.page.neworb, views.page.neworb.bind(views.page)));
-    app.post('/dash/orb/new', pair(controllers.dashboard.createOrb, views.dashboard.createOrb.bind(views.dashboard)));
-    app.get('/dash/orb/success', pair(controllers.page.orbSuccess, views.page.orbSuccess.bind(views.page)));
-    app.post('/dash/bulb/update', pair(controllers.dashboard.updateBulb, views.dashboard.updateBulb.bind(views.dashboard)));
+
+    app.get('/dash/orb/new', pair(controllers.page.newOrb, views.page.newOrb.bind(views.page)));
+    app.post('/dash/orb/new', pair(controllers.configuration.orb,
+        views.configuration.orb.bind(views.configuration)));
+
+    app.get('/dash/orb/edit/:orbId', pair(controllers.page.editOrb, views.page.editOrb.bind(views.page)));
+    app.post('/dash/orb/edit/:orbId', pair(controllers.configuration.orb,
+        views.configuration.orb.bind(views.configuration)));
+
+    app.get('/dash/orb/success', pair(controllers.page.orbSuccess,
+        views.page.orbSuccess.bind(views.page)));
+
+    app.post('/dash/bulb/update', pair(controllers.configuration.bulb,
+        views.configuration.bulb.bind(views.configuration)));
 
     // Authentication
     app.get('/account/signin', pair(controllers.page.signin, views.page.signin));
-    app.post('/account/signin', pair(controllers.authentication.signin, views.authentication.signin));
+    app.post('/account/signin', pair(controllers.authentication.signin,
+        views.authentication.signin));
 
     // Registration
     //
@@ -67,17 +78,22 @@ module.exports.setup = function (params) {
     // 'register' on the backend
     app.get('/account/signup', pair(controllers.page.signup, views.page.signup));
     app.post('/account/signup', pair(controllers.account.register, views.account.register));
-    app.get('/account/signup/success', pair(controllers.page.signupSuccess, views.page.signupSuccess));
+    app.get('/account/signup/success', pair(controllers.page.signupSuccess,
+        views.page.signupSuccess));
 
     // Authorization
-    app.get('/auth', pair(controllers.authorization.authorize, views.authorization.authorize.bind(views.authorization)));
-    app.get('/auth/confirm', pair(controllers.page.authConfirm, views.page.authConfirm.bind(views.page)));
-    app.get('/redirect', pair(controllers.authorization.redirect, views.authorization.redirect.bind(views.authorization)));
+    app.get('/auth', pair(controllers.authorization.authorize,
+        views.authorization.authorize.bind(views.authorization)));
+    app.get('/auth/confirm', pair(controllers.page.authConfirm,
+        views.page.authConfirm.bind(views.page)));
+    app.get('/redirect', pair(controllers.authorization.redirect,
+        views.authorization.redirect.bind(views.authorization)));
 
     // JSON pages
     app.get('/json/orb/instructions', pair(controllers.json.orbInstructionList, views.json.orbInstructionList.bind(views.json)));
 
     // Dynamic CSS
-    app.get('/css/orbs.animation.css', pair(controllers.json.orbInstructionList, views.css.orbAnimations.bind(views.css)));
+    app.get('/css/orbs.animation.css', pair(controllers.json.orbInstructionList,
+        views.css.orbAnimations.bind(views.css)));
 
 };

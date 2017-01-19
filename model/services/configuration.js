@@ -58,7 +58,7 @@ let Configuration = {
 
         let daySets = JSON.stringify(unfilteredDaySets.filter(function (val) {
             return val;
-        })).slice(1, -1);
+        }));
 
         let resolve = function () {
             reqCache.set('errors', errors);

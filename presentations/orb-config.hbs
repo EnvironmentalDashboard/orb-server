@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-            <h2>Add an Orb</h2>
+            <h2>{{configurationContextLabel}}</h2>
 
             <p>Required fields indicated with asterisk (*).</p>
 
@@ -51,7 +51,7 @@
                             {{#each buildings}}
                             <optgroup label="{{@key}}">
                                 {{#each this}}
-                                <option value="{{this.id}}">{{this.name}}</option>
+                                <option value="{{this.id}}"{{selected ../../form.meter1 this.id}}>{{this.name}}</option>
                                 {{/each}}
                             </optgroup>
                             {{/each}}
@@ -83,7 +83,7 @@
                             {{#each buildings}}
                             <optgroup label="{{@key}}">
                                 {{#each this}}
-                                <option value="{{this.id}}">{{this.name}}</option>
+                                <option value="{{this.id}}"{{selected form.meter2 this.id}}>{{this.name}}</option>
                                 {{/each}}
                             </optgroup>
                             {{/each}}
@@ -130,7 +130,9 @@
                                 <td class="ui-table-left">Group {{@key}}</td>
 
                                 {{#each ../days}}
-                                <td><input type="radio" name="day_{{@key}}" value="{{@../key}}"></td>
+                                <td>
+                                    <input type="radio" name="day_{{@key}}" value="{{@../key}}"{{checked ../../form.daySets @../key @key}}>
+                                </td>
                                 {{/each}}
                             </tr>
 
@@ -163,7 +165,7 @@
 
                         <p>Historic data points are used to calculate typical usage. Sample size dictates how many data points to use. If less data are available than specified below, the algorithm will use as many as it can collect.</p>
 
-                        <input type="number" min="5" max="50" value="5" class="form-control" name="sample">
+                        <input type="number" min="5" max="50" value="{{#if form.sampleSize}}{{form.sampleSize}}{{else}}5{{/if}}" class="form-control" name="sample">
 
                         <p class="help-block">Minimum 5 points, maximum 50 points.</p>
                     </div>

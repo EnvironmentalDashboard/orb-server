@@ -57,7 +57,7 @@ let page = Object.assign(base, {
         });
     },
 
-    neworb: function (res, cache) {
+    newOrb: function (res, cache) {
 
         if(this.caughtAuthError(cache)) {
             return res.render('denied');
@@ -66,10 +66,43 @@ let page = Object.assign(base, {
         let meterList = cache.get('meter-list'),
             days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-        res.render('addorb', {
+        res.render('orb-config', {
             loggedIn: cache.get('loggedIn'),
             buildings: meterList,
             days: days
+        });
+    },
+
+    editOrb: function (res, cache) {
+
+        if(this.caughtAuthError(cache)) {
+            return res.render('denied');
+        }
+
+        let meterList = cache.get('meter-list'),
+            days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            dataGrouping = JSON.parse(cache.get('orb-info').daySets);
+
+        res.render('orb-config', {
+            loggedIn: cache.get('loggedIn'),
+            buildings: meterList,
+            days: days,
+            form: cache.get('orb-info'),
+            helpers: {
+                selected: function (selectedValue, comparedValue) {
+                    if(selectedValue == comparedValue) {
+                        return ' selected';
+                    }
+                },
+
+                checked: function (array, haystackIndex, needle) {
+                    console.log(dataGrouping);
+
+                    if (dataGrouping[haystackIndex] && dataGrouping[haystackIndex].indexOf(needle+1) > -1) {
+                        return ' checked';
+                    }
+                }
+            }
         });
     },
 

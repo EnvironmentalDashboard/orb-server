@@ -12,7 +12,7 @@ let controllers = [
     'authorization',
     'account',
     'authentication',
-    'dashboard',
+    'configuration',
     'json'
 ];
 

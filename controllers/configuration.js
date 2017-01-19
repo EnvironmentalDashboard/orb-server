@@ -5,7 +5,7 @@
 let Service = require('../model/services');
 
 let dashboard = {
-    createOrb: function(req, cache) {
+    orb: function(req, cache) {
         return Service.Configuration.createOrb({
             title: req.body.title,
             meter1: req.body.meter1,
@@ -27,7 +27,7 @@ let dashboard = {
         }, req.session, cache);
     },
 
-    updateBulb: function(req, cache) {
+    bulb: function(req, cache) {
         return Service.Configuration.saveBulb({
             selector: req.body.selector,
             enabled: req.body.enabled,

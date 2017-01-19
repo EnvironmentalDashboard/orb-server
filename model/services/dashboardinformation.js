@@ -48,6 +48,28 @@ let DashboardInformation = {
         });
     },
 
+    initializeOrb: function(orbId, reqCache, sess) {
+        client = Recognition.knowsClient(sess, reqCache);
+
+        if (!client) {
+            reqCache.set('auth-error', true);
+            return Promise.resolve();
+        }
+
+        return new Entity.Orb({
+            id: orbId,
+            owner: client.id
+        }).fetch().then(function (orb) {
+            if(!orb) {
+                // @TODO validation
+                Promise.resolve();
+            }
+
+            reqCache.set('orb-info', orb.attributes);
+            return Promise.resolve();
+        });
+    },
+
     /**
      * Stores a list of orbs associated with authenticated user merged with orbs
      * pulled from the API to inputted cache

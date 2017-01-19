@@ -27,8 +27,15 @@ let page = {
         });
     },
 
-    neworb: function (req, cache) {
+    newOrb: function (req, cache) {
         return Service.DashboardInformation.initializeMeterList(cache, req.session);
+    },
+
+    editOrb: function (req, cache) {
+        return Promise.all([
+            Service.DashboardInformation.initializeOrb(req.params.orbId, cache, req.session),
+            Service.DashboardInformation.initializeMeterList(cache, req.session)
+        ]);
     },
 
     orbSuccess: function (req, cache) {
