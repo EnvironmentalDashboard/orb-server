@@ -1,7 +1,11 @@
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-2">
+        <div class="col-sm-12">
             <h2>Environmental Orb Dashboard</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
             <h3>Your Orbs</h3>
             <div class="panel panel-default">
                 <div class="panel-heading">Orb display</div>
@@ -9,18 +13,15 @@
                     <p>The orbs associated with your account are listed below. Prior to making a bulb emulate an orb, you must configure the orb here.</p>
                 </div>
             </div>
-
-            <div class="container-fluid ui-rounded-container">
+        </div>
+    </div>
+    <div class="row">
                 {{#each orbs}}
-                <div class="col-sm-4 ui-rounded-item-wrap">
+                <div class="col-sm-4 col-xs-12 ui-rounded-item-wrap">
                     <div class="ui-rounded-item">
-                        <div class="container-fluid ui-orb-display">
-                            <div class="ui-orb-column col-sm-6">
-                                <div class="ui-orb orb-{{this.id}}-meter-1"></div>
-                            </div>
-                            <div class="ui-orb-column col-sm-6">
-                                <div class="ui-orb orb-{{this.id}}-meter-2"></div>
-                            </div>
+                        <div class="ui-orb-display col-sm-12">
+                            <div class="ui-orb orb-{{this.id}}-meter-1"></div>
+                            <div class="ui-orb orb-{{this.id}}-meter-2"></div>
                         </div>
                         <p>{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</p>
                         <p>
@@ -31,7 +32,7 @@
                 </div>
                 {{/each}}
 
-                <div class="col-sm-4 ui-rounded-item-wrap">
+                <div class="col-sm-4 col-xs-12 ui-rounded-item-wrap">
                     <div class="ui-rounded-item">
                         <div class="ui-rounded-icon">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -39,8 +40,9 @@
                         <p><a href="/dash/orb/new">Add orb</a></p>
                     </div>
                 </div>
-            </div>
-
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
             <h3>Your Bulbs</h3>
             <div class="panel panel-default">
                 <div class="panel-heading">Bulb configuration</div>
@@ -60,23 +62,41 @@
                 <a href="/auth/confirm" class="btn pull-right btn-primary">Authorize</a>
             </div>
             {{/if}}
-
-            <div class="container-fluid ui-rounded-container">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>Selector ID</th>
+                        <th>Label</th>
+                        <th>Location</th>
+                        <th>Group</th>
+                        <th>Configuration options</th>
+                    </tr>
+                </thead>
                 {{#each bulbs}}
-                <div class="col-sm-4 ui-rounded-item-wrap">
-                    <div class="ui-rounded-item">
-                        <div class="ui-rounded-info">
+                <tr>
+                    <td>{{@key}}</td>
+                    {{#if this.info}}
+                    <td>{{this.info.label}}</td>
+                    <td>{{this.info.location.name}}</td>
+                    <td>{{this.info.group.name}}</td>
+                    {{else}}
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    {{/if}}
 
-                            <p>{{@key}}</p>
-                            {{#if this.info}}
-                            <p>{{this.info.label}}</o>
-                            <p>{{this.info.location.name}}</p>
-                            <p>{{this.info.group.name}}</p>
-                            {{/if}}
-
+                        <td>
                             <form action="/dash/bulb/update" method="post">
-
-                                <div class="ui-btn-toggle form-group">
+                                <div class="col-sm-6">
+                                    <select name="orb" class="form-control" onchange="this.form.submit()">
+                                        {{#selectOrbList ../orbs this.config.relations.orb.id}}{{/selectOrbList}}
+                                    </select>
+                                </div>
+                                <div class="ui-btn-toggle">
                                     {{#if this.config.attributes.enabled}}
                                     <label for="enable">
                                         <input type="radio" id="enable" onchange="this.form.submit()" name="enabled" value="true" checked>
@@ -101,22 +121,18 @@
                                     </label>
                                     {{/if}}
                                 </div>
-
-                                <div class="form-group">
-                                    <select name="orb" class="form-control" onchange="this.form.submit()">
-                                        {{#selectOrbList ../orbs this.config.relations.orb.id}}{{/selectOrbList}}
-                                    </select>
-                                </div>
-
                                 <input type="hidden" value="{{@key}}" name="selector">
-                                <noscript><input type="submit" value="Save" name="save" class="btn btn-default"></noscript>
+                                <noscript>
+                                    <div class="form-group">
+                                        <input type="submit" value="Save" name="save" class="btn btn-default">
+                                    </div>
+                                </noscript>
                             </form>
-                        </div>
-                    </div>
-                </div>
+                        </td>
+                    </form>
+                </tr>
                 {{/each}}
-            </div>
-
+            </table>
         </div>
     </div>
 </div>
