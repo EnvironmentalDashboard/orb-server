@@ -22,7 +22,23 @@
                     loggedIn: cache.get('loggedIn'),
                     errors: val,
                     form: cache.get('form'),
-                    buildings: meterList
+                    buildings: meterList,
+                    days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                    helpers: {
+                        selected: function (selectedValue, comparedValue) {
+                            if(selectedValue == comparedValue) {
+                                return ' selected';
+                            }
+                        },
+
+                        checked: function (array, haystackIndex, needle) {
+                            console.log(dataGrouping);
+
+                            if (dataGrouping[haystackIndex] && dataGrouping[haystackIndex].indexOf(needle+1) > -1) {
+                                return ' checked';
+                            }
+                        }
+                    }
                 });
 
             /**

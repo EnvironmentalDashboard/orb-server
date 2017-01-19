@@ -33,7 +33,9 @@ let pair = function (controller, view) {
          */
         controller(req, reqCache).then(function(){
             return view(res, reqCache);
-        }).catch(console.log.bind(console));
+        }).catch(function (reason) {
+            res.render('bad-request')
+        });
     };
 };
 
@@ -54,11 +56,11 @@ module.exports.setup = function (params) {
     app.get('/dash', pair(controllers.page.dashboard, views.page.dashboard.bind(views.page)));
 
     app.get('/dash/orb/new', pair(controllers.page.newOrb, views.page.newOrb.bind(views.page)));
-    app.post('/dash/orb/new', pair(controllers.configuration.orb,
+    app.post('/dash/orb/new', pair(controllers.configuration.insertOrb,
         views.configuration.orb.bind(views.configuration)));
 
     app.get('/dash/orb/edit/:orbId', pair(controllers.page.editOrb, views.page.editOrb.bind(views.page)));
-    app.post('/dash/orb/edit/:orbId', pair(controllers.configuration.orb,
+    app.post('/dash/orb/edit/:orbId', pair(controllers.configuration.updateOrb,
         views.configuration.orb.bind(views.configuration)));
 
     app.get('/dash/orb/success', pair(controllers.page.orbSuccess,

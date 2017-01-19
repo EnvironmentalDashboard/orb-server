@@ -61,8 +61,7 @@ let DashboardInformation = {
             owner: client.id
         }).fetch().then(function (orb) {
             if(!orb) {
-                // @TODO validation
-                Promise.resolve();
+                return Promise.reject('Records don\'t exist for the targetted orb');
             }
 
             reqCache.set('orb-info', orb.attributes);

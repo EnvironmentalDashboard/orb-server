@@ -22,7 +22,11 @@
                                 <div class="ui-orb orb-{{this.id}}-meter-2"></div>
                             </div>
                         </div>
-                        <p><a href="/dash/orb/{{this.id}}">{{this.title}}</a></p>
+                        <p>{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</p>
+                        <p>
+                            <a href="/dash/orb/edit/{{this.id}}" class="btn btn-primary">Configure</a>
+                            <a href="/dash/orb/edit/{{this.id}}" class="btn btn-default">Delete</a>
+                        </p>
                     </div>
                 </div>
                 {{/each}}

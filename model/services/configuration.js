@@ -65,7 +65,9 @@ let Configuration = {
             reqCache.set('form', {
                 title: title,
                 meter1: meter1,
-                meter2: meter2 //@TODO update this with sample and day sets
+                meter2: meter2,
+                daySets: inputtedDaySets,
+                sampleSize: sampleSize
             });
 
             return DashboardInformation.initializeMeterList(reqCache, sess);
@@ -80,12 +82,41 @@ let Configuration = {
             sampleSize: sampleSize
         });
 
+        /**
+         * Validation chain
+         *
+         * @TODO meter validation will need to change when BuildingOS is integrated
+         */
         return orb.validate().then(function (validationErrs) {
             if (validationErrs) {
                 Object.assign(errors, validationErrs);
             }
 
             return new Entity.Meter({id: meter1}).fetch();
+        }).then(function() {
+            /**
+             * If this is an update
+             */
+            if(params.id) {
+                /**
+                 * Set the orb's ID to the requested ID
+                 */
+                orb.set({id: params.id});
+
+                /**
+                 * Need to make sure the client owns this orb, so query for an
+                 * orb with the requested ID owned by the client
+                 */
+                return new Entity.Orb({id: params.id, owner: client.id}).fetch();
+            }
+
+            return Promise.resolve();
+        }).then(function (matchedOrb) {
+            if(params.id && !matchedOrb) {
+                errors.denied = ['Cannot find orb with ID ' + params.id + ' associated with this account.'];
+            }
+
+            return new Entity.Meter({id: meter1}).fetch()
         }).then(function (match) {
             if (!match) {
                 errors.meter1 = ['Meter not found in our database.'];
@@ -97,6 +128,10 @@ let Configuration = {
                 errors.meter2 = ['Meter not found in our database.'];
             }
 
+            /**
+             * This is the last error check; resolve here if there are errors to
+             * prevent saving
+             */
             if (Object.keys(errors).length !== 0) {
                 return resolve();
             }

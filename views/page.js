@@ -64,12 +64,21 @@ let page = Object.assign(base, {
         }
 
         let meterList = cache.get('meter-list'),
-            days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            defaultDataGrouping = [[1,2,3,4,5,6,7]];
 
         res.render('orb-config', {
             loggedIn: cache.get('loggedIn'),
             buildings: meterList,
-            days: days
+            days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            form: {daySets: defaultDataGrouping},
+            helpers: {
+                selected: function() { return ''; },
+                checked: function (array, haystackIndex, needle) {
+                    if (defaultDataGrouping[haystackIndex] && defaultDataGrouping[haystackIndex].indexOf(needle+1) > -1) {
+                        return ' checked';
+                    }
+                }
+            }
         });
     },
 
@@ -80,13 +89,12 @@ let page = Object.assign(base, {
         }
 
         let meterList = cache.get('meter-list'),
-            days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             dataGrouping = JSON.parse(cache.get('orb-info').daySets);
 
         res.render('orb-config', {
             loggedIn: cache.get('loggedIn'),
             buildings: meterList,
-            days: days,
+            days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             form: cache.get('orb-info'),
             helpers: {
                 selected: function (selectedValue, comparedValue) {
@@ -96,8 +104,6 @@ let page = Object.assign(base, {
                 },
 
                 checked: function (array, haystackIndex, needle) {
-                    console.log(dataGrouping);
-
                     if (dataGrouping[haystackIndex] && dataGrouping[haystackIndex].indexOf(needle+1) > -1) {
                         return ' checked';
                     }
