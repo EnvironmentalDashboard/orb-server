@@ -147,6 +147,22 @@ let DashboardInformation = {
              */
             reqCache.set('bulb-list', bulbList);
             return Promise.resolve();
+        }).then(function() {
+            for (var key in bulbList) {
+                let bulb = bulbList[key];
+
+                console.log(bulb.info);
+
+                if(bulb.info && (bulb.info.label.substring(0,4) === "LIFX"
+                    || bulb.info.group.name === "My Room"
+                    || bulb.info.location.name === "My Group")) {
+                    reqCache.set('labelling-notice', true);
+
+                    break;
+                }
+            }
+
+            Promise.resolve();
         }).catch(function(reason) {
             /**
              * If there was an exception, set a generic authorization notice &

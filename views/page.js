@@ -33,13 +33,15 @@ let page = Object.assign(base, {
 
         let orbList = cache.get('orb-list'),
             bulbList = cache.get('bulb-list'),
-            authorizationNotice = cache.get('authorization-notice');
+            authorizationNotice = cache.get('authorization-notice'),
+            labellingNotice = cache.get('labelling-notice');
 
         res.render('dashboard', {
             loggedIn: cache.get('loggedIn'),
             orbs: orbList,
             bulbs: bulbList,
             authorizationNotice: authorizationNotice,
+            labellingNotice: labellingNotice,
             helpers: {
                 selectOrbList: function(orbs, defaultSelected){
                     let out = '<option value="">No orb selected</option>';
@@ -53,7 +55,7 @@ let page = Object.assign(base, {
                     return out;
                 }
             },
-            additionalStylesheets: ['/css/orbs.animation.css']
+            additionalStylesheets: ['/css/orbs.animation.css?'+(+new Date())]
         });
     },
 
