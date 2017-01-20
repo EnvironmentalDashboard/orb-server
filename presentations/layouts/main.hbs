@@ -5,150 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <link rel="icon" href="images/logo.png">
-
-
+    <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/default.css">
     {{#if additionalStylesheets}}
-
     {{#each additionalStylesheets}}
     <link rel="stylesheet" type="text/css" href="{{this}}">
     {{/each}}
-
     {{/if}}
+    <link rel="icon" href="images/logo.png">
 
     <script src="/jquery/dist/jquery.min.js"></script>
     <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
-
-    <style type="text/css">
-
-    .no-margin {
-        margin: 0;
-    }
-
-    .ui-rounded-item-wrap {
-        margin: 10px 0;
-    }
-
-    .ui-rounded-item {
-        background: #eee;
-        border-radius: 10px;
-        padding: 10px;
-        text-align: center;
-    }
-
-    .ui-rounded-item .ui-rounded-icon {
-        font-size: 3em;
-    }
-
-    .ui-rounded-item .ui-rounded-icon p {
-        margin: 0;
-    }
-
-    .ui-btn-toggle {
-        background: #fff;
-        display: inline-block;
-        border-radius: 4px;
-    }
-
-    .ui-btn-toggle input[type=radio] {
-        display: none;
-    }
-
-    .ui-btn-toggle label {
-        margin: 0;
-    }
-
-    .ui-btn-toggle input[type=radio]:checked + span {
-        background: #5ABA50;
-        color: #fff;
-    }
-
-    .ui-alert-action p {
-        float: left;
-        padding: 6px 12px;
-    }
-
-    .ui-alert-action a.btn {
-        float: right;
-    }
-
-    .ui-orb {
-        padding-top: 30%;
-        border-radius: 50%;
-        position: relative;
-        overflow: hidden;
-        background: green;
-        display: inline-block;
-        width: 30%;
-        margin: 10px;
-    }
-
-    .ui-orb:after {
-        content: "";
-        position: absolute;
-        top: 0; bottom: 0; left: 0; right: 0;
-        background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0), rgba(0, 0, 0, .2));
-    }
-
-    .ui-main-list li {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .ui-main-list li p {
-        font-size: 14px;
-        font-weight: normal;
-    }
-
-    .ui-table tr:nth-child(2n) {
-        background: rgb(245, 245, 245);
-    }
-
-    .ui-table td {
-        width: 12.5%;
-        text-align: center;
-        padding: 5px;
-    }
-
-    .ui-table .ui-table-left {
-        text-align: left;
-    }
-
-    /**
-     * Quick n' dirty theming...
-     */
-
-    .ui-navbar {
-        background: #5ABA50;
-        color: #fff;
-        border-color: #418e39;
-    }
-
-    .ui-navbar li > a, .ui-navbar a.navbar-brand {
-        color: #fff !important;
-    }
-
-    a {
-        color: #5ABA50;
-    }
-
-    a:hover {
-        color: #418e39;
-    }
-
-    .btn-primary, .btn-primary:link {
-        background: #5ABA50;
-        border-color: #418e39;
-    }
-
-    .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-        background: #418e39 !important;
-        border-color: #418e39 !important;
-    }
-
-    </style>
 
     <title>Environmental Orb</title>
 </head>
