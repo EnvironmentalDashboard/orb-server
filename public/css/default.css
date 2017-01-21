@@ -105,6 +105,10 @@
     color: #fff !important;
 }
 
+.ui-inline {
+    display: inline;
+}
+
 a {
     color: #5ABA50;
 }
