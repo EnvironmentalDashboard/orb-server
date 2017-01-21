@@ -18,9 +18,7 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
  * Local dependencies
  */
 
-let controllers = require('./controllers'),
-    views = require('./views'),
-    routes = require('./routes'),
+let routes = require('./routes'),
     Service = require('./model/services');
 
 /**
@@ -61,14 +59,7 @@ app.use(bodyParser.json());
 /**
  * Routing
  */
-
-let routerParams = {
-    controllers: controllers,
-    views: views,
-    app: app
-};
-
-routes.setup(routerParams);
+routes.setup(app);
 
 /**
  * Orb instruction dispatching
