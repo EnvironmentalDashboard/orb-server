@@ -12,7 +12,9 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
     session = require('express-session'),
     bodyParser = require('body-parser'),
     exphbs = require('express-handlebars'),
-    http = require('http');
+    http = require('http'),
+    https = require('https'),
+    fs = require('fs');
 
 /**
  * Local dependencies
@@ -27,9 +29,27 @@ let routes = require('./routes'),
 
 let app = express();
 
-http.createServer(app).listen(3000);
+var options = {
+    key: fs.readFileSync(process.env.SSL_KEY),
+    cert: fs.readFileSync(process.env.SSL_CERT),
+    ca: fs.readFileSync(process.env.SSL_INTERMEDIATES),
+};
 
-app.set('port', 80);
+app.use(function(req, res, next) {
+    /**
+     * Enforce secure connection
+     */
+
+    if(!req.secure) {
+        return res.redirect(['https://', req.get('host'), req.url].join(''));
+    }
+
+    next();
+});
+
+https.createServer(options, app).listen(3000);
+
+app.set('port', 3000);
 
 app.engine('.hbs', exphbs({
     defaultLayout: 'main',
