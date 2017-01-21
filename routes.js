@@ -2,10 +2,11 @@
  * Routes
  * @overview Handles application routing mechanisms
  */
-//test
 let NodeCache = require('node-cache');
 
-let Service = require('./model/services');
+let Service = require('./model/services'),
+    controllers = require('./controllers'),
+    views = require('./views');
 
 /**
  * Routes a controller and view together
@@ -43,11 +44,7 @@ let pair = function (controller, view) {
 /**
  * @param  Object params An Oject literal with controllers and app
  */
-module.exports.setup = function (params) {
-
-    let app = params.app,
-        controllers = params.controllers,
-        views = params.views;
+module.exports.setup = function (app) {
 
     // Home
     app.get('/', pair(controllers.page.index, views.page.index.bind(views.page)));
@@ -59,6 +56,10 @@ module.exports.setup = function (params) {
     app.get('/dash/orb/new', pair(controllers.page.newOrb, views.page.newOrb.bind(views.page)));
     app.post('/dash/orb/new', pair(controllers.configuration.insertOrb,
         views.configuration.orb.bind(views.configuration)));
+
+    app.get('/dash/orb/delete/:orbId', pair(controllers.page.deleteOrb, views.page.deleteOrb.bind(views.page)));
+    app.post('/dash/orb/delete/:orbId', pair(controllers.configuration.deleteOrb,
+        views.configuration.deleteOrb.bind(views.configuration)));
 
     app.get('/dash/orb/edit/:orbId', pair(controllers.page.editOrb, views.page.editOrb.bind(views.page)));
     app.post('/dash/orb/edit/:orbId', pair(controllers.configuration.updateOrb,
