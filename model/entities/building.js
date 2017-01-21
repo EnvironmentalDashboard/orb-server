@@ -11,7 +11,7 @@ let Meter = require('./meter');
 let Building = Bookshelf.Model.extend({
     tableName: 'buildings',
     meters: function() {
-        return this.hasMany(Meter, 'id');
+        return this.hasMany('Meter', 'id');
     }
 });
 

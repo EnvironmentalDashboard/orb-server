@@ -5,26 +5,27 @@
 let Bookshelf = require('./base');
 
 let User = require('./user')
-    Meter = require('./meter');
+    Meter = require('./meter'),
+    Bulb = require('./bulb');
 
 
 var Orb = Bookshelf.Model.extend({
     tableName: 'orb-server_orbs',
 
     owner: function() {
-        return this.belongsTo(User, 'owner');
+        return this.belongsTo('User', 'owner');
     },
 
     bulbs: function() {
-        return this.hasMany(Bulb, 'id');
+        return this.hasMany('Bulb', 'orb');
     },
 
     meter1: function() {
-        return this.hasOne(Meter, 'id');
+        return this.hasOne('Meter', 'id');
     },
 
     meter2: function() {
-        return this.hasOne(Meter, 'id');
+        return this.hasOne('Meter', 'id');
     },
 
     validate: function() {

@@ -8,6 +8,8 @@
  */
 let _ = require('lodash');
 
+let Bookshelf = require('./base');
+
 /**
  * Names of entities in current directory
  * @name entities
@@ -26,6 +28,6 @@ let entities = [
  */
 
 entities.forEach(function (name) {
-//    _.assignIn(exports, require('./' + name));
     module.exports[name] = require('./' + name.toLowerCase());
+    Bookshelf.model(name, module.exports[name]);
 });
