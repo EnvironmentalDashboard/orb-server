@@ -172,8 +172,6 @@ let DashboardInformation = {
             for (var key in bulbList) {
                 let bulb = bulbList[key];
 
-                console.log(bulb.info);
-
                 if(bulb.info && (bulb.info.label.substring(0,4) === "LIFX"
                     || bulb.info.group.name === "My Room"
                     || bulb.info.location.name === "My Group")) {

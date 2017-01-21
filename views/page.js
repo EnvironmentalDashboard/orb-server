@@ -4,7 +4,7 @@
 
 let base = require('./base');
 
-let page = Object.assign(base, {
+let page = Object.assign({
     index: function (res, cache) {
 
         res.render('default', {loggedIn: cache.get('loggedIn')});
@@ -84,6 +84,17 @@ let page = Object.assign(base, {
         });
     },
 
+    deleteOrb: function (res, cache) {
+        console.log('ok?');
+        if(this.caughtAuthError(cache)) {
+            return res.render('denied');
+        }
+
+        res.render('orb-delete-confirm', {
+            orb: cache.get('orb-info')
+        });
+    },
+
     editOrb: function (res, cache) {
 
         if(this.caughtAuthError(cache)) {
@@ -138,6 +149,6 @@ let page = Object.assign(base, {
             loggedIn: cache.get('loggedIn')
         });
     }
-});
+}, base);
 
 module.exports = page;

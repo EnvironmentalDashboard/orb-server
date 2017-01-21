@@ -50,6 +50,10 @@ let configuration = {
         }, req.session, cache);
     },
 
+    deleteOrb: function(req, cache) {
+        return Service.Configuration.deleteOrb(req.params.orbId, req.session, cache);
+    },
+
     bulb: function(req, cache) {
         return Service.Configuration.saveBulb({
             selector: req.body.selector,

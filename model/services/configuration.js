@@ -151,7 +151,29 @@ let Configuration = {
         return new Entity.Orb({
             id: orbId,
             owner: client.id
-        }).destroy();
+        }).fetch({withRelated:['bulbs']}).then(function(match){
+            /**
+             * Change bulbs assigned to this orb
+             */
+            let affectBulbsPromise = match.related('bulbs');/*.query().update('orb', null);/*.set({
+                orb: null,
+                enabled: false
+            }).save();*/
+
+            console.log(match);
+            console.log('-------------');
+            console.log(affectBulbsPromise);
+            console.log('=============');
+
+            //let deleteOrbPromise = match.destroy();
+
+            return affectBulbsPromise.query().update({
+                orb: null,
+                enabled: false
+            });//Promise.all(affectBulbsPromise, deleteOrbPromise);
+        }).then(function(a){
+            console.log(a);
+        });
     },
 
     saveBulb: function(params, sess, reqCache) {

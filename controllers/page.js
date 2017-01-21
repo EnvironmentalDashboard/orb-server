@@ -38,6 +38,10 @@ let page = {
         ]);
     },
 
+    deleteOrb: function(req, cache) {
+        return Service.DashboardInformation.initializeOrb(req.params.orbId, cache, req.session);
+    },
+
     orbSuccess: function (req, cache) {
         Service.Recognition.knowsClient(req.session, cache);
 
