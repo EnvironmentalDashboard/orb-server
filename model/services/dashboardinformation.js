@@ -24,22 +24,43 @@ let DashboardInformation = {
             return Promise.resolve();
         }
 
+        let orbList = [];
+
         /**
          * Query for a collection of all orbs related to authenticated client
          */
-        return Entity.Orb.collection().query('where', 'owner', '=', client.id).fetch().then(function (results) {
-            let orbList = [];
-
+        return Entity.Orb.collection().query('where', 'owner', '=', client.id).fetch({
+            withRelated: ['meter1', 'meter2']
+        }).then(function (results) {
             /**
              * Loop through each orb and store it in orbList
              */
+            let meterPromises = [];
+
             results.forEach(function (orb) {
-                orbList.push({
-                    id: orb.get('id'),
-                    title: orb.get('title')
-                });
+                let orbInfo = {id: orb.get('id'), title: orb.get('title')};
+
+                meterPromises.push(new Entity.Meter({id: orb.get('meter1')}).fetch({withRelated: ['building']}).then(function(match){
+                    orbInfo.meter1 = {
+                        building: match.related('building').get('name'),
+                        name: match.get('name')
+                    };
+
+                    return new Entity.Meter({id: orb.get('meter2')}).fetch({withRelated: ['building']});
+                }).then(function(match) {
+                    orbInfo.meter2 = {
+                        building: match.related('building').get('name'),
+                        name: match.get('name')
+                    };
+
+                    return true;
+                }));
+
+                orbList.push(orbInfo);
             });
 
+            return Promise.all(meterPromises);
+        }).then(function() {
             /**
              * Store the orb list to cache and resolve
              */
@@ -168,6 +189,7 @@ let DashboardInformation = {
              * If there was an exception, set a generic authorization notice &
              * resolve
              */
+            console.log(reason);
             reqCache.set('authorization-notice', 'The access token associated with your account went bad. Please reauthorize to link your accounts.');
             return Promise.resolve();
         });

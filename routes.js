@@ -34,7 +34,8 @@ let pair = function (controller, view) {
         controller(req, reqCache).then(function(){
             return view(res, reqCache);
         }).catch(function (reason) {
-            res.render('bad-request')
+            console.log(reason);
+            res.render('bad-request');
         });
     };
 };

@@ -140,6 +140,20 @@ let Configuration = {
         }).catch(console.log.bind(console));
     },
 
+    deleteOrb: function(orbId, sess, reqCache) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            reqCache.set('auth-error', true);
+            return Promise.resolve();
+        }
+
+        return new Entity.Orb({
+            id: orbId,
+            owner: client.id
+        }).destroy();
+    },
+
     saveBulb: function(params, sess, reqCache) {
         let client = Recognition.knowsClient(sess);
 
