@@ -23,7 +23,7 @@ let authorization = Object.assign(base, {
             return res.render('denied');
         }
 
-        return res.render('authcomplete', {loggedIn: cache.get('loggedIn')});
+        return res.render('auth-success', {loggedIn: cache.get('loggedIn')});
     }
 
 });

@@ -120,7 +120,7 @@ let page = Object.assign(base, {
             return res.render('denied');
         }
 
-        res.render('neworb-success', {
+        res.render('orb-config-success', {
             loggedIn: cache.get('loggedIn')
         });
     },
@@ -130,7 +130,7 @@ let page = Object.assign(base, {
             return res.render('denied');
         }
 
-        res.render('authconfirm');
+        res.render('auth-confirm');
     },
 
     guide: function (res, cache) {
