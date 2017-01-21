@@ -50,13 +50,13 @@
 }
 
 .ui-orb {
-    padding-top: 30%;
+    padding-top: 70%;
     border-radius: 50%;
     position: relative;
     overflow: hidden;
     background: green;
     display: inline-block;
-    width: 30%;
+    width: 70%;
     margin: 10px;
 }
 
@@ -121,4 +121,20 @@ a:hover {
 .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
     background: #418e39 !important;
     border-color: #418e39 !important;
+}
+
+@media(max-width: 768px) {
+    .ui-table-responsive thead {
+        display: none;
+    }
+
+    .ui-table-responsive td {
+        display: block;
+        border: 0 !important;
+        text-align: center;
+    }
+
+    .ui-table-responsive td select {
+        margin-bottom: 10px;
+    }
 }
