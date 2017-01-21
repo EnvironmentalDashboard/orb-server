@@ -6,7 +6,7 @@
 
 let lifx_api = "https://cloud.lifx.com/oauth";
 
-let authorization = Object.assign(base, {
+let authorization = Object.assign({
     authorize: function (res, cache) {
         if(this.caughtAuthError(cache)) {
             return res.render('denied');
@@ -26,6 +26,6 @@ let authorization = Object.assign(base, {
         return res.render('auth-success', {loggedIn: cache.get('loggedIn')});
     }
 
-});
+}, base);
 
 module.exports = authorization;

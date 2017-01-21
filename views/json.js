@@ -4,7 +4,7 @@
 
  let base = require('./base');
 
- let json = Object.assign(base, {
+ let json = Object.assign({
     orbInstructionList: function (res, cache) {
         if(this.caughtAuthError(cache)) {
             return res.send('Denied.');
@@ -16,6 +16,6 @@
         res.send(JSON.stringify(instructionList));
     }
 
-});
+}, base);
 
 module.exports = json;

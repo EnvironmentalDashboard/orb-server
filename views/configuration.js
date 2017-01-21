@@ -4,7 +4,7 @@
 
  let base = require('./base');
 
- let configuration = Object.assign(base, {
+ let configuration = Object.assign({
     orb: function (res, cache) {
         if(this.caughtAuthError(cache)) {
             return res.render('denied');
@@ -51,6 +51,10 @@
 
     },
 
+    deleteOrb: function(res, cache) {
+        res.redirect('/dash');
+    },
+
     bulb: function (res, cache) {
         if(this.caughtAuthError(cache)) {
             return res.render('denied');
@@ -59,6 +63,6 @@
         res.redirect('/dash');
     }
 
-});
+}, base);
 
 module.exports = configuration;

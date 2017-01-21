@@ -4,7 +4,7 @@
 
  let base = require('./base');
 
- let css = Object.assign(base, {
+ let css = Object.assign({
     orbAnimations: function (res, cache) {
         if(this.caughtAuthError(cache)) {
             return res.send('Denied.');
@@ -19,6 +19,6 @@
         });
     }
 
-});
+}, base);
 
 module.exports = css;
