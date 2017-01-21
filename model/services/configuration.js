@@ -155,22 +155,17 @@ let Configuration = {
             /**
              * Change bulbs assigned to this orb
              */
-            let affectBulbsPromise = match.related('bulbs');/*.query().update('orb', null);/*.set({
+            let affectBulbsPromise = match.related('bulbs').query().update({
                 orb: null,
                 enabled: false
-            }).save();*/
+            });
 
-            console.log(match);
-            console.log('-------------');
-            console.log(affectBulbsPromise);
-            console.log('=============');
+            /**
+             * Delete this orb
+             */
+            let deleteOrbPromise = match.destroy();
 
-            //let deleteOrbPromise = match.destroy();
-
-            return affectBulbsPromise.query().update({
-                orb: null,
-                enabled: false
-            });//Promise.all(affectBulbsPromise, deleteOrbPromise);
+            return Promise.all(affectBulbsPromise, deleteOrbPromise);
         }).then(function(a){
             console.log(a);
         });
