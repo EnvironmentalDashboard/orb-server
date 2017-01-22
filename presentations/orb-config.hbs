@@ -51,6 +51,7 @@
                             {{#each buildings}}
                             <optgroup label="{{@key}}">
                                 {{#each this}}
+                                {{log this.id}}
                                 <option value="{{this.id}}"{{selected ../../form.meter1 this.id}}>{{this.name}}</option>
                                 {{/each}}
                             </optgroup>
@@ -78,12 +79,11 @@
                 <div class="row">
                     <div class="form-group col-sm-12">
                         <label for="meter2">Meter #2 <span class="text-info">*</span></label>
-
                         <select required name="meter2" id="meter2" class="form-control">
                             {{#each buildings}}
                             <optgroup label="{{@key}}">
                                 {{#each this}}
-                                <option value="{{this.id}}"{{selected form.meter2 this.id}}>{{this.name}}</option>
+                                <option value="{{this.id}}"{{selected ../../form.meter2 this.id}}>{{this.name}}</option>
                                 {{/each}}
                             </optgroup>
                             {{/each}}
