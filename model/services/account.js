@@ -131,8 +131,6 @@ let Account = {
 
             /**
              * Fetch user and confirm that their old password is correct
-             * @todo Should this just read off the session variable? Or should it use
-             * a Recognotion service method, like refreshClient?
              */
 
             return new Entity.User({id: client.id}).fetch();
