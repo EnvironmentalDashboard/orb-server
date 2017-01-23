@@ -118,7 +118,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <a href="/dash/orb/new" class="btn btn-primary">Add an orb</a>
+            <a href="/dash/orb/new" class="btn btn-primary">Create an orb</a>
             <table class="table table-striped ui-table">
                 <thead>
                     <tr>
@@ -131,9 +131,9 @@
                 {{#each orbs}}
                 <tr>
                     <td>{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</td>
-                    <td><div class="ui-orb orb-{{this.id}}-meter-1"></div></td>
+                    <td class="col-sm-1 ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-1"></div></td>
                     <td>{{this.meter1.building}} {{this.meter1.name}}</td>
-                    <td><div class="ui-orb orb-{{this.id}}-meter-2"></div></td>
+                    <td class="col-sm-1 ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-2"></div></td>
                     <td>{{this.meter2.building}} {{this.meter2.name}}</td>
                     <td>
                         <p>
@@ -144,7 +144,7 @@
                 </tr>
                 {{/each}}
             </table>
-            <a href="/dash/orb/new" class="btn btn-primary">Add an orb</a>
+            <a href="/dash/orb/new" class="btn btn-primary">Create an orb</a>
         </div>
     </div>
 </div>
