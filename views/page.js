@@ -148,7 +148,50 @@ let page = Object.assign({
         res.render('guide', {
             loggedIn: cache.get('loggedIn')
         });
-    }
+    },
+
+    account: function (res, cache) {
+        if(this.caughtAuthError(cache)) {
+            return res.render('denied');
+        }
+
+        res.render('account', {
+            loggedIn: cache.get('loggedIn')
+        });
+    },
+
+    accountConfig: function (res, cache) {
+        if(this.caughtAuthError(cache)) {
+            return res.render('denied');
+        }
+
+        let userInfo = cache.get('loggedIn');
+
+        res.render('account-config', {
+            loggedIn: userInfo,
+            form: userInfo
+        });
+    },
+
+    accountConfigSuccess: function (res, cache) {
+        if(this.caughtAuthError(cache)) {
+            return res.render('denied');
+        }
+
+        res.render('account-config-success', {
+            loggedIn: cache.get('loggedIn')
+        });
+    },
+
+    securityConfig: function (res, cache) {
+        if(this.caughtAuthError(cache)) {
+            return res.render('denied');
+        }
+
+        res.render('account-password-config', {
+            loggedIn: cache.get('loggedIn')
+        });
+    },
 }, base);
 
 module.exports = page;

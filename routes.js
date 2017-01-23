@@ -71,6 +71,23 @@ module.exports.setup = function (app) {
     app.post('/dash/bulb/update', pair(controllers.configuration.bulb,
         views.configuration.bulb.bind(views.configuration)));
 
+    // Account configuration
+    app.get('/account', pair(controllers.page.account, views.page.account.bind(views.page)));
+
+    app.get('/account/config', pair(controllers.page.accountConfig, views.page.accountConfig.bind(views.page)));
+    app.post('/account/config', pair(controllers.account.update, views.account.update.bind(views.account)));
+
+    app.get('/account/config/success', pair(controllers.page.accountConfigSuccess,
+        views.page.accountConfigSuccess.bind(views.page)));
+
+    app.get('/account/security', pair(controllers.page.securityConfig,
+        views.page.securityConfig.bind(views.page)));
+    app.post('/account/security', pair(controllers.account.updatePassword,
+        views.account.updatePassword.bind(views.account)));
+
+    app.get('/account/security/success', pair(controllers.page.accountConfigSuccess,
+            views.page.accountConfigSuccess.bind(views.page)));
+
     // Authentication
     app.get('/account/signin', pair(controllers.page.signin, views.page.signin));
     app.post('/account/signin', pair(controllers.authentication.signin,

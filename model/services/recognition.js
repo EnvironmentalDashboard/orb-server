@@ -41,6 +41,10 @@ let Recognition = {
             cache.set('loggedIn', loggedIn);
         }
 
+        if(!sess.authenticatedUser) {
+            cache.set('auth-error', true);
+        }
+
         return sess.authenticatedUser || false;
     },
 

@@ -56,6 +56,30 @@ let page = {
         Service.Recognition.knowsClient(req.session, cache);
 
         return Promise.resolve();
+    },
+
+    account: function (req, cache) {
+        Service.Recognition.knowsClient(req.session, cache);
+
+        return Promise.resolve();
+    },
+
+    accountConfig: function (req, cache) {
+        Service.Recognition.knowsClient(req.session, cache);
+
+        return Promise.resolve();
+    },
+
+    accountConfigSuccess: function (req, cache) {
+        Service.Recognition.knowsClient(req.session, cache);
+
+        return Promise.resolve();
+    },
+
+    securityConfig: function (req, cache) {
+        Service.Recognition.knowsClient(req.session, cache);
+
+        return Promise.resolve();
     }
 };
 

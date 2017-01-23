@@ -100,6 +100,127 @@ let Account = {
         }).catch(console.log.bind(console));
     },
 
+    updatePassword: function(params, reqCache, sess) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            reqCache.set('auth-error', true);
+            return Promise.resolve();
+        }
+
+        let password = params.password,
+            newPassword = params.newPassword,
+            confirmNewPassword = params.confirmNewPassword;
+
+        let errors = {};
+
+        let resolve = function () {
+            reqCache.set('errors', errors);
+            console.log(errors);
+
+            return Promise.resolve(errors);
+        };
+
+        if (newPassword !== confirmNewPassword) {
+            errors.confirm = ['Passwords must match.'];
+        }
+
+        /**
+         * Fetch user and confirm that their old password is correct
+         * @todo Should this just read off the session variable? Or should it use
+         * a Recognotion service method, like refreshClient?
+         */
+        return new Entity.User({password: newPassword}).validate().then(function (validationErrs) {
+            if (validationErrs) {
+                Object.assign(errors, validationErrs);
+            }
+
+            return new Entity.User({id: client.id}).fetch();
+        }).then(function (user) {
+            if(!user) {
+                error.general = ['Couldn\'t find user'];
+                return Promise.resolve(false);
+            }
+
+            let pwdHash = Buffer.from(user.get('password')),
+                pwdBuffer = Buffer.from(password);
+
+            if (!sodium.crypto_pwhash_argon2i_str_verify(pwdHash, pwdBuffer)) {
+                errors.auth = ['Credentials did not authenticate.'];
+                console.log('bad login');
+                return Promise.resolve(false);
+            }
+
+            return Promise.resolve(user);
+
+        }).then(function (user) {
+            if (Object.keys(errors).length !== 0 || !user) {
+                return resolve();
+            }
+
+            let pwdBuffer = Buffer.from(newPassword);
+
+            let hash = Buffer.from(sodium.crypto_pwhash_argon2i_str(
+                pwdBuffer,
+                sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,
+                sodium.crypto_pwhash_MEMLIMIT_INTERACTIVE
+            ));
+
+            return user.set({password: hash}).save();
+        });
+
+    },
+
+    updateInformation: function(params, reqCache, sess) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            reqCache.set('auth-error', true);
+            return Promise.resolve();
+        }
+
+        let fname = params.fname.trim(),
+            lname = params.lname.trim();
+
+        let errors = {};
+
+        let resolve = function () {
+            reqCache.set('errors', errors);
+            reqCache.set('form', {
+                email: email,
+                fname: fname,
+                lname: lname
+            });
+
+            return Promise.resolve(errors);
+        };
+
+        /**
+         * Create a user domain object from the inputted values and validate
+         * this information
+         */
+         let user = new Entity.User({
+             fname: fname,
+             lname: lname,
+             id: client.id
+         });
+
+         return user.validate().then(function (validationErrs) {
+             if (validationErrs) {
+                 Object.assign(errors, validationErrs);
+             }
+
+             /**
+              * If there are errors, resolve
+              */
+              if (Object.keys(errors).length !== 0) {
+                  return resolve();
+              }
+
+             return user.save();
+         });
+    },
+
     authorizationRedirect: function(sess, reqCache) {
         let client = Recognition.knowsClient(sess);
 

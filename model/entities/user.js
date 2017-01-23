@@ -28,18 +28,23 @@ let User = Bookshelf.Model.extend({
         let errors = {};
 
         //Name must be allphanumeric
-        if ((!fname.match(/^[0-9a-z ]+$/i) && fname.length !== 0)
-            || (!lname.match(/^[0-9a-z ]+$/i) && lname.length !== 0)) {
+        if ((fname !== undefined
+                && !fname.match(/^[0-9a-z ]+$/i)
+                && fname.length !== 0)
+            || (lname !== undefined
+                && !lname.match(/^[0-9a-z ]+$/i)
+                && lname.length !== 0))
+        {
             errors.name = ['Name fields must be alphanumeric (0-9a-Z).'];
         }
 
         // Passwords have minlneghth 5
-        if (password.length < 5) {
+        if (password !== undefined && password.length < 5) {
             errors.password = ['Password too short (5 characters minimum).'];
         }
 
         // Invalid email
-        if (!validator.isEmail(email)) {
+        if (email !== undefined && !validator.isEmail(email)) {
             errors.email = ['Email not valid'];
         }
 
