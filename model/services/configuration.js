@@ -165,7 +165,7 @@ let Configuration = {
              */
             let deleteOrbPromise = match.destroy();
 
-            return Promise.all(affectBulbsPromise, deleteOrbPromise);
+            return Promise.all([affectBulbsPromise, deleteOrbPromise]);
         });
     },
 
