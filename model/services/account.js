@@ -101,7 +101,7 @@ let Account = {
     },
 
     updatePassword: function(params, reqCache, sess) {
-        let client = Recognition.knowsClient(sess);
+        let client = Recognition.knowsClient(sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);
@@ -124,15 +124,16 @@ let Account = {
             errors.confirm = ['Passwords must match.'];
         }
 
-        /**
-         * Fetch user and confirm that their old password is correct
-         * @todo Should this just read off the session variable? Or should it use
-         * a Recognotion service method, like refreshClient?
-         */
         return new Entity.User({password: newPassword}).validate().then(function (validationErrs) {
             if (validationErrs) {
                 Object.assign(errors, validationErrs);
             }
+
+            /**
+             * Fetch user and confirm that their old password is correct
+             * @todo Should this just read off the session variable? Or should it use
+             * a Recognotion service method, like refreshClient?
+             */
 
             return new Entity.User({id: client.id}).fetch();
         }).then(function (user) {
@@ -171,7 +172,7 @@ let Account = {
     },
 
     updateInformation: function(params, reqCache, sess) {
-        let client = Recognition.knowsClient(sess);
+        let client = Recognition.knowsClient(sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);
@@ -221,7 +222,7 @@ let Account = {
     },
 
     authorizationRedirect: function(sess, reqCache) {
-        let client = Recognition.knowsClient(sess);
+        let client = Recognition.knowsClient(sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);
@@ -252,7 +253,7 @@ let Account = {
     },
 
     authorize: function(params, sess, reqCache) {
-        let client = Recognition.knowsClient(sess);
+        let client = Recognition.knowsClient(sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);

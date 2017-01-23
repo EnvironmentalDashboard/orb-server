@@ -10,6 +10,8 @@ let Recognition = {
 
     certifyClient: function(user, sess) {
         sess.authenticatedUser = user;
+
+        return sess.authenticatedUser;
     },
 
     /**
@@ -20,32 +22,37 @@ let Recognition = {
      * @return {Object}       User's info or false.
      */
     knowsClient: function(sess, cache) {
-        /**
-         * If a cache object was passed, store the user's data there
-         */
-        if (cache) {
-            let loggedIn = false;
-
-            if (sess.authenticatedUser) {
-                loggedIn = {
-                    id: sess.authenticatedUser.id,
-                    fname: sess.authenticatedUser.fname,
-                    lname: sess.authenticatedUser.lname,
-                    email: sess.authenticatedUser.email
-                };
-            }
-
-            /**
-             * Save login details (or false if can't authenticate)
-             */
-            cache.set('loggedIn', loggedIn);
-        }
+        let loggedIn = false;
 
         if(!sess.authenticatedUser) {
             cache.set('auth-error', true);
+            return false;
         }
 
-        return sess.authenticatedUser || false;
+        cache.set('loggedIn', sess.authenticatedUser);
+        return sess.authenticatedUser;
+    },
+
+    /**
+     * Same as knowsClient but regathers the users info from the datbaase
+     * @param  {Object} sess  Persisting session object
+     * @param  {Object} cache Cache object to write to
+     * @return {Object}       User's info or false.
+     */
+    refreshClient: function (sess, cache) {
+        let loggedIn = false, me = this;
+
+        if(!sess.authenticatedUser) {
+            cache.set('auth-error', true);
+            return false;
+        }
+
+        return new Entity.User({id: sess.authenticatedUser.id}).fetch().then(function (match) {
+            me.certifyClient(match, sess);
+            cache.set('loggedIn', match);
+
+            return match;
+        });
     },
 
     /**

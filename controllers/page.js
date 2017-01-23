@@ -71,7 +71,7 @@ let page = {
     },
 
     accountConfigSuccess: function (req, cache) {
-        Service.Recognition.knowsClient(req.session, cache);
+        Service.Recognition.refreshClient(req.session, cache);
 
         return Promise.resolve();
     },

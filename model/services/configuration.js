@@ -11,7 +11,7 @@ let Entity = require('../entities'),
 let Configuration = {
 
     createOrb: function(params, sess, reqCache) {
-        let client = Recognition.knowsClient(sess);
+        let client = Recognition.knowsClient(sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);
