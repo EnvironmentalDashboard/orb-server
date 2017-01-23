@@ -2,25 +2,6 @@
     margin: 0;
 }
 
-.ui-rounded-item-wrap {
-    margin: 10px 0;
-}
-
-.ui-rounded-item {
-    background: #eee;
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-}
-
-.ui-rounded-item .ui-rounded-icon {
-    font-size: 3em;
-}
-
-.ui-rounded-item .ui-rounded-icon p {
-    margin: 0;
-}
-
 .ui-btn-toggle {
     background: #fff;
     display: inline-block;
@@ -50,13 +31,13 @@
 }
 
 .ui-orb {
-    padding-top: 70%;
+    padding-top: 100%;
     border-radius: 50%;
     position: relative;
     overflow: hidden;
     background: green;
     display: inline-block;
-    width: 70%;
+    width: 100%;
     margin: 10px;
 }
 
@@ -77,18 +58,33 @@
     font-weight: normal;
 }
 
-.ui-table tr:nth-child(2n) {
-    background: rgb(245, 245, 245);
+.ui-table p {
+    margin: 0;
 }
 
-.ui-table td {
+.ui-table tr td {
+    vertical-align: middle !important;
+}
+
+.ui-datagroup-table tr {
+    vertical-align: middle;
+}
+
+.ui-datagroup-table thead tr th,
+.ui-datagroup-table tr td {
     width: 12.5%;
     text-align: center;
     padding: 5px;
+    vertical-align: middle;
 }
 
-.ui-table .ui-table-left {
+.ui-datagroup-table tr td:first-child {
     text-align: left;
+}
+
+.ui-label {
+    font-weight: bold;
+    margin: 0;
 }
 
 /**
@@ -101,8 +97,15 @@
     border-color: #418e39;
 }
 
-.ui-navbar li > a, .ui-navbar a.navbar-brand {
-    color: #fff !important;
+.ui-navbar li > a:link,
+.ui-navbar li > a:visited,
+.ui-navbar a.navbar-brand {
+    color: #fff;
+}
+
+.ui-navbar .dropdown li > a:link,
+.ui-navbar .dropdown li > a:visited {
+    color: #000;
 }
 
 .ui-inline {
@@ -128,17 +131,17 @@ a:hover {
 }
 
 @media(max-width: 768px) {
-    .ui-table-responsive thead {
+    .ui-table thead {
         display: none;
     }
 
-    .ui-table-responsive td {
+    .ui-table td {
         display: block;
         border: 0 !important;
         text-align: center;
     }
 
-    .ui-table-responsive td select {
+    .ui-table td select {
         margin-bottom: 10px;
     }
 }
