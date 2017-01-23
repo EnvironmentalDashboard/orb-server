@@ -32,7 +32,18 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         {{#if loggedIn}}
-                        <li><a>{{loggedIn.email}}</a></li>
+                        <li class="dropdown">
+                            <a href="/account" id="account-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{loggedIn.email}}
+                                <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="account-options">
+                                <li><a href="/account">Account overview</a></li>
+                                <li><a href="/account/config">Update info</a></li>
+                                <li><a href="/account/security">Update password</a></li>
+                            </ul>
+                        </li>
                         <li><a href="/guide">Guide</a></li>
                         <li><a href="/dash">Dashboard</a></li>
                         <li><a href="/account/signout">Sign out</a></li>

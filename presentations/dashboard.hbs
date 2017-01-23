@@ -6,47 +6,6 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <h3>Your Orbs</h3>
-            <div class="panel panel-default">
-                <div class="panel-heading">Orb display</div>
-                <div class="panel-body">
-                    <p>The orbs associated with your account are listed below. Prior to making a bulb emulate an orb, you must configure the orb here.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-                {{#each orbs}}
-                <div class="col-sm-4 col-xs-12 ui-rounded-item-wrap">
-                    <div class="ui-rounded-item">
-                        <p>{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</p>
-                        <div class="ui-orb-display col-xs-6">
-                            <div class="ui-orb orb-{{this.id}}-meter-1"></div>
-                            <p>{{this.meter1.building}} {{this.meter1.name}}</p>
-                        </div>
-                        <div class="ui-orb-display col-xs-6">
-                            <div class="ui-orb orb-{{this.id}}-meter-2"></div>
-                            <p>{{this.meter2.building}} {{this.meter2.name}}</p>
-                        </div>
-                        <p>
-                            <a href="/dash/orb/edit/{{this.id}}" class="btn btn-primary">Configure</a>
-                            <a href="/dash/orb/delete/{{this.id}}" class="btn btn-default">Delete</a>
-                        </p>
-                    </div>
-                </div>
-                {{/each}}
-
-                <div class="col-sm-4 col-xs-12 ui-rounded-item-wrap">
-                    <div class="ui-rounded-item">
-                        <div class="ui-rounded-icon">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </div>
-                        <p><a href="/dash/orb/new">Add orb</a></p>
-                    </div>
-                </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
             <h3>Your Bulbs</h3>
             <div class="panel panel-default">
                 <div class="panel-heading">Bulb configuration</div>
@@ -77,7 +36,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <table class="table table-striped ui-table-responsive">
+            <table class="table table-striped ui-table">
                 <thead>
                     <tr>
                         <th>Selector ID</th>
@@ -144,6 +103,48 @@
                 </tr>
                 {{/each}}
             </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Your Orbs</h3>
+            <div class="panel panel-default">
+                <div class="panel-heading">Orb display</div>
+                <div class="panel-body">
+                    <p>The orbs associated with your account are listed below. Prior to making a bulb emulate an orb, you must configure the orb here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="/dash/orb/new" class="btn btn-primary">Add an orb</a>
+            <table class="table table-striped ui-table">
+                <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th colspan="2">Meter 1</th>
+                        <th colspan="2">Meter 2</th>
+                        <th>Configuration options</th>
+                    </tr>
+                </thead>
+                {{#each orbs}}
+                <tr>
+                    <td>{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</td>
+                    <td><div class="ui-orb orb-{{this.id}}-meter-1"></div></td>
+                    <td>{{this.meter1.building}} {{this.meter1.name}}</td>
+                    <td><div class="ui-orb orb-{{this.id}}-meter-2"></div></td>
+                    <td>{{this.meter2.building}} {{this.meter2.name}}</td>
+                    <td>
+                        <p>
+                            <a href="/dash/orb/edit/{{this.id}}" class="btn btn-primary">Configure</a>
+                            <a href="/dash/orb/delete/{{this.id}}" class="btn btn-default">Delete</a>
+                        </p>
+                    </td>
+                </tr>
+                {{/each}}
+            </table>
+            <a href="/dash/orb/new" class="btn btn-primary">Add an orb</a>
         </div>
     </div>
 </div>
