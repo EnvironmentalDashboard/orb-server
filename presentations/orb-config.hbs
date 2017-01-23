@@ -49,7 +49,6 @@
                             {{#each buildings}}
                             <optgroup label="{{@key}}">
                                 {{#each this}}
-                                {{log this.id}}
                                 <option value="{{this.id}}"{{selected ../../form.meter1 this.id}}>{{this.name}}</option>
                                 {{/each}}
                             </optgroup>

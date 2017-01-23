@@ -85,7 +85,6 @@ let page = Object.assign({
     },
 
     deleteOrb: function (res, cache) {
-        console.log('ok?');
         if(this.caughtAuthError(cache)) {
             return res.render('denied');
         }

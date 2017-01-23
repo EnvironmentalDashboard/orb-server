@@ -32,8 +32,6 @@
                         },
 
                         checked: function (array, haystackIndex, needle) {
-                            console.log(dataGrouping);
-
                             if (dataGrouping[haystackIndex] && dataGrouping[haystackIndex].indexOf(needle+1) > -1) {
                                 return ' checked';
                             }

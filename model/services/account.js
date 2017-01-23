@@ -116,7 +116,6 @@ let Account = {
 
         let resolve = function () {
             reqCache.set('errors', errors);
-            console.log(errors);
 
             return Promise.resolve(errors);
         };
