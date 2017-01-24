@@ -43,7 +43,7 @@
                         <th>Label</th>
                         <th>Location</th>
                         <th>Group</th>
-                        <th>Configuration options</th>
+                        <th>Controls</th>
                     </tr>
                 </thead>
                 {{#each bulbs}}
@@ -130,12 +130,12 @@
                 </thead>
                 {{#each orbs}}
                 <tr>
-                    <td>{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</td>
+                    <td class="col-sm-2">{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</td>
                     <td class="col-sm-1 ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-1"></div></td>
-                    <td>{{this.meter1.building}} {{this.meter1.name}}</td>
+                    <td class="col-sm-3">{{this.meter1.building}} {{this.meter1.name}}</td>
                     <td class="col-sm-1 ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-2"></div></td>
-                    <td>{{this.meter2.building}} {{this.meter2.name}}</td>
-                    <td>
+                    <td class="col-sm-3">{{this.meter2.building}} {{this.meter2.name}}</td>
+                    <td class="col-sm-2">
                         <p>
                             <a href="/dash/orb/edit/{{this.id}}" class="btn btn-default">Configure</a>
                             <a href="/dash/orb/delete/{{this.id}}" class="btn btn-danger">Delete</a>
