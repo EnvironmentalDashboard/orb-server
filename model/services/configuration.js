@@ -141,7 +141,7 @@ let Configuration = {
     },
 
     deleteOrb: function(orbId, sess, reqCache) {
-        let client = Recognition.knowsClient(sess);
+        let client = Recognition.knowsClient(sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);
@@ -151,26 +151,44 @@ let Configuration = {
         return new Entity.Orb({
             id: orbId,
             owner: client.id
-        }).fetch({withRelated:['bulbs']}).then(function(match){
+        }).fetch({withRelated:['meter1', 'meter2']}).then(function(match){
             /**
              * Change bulbs assigned to this orb
+             *
+             * Note: leaking storage logic into service layer
              */
-            let affectBulbsPromise = match.related('bulbs').query().update({
+            let affectBulbsPromise = Entity.Bulb.collection().query().where('orb', '=', orbId).update({
                 orb: null,
                 enabled: false
             });
+
+            /**
+             * Decrease using count on meters
+
+            let meters = [match.related('meter1'), match.related('meter2')];
+
+            let meter1Promise = meters[0].set({
+                'orb_server': meters[0].get('orb_server') - 1
+            }).save();
+
+            let meter2Promise = meters[1].set({
+                'orb_server': meters[1].get('orb_server') - 1
+            }).save();
+            */
 
             /**
              * Delete this orb
              */
             let deleteOrbPromise = match.destroy();
 
-            return Promise.all([affectBulbsPromise, deleteOrbPromise]);
+            return Promise.all(
+                [affectBulbsPromise, deleteOrbPromise]
+            );
         });
     },
 
     saveBulb: function(params, sess, reqCache) {
-        let client = Recognition.knowsClient(sess);
+        let client = Recognition.knowsClient(sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);

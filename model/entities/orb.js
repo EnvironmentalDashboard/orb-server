@@ -4,7 +4,7 @@
 
 let Bookshelf = require('./base');
 
-let User = require('./user')
+let User = require('./user'),
     Meter = require('./meter'),
     Bulb = require('./bulb');
 
@@ -21,11 +21,11 @@ var Orb = Bookshelf.Model.extend({
     },
 
     meter1: function() {
-        return this.hasOne('Meter', 'id');
+        return this.belongsTo('Meter', 'meter1');
     },
 
     meter2: function() {
-        return this.hasOne('Meter', 'id');
+        return this.belongsTo('Meter', 'meter2');
     },
 
     validate: function() {
