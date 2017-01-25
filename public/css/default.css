@@ -61,6 +61,50 @@
     margin: 0;
 }
 
+.ui-table th {
+    position: relative;
+}
+
+.ui-table th.sort:hover {
+    background: rgb(249, 249, 249);
+    cursor: pointer;
+}
+
+.ui-table th.sort:after {
+    content: '\e150';
+    color: #ccc;
+    position: absolute;
+    right: 10px;
+    font-family: 'Glyphicons Halflings';
+}
+
+.ui-table th.asc,
+.ui-table th.desc {
+    background: rgb(220, 270, 220);
+}
+
+.ui-table th.asc:hover,
+.ui-table th.desc:hover {
+    background: rgb(210, 250, 210);
+}
+
+.ui-table th.asc:after,
+.ui-table th.desc:after {
+    color: #000;
+    content: '\e152';
+    position: absolute;
+    right: 10px;
+    font-family: 'Glyphicons Halflings';
+}
+
+.ui-table th.desc:after {
+    content: '\e151';
+}
+
+.ui-table th.headerSortDown {
+
+}
+
 .ui-table tr td {
     vertical-align: middle !important;
 }
@@ -130,14 +174,20 @@ a:hover {
 }
 
 @media(max-width: 768px) {
-    .ui-table thead {
+    .ui-table thead th {
         display: none;
+        color: #418e39;
     }
 
-    .ui-table td {
+    .ui-table td, .ui-table th.sort {
         display: block !important;
         border: 0 !important;
         text-align: center;
+    }
+
+    .ui-table th.sort:before {
+        content: 'Sort by ';
+        color: #000;
     }
 
     .ui-table td select {

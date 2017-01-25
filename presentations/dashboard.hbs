@@ -36,7 +36,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <table class="table table-striped ui-table">
+            <table id="bulbs-table" class="table table-striped ui-table">
                 <thead>
                     <tr>
                         <th>Selector ID</th>
@@ -46,18 +46,19 @@
                         <th>Controls</th>
                     </tr>
                 </thead>
-                {{#each bulbs}}
-                <tr>
-                    <td>{{@key}}</td>
-                    {{#if this.info}}
-                    <td>{{this.info.label}}</td>
-                    <td>{{this.info.location.name}}</td>
-                    <td>{{this.info.group.name}}</td>
-                    {{else}}
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    {{/if}}
+                <tbody>
+                    {{#each bulbs}}
+                    <tr>
+                        <td>{{@key}}</td>
+                        {{#if this.info}}
+                        <td>{{this.info.label}}</td>
+                        <td>{{this.info.location.name}}</td>
+                        <td>{{this.info.group.name}}</td>
+                        {{else}}
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        {{/if}}
 
                         <td>
                             <form action="/dash/bulb/update" method="post">
@@ -99,9 +100,9 @@
                                 </noscript>
                             </form>
                         </td>
-                    </form>
-                </tr>
-                {{/each}}
+                    </tr>
+                    {{/each}}
+                </tbody>
             </table>
         </div>
     </div>
@@ -119,7 +120,7 @@
     <div class="row">
         <div class="col-sm-12">
             <a href="/dash/orb/new" class="btn btn-primary">Create an orb</a>
-            <table class="table table-striped ui-table">
+            <table id="orbs-table" class="table table-striped ui-table">
                 <thead>
                     <tr>
                         <th>Label</th>
@@ -128,23 +129,55 @@
                         <th>Configuration options</th>
                     </tr>
                 </thead>
-                {{#each orbs}}
-                <tr>
-                    <td class="col-sm-2">{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</td>
-                    <td class="col-sm-1 ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-1"></div></td>
-                    <td class="col-sm-3">{{this.meter1.building}} {{this.meter1.name}}</td>
-                    <td class="col-sm-1 ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-2"></div></td>
-                    <td class="col-sm-3">{{this.meter2.building}} {{this.meter2.name}}</td>
-                    <td class="col-sm-2">
-                        <p>
-                            <a href="/dash/orb/edit/{{this.id}}" class="btn btn-default">Configure</a>
-                            <a href="/dash/orb/delete/{{this.id}}" class="btn btn-danger">Delete</a>
-                        </p>
-                    </td>
-                </tr>
-                {{/each}}
+                <tbody>
+                    {{#each orbs}}
+                    <tr>
+                        <td class="col-sm-2">{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</td>
+                        <td class="col-sm-1 sort-use-next ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-1"></div></td>
+                        <td class="col-sm-3">{{this.meter1.building}} {{this.meter1.name}}</td>
+                        <td class="col-sm-1 sort-use-next ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-2"></div></td>
+                        <td class="col-sm-3">{{this.meter2.building}} {{this.meter2.name}}</td>
+                        <td class="col-sm-2">
+                            <p>
+                                <a href="/dash/orb/edit/{{this.id}}" class="btn btn-default">Configure</a>
+                                <a href="/dash/orb/delete/{{this.id}}" class="btn btn-danger">Delete</a>
+                            </p>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
             </table>
             <a href="/dash/orb/new" class="btn btn-primary">Create an orb</a>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#bulbs-table").tablesorter({
+        headers: {
+            4: {sorter: false}
+        },
+        cssAsc: 'asc',
+        cssDesc: 'desc',
+        cssHeader: 'sort'
+    });
+
+    $("#orbs-table").tablesorter({
+        headers: {
+            3: {sorter: false}
+        },
+        textExtraction: function(node) {
+            if(node.classList.contains('sort-use-next')) {
+                console.log(node.nextElementSibling);
+                return node.nextElementSibling.innerHTML;
+            }
+
+            return node.innerHTML;
+        },
+        cssAsc: 'asc',
+        cssDesc: 'desc',
+        cssHeader: 'sort'
+    });
+});
+</script>
