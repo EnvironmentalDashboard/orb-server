@@ -26,7 +26,7 @@ let Orb = {
             daySets = params.daySets.slice(1, -1),
             sampleSize = params.sampleSize;
 
-        //return Promise.resolve(70);
+        return Promise.resolve(70);
 
         return new Promise(function (resolve, reject) {
             exec(
