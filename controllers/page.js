@@ -22,9 +22,10 @@ let page = {
     },
 
     dashboard: function (req, cache) {
-        return Service.DashboardInformation.initializeOrbList(cache, req.session).then(function () {
-            return Service.DashboardInformation.initializeBulbList(cache, req.session);
-        });
+        return Promise.all([
+            Service.DashboardInformation.initializeOrbList(cache, req.session),
+            Service.DashboardInformation.initializeBulbList(cache, req.session)
+        ])
     },
 
     newOrb: function (req, cache) {
@@ -53,20 +54,14 @@ let page = {
     },
 
     guide: function (req, cache) {
-        Service.Recognition.knowsClient(req.session, cache);
-
         return Promise.resolve();
     },
 
     account: function (req, cache) {
-        Service.Recognition.knowsClient(req.session, cache);
-
         return Promise.resolve();
     },
 
     accountConfig: function (req, cache) {
-        Service.Recognition.knowsClient(req.session, cache);
-
         return Promise.resolve();
     },
 
@@ -77,8 +72,6 @@ let page = {
     },
 
     securityConfig: function (req, cache) {
-        Service.Recognition.knowsClient(req.session, cache);
-
         return Promise.resolve();
     }
 };
