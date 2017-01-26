@@ -66,7 +66,7 @@
 }
 
 .ui-table th.sort:hover {
-    background: rgb(249, 249, 249);
+    background: rgb(249, 249, 249) !important;
     cursor: pointer;
 }
 
@@ -80,12 +80,12 @@
 
 .ui-table th.asc,
 .ui-table th.desc {
-    background: rgb(220, 270, 220);
+    background: rgb(220, 270, 220) !important;
 }
 
 .ui-table th.asc:hover,
 .ui-table th.desc:hover {
-    background: rgb(210, 250, 210);
+    background: rgb(210, 250, 210) !important;
 }
 
 .ui-table th.asc:after,
@@ -95,6 +95,8 @@
     position: absolute;
     right: 10px;
     font-family: 'Glyphicons Halflings';
+    background: #fff;
+    padding: 0 3px;
 }
 
 .ui-table th.desc:after {
@@ -109,6 +111,56 @@
     vertical-align: middle !important;
 }
 
+.ui-table-grid tbody {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.ui-table-grid tbody tr {
+    flex-basis: 24%;
+    margin-bottom: 1.5%;
+}
+
+.ui-table-grid tbody tr td {
+    display: block;
+    width: 100%;
+    text-align: center;
+    border: 0;
+}
+
+.ui-table-grid thead {
+    display: block;
+    margin: 16px 0;
+}
+
+.ui-table-grid thead tr {
+    display: block;
+}
+
+.ui-table-grid thead th {
+    display: none;
+}
+
+.ui-table-grid thead th.sort {
+    display: inline;
+    padding: 10px 30px 10px 10px;
+    margin-right: 5px;
+    border: 0;
+    background: #f9f9f9;
+    color: #418e39;
+}
+
+.ui-table-grid th.sort:before {
+    content: 'Sort by ';
+    color: #000;
+}
+
+.ui-table-grid .ui-orb-wrap {
+    width: 30%;
+    margin: 0 auto;
+}
+
 .ui-datagroup-table tr {
     vertical-align: middle;
 }
@@ -117,7 +169,6 @@
 .ui-datagroup-table tr td {
     width: 12.5%;
     text-align: center;
-    padding: 5px;
     vertical-align: middle;
 }
 
@@ -192,6 +243,20 @@ a:hover {
 
     .ui-table td select {
         margin-bottom: 10px;
+    }
+
+    .ui-table-grid thead {
+        margin: 0;
+    }
+
+    .ui-table-grid thead th.sort {
+        margin-right: 0;
+        padding: 8px;
+        background: #fff;
+    }
+
+    .ui-table-grid tbody {
+        display: table-row-group;
     }
 
     .ui-orb-wrap {
