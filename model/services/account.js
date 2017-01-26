@@ -5,9 +5,7 @@
 let querystring = require('querystring'),
     request = require('request-promise-native'),
     validator = require('validator'),
-    sodium = require('sodium').api,
-    Bookshelf = require('../../lib/dbconnect.js'),
-    util = require('util');
+    sodium = require('sodium').api;
 
 let Entity = require('../entities'),
     Recognition = require('./recognition');
