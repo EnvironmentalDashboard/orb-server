@@ -9,7 +9,7 @@ let Entity = require('../entities');
 let Recognition = {
 
     certifyClient: function(user, sess) {
-        sess.authenticatedUser = user;
+        sess.authenticatedUser = user.attributes;
 
         return sess.authenticatedUser;
     },

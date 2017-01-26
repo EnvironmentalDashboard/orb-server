@@ -26,7 +26,7 @@ let Orb = {
             daySets = params.daySets.slice(1, -1),
             sampleSize = params.sampleSize;
 
-        return Promise.resolve(70);
+        //return Promise.resolve(70);
 
         return new Promise(function (resolve, reject) {
             exec(
@@ -109,6 +109,7 @@ let Orb = {
         .then(function (bulbs) {
             bulbs.forEach(function (bulb){
                 let meter = +new Date()/20000|0;
+                console.log(bulb.relations.orb);
                 me.emulate(bulb.relations.orb, (meter%2)+1).then(function (instruction) {
                     me.dispatchInstruction(instruction, bulb);
                 });

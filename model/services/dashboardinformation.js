@@ -40,21 +40,23 @@ let DashboardInformation = {
             results.forEach(function (orb) {
                 let orbInfo = {id: orb.get('id'), title: orb.get('title')};
 
-                meterPromises.push(new Entity.Meter({id: orb.get('meter1')}).fetch({withRelated: ['building']}).then(function(match){
+                meterPromises.push(orb.related('meter1').related('building').fetch().then(function (match) {
                     orbInfo.meter1 = {
-                        building: match.related('building').get('name'),
-                        name: match.get('name')
+                        building: match.get('name'),
+                        name: orb.related('meter1').get('name')
                     };
 
-                    return new Entity.Meter({id: orb.get('meter2')}).fetch({withRelated: ['building']});
-                }).then(function(match) {
+                    return orb.related('meter2').related('building').fetch();
+                }).then(function (match) {
                     orbInfo.meter2 = {
-                        building: match.related('building').get('name'),
-                        name: match.get('name')
+                        building: match.get('name'),
+                        name: orb.related('meter2').get('name')
                     };
 
                     return true;
                 }));
+
+                //blah
 
                 orbList.push(orbInfo);
             });
