@@ -21,16 +21,19 @@ let Recognition = {
      * @param  {Object} cache Cache object to write to
      * @return {Object}       User's info or false.
      */
-    knowsClient: function(sess, cache) {
+    knowsClient: function(params, sess, cache) {
         let loggedIn = false;
 
-        if(!sess.authenticatedUser) {
-            cache.set('auth-error', true);
-            return false;
+        if(sess.authenticatedUser) {
+            loggedIn = true;
+            cache.set('loggedIn', sess.authenticatedUser);
         }
 
-        cache.set('loggedIn', sess.authenticatedUser);
-        return sess.authenticatedUser;
+        if(params.required) {
+            cache.set('auth-error', !loggedIn);
+        }
+
+        return sess.authenticatedUser || loggedIn;
     },
 
     /**

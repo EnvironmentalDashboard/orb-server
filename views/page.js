@@ -26,11 +26,6 @@ let page = {
     },
 
     dashboard: function (req, res, next) {
-
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         let orbList = req.cache.get('orb-list'),
             bulbList = req.cache.get('bulb-list'),
             authorizationNotice = req.cache.get('authorization-notice'),
@@ -60,11 +55,6 @@ let page = {
     },
 
     newOrb: function (req, res, next) {
-
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         let meterList = req.cache.get('meter-list'),
             defaultDataGrouping = [[1,2,3,4,5,6,7]];
 
@@ -85,21 +75,12 @@ let page = {
     },
 
     deleteOrb: function (req, res, next) {
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         res.render('orb-delete-confirm', {
             orb: req.cache.get('orb-info')
         });
     },
 
     editOrb: function (req, res, next) {
-
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         let meterList = req.cache.get('meter-list'),
             dataGrouping = JSON.parse(req.cache.get('orb-info').daySets);
 
@@ -125,21 +106,12 @@ let page = {
     },
 
     orbSuccess: function (req, res, next) {
-
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         res.render('orb-config-success', {
             loggedIn: req.cache.get('loggedIn')
         });
     },
 
     authConfirm: function (req, res, next) {
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         res.render('auth-confirm');
     },
 
@@ -150,20 +122,12 @@ let page = {
     },
 
     account: function (req, res, next) {
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         res.render('account', {
             loggedIn: req.cache.get('loggedIn')
         });
     },
 
     accountConfig: function (req, res, next) {
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         let userInfo = req.cache.get('loggedIn');
 
         res.render('account-config', {
@@ -173,20 +137,12 @@ let page = {
     },
 
     accountConfigSuccess: function (req, res, next) {
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         res.render('account-config-success', {
             loggedIn: req.cache.get('loggedIn')
         });
     },
 
     securityConfig: function (req, res, next) {
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         res.render('account-password-config', {
             loggedIn: req.cache.get('loggedIn')
         });

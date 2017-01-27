@@ -99,7 +99,7 @@ let Account = {
     },
 
     updatePassword: function(params, reqCache, sess) {
-        let client = Recognition.knowsClient(sess, reqCache);
+        let client = Recognition.knowsClient({required: true}, sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);
@@ -168,7 +168,7 @@ let Account = {
     },
 
     updateInformation: function(params, reqCache, sess) {
-        let client = Recognition.knowsClient(sess, reqCache);
+        let client = Recognition.knowsClient({required: true}, sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);
@@ -218,7 +218,7 @@ let Account = {
     },
 
     authorizationRedirect: function(sess, reqCache) {
-        let client = Recognition.knowsClient(sess, reqCache);
+        let client = Recognition.knowsClient({required: true}, sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);
@@ -249,7 +249,7 @@ let Account = {
     },
 
     authorize: function(params, sess, reqCache) {
-        let client = Recognition.knowsClient(sess, reqCache);
+        let client = Recognition.knowsClient({required: true}, sess, reqCache);
 
         if (!client) {
             reqCache.set('auth-error', true);

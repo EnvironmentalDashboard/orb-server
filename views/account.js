@@ -29,10 +29,6 @@ let account = {
     },
 
     update: function (req, res, next) {
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         req.cache.get('errors', function (err, val) {
             /**
              * If there were errors, render the config page again
@@ -56,10 +52,6 @@ let account = {
     },
 
     updatePassword: function (req, res, next) {
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         req.cache.get('errors', function (err, val) {
             /**
              * If there were errors, render the config page again

@@ -6,10 +6,6 @@
 
  let configuration = {
     orb: function (req, res, next) {
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         req.cache.get('errors', function (err, val) {
 
             let meterList = req.cache.get('meter-list');
@@ -54,10 +50,6 @@
     },
 
     bulb: function (req, res, next) {
-        if(base.caughtAuthError(req.cache)) {
-            return res.render('denied');
-        }
-
         res.redirect('/dash');
     }
 

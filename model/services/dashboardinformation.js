@@ -17,10 +17,9 @@ let DashboardInformation = {
      * @return {Promise}         A promise
      */
     initializeOrbList: function(reqCache, sess) {
-        client = Recognition.knowsClient(sess, reqCache);
+        client = Recognition.knowsClient({required: true}, sess, reqCache);
 
         if (!client) {
-            reqCache.set('auth-error', true);
             return Promise.resolve();
         }
 
@@ -56,8 +55,6 @@ let DashboardInformation = {
                     return true;
                 }));
 
-                //blah
-
                 orbList.push(orbInfo);
             });
 
@@ -72,10 +69,9 @@ let DashboardInformation = {
     },
 
     initializeOrb: function(orbId, reqCache, sess) {
-        client = Recognition.knowsClient(sess, reqCache);
+        client = Recognition.knowsClient({required: true}, sess, reqCache);
 
         if (!client) {
-            reqCache.set('auth-error', true);
             return Promise.resolve();
         }
 
@@ -100,10 +96,9 @@ let DashboardInformation = {
      * @return {Promise}         A promise
      */
     initializeBulbList: function(reqCache, sess) {
-        client = Recognition.knowsClient(sess, reqCache);
+        client = Recognition.knowsClient({required: true}, sess, reqCache);
 
         if (!client) {
-            reqCache.set('auth-error', true);
             return Promise.resolve();
         }
 
@@ -204,8 +199,7 @@ let DashboardInformation = {
      * @return {Promise}         A promise
      */
     initializeMeterList: function (reqCache, sess) {
-        if (!Recognition.knowsClient(sess, reqCache)) {
-            reqCache.set('auth-error', true);
+        if (!Recognition.knowsClient({required: true}, sess, reqCache)) {
             return Promise.resolve();
         }
 
@@ -243,8 +237,7 @@ let DashboardInformation = {
      * @return {Promise}         A promise
      */
     initializeOrbInstructionsList: function(reqCache, sess) {
-        if (!Recognition.knowsClient(sess, reqCache)) {
-            reqCache.set('auth-error', true);
+        if (!Recognition.knowsClient({required: true}, sess, reqCache)) {
             return Promise.resolve();
         }
 

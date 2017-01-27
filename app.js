@@ -53,13 +53,12 @@ app.set('views', './presentations');
  * Middleware
  */
 
+// Enforce secure connection
  app.use(function(req, res, next) {
-     //Midleware: enforce secure connection
-
      if(!req.secure) {
          return res.redirect(301, ['https://', req.get('host'), req.url].join(''));
      }
-     
+
      next();
  });
 
@@ -69,7 +68,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// Front-end dependencies
+// Front-end resources
 app.use(express.static('./public'));
 app.use(express.static('./bower_components'));
 
@@ -79,11 +78,11 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-// Cache object for request
+// Create cache object for every request
 app.use(function(req, res, next) {
     req.cache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
-    Service.Recognition.knowsClient(req.session, req.cache);
+    Service.Recognition.knowsClient({}, req.session, req.cache);
 
     next();
 });
@@ -92,7 +91,7 @@ app.use(function(req, res, next) {
  * Routing
  */
 
-routes.initialize(app);
+routes.build(app);
 
 /**
  * Orb instruction dispatching
