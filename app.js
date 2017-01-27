@@ -14,7 +14,8 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
     exphbs = require('express-handlebars'),
     http = require('http'),
     https = require('https'),
-    fs = require('fs');
+    fs = require('fs'),
+    NodeCache = require('node-cache');
 
 /**
  * Local dependencies
@@ -36,9 +37,7 @@ var options = {
 };
 
 app.use(function(req, res, next) {
-    /**
-     * Enforce secure connection
-     */
+    //Enforce secure connection
 
     if(!req.secure) {
         return res.redirect(['https://', req.get('host'), req.url].join(''));
@@ -61,12 +60,17 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 app.set('views', './presentations');
 
+/**
+ * Middleware
+ */
+
 app.use(session({
     secret: process.env.SESS_SECRET,
     resave: false,
     saveUninitialized: true
 }));
 
+// Front-end dependencies
 app.use(express.static('./public'));
 app.use(express.static('./bower_components'));
 
@@ -76,10 +80,20 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
+// Cache object for request
+app.use(function(req, res, next) {
+    req.cache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
+
+    Service.Recognition.knowsClient(req.session, req.cache);
+
+    next();
+});
+
 /**
  * Routing
  */
-routes.setup(app);
+
+routes.initialize(app);
 
 /**
  * Orb instruction dispatching

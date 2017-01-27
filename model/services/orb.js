@@ -26,8 +26,9 @@ let Orb = {
             daySets = params.daySets.slice(1, -1),
             sampleSize = params.sampleSize;
 
-        //return Promise.resolve(70);
+        return Promise.resolve(Math.floor(Math.random()*101));
 
+        /*
         return new Promise(function (resolve, reject) {
             exec(
                 "php ./exe/relative-usage.php '" + id + "' '" + daySets + "' '" + sampleSize + "'",
@@ -40,6 +41,7 @@ let Orb = {
                 }
             );
         });
+        */
 
     },
 

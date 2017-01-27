@@ -2,119 +2,67 @@
  * Routes
  * @overview Handles application routing mechanisms
  */
-let NodeCache = require('node-cache');
-
-let Service = require('./model/services'),
-    controllers = require('./controllers'),
+let controllers = require('./controllers'),
     views = require('./views');
-
-/**
- * Routes a controller and view together
- * @param  {Array} components Functions to pass req, res to
- */
-let pair = function (controller, view) {
-    return function(req, res) {
-        /**
-         * Create cache for this request
-         */
-        let reqCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
-
-        /**
-         * Initialize authorization and attempt to recognize client
-         */
-        Service.Recognition.knowsClient(req.session, reqCache);
-
-        /**
-         * Route request; pass request object to controller, response object to
-         * the view, and pass both the request cache.
-         *
-         * This way, the controller may pass any services the request cache for
-         * the service to manipulate. The view will be able to chekc the request
-         * cache as insight into the model's state.
-         */
-        controller(req, reqCache).then(function(){
-            return view(res, reqCache);
-        }).catch(function (reason) {
-            console.log(reason);
-            res.render('bad-request');
-        });
-    };
-};
 
 /**
  * @param  Object params An Oject literal with controllers and app
  */
-module.exports.setup = function (app) {
-
+module.exports.initialize = function (app) {
     // Home
-    app.get('/', pair(controllers.page.index, views.page.index.bind(views.page)));
-    app.get('/guide', pair(controllers.page.guide, views.page.guide.bind(views.page)));
+    app.get('/', controllers.page.index, views.page.index);
+    app.get('/guide', controllers.page.guide, views.page.guide);
 
     // Dashboard
-    app.get('/dash', pair(controllers.page.dashboard, views.page.dashboard.bind(views.page)));
+    app.get('/dash', controllers.page.dashboard, views.page.dashboard);
 
-    app.get('/dash/orb/new', pair(controllers.page.newOrb, views.page.newOrb.bind(views.page)));
-    app.post('/dash/orb/new', pair(controllers.configuration.insertOrb,
-        views.configuration.orb.bind(views.configuration)));
+    app.get('/dash/orb/new', controllers.page.newOrb, views.page.newOrb);
+    app.post('/dash/orb/new', controllers.configuration.insertOrb, views.configuration.orb);
 
-    app.get('/dash/orb/delete/:orbId', pair(controllers.page.deleteOrb, views.page.deleteOrb.bind(views.page)));
-    app.post('/dash/orb/delete/:orbId', pair(controllers.configuration.deleteOrb,
-        views.configuration.deleteOrb.bind(views.configuration)));
+    app.get('/dash/orb/delete/:orbId', controllers.page.deleteOrb, views.page.deleteOrb);
+    app.post('/dash/orb/delete/:orbId', controllers.configuration.deleteOrb, views.configuration.deleteOrb);
 
-    app.get('/dash/orb/edit/:orbId', pair(controllers.page.editOrb, views.page.editOrb.bind(views.page)));
-    app.post('/dash/orb/edit/:orbId', pair(controllers.configuration.updateOrb,
-        views.configuration.orb.bind(views.configuration)));
+    app.get('/dash/orb/edit/:orbId', controllers.page.editOrb, views.page.editOrb);
+    app.post('/dash/orb/edit/:orbId', controllers.configuration.updateOrb, views.configuration.orb);
 
-    app.get('/dash/orb/success', pair(controllers.page.orbSuccess,
-        views.page.orbSuccess.bind(views.page)));
+    app.get('/dash/orb/success', controllers.page.orbSuccess, views.page.orbSuccess);
 
-    app.post('/dash/bulb/update', pair(controllers.configuration.bulb,
-        views.configuration.bulb.bind(views.configuration)));
+    app.post('/dash/bulb/update', controllers.configuration.bulb, views.configuration.bulb);
 
     // Account configuration
-    app.get('/account', pair(controllers.page.account, views.page.account.bind(views.page)));
+    app.get('/account', controllers.page.account, views.page.account);
 
-    app.get('/account/config', pair(controllers.page.accountConfig, views.page.accountConfig.bind(views.page)));
-    app.post('/account/config', pair(controllers.account.update, views.account.update.bind(views.account)));
+    app.get('/account/config', controllers.page.accountConfig, views.page.accountConfig);
+    app.post('/account/config', controllers.account.update, views.account.update);
 
-    app.get('/account/config/success', pair(controllers.page.accountConfigSuccess,
-        views.page.accountConfigSuccess.bind(views.page)));
+    app.get('/account/config/success', controllers.page.accountConfigSuccess, views.page.accountConfigSuccess);
 
-    app.get('/account/security', pair(controllers.page.securityConfig,
-        views.page.securityConfig.bind(views.page)));
-    app.post('/account/security', pair(controllers.account.updatePassword,
-        views.account.updatePassword.bind(views.account)));
+    app.get('/account/security', controllers.page.securityConfig, views.page.securityConfig);
+    app.post('/account/security', controllers.account.updatePassword, views.account.updatePassword);
 
-    app.get('/account/security/success', pair(controllers.page.accountConfigSuccess,
-            views.page.accountConfigSuccess.bind(views.page)));
+    app.get('/account/security/success', controllers.page.accountConfigSuccess, views.page.accountConfigSuccess);
 
     // Authentication
-    app.get('/account/signin', pair(controllers.page.signin, views.page.signin));
-    app.post('/account/signin', pair(controllers.authentication.signin,
-        views.authentication.signin));
+    app.get('/account/signin', controllers.page.signin, views.page.signin);
+    app.post('/account/signin', controllers.authentication.signin, views.authentication.signin);
 
     // Registration
     //
     // Notice: 'signup' on the frontend (i.e., URLs and page controller name) and
     // 'register' on the backend
-    app.get('/account/signup', pair(controllers.page.signup, views.page.signup));
-    app.post('/account/signup', pair(controllers.account.register, views.account.register));
-    app.get('/account/signup/success', pair(controllers.page.signupSuccess,
-        views.page.signupSuccess));
+    app.get('/account/signup', controllers.page.signup, views.page.signup);
+    app.post('/account/signup', controllers.account.register, views.account.register);
+    app.get('/account/signup/success', controllers.page.signupSuccess, views.page.signupSuccess);
 
     // Authorization
-    app.get('/auth', pair(controllers.authorization.authorize,
-        views.authorization.authorize.bind(views.authorization)));
-    app.get('/auth/confirm', pair(controllers.page.authConfirm,
-        views.page.authConfirm.bind(views.page)));
-    app.get('/redirect', pair(controllers.authorization.redirect,
-        views.authorization.redirect.bind(views.authorization)));
+    app.get('/auth', controllers.authorization.authorize, views.authorization.authorize);
+    app.get('/auth/confirm', controllers.page.authConfirm, views.page.authConfirm);
+    app.get('/redirect', controllers.authorization.redirect, views.authorization.redirect);
 
     // JSON pages
-    app.get('/json/orb/instructions', pair(controllers.json.orbInstructionList, views.json.orbInstructionList.bind(views.json)));
+    app.get('/json/orb/instructions', controllers.json.orbInstructionList, views.json.orbInstructionList);
 
     // Dynamic CSS
-    app.get('/css/orbs.animation.css', pair(controllers.json.orbInstructionList,
-        views.css.orbAnimations.bind(views.css)));
+    app.get('/css/orbs.animation.css', controllers.json.orbInstructionList, views.css.orbAnimations);
 
 };

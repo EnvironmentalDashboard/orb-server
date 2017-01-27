@@ -5,74 +5,83 @@
 let Service = require('../model/services');
 
 let page = {
-    index: function (req, cache) {
-        return Promise.resolve();
+    index: function (req, res, next) {
+        return next();
     },
 
-    signin: function (req, cache) {
-        return Promise.resolve();
+    signin: function (req, res, next) {
+        return next();
     },
 
-    signup: function (req, cache) {
-        return Promise.resolve();
+    signup: function (req, res, next) {
+        return next();
     },
 
-    signupSuccess: function (req, cache) {
-        return Promise.resolve();
+    signupSuccess: function (req, res, next) {
+        return next();
     },
 
-    dashboard: function (req, cache) {
+    dashboard: function (req, res, next) {
         return Promise.all([
-            Service.DashboardInformation.initializeOrbList(cache, req.session),
-            Service.DashboardInformation.initializeBulbList(cache, req.session)
-        ])
+            Service.DashboardInformation.initializeOrbList(req.cache, req.session),
+            Service.DashboardInformation.initializeBulbList(req.cache, req.session)
+        ]).then(function() {
+            next();
+        });
     },
 
-    newOrb: function (req, cache) {
-        return Service.DashboardInformation.initializeMeterList(cache, req.session);
+    newOrb: function (req, res, next) {
+        return Service.DashboardInformation.initializeMeterList(req.cache, req.session)
+            .then(function() {
+                next();
+            });
     },
 
-    editOrb: function (req, cache) {
+    editOrb: function (req, res, next) {
         return Promise.all([
-            Service.DashboardInformation.initializeOrb(req.params.orbId, cache, req.session),
-            Service.DashboardInformation.initializeMeterList(cache, req.session)
-        ]);
+            Service.DashboardInformation.initializeOrb(req.params.orbId, req.cache, req.session),
+            Service.DashboardInformation.initializeMeterList(req.cache, req.session)
+        ]).then(function() {
+            next();
+        });
     },
 
-    deleteOrb: function(req, cache) {
-        return Service.DashboardInformation.initializeOrb(req.params.orbId, cache, req.session);
+    deleteOrb: function(req, res, next) {
+        return Service.DashboardInformation.initializeOrb(req.params.orbId, req.cache, req.session)
+            .then(function() {
+                next();
+            });
     },
 
-    orbSuccess: function (req, cache) {
-        Service.Recognition.knowsClient(req.session, cache);
-
-        return Promise.resolve();
+    orbSuccess: function (req, res, next) {
+        return next();
     },
 
-    authConfirm: function (req, cache) {
-        return Promise.resolve();
+    authConfirm: function (req, res, next) {
+        return next();
     },
 
-    guide: function (req, cache) {
-        return Promise.resolve();
+    guide: function (req, res, next) {
+        return next();
     },
 
-    account: function (req, cache) {
-        return Promise.resolve();
+    account: function (req, res, next) {
+        return next();
     },
 
-    accountConfig: function (req, cache) {
-        return Promise.resolve();
+    accountConfig: function (req, res, next) {
+        return next();
     },
 
-    accountConfigSuccess: function (req, cache) {
-        Service.Recognition.refreshClient(req.session, cache);
-
-        return Promise.resolve();
+    accountConfigSuccess: function (req, res, next) {
+        Service.Recognition.refreshClient(req.session, req.cache)
+            .then(function() {
+                next();
+            });
     },
 
-    securityConfig: function (req, cache) {
-        return Promise.resolve();
+    securityConfig: function (req, res, next) {
+        return next();
     }
 };
 

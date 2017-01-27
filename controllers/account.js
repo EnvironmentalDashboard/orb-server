@@ -5,29 +5,35 @@
 let Service = require('../model/services');
 
 let account = {
-    register: function (req, cache) {
+    register: function (req, res, next) {
         return Service.Account.register({
             email: req.body.email,
             fname: req.body.fname,
             lname: req.body.lname,
             password1: req.body.password,
             password2: req.body.confirm
-        }, cache);
+        }, req.cache).then(function() {
+            next();
+        });
     },
 
-    update: function (req, cache) {
+    update: function (req, res, next) {
         return Service.Account.updateInformation({
             fname: req.body.fname,
             lname: req.body.lname
-        }, cache, req.session);
+        }, req.cache, req.session).then(function() {
+            next();
+        });
     },
 
-    updatePassword: function (req, cache) {
+    updatePassword: function (req, res, next) {
         return Service.Account.updatePassword({
             password: req.body.password,
             newPassword: req.body.newPassword,
             confirmNewPassword: req.body.confirm
-        }, cache, req.session);
+        }, req.cache, req.session).then(function() {
+            next();
+        });
     }
 
 };

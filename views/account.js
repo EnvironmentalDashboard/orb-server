@@ -4,18 +4,18 @@
 
 let base = require('./base');
 
-let account = Object.assign({
-    register: function (res, cache) {
+let account = {
+    register: function (req, res, next) {
 
-        cache.get('errors', function (err, val) {
+        req.cache.get('errors', function (err, val) {
             /**
              * If there were errors, render the registration page again
              */
             if (val !== undefined) {
                 res.render('register', {
-                    loggedIn: cache.get('loggedIn'),
+                    loggedIn: req.cache.get('loggedIn'),
                     errors: val,
-                    form: cache.get('form')
+                    form: req.cache.get('form')
                 });
 
             /**
@@ -28,21 +28,21 @@ let account = Object.assign({
 
     },
 
-    update: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+    update: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
-        cache.get('errors', function (err, val) {
+        req.cache.get('errors', function (err, val) {
             /**
              * If there were errors, render the config page again
              */
             if (val !== undefined) {
-                
+
                 res.render('account-config', {
-                    loggedIn: cache.get('loggedIn'),
+                    loggedIn: req.cache.get('loggedIn'),
                     errors: val,
-                    form: cache.get('form')
+                    form: req.cache.get('form')
                 });
 
             /**
@@ -55,18 +55,18 @@ let account = Object.assign({
 
     },
 
-    updatePassword: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+    updatePassword: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
-        cache.get('errors', function (err, val) {
+        req.cache.get('errors', function (err, val) {
             /**
              * If there were errors, render the config page again
              */
             if (val !== undefined) {
                 res.render('account-password-config', {
-                    loggedIn: cache.get('loggedIn'),
+                    loggedIn: req.cache.get('loggedIn'),
                     errors: val
                 });
 
@@ -80,6 +80,6 @@ let account = Object.assign({
 
     }
 
-}, base);
+};
 
 module.exports = account;

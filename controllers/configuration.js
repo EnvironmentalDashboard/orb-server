@@ -5,7 +5,7 @@
 let Service = require('../model/services');
 
 let configuration = {
-    insertOrb: function(req, cache) {
+    insertOrb: function(req, res, next) {
         return Service.Configuration.createOrb({
             title: req.body.title,
             meter1: req.body.meter1,
@@ -24,10 +24,12 @@ let configuration = {
                 req.body.day_6 || '0'
             ],
             sampleSize: req.body.sample
-        }, req.session, cache);
+        }, req.session, req.cache).then(function() {
+            next();
+        });
     },
 
-    updateOrb: function(req, cache) {
+    updateOrb: function(req, res, next) {
         return Service.Configuration.createOrb({
             title: req.body.title,
             id: req.params.orbId,
@@ -47,19 +49,25 @@ let configuration = {
                 req.body.day_6 || '0'
             ],
             sampleSize: req.body.sample
-        }, req.session, cache);
+        }, req.session, req.cache).then(function() {
+            next();
+        });
     },
 
-    deleteOrb: function(req, cache) {
-        return Service.Configuration.deleteOrb(req.params.orbId, req.session, cache);
+    deleteOrb: function(req, res, next) {
+        return Service.Configuration.deleteOrb(req.params.orbId, req.session, req.cache).then(function() {
+            next();
+        });
     },
 
-    bulb: function(req, cache) {
+    bulb: function(req, res, next) {
         return Service.Configuration.saveBulb({
             selector: req.body.selector,
             enabled: req.body.enabled,
             orb: req.body.orb
-        }, req.session, cache);
+        }, req.session, req.cache).then(function() {
+            next();
+        });
     }
 
 };

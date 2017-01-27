@@ -3,9 +3,9 @@
  */
 
 let authentication = {
-    signin: function (res, cache) {
+    signin: function (req, res, next) {
 
-        cache.get('errors', function (err, val) {
+        req.cache.get('errors', function (err, val) {
             /**
              * If there were errors
              */

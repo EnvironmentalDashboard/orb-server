@@ -4,40 +4,40 @@
 
 let base = require('./base');
 
-let page = Object.assign({
-    index: function (res, cache) {
+let page = {
+    index: function (req, res, next) {
 
-        res.render('default', {loggedIn: cache.get('loggedIn')});
+        res.render('default', {loggedIn: req.cache.get('loggedIn')});
     },
 
-    signin: function (res, cache) {
+    signin: function (req, res, next) {
 
-        res.render('login', {loggedIn: cache.get('loggedIn')});
+        res.render('login', {loggedIn: req.cache.get('loggedIn')});
     },
 
-    signup: function (res, cache) {
+    signup: function (req, res, next) {
 
-        res.render('register', {loggedIn: cache.get('loggedIn')});
+        res.render('register', {loggedIn: req.cache.get('loggedIn')});
     },
 
-    signupSuccess: function (res, cache) {
+    signupSuccess: function (req, res, next) {
 
         res.render('register-success');
     },
 
-    dashboard: function (res, cache) {
+    dashboard: function (req, res, next) {
 
-        if(this.caughtAuthError(cache)) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
-        let orbList = cache.get('orb-list'),
-            bulbList = cache.get('bulb-list'),
-            authorizationNotice = cache.get('authorization-notice'),
-            labellingNotice = cache.get('labelling-notice');
+        let orbList = req.cache.get('orb-list'),
+            bulbList = req.cache.get('bulb-list'),
+            authorizationNotice = req.cache.get('authorization-notice'),
+            labellingNotice = req.cache.get('labelling-notice');
 
         res.render('dashboard', {
-            loggedIn: cache.get('loggedIn'),
+            loggedIn: req.cache.get('loggedIn'),
             orbs: orbList,
             bulbs: bulbList,
             authorizationNotice: authorizationNotice,
@@ -59,17 +59,17 @@ let page = Object.assign({
         });
     },
 
-    newOrb: function (res, cache) {
+    newOrb: function (req, res, next) {
 
-        if(this.caughtAuthError(cache)) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
-        let meterList = cache.get('meter-list'),
+        let meterList = req.cache.get('meter-list'),
             defaultDataGrouping = [[1,2,3,4,5,6,7]];
 
         res.render('orb-config', {
-            loggedIn: cache.get('loggedIn'),
+            loggedIn: req.cache.get('loggedIn'),
             buildings: meterList,
             days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             form: {daySets: defaultDataGrouping},
@@ -84,30 +84,30 @@ let page = Object.assign({
         });
     },
 
-    deleteOrb: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+    deleteOrb: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
         res.render('orb-delete-confirm', {
-            orb: cache.get('orb-info')
+            orb: req.cache.get('orb-info')
         });
     },
 
-    editOrb: function (res, cache) {
+    editOrb: function (req, res, next) {
 
-        if(this.caughtAuthError(cache)) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
-        let meterList = cache.get('meter-list'),
-            dataGrouping = JSON.parse(cache.get('orb-info').daySets);
+        let meterList = req.cache.get('meter-list'),
+            dataGrouping = JSON.parse(req.cache.get('orb-info').daySets);
 
         res.render('orb-config', {
-            loggedIn: cache.get('loggedIn'),
+            loggedIn: req.cache.get('loggedIn'),
             buildings: meterList,
             days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            form: cache.get('orb-info'),
+            form: req.cache.get('orb-info'),
             helpers: {
                 selected: function (selectedValue, comparedValue) {
                     if(selectedValue == comparedValue) {
@@ -124,47 +124,47 @@ let page = Object.assign({
         });
     },
 
-    orbSuccess: function (res, cache) {
+    orbSuccess: function (req, res, next) {
 
-        if(this.caughtAuthError(cache)) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
         res.render('orb-config-success', {
-            loggedIn: cache.get('loggedIn')
+            loggedIn: req.cache.get('loggedIn')
         });
     },
 
-    authConfirm: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+    authConfirm: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
         res.render('auth-confirm');
     },
 
-    guide: function (res, cache) {
+    guide: function (req, res, next) {
         res.render('guide', {
-            loggedIn: cache.get('loggedIn')
+            loggedIn: req.cache.get('loggedIn')
         });
     },
 
-    account: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+    account: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
         res.render('account', {
-            loggedIn: cache.get('loggedIn')
+            loggedIn: req.cache.get('loggedIn')
         });
     },
 
-    accountConfig: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+    accountConfig: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
-        let userInfo = cache.get('loggedIn');
+        let userInfo = req.cache.get('loggedIn');
 
         res.render('account-config', {
             loggedIn: userInfo,
@@ -172,25 +172,25 @@ let page = Object.assign({
         });
     },
 
-    accountConfigSuccess: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+    accountConfigSuccess: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
         res.render('account-config-success', {
-            loggedIn: cache.get('loggedIn')
+            loggedIn: req.cache.get('loggedIn')
         });
     },
 
-    securityConfig: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+    securityConfig: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
         res.render('account-password-config', {
-            loggedIn: cache.get('loggedIn')
+            loggedIn: req.cache.get('loggedIn')
         });
     },
-}, base);
+};
 
 module.exports = page;

@@ -6,18 +6,23 @@ let Service = require('../model/services');
 
 let authorization = {
 
-    authorize: function (req, cache) {
-        return Service.Account.authorizationRedirect(req.session, cache);
+    authorize: function (req, res, next) {
+        return Service.Account.authorizationRedirect(req.session, req.cache)
+            .then(function() {
+                next();
+            });
     },
 
     /**
      * Retrieves information from LifX's redirect
      */
-    redirect: function (req, cache) {
+    redirect: function (req, res, next) {
         return Service.Account.authorize({
             code: req.query.code,
             state: req.query.state
-        }, req.session, cache);
+        }, req.session, req.cache).then(function() {
+            next();
+        });
     }
 };
 

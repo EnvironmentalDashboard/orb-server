@@ -6,26 +6,26 @@
 
 let lifx_api = "https://cloud.lifx.com/oauth";
 
-let authorization = Object.assign({
-    authorize: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+let authorization = {
+    authorize: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
-        let query = cache.get('query');
+        let query = req.cache.get('query');
 
         res.redirect(lifx_api + '/authorize?' + query);
 
     },
 
-    redirect: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+    redirect: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
-        return res.render('auth-success', {loggedIn: cache.get('loggedIn')});
+        return res.render('auth-success', {loggedIn: req.cache.get('loggedIn')});
     }
 
-}, base);
+};
 
 module.exports = authorization;

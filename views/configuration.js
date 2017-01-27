@@ -4,24 +4,24 @@
 
  let base = require('./base');
 
- let configuration = Object.assign({
-    orb: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+ let configuration = {
+    orb: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
-        cache.get('errors', function (err, val) {
+        req.cache.get('errors', function (err, val) {
 
-            let meterList = cache.get('meter-list');
+            let meterList = req.cache.get('meter-list');
 
             /**
              * If there were errors, render the orb creation page again
              */
             if (val !== undefined) {
                 res.render('addorb', {
-                    loggedIn: cache.get('loggedIn'),
+                    loggedIn: req.cache.get('loggedIn'),
                     errors: val,
-                    form: cache.get('form'),
+                    form: req.cache.get('form'),
                     buildings: meterList,
                     days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                     helpers: {
@@ -49,18 +49,18 @@
 
     },
 
-    deleteOrb: function(res, cache) {
+    deleteOrb: function(req, res, next) {
         res.redirect('/dash');
     },
 
-    bulb: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+    bulb: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.render('denied');
         }
 
         res.redirect('/dash');
     }
 
-}, base);
+};
 
 module.exports = configuration;

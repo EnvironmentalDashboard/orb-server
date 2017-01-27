@@ -5,8 +5,12 @@
 let Service = require('../model/services');
 
 let json = {
-    orbInstructionList: function(req, cache) {
-        return Service.DashboardInformation.initializeOrbInstructionsList(cache, req.session);
+    orbInstructionList: function(req, res, next) {
+        return Service.DashboardInformation
+            .initializeOrbInstructionsList(req.cache, req.session)
+            .then(function() {
+                next();
+            });
     }
 };
 

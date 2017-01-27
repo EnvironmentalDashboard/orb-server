@@ -4,18 +4,18 @@
 
  let base = require('./base');
 
- let json = Object.assign({
-    orbInstructionList: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+ let json = {
+    orbInstructionList: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.send('Denied.');
         }
 
-        let instructionList = cache.get('orb-instruction-list');
+        let instructionList = req.cache.get('orb-instruction-list');
 
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(instructionList));
     }
 
-}, base);
+};
 
 module.exports = json;

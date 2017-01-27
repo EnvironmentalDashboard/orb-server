@@ -4,13 +4,13 @@
 
  let base = require('./base');
 
- let css = Object.assign({
-    orbAnimations: function (res, cache) {
-        if(this.caughtAuthError(cache)) {
+ let css = {
+    orbAnimations: function (req, res, next) {
+        if(base.caughtAuthError(req.cache)) {
             return res.send('Denied.');
         }
 
-        let instructionList = cache.get('orb-instruction-list');
+        let instructionList = req.cache.get('orb-instruction-list');
 
         res.setHeader('Content-Type', 'text/css');
         res.render('css/orb.animation.css.hbs', {
@@ -19,6 +19,6 @@
         });
     }
 
-}, base);
+};
 
 module.exports = css;
