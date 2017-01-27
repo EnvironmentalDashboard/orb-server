@@ -55,6 +55,12 @@ let Recognition = {
         });
     },
 
+    forget: function(sess, cache) {
+        sess.authenticatedUser = null;
+        cache.set('loggedIn', sess.authenticatedUser);
+        cache.set('auth-error', true);
+    },
+
     /**
      * Recognizes (login) a client
      * @param  {Object} params Object with user's email, password

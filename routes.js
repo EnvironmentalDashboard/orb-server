@@ -42,9 +42,10 @@ module.exports.initialize = function (app) {
 
     app.get('/account/security/success', controllers.page.accountConfigSuccess, views.page.accountConfigSuccess);
 
-    // Authentication
+    // Recognnition
     app.get('/account/signin', controllers.page.signin, views.page.signin);
     app.post('/account/signin', controllers.authentication.signin, views.authentication.signin);
+    app.get('/account/signout', controllers.authentication.signout, views.authentication.signout);
 
     // Registration
     //

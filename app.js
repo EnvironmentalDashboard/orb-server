@@ -25,9 +25,8 @@ let routes = require('./routes'),
     Service = require('./model/services');
 
 /**
- * App configuration
+ * Configuration
  */
-
 let app = express();
 
 var options = {
@@ -35,16 +34,6 @@ var options = {
     cert: fs.readFileSync(process.env.SSL_CERT),
     ca: fs.readFileSync(process.env.SSL_INTERMEDIATES),
 };
-
-app.use(function(req, res, next) {
-    //Enforce secure connection
-
-    if(!req.secure) {
-        return res.redirect(['https://', req.get('host'), req.url].join(''));
-    }
-
-    next();
-});
 
 https.createServer(options, app).listen(3000);
 
@@ -63,6 +52,16 @@ app.set('views', './presentations');
 /**
  * Middleware
  */
+
+ app.use(function(req, res, next) {
+     //Midleware: enforce secure connection
+
+     if(!req.secure) {
+         return res.redirect(301, ['https://', req.get('host'), req.url].join(''));
+     }
+     
+     next();
+ });
 
 app.use(session({
     secret: process.env.SESS_SECRET,

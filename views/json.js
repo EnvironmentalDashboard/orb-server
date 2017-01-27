@@ -13,7 +13,7 @@
         let instructionList = req.cache.get('orb-instruction-list');
 
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(instructionList));
+        res.json(instructionList);
     }
 
 };

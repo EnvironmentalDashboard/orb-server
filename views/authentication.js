@@ -23,6 +23,15 @@ let authentication = {
 
     },
 
+    signout: function (req, res, next) {
+        if(!req.cache.get('loggedIn')) {
+            res.render('logout-success');
+        } else {
+            res.render('bad-request', {loggedIn: req.cache.get('loggedIn') });
+        }
+
+    },
+
 };
 
 module.exports = authentication;

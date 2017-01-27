@@ -76,6 +76,8 @@
     position: absolute;
     right: 10px;
     font-family: 'Glyphicons Halflings';
+    background: #fff;
+    padding: 0 3px;
 }
 
 .ui-table th.asc,
@@ -95,8 +97,6 @@
     position: absolute;
     right: 10px;
     font-family: 'Glyphicons Halflings';
-    background: #fff;
-    padding: 0 3px;
 }
 
 .ui-table th.desc:after {
