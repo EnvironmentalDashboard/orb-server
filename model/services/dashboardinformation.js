@@ -17,7 +17,7 @@ let DashboardInformation = {
      * @return {Promise}         A promise
      */
     initializeOrbList: function(cache, sess) {
-        client = Recognition.knowsClient({required: true}, sess, cache);
+        client = Recognition.knowsClient({required: true}, cache, sess);
 
         if (!client) {
             return Promise.resolve();
@@ -69,7 +69,7 @@ let DashboardInformation = {
     },
 
     initializeOrb: function(orbId, cache, sess) {
-        client = Recognition.knowsClient({required: true}, sess, cache);
+        client = Recognition.knowsClient({required: true}, cache, sess);
 
         if (!client) {
             return Promise.resolve();
@@ -96,7 +96,7 @@ let DashboardInformation = {
      * @return {Promise}         A promise
      */
     initializeBulbList: function(cache, sess) {
-        client = Recognition.knowsClient({required: true}, sess, cache);
+        client = Recognition.knowsClient({required: true}, cache, sess);
 
         if (!client) {
             return Promise.resolve();
@@ -199,7 +199,7 @@ let DashboardInformation = {
      * @return {Promise}         A promise
      */
     initializeMeterList: function (cache, sess) {
-        if (!Recognition.knowsClient({required: true}, sess, cache)) {
+        if (!Recognition.knowsClient({required: true}, cache, sess)) {
             return Promise.resolve();
         }
 
@@ -237,7 +237,7 @@ let DashboardInformation = {
      * @return {Promise}         A promise
      */
     initializeOrbInstructionsList: function(cache, sess) {
-        if (!Recognition.knowsClient({required: true}, sess, cache)) {
+        if (!Recognition.knowsClient({required: true}, cache, sess)) {
             return Promise.resolve();
         }
 

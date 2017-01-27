@@ -15,7 +15,7 @@ let authentication = {
     },
 
     signout: function(req, res, next) {
-        Service.Recognition.forget(req.session, req.cache);
+        Service.Recognition.forget(req.cache, req.session);
 
         next();
     }

@@ -10,8 +10,8 @@ let Entity = require('../entities'),
 
 let Configuration = {
 
-    createOrb: function(params, sess, cache) {
-        let client = Recognition.knowsClient({required: true}, sess, cache);
+    createOrb: function(params, cache, sess) {
+        let client = Recognition.knowsClient({required: true}, cache, sess);
 
         if (!client) {
             cache.set('auth-error', true);
@@ -140,8 +140,8 @@ let Configuration = {
         }).catch(console.log.bind(console));
     },
 
-    deleteOrb: function(orbId, sess, cache) {
-        let client = Recognition.knowsClient({required: true}, sess, cache);
+    deleteOrb: function(orbId, cache, sess) {
+        let client = Recognition.knowsClient({required: true}, cache, sess);
 
         if (!client) {
             cache.set('auth-error', true);
@@ -187,8 +187,8 @@ let Configuration = {
         });
     },
 
-    saveBulb: function(params, sess, cache) {
-        let client = Recognition.knowsClient({required: true}, sess, cache);
+    saveBulb: function(params, cache, sess) {
+        let client = Recognition.knowsClient({required: true}, cache, sess);
 
         if (!client) {
             cache.set('auth-error', true);

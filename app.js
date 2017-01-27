@@ -82,7 +82,7 @@ app.use(bodyParser.json());
 app.use(function(req, res, next) {
     req.cache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
-    Service.Recognition.knowsClient({}, req.session, req.cache);
+    Service.Recognition.knowsClient({}, req.cache, req.session);
 
     next();
 });

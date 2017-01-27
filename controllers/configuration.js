@@ -24,7 +24,7 @@ let configuration = {
                 req.body.day_6 || '0'
             ],
             sampleSize: req.body.sample
-        }, req.session, req.cache).then(function() {
+        }, req.cache, req.session).then(function() {
             next();
         });
     },
@@ -49,13 +49,13 @@ let configuration = {
                 req.body.day_6 || '0'
             ],
             sampleSize: req.body.sample
-        }, req.session, req.cache).then(function() {
+        }, req.cache, req.session).then(function() {
             next();
         });
     },
 
     deleteOrb: function(req, res, next) {
-        return Service.Configuration.deleteOrb(req.params.orbId, req.session, req.cache).then(function() {
+        return Service.Configuration.deleteOrb(req.params.orbId, req.cache, req.session).then(function() {
             next();
         });
     },
@@ -65,7 +65,7 @@ let configuration = {
             selector: req.body.selector,
             enabled: req.body.enabled,
             orb: req.body.orb
-        }, req.session, req.cache).then(function() {
+        }, req.cache, req.session).then(function() {
             next();
         });
     }

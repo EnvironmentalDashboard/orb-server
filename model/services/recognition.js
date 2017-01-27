@@ -21,7 +21,7 @@ let Recognition = {
      * @param  {Object} cache Cache object to write to
      * @return {Object}       User's info or false.
      */
-    knowsClient: function(params, sess, cache) {
+    knowsClient: function(params, cache, sess) {
         let loggedIn = false;
 
         if(sess.authenticatedUser) {
@@ -42,7 +42,7 @@ let Recognition = {
      * @param  {Object} cache Cache object to write to
      * @return {Object}       User's info or false.
      */
-    refreshClient: function (sess, cache) {
+    refreshClient: function (cache, sess) {
         let loggedIn = false, me = this;
 
         if(!sess.authenticatedUser) {
@@ -58,7 +58,7 @@ let Recognition = {
         });
     },
 
-    forget: function(sess, cache) {
+    forget: function(cache, sess) {
         sess.authenticatedUser = null;
         cache.set('loggedIn', sess.authenticatedUser);
         cache.set('auth-error', true);
