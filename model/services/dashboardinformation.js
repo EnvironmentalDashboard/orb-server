@@ -38,7 +38,7 @@ let DashboardInformation = {
             let meterPromises = [];
 
             results.forEach(function (orb) {
-                let orbInfo = {id: orb.get('id'), title: orb.get('title')}; //
+                let orbInfo = {id: orb.get('id'), title: orb.get('title')};
 
                 meterPromises.push(orb.related('meter1').related('building').fetch().then(function (match) {
                     orbInfo.meter1 = {
