@@ -14,7 +14,7 @@ const lifx_api = "https://cloud.lifx.com/oauth";
 
 let Account = {
 
-    register: function (params, reqCache) {
+    register: function (params, cache) {
 
         let email = params.email.trim(),
             fname = params.fname.trim(),
@@ -38,8 +38,8 @@ let Account = {
          * Saves the errors and related form information to cache
          */
         let resolve = function () {
-            reqCache.set('errors', errors);
-            reqCache.set('form', {
+            cache.set('errors', errors);
+            cache.set('form', {
                 email: email,
                 fname: fname,
                 lname: lname
@@ -98,11 +98,11 @@ let Account = {
         }).catch(console.log.bind(console));
     },
 
-    updatePassword: function(params, reqCache, sess) {
-        let client = Recognition.knowsClient({required: true}, sess, reqCache);
+    updatePassword: function(params, cache, sess) {
+        let client = Recognition.knowsClient({required: true}, sess, cache);
 
         if (!client) {
-            reqCache.set('auth-error', true);
+            cache.set('auth-error', true);
             return Promise.resolve();
         }
 
@@ -113,7 +113,7 @@ let Account = {
         let errors = {};
 
         let resolve = function () {
-            reqCache.set('errors', errors);
+            cache.set('errors', errors);
 
             return Promise.resolve(errors);
         };
@@ -167,11 +167,11 @@ let Account = {
 
     },
 
-    updateInformation: function(params, reqCache, sess) {
-        let client = Recognition.knowsClient({required: true}, sess, reqCache);
+    updateInformation: function(params, cache, sess) {
+        let client = Recognition.knowsClient({required: true}, sess, cache);
 
         if (!client) {
-            reqCache.set('auth-error', true);
+            cache.set('auth-error', true);
             return Promise.resolve();
         }
 
@@ -181,8 +181,8 @@ let Account = {
         let errors = {};
 
         let resolve = function () {
-            reqCache.set('errors', errors);
-            reqCache.set('form', {
+            cache.set('errors', errors);
+            cache.set('form', {
                 email: email,
                 fname: fname,
                 lname: lname
@@ -217,11 +217,11 @@ let Account = {
          });
     },
 
-    authorizationRedirect: function(sess, reqCache) {
-        let client = Recognition.knowsClient({required: true}, sess, reqCache);
+    authorizationRedirect: function(sess, cache) {
+        let client = Recognition.knowsClient({required: true}, sess, cache);
 
         if (!client) {
-            reqCache.set('auth-error', true);
+            cache.set('auth-error', true);
             return Promise.resolve();
         }
 
@@ -243,16 +243,16 @@ let Account = {
             response_type: 'code'
         });
 
-        reqCache.set('query', query);
+        cache.set('query', query);
         return Promise.resolve();
 
     },
 
-    authorize: function(params, sess, reqCache) {
-        let client = Recognition.knowsClient({required: true}, sess, reqCache);
+    authorize: function(params, sess, cache) {
+        let client = Recognition.knowsClient({required: true}, sess, cache);
 
         if (!client) {
-            reqCache.set('auth-error', true);
+            cache.set('auth-error', true);
             return Promise.resolve();
         }
 

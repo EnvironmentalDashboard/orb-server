@@ -10,11 +10,11 @@ let Entity = require('../entities'),
 
 let Configuration = {
 
-    createOrb: function(params, sess, reqCache) {
-        let client = Recognition.knowsClient({required: true}, sess, reqCache);
+    createOrb: function(params, sess, cache) {
+        let client = Recognition.knowsClient({required: true}, sess, cache);
 
         if (!client) {
-            reqCache.set('auth-error', true);
+            cache.set('auth-error', true);
             return Promise.resolve();
         }
 
@@ -61,8 +61,8 @@ let Configuration = {
         }));
 
         let resolve = function () {
-            reqCache.set('errors', errors);
-            reqCache.set('form', {
+            cache.set('errors', errors);
+            cache.set('form', {
                 title: title,
                 meter1: meter1,
                 meter2: meter2,
@@ -70,7 +70,7 @@ let Configuration = {
                 sampleSize: sampleSize
             });
 
-            return DashboardInformation.initializeMeterList(reqCache, sess);
+            return DashboardInformation.initializeMeterList(cache, sess);
         };
 
         let orb = new Entity.Orb({
@@ -140,11 +140,11 @@ let Configuration = {
         }).catch(console.log.bind(console));
     },
 
-    deleteOrb: function(orbId, sess, reqCache) {
-        let client = Recognition.knowsClient({required: true}, sess, reqCache);
+    deleteOrb: function(orbId, sess, cache) {
+        let client = Recognition.knowsClient({required: true}, sess, cache);
 
         if (!client) {
-            reqCache.set('auth-error', true);
+            cache.set('auth-error', true);
             return Promise.resolve();
         }
 
@@ -187,11 +187,11 @@ let Configuration = {
         });
     },
 
-    saveBulb: function(params, sess, reqCache) {
-        let client = Recognition.knowsClient({required: true}, sess, reqCache);
+    saveBulb: function(params, sess, cache) {
+        let client = Recognition.knowsClient({required: true}, sess, cache);
 
         if (!client) {
-            reqCache.set('auth-error', true);
+            cache.set('auth-error', true);
             return Promise.resolve();
         }
 

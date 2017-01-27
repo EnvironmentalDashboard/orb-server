@@ -12,12 +12,12 @@ let DashboardInformation = {
 
     /**
      * Stores a list of orbs associated with authenticated user to inputted cache
-     * @param  {Object} reqCache Cache object to write to
+     * @param  {Object} cache Cache object to write to
      * @param  {Object} sess     Persisting sssion object
      * @return {Promise}         A promise
      */
-    initializeOrbList: function(reqCache, sess) {
-        client = Recognition.knowsClient({required: true}, sess, reqCache);
+    initializeOrbList: function(cache, sess) {
+        client = Recognition.knowsClient({required: true}, sess, cache);
 
         if (!client) {
             return Promise.resolve();
@@ -63,13 +63,13 @@ let DashboardInformation = {
             /**
              * Store the orb list to cache and resolve
              */
-            reqCache.set('orb-list', orbList);
+            cache.set('orb-list', orbList);
             return Promise.resolve();
         });
     },
 
-    initializeOrb: function(orbId, reqCache, sess) {
-        client = Recognition.knowsClient({required: true}, sess, reqCache);
+    initializeOrb: function(orbId, cache, sess) {
+        client = Recognition.knowsClient({required: true}, sess, cache);
 
         if (!client) {
             return Promise.resolve();
@@ -83,7 +83,7 @@ let DashboardInformation = {
                 return Promise.reject('Records don\'t exist for the targetted orb');
             }
 
-            reqCache.set('orb-info', orb.attributes);
+            cache.set('orb-info', orb.attributes);
             return Promise.resolve();
         });
     },
@@ -91,12 +91,12 @@ let DashboardInformation = {
     /**
      * Stores a list of orbs associated with authenticated user merged with orbs
      * pulled from the API to inputted cache
-     * @param  {Object} reqCache Cache object to write to
+     * @param  {Object} cache Cache object to write to
      * @param  {Object} sess     Persisting sssion object
      * @return {Promise}         A promise
      */
-    initializeBulbList: function(reqCache, sess) {
-        client = Recognition.knowsClient({required: true}, sess, reqCache);
+    initializeBulbList: function(cache, sess) {
+        client = Recognition.knowsClient({required: true}, sess, cache);
 
         if (!client) {
             return Promise.resolve();
@@ -140,7 +140,7 @@ let DashboardInformation = {
              * authorize their account with LifX
              */
             if (user.get('token') == null || user.get('token') === '') {
-                reqCache.set('authorization-notice', 'This account isn\'t authorized with a LifX account. Please authorize to link your accounts.');
+                cache.set('authorization-notice', 'This account isn\'t authorized with a LifX account. Please authorize to link your accounts.');
                 return Promise.resolve({authorizationNotice: true});
             }
 
@@ -163,7 +163,7 @@ let DashboardInformation = {
             /**
              * The bulb list is finalized now; store it to cache & resolve
              */
-            reqCache.set('bulb-list', bulbList);
+            cache.set('bulb-list', bulbList);
             return Promise.resolve();
         }).then(function() {
             for (var key in bulbList) {
@@ -172,7 +172,7 @@ let DashboardInformation = {
                 if(bulb.info && (bulb.info.label.substring(0,4) === "LIFX"
                     || bulb.info.group.name === "My Room"
                     || bulb.info.location.name === "My Group")) {
-                    reqCache.set('labelling-notice', true);
+                    cache.set('labelling-notice', true);
 
                     break;
                 }
@@ -185,7 +185,7 @@ let DashboardInformation = {
              * resolve
              */
             console.log(reason);
-            reqCache.set('authorization-notice', 'The access token associated with your account went bad. Please reauthorize to link your accounts.');
+            cache.set('authorization-notice', 'The access token associated with your account went bad. Please reauthorize to link your accounts.');
             return Promise.resolve();
         });
 
@@ -194,12 +194,12 @@ let DashboardInformation = {
     /**
      * Stores a list of meters associated with authenticated user merged with orbs
      * pulled from the API to inputted cache
-     * @param  {Object} reqCache Cache object to write to
+     * @param  {Object} cache Cache object to write to
      * @param  {Object} sess     Persisting sssion object
      * @return {Promise}         A promise
      */
-    initializeMeterList: function (reqCache, sess) {
-        if (!Recognition.knowsClient({required: true}, sess, reqCache)) {
+    initializeMeterList: function (cache, sess) {
+        if (!Recognition.knowsClient({required: true}, sess, cache)) {
             return Promise.resolve();
         }
 
@@ -224,7 +224,7 @@ let DashboardInformation = {
                 });
             });
 
-            reqCache.set('meter-list', meterList);
+            cache.set('meter-list', meterList);
             return Promise.resolve();
         });
     },
@@ -232,12 +232,12 @@ let DashboardInformation = {
     /**
      * Stores a list of orb instructions associted with authenticated user to the
      * inputted cache
-     * @param  {Object} reqCache Cache object to write to
+     * @param  {Object} cache Cache object to write to
      * @param  {Object} sess     Persisting session object
      * @return {Promise}         A promise
      */
-    initializeOrbInstructionsList: function(reqCache, sess) {
-        if (!Recognition.knowsClient({required: true}, sess, reqCache)) {
+    initializeOrbInstructionsList: function(cache, sess) {
+        if (!Recognition.knowsClient({required: true}, sess, cache)) {
             return Promise.resolve();
         }
 
@@ -285,7 +285,7 @@ let DashboardInformation = {
             });
 
         }).then(function (list) {
-            reqCache.set('orb-instruction-list', list);
+            cache.set('orb-instruction-list', list);
             return Promise.resolve();
         });
     }
