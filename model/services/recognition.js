@@ -61,7 +61,6 @@ let Recognition = {
     forget: function(cache, sess) {
         sess.authenticatedUser = null;
         cache.set('loggedIn', sess.authenticatedUser);
-        cache.set('auth-error', true);
     },
 
     /**

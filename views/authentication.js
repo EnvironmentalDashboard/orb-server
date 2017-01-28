@@ -12,6 +12,7 @@ let authentication = {
             if (val !== undefined) {
 
                 res.render('login', {
+                    active: {singin: true},
                     errors: val
                 });
 

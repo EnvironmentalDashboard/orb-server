@@ -15,7 +15,10 @@ let authorization = {
     },
 
     redirect: function (req, res, next) {
-        return res.render('auth-success', {loggedIn: req.cache.get('loggedIn')});
+        return res.render('auth-success', {
+            active: {account: true},
+            loggedIn: req.cache.get('loggedIn')
+        });
     }
 
 };

@@ -13,6 +13,7 @@ let account = {
              */
             if (val !== undefined) {
                 res.render('register', {
+                    active: {signup: true},
                     loggedIn: req.cache.get('loggedIn'),
                     errors: val,
                     form: req.cache.get('form')
@@ -36,6 +37,7 @@ let account = {
             if (val !== undefined) {
 
                 res.render('account-config', {
+                    active: {account: true},
                     loggedIn: req.cache.get('loggedIn'),
                     errors: val,
                     form: req.cache.get('form')
@@ -58,6 +60,7 @@ let account = {
              */
             if (val !== undefined) {
                 res.render('account-password-config', {
+                    active: {account: true},
                     loggedIn: req.cache.get('loggedIn'),
                     errors: val
                 });

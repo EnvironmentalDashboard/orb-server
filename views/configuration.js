@@ -16,6 +16,7 @@
             if (val !== undefined) {
                 res.render('addorb', {
                     loggedIn: req.cache.get('loggedIn'),
+                    active: {dashboard: true},
                     errors: val,
                     form: req.cache.get('form'),
                     buildings: meterList,
