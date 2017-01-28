@@ -198,7 +198,7 @@
 }
 
 .ui-navbar a.navbar-brand {
-    background: url(../images/logo-white.png) left center no-repeat;
+    background: url(/images/logo-white.png) left center no-repeat;
     background-size: 15%;
     padding-left: 40px;
     margin-left: 0 !important;
