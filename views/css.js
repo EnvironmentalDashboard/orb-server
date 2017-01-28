@@ -2,9 +2,7 @@
  * Css view
  */
 
- let base = require('./base');
-
- let css = {
+let css = {
     orbAnimations: function (req, res, next) {
         let instructionList = req.cache.get('orb-instruction-list');
 

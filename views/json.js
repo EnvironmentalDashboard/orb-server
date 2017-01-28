@@ -2,9 +2,7 @@
  * Json view
  */
 
- let base = require('./base');
-
- let json = {
+let json = {
     orbInstructionList: function (req, res, next) {
         let instructionList = req.cache.get('orb-instruction-list');
 

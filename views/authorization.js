@@ -2,8 +2,6 @@
  * Authorization view
  */
 
- let base = require('./base');
-
 let lifx_api = "https://cloud.lifx.com/oauth";
 
 let authorization = {

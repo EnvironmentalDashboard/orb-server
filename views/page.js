@@ -2,8 +2,6 @@
  * Page view
  */
 
-let base = require('./base');
-
 let page = {
     index: function (req, res, next) {
 

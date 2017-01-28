@@ -2,9 +2,7 @@
  * Dashboard view
  */
 
- let base = require('./base');
-
- let configuration = {
+let configuration = {
     orb: function (req, res, next) {
         req.cache.get('errors', function (err, val) {
 

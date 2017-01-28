@@ -2,8 +2,6 @@
  * Account view
  */
 
-let base = require('./base');
-
 let account = {
     register: function (req, res, next) {
 
