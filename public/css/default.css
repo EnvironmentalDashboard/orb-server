@@ -197,6 +197,13 @@
     color: #fff;
 }
 
+.ui-navbar a.navbar-brand {
+    background: url(../images/logo-white.png) left center no-repeat;
+    background-size: 20%;
+    padding-left: 45px;
+    margin-left: 0 !important;
+}
+
 .ui-navbar li > a:hover,
 .ui-navbar li.open > a:link,
 .ui-navbar li.open > a:visited {
@@ -244,7 +251,63 @@ a:hover {
     border-color: #418e39 !important;
 }
 
+.ui-footer {
+    margin: 20px auto;
+}
+
+.ui-footer .row-wrap {
+    position: relative;
+    width: 100%;
+    padding: 20px 0;
+    margin-right: 0;
+}
+
+.ui-footer .row-wrap:before {
+    display: block;
+    content: "";
+    height: 1px;
+    position: absolute;
+    left: 15px;
+    top: 0;
+    right: 15px;
+    background: rgb(210, 210, 210);
+}
+
+.ui-footer .row p {
+    margin-bottom: 0;
+}
+
+.ui-footer ul.footer-nav {
+    list-style-type: none;
+    padding: 0;
+}
+
+.ui-footer ul.footer-nav li {
+    float: left;
+    margin: 0 20px 0 0;
+    position: relative;
+}
+
+.ui-footer ul.footer-nav li:after {
+    content: "•";
+    position: absolute;
+    top: 0;
+    right: -12px;
+}
+
+.ui-footer ul.footer-nav li:last-of-type:after {
+    content: "";
+}
+
+.ui-footer ul.footer-nav.pull-right li {
+    margin: 0 0 0 20px;
+}
+
 @media(max-width: 768px) {
+    .ui-navbar a.navbar-brand {
+        margin-left: 10px !important;
+    }
+
     .ui-table thead th {
         display: none;
         color: #418e39;
