@@ -197,9 +197,29 @@
     color: #fff;
 }
 
+.ui-navbar li > a:hover,
+.ui-navbar li.open > a:link,
+.ui-navbar li.open > a:visited {
+    background-color: rgb(75, 175, 60) !important;
+}
+
+.ui-navbar li > a:active {
+    text-decoration: underline;
+}
+
+.ui-navbar li.active > a:link,
+.ui-navbar li.active > a:visited,
+.ui-navbar li.active > a:hover {
+    background-color: rgb(65, 139, 55) !important;
+}
+
 .ui-navbar .dropdown li > a:link,
 .ui-navbar .dropdown li > a:visited {
     color: #000;
+}
+
+.ui-navbar .dropdown-menu li > a:hover {
+    color: #fff;
 }
 
 .ui-inline {
