@@ -2,12 +2,13 @@
  * Orb Animation Keyframes
  *
  * Dynamically generated
+ * {{timestamp}}
  */
 
 {{#each instructions}}
 
 /**
- * Orb {{@key}} keyframes and animation assignment
+ * Orb {{@key}}
  */
 {{#each meters}}
 @keyframes orb-{{@../key}}-meter-{{@key}} {
@@ -15,7 +16,7 @@
     100% { background-color: hsl({{hue}}, 80%, 50%); }
 }
 .orb-{{@../key}}-meter-{{@key}} {
-    animation-duration: {{period}}s;
+    animation-duration: {{period}}s; /* period */
     animation-name: orb-{{@../key}}-meter-{{@key}};
     animation-iteration-count: infinite;
     animation-direction: alternate;

@@ -9,6 +9,7 @@ let css = {
         res.setHeader('Content-Type', 'text/css');
         res.render('css/orb.animation.css.hbs', {
             instructions: instructionList,
+            timestamp: new Date(),
             layout: false
         });
     }
