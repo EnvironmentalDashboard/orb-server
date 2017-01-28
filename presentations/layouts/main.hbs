@@ -64,16 +64,8 @@
 
         <footer id="page-footer" class="container ui-footer">
             <div class="row">
-                <div class="row-wrap col-sm-12">
-                    <div class="col-sm-6">
-                        <p>Built by Environmental Dashboard</p>
-                        <ul class="footer-nav">
-                            <li><a href="#">Terms</a>
-                            <li><a href="#">Privacy</a>
-                            <li><a href="#">License</a>
-                        </ul>
-                    </div>
-                    <div class="col-sm-6">
+                <div class="row-wrap">
+                    <div class="col-sm-6 pull-right">
                         <ul class="footer-nav pull-right">
                             {{#if loggedIn}}
                             <li>Logged in as <a href="/account">{{loggedIn.email}}</a></li>
@@ -87,6 +79,15 @@
                             <li><a href="/account/signup">Sign up</a></li>
 
                             {{/if}}
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="images/logo.png" class="pull-left ui-footer-logo">
+                        <p>Built by Environmental Dashboard</p>
+                        <ul class="footer-nav">
+                            <li><a href="#">Terms</a>
+                            <li><a href="#">Privacy</a>
+                            <li><a href="#">License</a>
                         </ul>
                     </div>
                 </div>

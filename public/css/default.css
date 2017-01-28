@@ -277,6 +277,11 @@ a:hover {
     margin-bottom: 0;
 }
 
+.ui-footer .ui-footer-logo {
+    width: 40px;
+    margin: 0 10px 0 0;
+}
+
 .ui-footer ul.footer-nav {
     list-style-type: none;
     padding: 0;
@@ -345,5 +350,18 @@ a:hover {
     .ui-orb-wrap {
         width: 30%;
         margin: 0 auto;
+    }
+
+    .ui-footer .col-sm-6.pull-right {
+        width: 100%;
+    }
+
+    .ui-footer .col-sm-6.pull-right .pull-right {
+        float: left !important;
+        width: 100%;
+    }
+
+    .ui-footer ul.footer-nav.pull-right li{
+        margin: 0 20px 0 0 !important;
     }
 }
