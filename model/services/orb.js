@@ -68,10 +68,10 @@ let Orb = {
         /**
          * Decide on meter id
          */
-        let meterId = meter === 1 ? orb.get('meter1') : orb.get('meter2');
+        let meters = [orb.get('meter1'), orb.get('meter2')];
 
         return this.relativeUsageCalculator({
-            id: meterId,
+            id: meters[meter],
             daySets: orb.get('daySets'),
             sampleSize: orb.get('sampleSize')
         }).then(function (percentage) {
@@ -110,9 +110,14 @@ let Orb = {
         Entity.Bulb.collection().query('where', 'enabled', '=', '1').fetch({withRelated: ['orb']})
         .then(function (bulbs) {
             bulbs.forEach(function (bulb){
-                let meter = +new Date()/20000|0;
-                console.log(bulb.relations.orb);
-                me.emulate(bulb.relations.orb, (meter%2)+1).then(function (instruction) {
+                /**
+                 * Calculate which meter to display. Every 20 seconds, this changes.
+                 * Take the timestamp in ms and divide by 1000ms/1s, then divide by
+                 * 20s. Floor this value (|0), mod 2 and add 1.
+                 */
+                let meter = ((+new Date()/20000|0) % 2)+1;
+
+                me.emulate(bulb.relations.orb, meter).then(function (instruction) {
                     me.dispatchInstruction(instruction, bulb);
                 });
             });
