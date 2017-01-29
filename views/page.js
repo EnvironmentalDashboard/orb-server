@@ -49,20 +49,7 @@ let page = {
             bulbs: bulbList,
             authorizationNotice: authorizationNotice,
             labellingNotice: labellingNotice,
-            helpers: {
-                selectOrbList: function(orbs, defaultSelected){
-                    let out = '<option value="">No orb selected</option>';
-
-                    orbs.forEach(function(orb){
-                        let selected = orb.id === defaultSelected ? 'selected' : '';
-
-                        out += '<option value="'+orb.id+'" '+selected+'>'+orb.title+'</option>';
-                    });
-
-                    return out;
-                }
-            },
-            additionalStylesheets: ['/css/orbs.animation.css?'+(+new Date())]
+            stylesheets: ['/css/orbs.animation.css?'+(+new Date())]
         });
     },
 
