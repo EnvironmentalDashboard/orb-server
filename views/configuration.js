@@ -1,12 +1,20 @@
 /**
  * Dashboard view
+ *
+ * @todo The function `configuration.orb` passes a helper function to the rendered
+ * presentation, rather than having this helper inside the helper function lib
+ * file (/lib/helpers.hbs.js). This is because of a Handlebars 4.0 bug (see
+ * https://github.com/wycats/handlebars.js/issues/1300#issuecomment-274667152 for
+ * info on status). Once this bug is fixed, the `dataGrouping` duplicative variable
+ * can be removed and the helper function can be moved to the lib file.
  */
 
 let configuration = {
     orb: function (req, res, next) {
         req.cache.get('errors', function (err, val) {
 
-            let meterList = req.cache.get('meter-list');
+            let meterList = req.cache.get('meter-list'),
+                dataGrouping = JSON.parse(req.cache.get('orb-info').daySets);
 
             /**
              * If there were errors, render the orb creation page again
@@ -23,12 +31,6 @@ let configuration = {
                         selected: function (selectedValue, comparedValue) {
                             if(selectedValue == comparedValue) {
                                 return ' selected';
-                            }
-                        },
-
-                        checked: function (array, haystackIndex, needle) {
-                            if (dataGrouping[haystackIndex] && dataGrouping[haystackIndex].indexOf(needle+1) > -1) {
-                                return ' checked';
                             }
                         }
                     }

@@ -22,7 +22,8 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
  */
 
 let routes = require('./routes'),
-    Service = require('./model/services');
+    Service = require('./model/services'),
+    hbsHelpers = require('./lib/helpers.hbs');
 
 /**
  * Configuration
@@ -43,7 +44,8 @@ app.engine('.hbs', exphbs({
     defaultLayout: 'main',
     extname: '.hbs',
     layoutsDir: './presentations/layouts',
-    partialsDir: './presentations/partials'
+    partialsDir: './presentations/partials',
+    helpers: hbsHelpers
 }));
 
 app.set('view engine', '.hbs');

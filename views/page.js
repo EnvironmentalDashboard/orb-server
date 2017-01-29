@@ -1,5 +1,12 @@
 /**
  * Page view
+ *
+ * @todo The function `page.newOrb` passes a helper function to the rendered
+ * presentation, rather than having this helper inside the helper function lib
+ * file (/lib/helpers.hbs.js). This is because of a Handlebars 4.0 bug (see
+ * https://github.com/wycats/handlebars.js/issues/1300#issuecomment-274667152 for
+ * info on status). Once this bug is fixed, the `defaultDataGrouping` duplicative
+ * variable can be removed and the helper function can be moved to the lib file.
  */
 
 let page = {
@@ -70,7 +77,6 @@ let page = {
             days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             form: {daySets: defaultDataGrouping},
             helpers: {
-                selected: function() { return ''; },
                 checked: function (array, haystackIndex, needle) {
                     if (defaultDataGrouping[haystackIndex] && defaultDataGrouping[haystackIndex].indexOf(needle+1) > -1) {
                         return ' checked';
@@ -98,12 +104,6 @@ let page = {
             days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             form: req.cache.get('orb-info'),
             helpers: {
-                selected: function (selectedValue, comparedValue) {
-                    if(selectedValue == comparedValue) {
-                        return ' selected';
-                    }
-                },
-
                 checked: function (array, haystackIndex, needle) {
                     if (dataGrouping[haystackIndex] && dataGrouping[haystackIndex].indexOf(needle+1) > -1) {
                         return ' checked';
