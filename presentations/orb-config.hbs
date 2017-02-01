@@ -1,198 +1,196 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h2>Configure orb information</h2>
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Configure orb information</h2>
 
-            <p>Required fields indicated with asterisk (*).</p>
+        <p>Required fields indicated with asterisk (*).</p>
 
-            {{#if errors}}
+        {{#if errors}}
 
-            <div class="alert alert-danger">
-                <p><strong>There was a problem with these configuration settings.</strong> Please fix the indicated errors.</p>
+        <div class="alert alert-danger">
+            <p><strong>There was a problem with these configuration settings.</strong> Please fix the indicated errors.</p>
+        </div>
+
+        {{/if}}
+
+        <form method="post">
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <label for="title">Title</label>
+
+                    <p id="title-help">An orb's title is used as a label when assigning an orb to a bulb. Brief and descriptive titles make recognition easy.</p>
+
+                    <input type="text" class="form-control" aria-describedby="title-help" name="title" id="title" placeholder="Title" value="{{form.title}}" maxlength="150">
+
+                    <p class="help-block">Maximum 150 characters.</p>
+
+                </div>
+            </div>
+
+            {{#if errors.title}}
+
+            <div>
+                <div class="alert alert-warning">
+                    {{#each errors.title}}
+
+                    <p>{{this}}</p>
+
+                    {{/each}}
+                </div>
             </div>
 
             {{/if}}
 
-            <form method="post">
-                <div class="row">
-                    <div class="form-group col-sm-12">
-                        <label for="title">Title</label>
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <label for="meter1">Meter #1 <span class="text-info">*</span></label>
 
-                        <p id="title-help">An orb's title is used as a label when assigning an orb to a bulb. Brief and descriptive titles make recognition easy.</p>
-
-                        <input type="text" class="form-control" aria-describedby="title-help" name="title" id="title" placeholder="Title" value="{{form.title}}" maxlength="150">
-
-                        <p class="help-block">Maximum 150 characters.</p>
-
-                    </div>
+                    <select required name="meter1" id="meter1" class="form-control">
+                        {{#each buildings}}
+                        <optgroup label="{{@key}}">
+                            {{#each this}}
+                            <option value="{{this.id}}"{{selected ../../form.meter1 this.id}}>{{this.name}}</option>
+                            {{/each}}
+                        </optgroup>
+                        {{/each}}
+                    </select>
                 </div>
+            </div>
 
-                {{#if errors.title}}
+            {{#if errors.meter1}}
 
-                <div>
+            <div class="row">
+                <div class="col-sm-12">
                     <div class="alert alert-warning">
-                        {{#each errors.title}}
+                        {{#each errors.meter1}}
 
                         <p>{{this}}</p>
 
                         {{/each}}
                     </div>
                 </div>
+            </div>
 
-                {{/if}}
+            {{/if}}
 
-                <div class="row">
-                    <div class="form-group col-sm-12">
-                        <label for="meter1">Meter #1 <span class="text-info">*</span></label>
-
-                        <select required name="meter1" id="meter1" class="form-control">
-                            {{#each buildings}}
-                            <optgroup label="{{@key}}">
-                                {{#each this}}
-                                <option value="{{this.id}}"{{selected ../../form.meter1 this.id}}>{{this.name}}</option>
-                                {{/each}}
-                            </optgroup>
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <label for="meter2">Meter #2 <span class="text-info">*</span></label>
+                    <select required name="meter2" id="meter2" class="form-control">
+                        {{#each buildings}}
+                        <optgroup label="{{@key}}">
+                            {{#each this}}
+                            <option value="{{this.id}}"{{selected ../../form.meter2 this.id}}>{{this.name}}</option>
                             {{/each}}
-                        </select>
+                        </optgroup>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            {{#if errors.meter2}}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-warning">
+                        {{#each errors.meter2}}
+
+                        <p>{{this}}</p>
+
+                        {{/each}}
                     </div>
                 </div>
+            </div>
 
-                {{#if errors.meter1}}
+            {{/if}}
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-warning">
-                            {{#each errors.meter1}}
+            <!-- DAY SETS -->
 
-                            <p>{{this}}</p>
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <label for="meter2">Data groupings <span class="text-info">*</span></label>
 
-                            {{/each}}
-                        </div>
-                    </div>
-                </div>
+                    <p id="datagroupings-help">Our typical usage algorithm allows simarily-intensive days to be grouped together. For example, office and school buildings are normally occupied less on weekends. Tagging weekends and weekdays separately factors this into the calculation.</p>
 
-                {{/if}}
-
-                <div class="row">
-                    <div class="form-group col-sm-12">
-                        <label for="meter2">Meter #2 <span class="text-info">*</span></label>
-                        <select required name="meter2" id="meter2" class="form-control">
-                            {{#each buildings}}
-                            <optgroup label="{{@key}}">
-                                {{#each this}}
-                                <option value="{{this.id}}"{{selected ../../form.meter2 this.id}}>{{this.name}}</option>
-                                {{/each}}
-                            </optgroup>
-                            {{/each}}
-                        </select>
-                    </div>
-                </div>
-
-                {{#if errors.meter2}}
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-warning">
-                            {{#each errors.meter2}}
-
-                            <p>{{this}}</p>
-
-                            {{/each}}
-                        </div>
-                    </div>
-                </div>
-
-                {{/if}}
-
-                <!-- DAY SETS -->
-
-                <div class="row">
-                    <div class="form-group col-sm-12">
-                        <label for="meter2">Data groupings <span class="text-info">*</span></label>
-
-                        <p id="datagroupings-help">Our typical usage algorithm allows simarily-intensive days to be grouped together. For example, office and school buildings are normally occupied less on weekends. Tagging weekends and weekdays separately factors this into the calculation.</p>
-
-                        <table class="ui-datagroup-table table table-striped col-sm-12" aria-describedby="datagroupings-help">
-                            <thead>
-                                <tr>
-                                    <th>&nbsp;</th>
-
-                                    {{#each days}}
-                                    <th>{{this}}</th>
-                                    {{/each}}
-                                </tr>
-                            </thead>
-
-                            {{#each days}}
-
+                    <table class="ui-datagroup-table table table-striped col-sm-12" aria-describedby="datagroupings-help">
+                        <thead>
                             <tr>
-                                <td class="ui-table-left">Group {{@key}}</td>
+                                <th>&nbsp;</th>
 
-                                {{#each ../days}}
-                                <td>
-                                    <input type="radio" name="day_{{@key}}" value="{{@../key}}"{{checked ../../form.daySets @../key @key}}>
-                                </td>
+                                {{#each days}}
+                                <th>{{this}}</th>
                                 {{/each}}
                             </tr>
+                        </thead>
 
+                        {{#each days}}
+
+                        <tr>
+                            <td class="ui-table-left">Group {{@key}}</td>
+
+                            {{#each ../days}}
+                            <td>
+                                <input type="radio" name="day_{{@key}}" value="{{@../key}}"{{checked ../../form.daySets @../key @key}}>
+                            </td>
                             {{/each}}
-                        </table>
+                        </tr>
+
+                        {{/each}}
+                    </table>
+                </div>
+            </div>
+
+            {{#if errors.daySets}}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-warning">
+                        {{#each errors.daySets}}
+
+                        <p>{{this}}</p>
+
+                        {{/each}}
                     </div>
                 </div>
+            </div>
 
-                {{#if errors.daySets}}
+            {{/if}}
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-warning">
-                            {{#each errors.daySets}}
+            <!-- /DAY SETS -->
 
-                            <p>{{this}}</p>
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <label for="interval">Sample size <span class="text-info">*</span></label>
 
-                            {{/each}}
-                        </div>
+                    <p>Historic data points are used to calculate typical usage. Sample size dictates how many data points to use. If less data are available than specified below, the algorithm will use as many as it can collect.</p>
+
+                    <input type="number" min="5" max="50" value="{{#if form.sampleSize}}{{form.sampleSize}}{{else}}5{{/if}}" class="form-control" name="sample">
+
+                    <p class="help-block">Minimum 5 points, maximum 50 points.</p>
+                </div>
+            </div>
+
+            {{#if errors.interval}}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-warning">
+                        {{#each errors.meter2}}
+
+                        <p>{{this}}</p>
+
+                        {{/each}}
                     </div>
                 </div>
+            </div>
 
-                {{/if}}
+            {{/if}}
 
-                <!-- /DAY SETS -->
-
-                <div class="row">
-                    <div class="form-group col-sm-12">
-                        <label for="interval">Sample size <span class="text-info">*</span></label>
-
-                        <p>Historic data points are used to calculate typical usage. Sample size dictates how many data points to use. If less data are available than specified below, the algorithm will use as many as it can collect.</p>
-
-                        <input type="number" min="5" max="50" value="{{#if form.sampleSize}}{{form.sampleSize}}{{else}}5{{/if}}" class="form-control" name="sample">
-
-                        <p class="help-block">Minimum 5 points, maximum 50 points.</p>
-                    </div>
+            <div class="row form-group">
+                <div class="col-sm-12">
+                    <input type="submit" name="save" class="btn btn-primary" value="Save">
+                    <a href="/dash" class="btn btn-danger">Cancel</a>
                 </div>
-
-                {{#if errors.interval}}
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="alert alert-warning">
-                            {{#each errors.meter2}}
-
-                            <p>{{this}}</p>
-
-                            {{/each}}
-                        </div>
-                    </div>
-                </div>
-
-                {{/if}}
-
-                <div class="row form-group">
-                    <div class="col-sm-12">
-                        <input type="submit" name="save" class="btn btn-primary" value="Save">
-                        <a href="/dash" class="btn btn-danger">Cancel</a>
-                    </div>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>

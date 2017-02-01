@@ -26,9 +26,9 @@ let Orb = {
             daySets = params.daySets.slice(1, -1),
             sampleSize = params.sampleSize;
 
-        return Promise.resolve(Math.floor(Math.random()*101));
+        //return Promise.resolve(Math.floor(Math.random()*101));
 
-        /*
+
         return new Promise(function (resolve, reject) {
             exec(
                 "php ./exe/relative-usage.php '" + id + "' '" + daySets + "' '" + sampleSize + "'",
@@ -41,7 +41,7 @@ let Orb = {
                 }
             );
         });
-        */
+
 
     },
 
@@ -71,7 +71,7 @@ let Orb = {
         let meters = [orb.get('meter1'), orb.get('meter2')];
 
         return this.relativeUsageCalculator({
-            id: meters[meter],
+            id: meters[meter-1],
             daySets: orb.get('daySets'),
             sampleSize: orb.get('sampleSize')
         }).then(function (percentage) {
@@ -82,7 +82,8 @@ let Orb = {
             return Promise.resolve({
                 hue: hue,
                 frequency: frequency,
-                period: 1/frequency
+                period: 1/frequency,
+                usage: percentage
             });
 
         }).catch(console.log.bind(console));

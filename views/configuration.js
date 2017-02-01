@@ -12,9 +12,7 @@
 let configuration = {
     orb: function (req, res, next) {
         req.cache.get('errors', function (err, val) {
-
-            let meterList = req.cache.get('meter-list'),
-                dataGrouping = JSON.parse(req.cache.get('orb-info').daySets);
+            let meterList = req.cache.get('meter-list');
 
             /**
              * If there were errors, render the orb creation page again

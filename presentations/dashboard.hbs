@@ -1,157 +1,155 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h2>Environmental Orb Dashboard</h2>
-        </div>
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Environmental Orb Dashboard</h2>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>Your Bulbs</h3>
-            <div class="panel panel-info">
-                <div class="panel-heading">Bulb Configuration</div>
-                <div class="panel-body">
-                    <p>The bulbs associated with your account are listed below. Each module can be configured:</p>
-                    <ul>
-                        <li><strong>"On"</strong> or <strong>"Off"</strong> determines whether we are sending commands to your bulb
-                        <li>The dropdown menu assigns an orb to your bulb
-                    </ul>
-                    <p>To emulate an environmental orb, turn on a bulb and assign it an orb. Bulbs that are enabled but do not have an orb selected will not be sent commands.</p>
-                </div>
-            </div>
-
-            {{#if authorizationNotice}}
-            <div class="alert alert-warning clearfix ui-alert-action">
-                <p>{{authorizationNotice}}</p>
-                <a href="/auth/confirm" class="btn pull-right btn-primary">Authorize</a>
-            </div>
-            {{/if}}
-
-            {{#if labellingNotice}}
-            <div class="alert alert-warning clearfix">
-                <p>One or more of your bulbs were detected to be using default labels. While not required, labelling your bulbs make them more manageable. For help on labelling your bulbs, see <a href="https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app" target="_blank">"Setting up the LIFX App"</a> and <a href="https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup" target="_blank">"LIFX Bulb Setup."</a>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Your Bulbs</h3>
+        <div class="panel panel-info">
+            <div class="panel-heading">Bulb Configuration</div>
+            <div class="panel-body">
+                <p>The bulbs associated with your account are listed below. Each module can be configured:</p>
+                <ul>
+                    <li><strong>"On"</strong> or <strong>"Off"</strong> determines whether we are sending commands to your bulb
+                    <li>The dropdown menu assigns an orb to your bulb
                 </ul>
-            </div>
-            {{/if}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <table id="bulbs-table" class="table table-striped ui-table">
-                <thead>
-                    <tr>
-                        <th>Selector ID</th>
-                        <th>Label</th>
-                        <th>Location</th>
-                        <th>Group</th>
-                        <th>Controls</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each bulbs}}
-                    <tr>
-                        <td>{{@key}}</td>
-                        {{#if this.info}}
-                        <td>{{this.info.label}}</td>
-                        <td>{{this.info.location.name}}</td>
-                        <td>{{this.info.group.name}}</td>
-                        {{else}}
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        {{/if}}
-
-                        <td>
-                            <form action="/dash/bulb/update" method="post">
-                                <div class="col-sm-6">
-                                    <select name="orb" class="form-control" onchange="this.form.submit()">
-                                        <option value="">No orb assigned</option>
-                                        {{#each ../orbs}}
-                                        <option value="{{this.id}}"{{selected this.id ../this.config.relations.orb.id}}>{{this.title}}</option>
-                                        {{/each}}
-                                    </select>
-                                </div>
-                                <div class="ui-btn-toggle">
-                                    {{#if this.config.attributes.enabled}}
-                                    <label for="enable">
-                                        <input type="radio" id="enable" onchange="this.form.submit()" name="enabled" value="true" checked>
-                                        <span class="btn">On</span>
-                                    </label>
-
-                                    <label for="disable">
-                                        <input type="radio" id="disable" onchange="this.form.submit()" name="enabled" value="false">
-                                        <span class="btn">Off</span>
-                                    </label>
-
-                                    {{else}}
-
-                                    <label for="enable">
-                                        <input type="radio" id="enable" onchange="this.form.submit()" name="enabled" value="true">
-                                        <span class="btn">On</span>
-                                    </label>
-
-                                    <label for="disable">
-                                        <input type="radio" id="disable" onchange="this.form.submit()" name="enabled" value="false" checked>
-                                        <span class="btn">Off</span>
-                                    </label>
-                                    {{/if}}
-                                </div>
-                                <input type="hidden" value="{{@key}}" name="selector">
-                                <noscript>
-                                    <div class="form-group">
-                                        <input type="submit" value="Save" name="save" class="btn btn-default">
-                                    </div>
-                                </noscript>
-                            </form>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>Your Orbs</h3>
-            <div class="panel panel-info">
-                <div class="panel-heading">Orb Configuration</div>
-                <div class="panel-body">
-                    <p>The orbs associated with your account are listed below. Prior to making a bulb emulate an orb, you must configure the orb here.</p>
-                </div>
+                <p>To emulate an environmental orb, turn on a bulb and assign it an orb. Bulbs that are enabled but do not have an orb selected will not be sent commands.</p>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <a href="/dash/orb/new" class="btn btn-primary">Create an orb</a>
-            <table id="orbs-table" class="table table-striped ui-table">
-                <thead>
-                    <tr>
-                        <th>Label</th>
-                        <th colspan="2">Meter 1</th>
-                        <th colspan="2">Meter 2</th>
-                        <th>Configuration options</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each orbs}}
-                    <tr>
-                        <td class="col-sm-2">{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</td>
-                        <td class="col-sm-1 sort-use-next ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-1"></div></td>
-                        <td class="col-sm-3">{{this.meter1.building}} {{this.meter1.name}}</td>
-                        <td class="col-sm-1 sort-use-next ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-2"></div></td>
-                        <td class="col-sm-3">{{this.meter2.building}} {{this.meter2.name}}</td>
-                        <td class="col-sm-2">
-                            <p>
-                                <a href="/dash/orb/edit/{{this.id}}" class="btn btn-default">Configure</a>
-                                <a href="/dash/orb/delete/{{this.id}}" class="btn btn-danger">Delete</a>
-                            </p>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-            <a href="/dash/orb/new" class="btn btn-primary">Create an orb</a>
+
+        {{#if authorizationNotice}}
+        <div class="alert alert-warning clearfix ui-alert-action">
+            <p>{{authorizationNotice}}</p>
+            <a href="/auth/confirm" class="btn pull-right btn-primary">Authorize</a>
         </div>
+        {{/if}}
+
+        {{#if labellingNotice}}
+        <div class="alert alert-warning clearfix">
+            <p>One or more of your bulbs were detected to be using default labels. While not required, labelling your bulbs make them more manageable. For help on labelling your bulbs, see <a href="https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app" target="_blank">"Setting up the LIFX App"</a> and <a href="https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup" target="_blank">"LIFX Bulb Setup."</a>
+            </ul>
+        </div>
+        {{/if}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table id="bulbs-table" class="table table-striped ui-table">
+            <thead>
+                <tr>
+                    <th>Selector ID</th>
+                    <th>Label</th>
+                    <th>Location</th>
+                    <th>Group</th>
+                    <th>Controls</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each bulbs}}
+                <tr>
+                    <td>{{@key}}</td>
+                    {{#if this.info}}
+                    <td>{{this.info.label}}</td>
+                    <td>{{this.info.location.name}}</td>
+                    <td>{{this.info.group.name}}</td>
+                    {{else}}
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    {{/if}}
+
+                    <td>
+                        <form action="/dash/bulb/update" method="post">
+                            <div class="col-sm-6">
+                                <select name="orb" class="form-control" onchange="this.form.submit()">
+                                    <option value="">No orb assigned</option>
+                                    {{#each ../orbs}}
+                                    <option value="{{this.id}}"{{selected this.id ../this.config.relations.orb.id}}>{{this.title}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="ui-btn-toggle">
+                                {{#if this.config.attributes.enabled}}
+                                <label for="enable">
+                                    <input type="radio" id="enable" onchange="this.form.submit()" name="enabled" value="true" checked>
+                                    <span class="btn">On</span>
+                                </label>
+
+                                <label for="disable">
+                                    <input type="radio" id="disable" onchange="this.form.submit()" name="enabled" value="false">
+                                    <span class="btn">Off</span>
+                                </label>
+
+                                {{else}}
+
+                                <label for="enable">
+                                    <input type="radio" id="enable" onchange="this.form.submit()" name="enabled" value="true">
+                                    <span class="btn">On</span>
+                                </label>
+
+                                <label for="disable">
+                                    <input type="radio" id="disable" onchange="this.form.submit()" name="enabled" value="false" checked>
+                                    <span class="btn">Off</span>
+                                </label>
+                                {{/if}}
+                            </div>
+                            <input type="hidden" value="{{@key}}" name="selector">
+                            <noscript>
+                                <div class="form-group">
+                                    <input type="submit" value="Save" name="save" class="btn btn-default">
+                                </div>
+                            </noscript>
+                        </form>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Your Orbs</h3>
+        <div class="panel panel-info">
+            <div class="panel-heading">Orb Configuration</div>
+            <div class="panel-body">
+                <p>The orbs associated with your account are listed below. Prior to making a bulb emulate an orb, you must configure the orb here.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <a href="/dash/orb/new" class="btn btn-primary">Create an orb</a>
+        <table id="orbs-table" class="table table-striped ui-table">
+            <thead>
+                <tr>
+                    <th>Label</th>
+                    <th colspan="2">Meter 1</th>
+                    <th colspan="2">Meter 2</th>
+                    <th>Configuration options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orbs}}
+                <tr>
+                    <td class="col-sm-2">{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</td>
+                    <td class="col-sm-1 sort-use-next ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-1"></div></td>
+                    <td class="col-sm-3">{{this.meter1.building}} {{this.meter1.name}}</td>
+                    <td class="col-sm-1 sort-use-next ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-2"></div></td>
+                    <td class="col-sm-3">{{this.meter2.building}} {{this.meter2.name}}</td>
+                    <td class="col-sm-2">
+                        <p>
+                            <a href="/dash/orb/edit/{{this.id}}" class="btn btn-default">Configure</a>
+                            <a href="/dash/orb/delete/{{this.id}}" class="btn btn-danger">Delete</a>
+                        </p>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <a href="/dash/orb/new" class="btn btn-primary">Create an orb</a>
     </div>
 </div>
 

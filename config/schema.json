@@ -12,8 +12,8 @@
       "id": {"type": "increments", "nullable": false, "primary": true},
       "owner": {"type": "integer", "nullable": false},
       "title": {"type": "string", "maxlength": 150, "nullable": false},
-      "meter1": {"type": "integer", "nullable": false},
-      "meter2": {"type": "integer", "nullable": false},
+      "meter1": {"type": "string", "maxlength": 255, "nullable": true},
+      "meter2": {"type": "string", "maxlength": 255, "nullable": true},
       "daySets": {"type": "string", "nullable": false},
       "sampleSize": {"type": "integer", "nullable": false}
   },

@@ -10,7 +10,11 @@
 /**
  * Orb {{@key}}
  */
+
 {{#each meters}}
+/**
+ * Usage: {{usage}}
+ */
 @keyframes orb-{{@../key}}-meter-{{@key}} {
     0% { background-color: hsl({{hue}}, 100%, 70%); }
     100% { background-color: hsl({{hue}}, 80%, 50%); }
