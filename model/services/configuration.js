@@ -116,13 +116,13 @@ let Configuration = {
                 errors.denied = ['Cannot find orb with ID ' + params.id + ' associated with this account.'];
             }
 
-            return new Entity.Meter({id: meter1}).fetch()
+            return new Entity.Meter({'bos_uuid': meter1}).fetch()
         }).then(function (match) {
             if (!match) {
                 errors.meter1 = ['Meter not found in our database.'];
             }
 
-            return new Entity.Meter({id: meter2}).fetch();
+            return new Entity.Meter({'bos_uuid': meter2}).fetch();
         }).then(function (match) {
             if (!match) {
                 errors.meter2 = ['Meter not found in our database.'];

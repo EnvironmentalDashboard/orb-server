@@ -14,6 +14,7 @@ $daySets = $argv[2];
 $sampleSize = $argv[3];
 
 $meter = new Meter($db);
-echo $meter->relativeValueOfMeterWithPoints($id, $daySets, $sampleSize);
+
+echo $meter->relativeValueOfMeterWithPoints(null, $daySets, $sampleSize, 'hour', 0, 100, $id);
 
 ?>

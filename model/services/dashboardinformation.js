@@ -220,7 +220,7 @@ let DashboardInformation = {
 
                 meterList[meter.relations.building.get('name')].push({
                     name: meter.get('name'),
-                    id: meter.get('id')
+                    id: meter.get('bos_uuid')
                 });
             });
 

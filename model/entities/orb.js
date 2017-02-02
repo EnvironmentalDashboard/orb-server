@@ -21,11 +21,11 @@ var Orb = Bookshelf.Model.extend({
     },
 
     meter1: function() {
-        return this.belongsTo('Meter', 'meter1');
+        return this.belongsTo('Meter', 'meter1', 'bos_uuid');
     },
 
     meter2: function() {
-        return this.belongsTo('Meter', 'meter2');
+        return this.belongsTo('Meter', 'meter2', 'bos_uuid');
     },
 
     validate: function() {
