@@ -28,7 +28,7 @@ let DashboardInformation = {
         /**
          * Query for a collection of all orbs related to authenticated client
          */
-        return Entity.Orb.collection().query('where', 'owner', '=', client.id).fetch({
+        return Entity.Orb.collection().query('where', 'owner', '=', client.id).orderBy('title').fetch({
             withRelated: ['meter1', 'meter2']
         }).then(function (results) {
             /**
