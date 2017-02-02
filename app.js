@@ -21,7 +21,7 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
  * Local dependencies
  */
 
-let routes = require('./routes'),
+let router = require('./router'),
     Service = require('./model/services'),
     hbsHelpers = require('./lib/helpers.hbs');
 
@@ -93,7 +93,7 @@ app.use(function(req, res, next) {
  * Routing
  */
 
-routes.build(app);
+router.initialize(app);
 
 /**
  * Orb instruction dispatching

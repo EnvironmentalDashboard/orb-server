@@ -1,10 +1,14 @@
 /**
- * Routes
+ * Router
  * @overview Handles application routing mechanisms
  */
 let controllers = require('./controllers'),
     views = require('./views');
 
+/**
+ * Holds all application routes
+ * @type {Array}
+ */
  var routes = [
      ['get', '/', [controllers.page.index, views.page.index]],
      ['get', '/guide', [controllers.page.guide, views.page.guide]],
@@ -63,7 +67,7 @@ let controllers = require('./controllers'),
      ['get', '/css/orbs.animation.css', [controllers.json.orbInstructionList, views.css.orbAnimations]]
  ];
 
- module.exports.build = function(app) {
+ module.exports.initialize = function(app) {
      routes.forEach(function(params) {
          [method, route, handlers] = params;
 
