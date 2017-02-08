@@ -5,7 +5,9 @@
       "email": {"type": "string", "nullable": true},
       "fname": {"type": "string", "maxlength": 100, "nullable": true},
       "lname": {"type": "string", "maxlength": 100, "nullable": true},
-      "password": {"type": "string", "nullable": false}
+      "password": {"type": "string", "nullable": false},
+      "pauseUntil": {"type": "timestamp", "nullable": true},
+      "badToken": {"type": "boolean", "default": 0}
   },
 
   "orb-server_orbs": {
