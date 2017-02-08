@@ -18,14 +18,19 @@ let LifxBulbAPI = {
         });
     },
 
-    setBreathe: function(params, token) {
+    setBreathe: function(params, selector, token) {
         return requestPromise({
-            url: 'https://api.lifx.com/v1/lights/all/effects/breathe',
+            url: 'https://api.lifx.com/v1/lights/' + selector + '/effects/breathe',
             method: 'POST',
             headers: {
                 "Authorization": "Bearer " + token
             },
-            form: params
+            form: params,
+            simple: false,
+            resolveWithFullResponse: true
+        }).then(function(response) {
+            console.log(response);
+            console.log(response.statusCode);
         });
     }
 
