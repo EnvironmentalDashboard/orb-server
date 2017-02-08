@@ -92,13 +92,13 @@ let Orb = {
 
     dispatchInstruction: function (instruction, bulb) {
 
-        return new Entity.User({id: bulb.get('owner')}).fetch().then(function (owner) {
+    return new Entity.User({id: bulb.get('owner')}).fetch().then(function (owner) {
             return LifxBulbAPI.setBreathe({
                 from_color: 'hue:' + instruction.hue + ' brightness:.6 saturation:1',
                 color: 'hue:' + instruction.hue + ' brightness:.3 saturation:1',
                 period: 1/instruction.frequency,
                 cycles: 10*instruction.frequency
-            }, owner.get('token')).then(function (mes){
+            }, 'id:' + bulb.get('selector'), owner.get('token')).then(function (mes){
                 Promise.resolve();
             }).catch(console.log.bind(console));
         });
