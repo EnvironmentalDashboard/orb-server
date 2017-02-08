@@ -104,35 +104,8 @@ let DashboardInformation = {
 
         let bulbList = {}, updatedClient;
 
-        /**
-         * Query for all the bulbs stored in the database associated with the
-         * client
-         */
-        return Entity.Bulb.collection().query('where', 'owner', '=', client.id)
-                .fetch({withRelated: ['orb']}).then(function (bulbCollection) {
-            /**
-             * If bulbCollection is empty/falsey, skip this step
-             */
-            if (!bulbCollection) {
-                return Promise.resolve();
-            }
 
-            /**
-             * Add all the bulbs recieved from the API to the bulb list
-             *
-             * NOTE the key we use is the bulb's selector for easy merging in
-             * the next then() in this chain
-             */
-            bulbCollection.forEach(function (bulb) {
-                bulbList[bulb.get('selector')] = {info: null, config: bulb};
-            });
-
-            /**
-             * Fetch an updated instance of the client
-             * @TODO Maybe there should be an updateCertifiedClient service
-             */
-            return new Entity.User({id: client.id}).fetch();
-        }).then(function (user) {
+        return new Entity.User({id: client.id}).fetch().then(function (user) {
             updatedClient = user;
 
             /**
@@ -146,17 +119,22 @@ let DashboardInformation = {
 
             return LifxBulbAPI.getBulbList(updatedClient.get('token'));
         }).then(function (bulbsFromAPI) {
-            /**
-             * If the promise from the LifxBulbAPI service wasn't empty and there's
-             * no auth notice, merge the bulbs from the API with the bulb list
-             */
+
             if(bulbsFromAPI && !bulbsFromAPI.authorizationNotice) {
                 JSON.parse(bulbsFromAPI).forEach(function (bulb) {
-                    if(!bulbList[bulb.id]) {
-                        bulbList[bulb.id] = {config: null};
-                    }
+                    bulbList[bulb.id] = {info: bulb};
+                });
+            }
 
-                    bulbList[bulb.id].info = bulb;
+            return Entity.Bulb.collection().query('where', 'owner', '=', client.id)
+                    .fetch({withRelated: ['orb']});
+        }).then(function (bulbCollection) {
+
+            if (bulbCollection) {
+                bulbCollection.forEach(function (bulb) {
+                    if(bulbList[bulb.get('selector')]) {
+                        bulbList[bulb.get('selector')].config = bulb;
+                    }
                 });
             }
 
@@ -178,7 +156,7 @@ let DashboardInformation = {
                 }
             }
 
-            Promise.resolve();
+            return Promise.resolve();
         }).catch(function(reason) {
             /**
              * If there was an exception, set a generic authorization notice &
