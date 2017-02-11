@@ -14,7 +14,6 @@ let Bulb = {
         let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            console.log('FUQ');
             return Promise.reject({
                 authError: true
             });
@@ -54,21 +53,6 @@ let Bulb = {
                         bulbList[bulb.get('selector')].config = bulb;
                     }
                 });
-            }
-
-            for (var key in bulbList) {
-                let bulb = bulbList[key];
-
-                if(bulb.info && (bulb.info.label.substring(0,4) === "LIFX"
-                    || bulb.info.group.name === "My Room"
-                    || bulb.info.location.name === "My Group")) {
-                    /**
-                     * @TODO
-                     */
-                    //bulbList.labellingNotice = true;
-
-                    break;
-                }
             }
 
             return Promise.resolve(bulbList);
