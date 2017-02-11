@@ -47,7 +47,7 @@ let Orb = {
 
     dispatchInstruction: function (instruction, bulb) {
 
-    return new Entity.User({id: bulb.get('owner')}).fetch().then(function (owner) {
+        return new Entity.User({id: bulb.get('owner')}).fetch().then(function (owner) {
             return LifxBulbAPI.setBreathe({
                 from_color: 'hue:' + instruction.hue + ' brightness:.6 saturation:1',
                 color: 'hue:' + instruction.hue + ' brightness:.3 saturation:1',
