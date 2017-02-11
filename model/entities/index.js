@@ -6,8 +6,6 @@
 /**
  * Dependencies
  */
-let _ = require('lodash');
-
 let Bookshelf = require('./base');
 
 /**
