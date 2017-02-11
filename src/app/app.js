@@ -92,6 +92,6 @@ router.initialize(app);
 
 setInterval(function() {
 
-    Service.Orb.dispatchAll();
+    Service.OrbInstructionsDispatcher.dispatchAll();
 
 }, 5000);*/

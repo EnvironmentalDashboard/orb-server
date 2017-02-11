@@ -13,6 +13,7 @@ let groups = [
     'LifxBulbAPI',
     'Orb',
     'OrbEmulator',
+    'OrbInstructionsDispatcher',
     'Bulb',
     'Recognition',
     'Configuration'
