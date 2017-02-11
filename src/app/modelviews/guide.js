@@ -1,8 +1,9 @@
-let Service = require('../../model/services'),
-    modelview = require('./modelview');
+let Service = require('../../model/services');
 
-var guide = modelview({
+modelview = require('./modelview');
 
-});
+var guide = {
+
+};
 
 module.exports = guide;

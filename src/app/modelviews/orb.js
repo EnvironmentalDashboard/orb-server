@@ -1,7 +1,6 @@
-let Service = require('../../model/services'),
-    modelview = require('./modelview');
+let Service = require('../../model/services');
 
-var orb = modelview({
+var orb = {
     inputs: {daySets: [[1,2,3,4,5,6,7]]},
     targetOrbId: null,
 
@@ -28,6 +27,6 @@ var orb = modelview({
     retrieveMeterList: function() {
         return Service.DashboardInformation.getMeterList(this.session).catch(this.setErrors.bind(this));
     }
-});
+};
 
 module.exports = orb;

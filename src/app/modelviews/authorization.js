@@ -1,7 +1,6 @@
-let Service = require('../../model/services'),
-    modelview = require('./modelview');
+let Service = require('../../model/services');
 
-var authentication = modelview({
+var authentication = {
     inputs: null,
     queryString: null,
 
@@ -20,6 +19,6 @@ var authentication = modelview({
     getQueryString: function (queryString) {
         return this.queryString;
     }
-});
+};
 
 module.exports = authentication;

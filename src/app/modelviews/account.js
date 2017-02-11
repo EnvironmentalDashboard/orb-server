@@ -1,7 +1,6 @@
-let Service = require('../../model/services'),
-    modelview = require('./modelview');
+let Service = require('../../model/services');
 
-var account = modelview({
+var account = {
     inputs: {},
 
     setInputs: function (inputs) {
@@ -11,6 +10,6 @@ var account = modelview({
     getInputs: function() {
         return this.inputs;
     },
-});
+};
 
 module.exports = account;

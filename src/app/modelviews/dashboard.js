@@ -1,7 +1,6 @@
-let Service = require('../../model/services'),
-    modelview = require('./modelview');
+let Service = require('../../model/services');
 
-var dashboard = modelview({
+var dashboard = {
     iterator: 0,
 
     retrieveBulbList: function() {
@@ -11,6 +10,6 @@ var dashboard = modelview({
     retrieveOrbList: function() {
         return Service.DashboardInformation.getOrbList(this.session).catch(this.setErrors.bind(this));
     }
-});
+};
 
 module.exports = dashboard;

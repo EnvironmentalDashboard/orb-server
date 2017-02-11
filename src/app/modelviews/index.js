@@ -2,6 +2,8 @@
  * @overview Ties together all controls for easy importing to application
  */
 
+let modelview = require('./modelview');
+
 /**
  * Names of modelviews in current directory
  * @type {Array}
@@ -24,5 +26,5 @@ let modelviews = [
  */
 
 modelviews.forEach(function (name) {
-    exports[name] = require('./' + name);
+    exports[name] = modelview(require('./' + name));
 });

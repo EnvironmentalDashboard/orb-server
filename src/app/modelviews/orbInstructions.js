@@ -1,13 +1,12 @@
-let Service = require('../../model/services'),
-    modelview = require('./modelview');
+let Service = require('../../model/services');
 
-var orbInstructions = modelview({
+var orbInstructions = {
     inputs: {daySets: [[1,2,3,4,5,6,7]]},
     targetOrbId: null,
 
     retrieveInstructions: function() {
         return Service.DashboardInformation.getOrbInstructionsList(this.session).catch(this.setErrors.bind(this));
     }
-});
+};
 
 module.exports = orbInstructions;
