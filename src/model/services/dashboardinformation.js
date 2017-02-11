@@ -48,8 +48,6 @@ let DashboardInformation = {
         let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            console.log('rejected');
-
             return Promise.reject({
                 authError: true
             });
@@ -84,7 +82,6 @@ let DashboardInformation = {
             });
 
             return Promise.all(relativeUsagePromises).then(function (instructionsReturned) {
-                console.log('it resolved');
                 instructionsReturned.forEach(function(instruction, key){
                     let orbId = keyToOrb[key].orb.get('id'),
                         meter = keyToOrb[key].meter;
@@ -100,8 +97,6 @@ let DashboardInformation = {
             });
 
         }).then(function (list) {
-            console.log('got here');
-            console.log('instructions');
             return Promise.resolve(list);
         });
     }

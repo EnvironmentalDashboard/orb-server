@@ -37,21 +37,11 @@ let OrbEmulator = {
          */
         let meters = [orb.get('meter1'), orb.get('meter2')];
 
-        console.log('will retrieve');
-
-        console.log({
-            id: meters[meter-1],
-            daySets: orb.get('daySets'),
-            sampleSize: orb.get('sampleSize')
-        });
-
         return Orb.retrieveRelativeUsage({
             id: meters[meter-1],
             daySets: orb.get('daySets'),
             sampleSize: orb.get('sampleSize')
         }).then(function (percentage) {
-            console.log(percentage);
-
             let hue = hues[meter-1][Math.round((percentage/100) * 4)],
                 frequency = ((percentage/100)*2.5) + .5; //times per second
 
