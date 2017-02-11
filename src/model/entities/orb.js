@@ -2,7 +2,7 @@
  * @overview Orb entitiy
  */
 
-let Bookshelf = require('./base');
+let Bookshelf = require('../components/bookshelf');
 
 let User = require('./user'),
     Meter = require('./meter'),

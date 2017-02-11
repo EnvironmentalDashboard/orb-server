@@ -6,7 +6,7 @@
 /**
  * Dependencies
  */
-let Bookshelf = require('./base');
+let Bookshelf = require('../components/bookshelf');
 
 /**
  * Names of entities in current directory

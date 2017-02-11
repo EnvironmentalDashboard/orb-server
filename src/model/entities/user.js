@@ -2,7 +2,7 @@
  * @overview User entitiy
  */
 
-let Bookshelf = require('./base'),
+let Bookshelf = require('../components/bookshelf'),
     validator = require('validator');
 
 let Orb = require('./orb'),

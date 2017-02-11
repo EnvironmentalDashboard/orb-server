@@ -2,7 +2,7 @@
  * @overview Bulb entitiy
  */
 
-let Bookshelf = require('./base');
+let Bookshelf = require('../components/bookshelf');
 
 let User = require('./user'),
     Orb = require('./orb');

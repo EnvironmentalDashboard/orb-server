@@ -2,7 +2,7 @@
  * @overview Responsible for account services
  */
 
-let Bookshelf = require('../entities/base.js'),
+let Bookshelf = require('../components/bookshelf'),
     util = require('util');
 
 let Entity = require('../entities'),

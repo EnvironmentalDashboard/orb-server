@@ -4,7 +4,7 @@
  * This is likely to change
  */
 
-let Bookshelf = require('./base');
+let Bookshelf = require('../components/bookshelf');
 
 let Building = require('./building');
 
