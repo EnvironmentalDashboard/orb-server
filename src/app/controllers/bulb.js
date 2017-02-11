@@ -8,7 +8,7 @@ let bulbController = {
             orb: req.body.orb
         };
 
-        return Service.Configuration.saveBulb(params, req.session);
+        return Service.Bulb.save(params, req.session);
     }
 };
 

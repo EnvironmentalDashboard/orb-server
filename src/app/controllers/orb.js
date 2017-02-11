@@ -22,7 +22,7 @@ let orbController = {
         appmodel.setInputs(req.body);
         appmodel.setTargetOrb(req.params.orbId);
 
-        return Service.Configuration.createOrb(params, req.session).catch(function (errors) {
+        return Service.Orb.save(params, req.session).catch(function (errors) {
             appmodel.setErrors(errors);
         });
     },
@@ -33,7 +33,7 @@ let orbController = {
     },
 
     delete: function(req, appmodel) {
-        return Service.Configuration.deleteOrb(req.params.orbId, req.session);
+        return Service.Orb.delete(req.params.orbId, req.session);
     }
 };
 

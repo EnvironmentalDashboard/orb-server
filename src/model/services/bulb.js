@@ -2,6 +2,9 @@
  * @overview Responsible for orb services
  */
 
+ let Bookshelf = require('../components/bookshelf'),
+     util = require('util');
+
 let Entity = require('../entities'),
     Recognition = require('./recognition'),
     LifxBulbAPI = require('./lifxbulbapi');
@@ -72,6 +75,65 @@ let Bulb = {
             console.log(reason);
             return Promise.reject('The access token associated with your account went bad. Please reauthorize to link your accounts.');
         });
+
+    },
+
+    save: function(params, sess) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            return Promise.reject({
+                authError: true
+            });
+        }
+
+        let errors = {};
+
+        let selector = params.selector,
+            enabled = params.enabled,
+            orb = params.orb === "" ? null : params.orb;
+
+        let bulbParams = {
+                owner: client.id,
+                selector: selector,
+                enabled: enabled === "true",
+                orb: orb
+            },
+            bulb = new Entity.Bulb(bulbParams);
+
+        return bulb.validate().then(function (validationErrs) {
+            if (validationErrs) {
+                Object.assign(errors, validationErrs);
+            }
+
+            if(orb == null || orb == "") {
+                return Promise.resolve();
+            }
+
+            return new Entity.Orb({id: orb}).fetch();
+        }).then(function (match) {
+            if((match && match.get('owner') === client.id)
+                || orb == null) {
+
+                /**
+                 * NOTICE: here we leak data mapper logic into the service layer
+                 * because Knex.js and Bookshelf.js do not support upserts
+                 */
+                let query = util.format(`\
+                    INSERT INTO \`%s\` (owner, enabled, orb, selector)
+                        VALUES (:owner, :enabled, :orb, :selector)
+                    ON DUPLICATE KEY UPDATE
+                        enabled = :enabled,
+                        orb = :orb,
+                        owner = :owner
+                `, bulb.tableName);
+
+                return Bookshelf.knex.raw(query, bulbParams);
+
+            }
+
+            return Promise.resolve();
+        })
 
     }
 };

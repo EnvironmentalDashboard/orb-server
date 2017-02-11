@@ -15,8 +15,7 @@ let groups = [
     'OrbEmulator',
     'OrbInstructionsDispatcher',
     'Bulb',
-    'Recognition',
-    'Configuration'
+    'Recognition'
 ];
 
 /**
