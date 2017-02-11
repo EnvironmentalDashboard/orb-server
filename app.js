@@ -80,15 +80,6 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-// Create cache object for every request
-app.use(function(req, res, next) {
-    req.cache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
-
-    Service.Recognition.knowsClient({}, req.cache, req.session);
-
-    next();
-});
-
 /**
  * Routing
  */
@@ -97,10 +88,10 @@ router.initialize(app);
 
 /**
  * Orb instruction dispatching
- */
+ *
 
 setInterval(function() {
 
     Service.Orb.dispatchAll();
 
-}, 5000);
+}, 5000);*/

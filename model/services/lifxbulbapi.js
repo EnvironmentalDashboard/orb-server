@@ -28,9 +28,6 @@ let LifxBulbAPI = {
             form: params,
             simple: false,
             resolveWithFullResponse: true
-        }).then(function(response) {
-            console.log(response);
-            console.log(response.statusCode);
         });
     }
 

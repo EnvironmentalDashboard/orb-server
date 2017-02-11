@@ -3,24 +3,26 @@
  */
 
 /**
- * Names of controllers in current directory
+ * Names of modelviews in current directory
  * @type {Array}
  */
 
-let controllers = [
+let modelviews = [
     'default',
     'authentication',
     'dashboard',
     'orb',
+    'guide',
     'bulb',
     'account',
-    'authorization'
+    'authorization',
+    'orbInstructions'
 ];
 
 /**
- * Include controllers
+ * Include modelviews
  */
 
-controllers.forEach(function (name) {
+modelviews.forEach(function (name) {
     exports[name] = require('./' + name);
 });

@@ -1,38 +1,32 @@
-/**
- * Authentication view - blah
- */
+let authenticationView = {
+    login: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser(),
+            errors = appmodel.getErrors(),
+            form = appmodel.getInputs();
 
-let authentication = {
-    signin: function (req, res, next) {
-
-        req.cache.get('errors', function (err, val) {
-            /**
-             * If there were errors
-             */
-            if (val !== undefined) {
-
-                res.render('login', {
-                    active: {singin: true},
-                    errors: val
-                });
-
-
-            } else {
-                res.redirect('/dash');
-            }
-        });
-
-    },
-
-    signout: function (req, res, next) {
-        if(!req.cache.get('loggedIn')) {
-            res.render('logout-success');
-        } else {
-            res.render('bad-request', {loggedIn: req.cache.get('loggedIn') });
+        if(loggedIn) {
+            return res.redirect('/dash');
         }
 
+        return res.render('login', {
+            loggedIn: loggedIn,
+            errors: errors,
+            form: form
+        });
     },
 
+    logout: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser();
+
+        if (loggedIn) {
+            //Something went wrong...
+            return res.render('bad-request', {
+                loggedIn: loggedIn
+            });
+        }
+
+        return res.render('logout-success');
+    }
 };
 
-module.exports = authentication;
+module.exports = authenticationView;

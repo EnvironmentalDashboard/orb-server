@@ -10,12 +10,13 @@ let Entity = require('../entities'),
 
 let Configuration = {
 
-    createOrb: function(params, cache, sess) {
-        let client = Recognition.knowsClient({required: true}, cache, sess);
+    createOrb: function(params, sess) {
+        let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            cache.set('auth-error', true);
-            return Promise.resolve();
+            return Promise.reject({
+                authError: true
+            });
         }
 
         let title = params.title.trim(),
@@ -60,19 +61,6 @@ let Configuration = {
             return val;
         }));
 
-        let resolve = function () {
-            cache.set('errors', errors);
-            cache.set('form', {
-                title: title,
-                meter1: meter1,
-                meter2: meter2,
-                daySets: inputtedDaySets,
-                sampleSize: sampleSize
-            });
-
-            return DashboardInformation.initializeMeterList(cache, sess);
-        };
-
         let orb = new Entity.Orb({
             title: title,
             meter1: meter1,
@@ -95,7 +83,7 @@ let Configuration = {
             return new Entity.Meter({id: meter1}).fetch();
         }).then(function() {
             /**
-             * If this is an update
+             * If this is an update, not an insert
              */
             if(params.id) {
                 /**
@@ -133,25 +121,26 @@ let Configuration = {
              * prevent saving
              */
             if (Object.keys(errors).length !== 0) {
-                return resolve();
+                return Promise.reject(errors);
             }
 
             return orb.save();
-        }).catch(console.log.bind(console));
+        });
     },
 
-    deleteOrb: function(orbId, cache, sess) {
-        let client = Recognition.knowsClient({required: true}, cache, sess);
+    deleteOrb: function(orbId, sess) {
+        let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            cache.set('auth-error', true);
-            return Promise.resolve();
+            return Promise.reject({
+                authError: true
+            });
         }
 
         return new Entity.Orb({
             id: orbId,
             owner: client.id
-        }).fetch({withRelated:['meter1', 'meter2']}).then(function(match){
+        }).fetch({withRelated:['meter1', 'meter2']}).then(function(match) {
             /**
              * Change bulbs assigned to this orb
              *
@@ -161,20 +150,6 @@ let Configuration = {
                 orb: null,
                 enabled: false
             });
-
-            /**
-             * Decrease using count on meters
-
-            let meters = [match.related('meter1'), match.related('meter2')];
-
-            let meter1Promise = meters[0].set({
-                'orb_server': meters[0].get('orb_server') - 1
-            }).save();
-
-            let meter2Promise = meters[1].set({
-                'orb_server': meters[1].get('orb_server') - 1
-            }).save();
-            */
 
             /**
              * Delete this orb
@@ -187,12 +162,13 @@ let Configuration = {
         });
     },
 
-    saveBulb: function(params, cache, sess) {
-        let client = Recognition.knowsClient({required: true}, cache, sess);
+    saveBulb: function(params, sess) {
+        let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            cache.set('auth-error', true);
-            return Promise.resolve();
+            return Promise.reject({
+                authError: true
+            });
         }
 
         let errors = {};

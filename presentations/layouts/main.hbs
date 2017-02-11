@@ -33,6 +33,8 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         {{#if loggedIn}}
+                        <li{{#if active.dashboard}} class="active"{{/if}}><a href="/dash">Dashboard</a></li>
+                        <li{{#if active.guide}} class="active"{{/if}}><a href="/guide">Guide</a></li>
                         <li class="dropdown{{#if active.account}} active{{/if}}">
                             <a href="/account" id="account-options" title="Account settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{loggedIn.email}}
@@ -40,14 +42,10 @@
                             </a>
 
                             <ul class="dropdown-menu" aria-labelledby="account-options">
-                                <li><a href="/account">Account overview</a></li>
-                                <li><a href="/account/config">Update info</a></li>
-                                <li><a href="/account/security">Update password</a></li>
+                                <li><a href="/account">Account configuration</a></li>
+                                <li><a href="/account/signout">Sign out</a></li>
                             </ul>
                         </li>
-                        <li{{#if active.dashboard}} class="active"{{/if}}><a href="/dash">Dashboard</a></li>
-                        <li{{#if active.guide}} class="active"{{/if}}><a href="/guide">Guide</a></li>
-                        <li><a href="/account/signout">Sign out</a></li>
                         {{else}}
 
                         <li{{#if active.guide}} class="active"{{/if}}><a href="/guide">Guide</a></li>

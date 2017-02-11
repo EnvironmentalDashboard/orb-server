@@ -1,25 +1,21 @@
-/**
- * Authentication controller
- */
-
 let Service = require('../model/services');
 
-let authentication = {
-    signin: function (req, res, next) {
-        return Service.Recognition.login({
-            email: req.body.email,
-            password: req.body.password
-        }, req.cache, req.session).then(function() {
-            next();
+let authenticationController = {
+    login: function (req, appmodel) {
+        let params = {email: req.body.email, password: req.body.password};
+
+        return Service.Recognition.login(params, req.session).catch(function (errors) {
+            appmodel.setErrors(errors);
+
+            //Omit password from assignment
+            delete params.password;
+            appmodel.setInputs(params);
         });
     },
 
-    signout: function(req, res, next) {
-        Service.Recognition.forget(req.cache, req.session);
-
-        next();
+    logout: function (req, appodel) {
+        return Service.Recognition.forget(req.session);
     }
-
 };
 
-module.exports = authentication;
+module.exports = authenticationController;

@@ -3,82 +3,89 @@
  * @overview Handles application routing mechanisms
  */
 let controllers = require('./controllers'),
-    views = require('./views');
+    views = require('./views'),
+    modelviews = require('./modelviews');
 
 /**
  * Holds all application routes
  * @type {Array}
  */
  var routes = [
-     ['get', '/', [controllers.page.index, views.page.index]],
-     ['get', '/guide', [controllers.page.guide, views.page.guide]],
+    ['get', '/', [Promise.resolve.bind(Promise), views.default.index], modelviews.default],
+    ['get', '/guide', [Promise.resolve.bind(Promise), views.guide.index], modelviews.guide],
 
-     // Dashboard
-     ['get', '/dash', [controllers.page.dashboard, views.page.dashboard]],
+    // Dashboard
+    ['get', '/dash', [controllers.dashboard.index, views.dashboard.index], modelviews.dashboard],
 
-     ['get', '/dash/orb/new', [controllers.page.newOrb, views.page.newOrb]],
-     ['post', '/dash/orb/new', [controllers.configuration.insertOrb, views.configuration.orb]],
+    ['get', '/dash/orb/new', [Promise.resolve.bind(Promise), views.orb.configure], modelviews.orb],
+    ['post', '/dash/orb/new', [controllers.orb.save, views.orb.configure], modelviews.orb],
 
-     ['get', '/dash/orb/delete/:orbId', [controllers.page.deleteOrb, views.page.deleteOrb]],
-     ['post', '/dash/orb/delete/:orbId', [controllers.configuration.deleteOrb, views.configuration.deleteOrb]],
+    ['get', '/dash/orb/delete/:orbId', [controllers.orb.load, views.orb.deletePrompt], modelviews.orb],
+    ['post', '/dash/orb/delete/:orbId', [controllers.orb.delete, views.orb.delete], modelviews.orb],
 
-     ['get', '/dash/orb/edit/:orbId', [controllers.page.editOrb, views.page.editOrb]],
-     ['post', '/dash/orb/edit/:orbId', [controllers.configuration.updateOrb, views.configuration.orb]],
+    ['get', '/dash/orb/edit/:orbId', [controllers.orb.load, views.orb.configure], modelviews.orb],
+    ['post', '/dash/orb/edit/:orbId', [controllers.orb.save, views.orb.configure], modelviews.orb],
 
-     ['get', '/dash/orb/success', [controllers.page.orbSuccess, views.page.orbSuccess]],
+    ['get', '/dash/orb/success', [Promise.resolve.bind(Promise), views.orb.success], modelviews.orb],
 
-     ['post', '/dash/bulb/update', [controllers.configuration.bulb, views.configuration.bulb]],
+    ['post', '/dash/bulb/update', [controllers.bulb.update, views.bulb.update], modelviews.bulb],
 
-     // Account configuration
-     ['get', '/account', [controllers.page.account, views.page.account]],
+    // Account configuration
+    ['get', '/account', [controllers.account.index, views.account.index], modelviews.account],
 
-     ['get', '/account/config', [controllers.page.accountConfig, views.page.accountConfig]],
-     ['post', '/account/config', [controllers.account.update, views.account.update]],
+    ['get', '/account/config', [controllers.account.index, views.account.config], modelviews.account],
+    ['post', '/account/config', [controllers.account.config, views.account.config], modelviews.account],
 
-     ['get', '/account/config/success', [controllers.page.accountConfigSuccess, views.page.accountConfigSuccess]],
+    ['get', '/account/security', [Promise.resolve.bind(Promise), views.account.updatePassword], modelviews.account],
+    ['post', '/account/security', [controllers.account.updatePassword, views.account.updatePassword], modelviews.account],
 
-     ['get', '/account/security', [controllers.page.securityConfig, views.page.securityConfig]],
-     ['post', '/account/security', [controllers.account.updatePassword, views.account.updatePassword]],
+    ['get', '/account/config/success', [controllers.account.success, views.account.success], modelviews.account],
+    ['get', '/account/security/success', [controllers.account.success, views.account.success], modelviews.account],
 
-     ['get', '/account/security/success', [controllers.page.accountConfigSuccess, views.page.accountConfigSuccess]],
+    // Registration
+    ['get', '/account/signup', [Promise.resolve.bind(Promise), views.account.register], modelviews.account],
+    ['post', '/account/signup', [controllers.account.register, views.account.register], modelviews.account],
+    ['get', '/account/signup/success', [Promise.resolve.bind(Promise), views.account.registerSuccess], modelviews.account],
 
-     // Recognnition
-     ['get', '/account/signin', [controllers.page.signin, views.page.signin]],
-     ['post', '/account/signin', [controllers.authentication.signin, views.authentication.signin]],
-     ['get', '/account/signout', [controllers.authentication.signout, views.authentication.signout]],
+    // Recognnition
+    ['get', '/account/signin', [Promise.resolve.bind(Promise), views.authentication.login], modelviews.authentication],
+    ['post', '/account/signin', [controllers.authentication.login, views.authentication.login], modelviews.authentication],
+    ['get', '/account/signout', [controllers.authentication.logout, views.authentication.logout], modelviews.authentication],
 
-     // Registration
-     //
-     // Notice: 'signup' on the frontend (i.e., URLs and page controller name) and
-     // 'register' on the backend
-     ['get', '/account/signup', [controllers.page.signup, views.page.signup]],
-     ['post', '/account/signup', [controllers.account.register, views.account.register]],
-     ['get', '/account/signup/success', [controllers.page.signupSuccess, views.page.signupSuccess]],
+    // Authorization
+    ['get', '/auth/confirm', [Promise.resolve.bind(Promise), views.authorization.confirm], modelviews.authorization],
+    ['get', '/auth/go', [controllers.authorization.authorize, views.authorization.authorize], modelviews.authorization],
+    ['get', '/redirect', [controllers.authorization.redirect, views.authorization.redirect], modelviews.authorization],
 
-     // Authorization
-     ['get', '/auth', [controllers.authorization.authorize, views.authorization.authorize]],
-     ['get', '/auth/confirm', [controllers.page.authConfirm, views.page.authConfirm]],
-     ['get', '/redirect', [controllers.authorization.redirect, views.authorization.redirect]],
+    // JSON pages
+    ['get', '/orb-instructions/json', [Promise.resolve.bind(Promise), views.orbInstructions.json], modelviews.orbInstructions],
 
-     // JSON pages
-     ['get', '/json/orb/instructions', [controllers.json.orbInstructionList, views.json.orbInstructionList]],
-
-     // Dynamic CSS
-     ['get', '/css/orbs.animation.css', [controllers.json.orbInstructionList, views.css.orbAnimations]]
+    // Dynamic CSS
+    ['get', '/orb-instructions/animations.css', [Promise.resolve.bind(Promise), views.orbInstructions.css], modelviews.orbInstructions]
  ];
 
  module.exports.initialize = function(app) {
-     routes.forEach(function(params) {
-         [method, route, handlers] = params;
+    routes.forEach(function(params) {
+        [method, route, [controller, view], modelview] = params;
 
-         handlers.splice(1, 0, function(req, res, next) {
-             if(req.cache.get('auth-error')) {
-                 return res.render('denied');
-             }
+        (function(modelview, view, controller){
+            var appmodel;
 
-             next();
-         });
+            app[method](route, function(req, res, next) {
+                appmodel = new modelview;
 
-         app[method](route, handlers);
-     })
+                if(typeof appmodel.setSession === "function") {
+                    appmodel.setSession(req.session);
+                }
+
+                return controller(req, appmodel).then(function() {
+                    return next();
+                }).catch("Controller rejected: " + console.log);
+            });
+
+            app[method](route, function(req, res, next) {
+                return view(res, appmodel);
+            })
+        }(modelview, view, controller));
+    });
  };

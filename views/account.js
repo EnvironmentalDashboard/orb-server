@@ -1,78 +1,90 @@
-/**
- * Account view
- */
+let accountView = {
+    index: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser();
 
-let account = {
-    register: function (req, res, next) {
+        if(!loggedIn) {
+            return res.render('denied');
+        }
 
-        req.cache.get('errors', function (err, val) {
-            /**
-             * If there were errors, render the registration page again
-             */
-            if (val !== undefined) {
-                res.render('register', {
-                    active: {signup: true},
-                    loggedIn: req.cache.get('loggedIn'),
-                    errors: val,
-                    form: req.cache.get('form')
-                });
-
-            /**
-             * Otherwise registration was a success
-             */
-            } else {
-                res.redirect('/account/signup/success');
-            }
+        return res.render('account', {
+            loggedIn: loggedIn
         });
-
     },
 
-    update: function (req, res, next) {
-        req.cache.get('errors', function (err, val) {
-            /**
-             * If there were errors, render the config page again
-             */
-            if (val !== undefined) {
+    config: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser(),
+            form = appmodel.getInputs(),
+            errors = appmodel.getErrors();
 
-                res.render('account-config', {
-                    active: {account: true},
-                    loggedIn: req.cache.get('loggedIn'),
-                    errors: val,
-                    form: req.cache.get('form')
-                });
+        if(appmodel.getAuthError()) {
+            return res.render('denied');
+        }
 
-            /**
-             * Otherwise registration was a success
-             */
-            } else {
-                res.redirect('/account/config/success');
-            }
+        if(!errors && Object.keys(form).length > 0) {
+            return res.redirect('/account/config/success');
+        }
+
+        return res.render('account-config', {
+            loggedIn: loggedIn,
+            form: loggedIn,
+            errors: errors
         });
-
     },
 
-    updatePassword: function (req, res, next) {
-        req.cache.get('errors', function (err, val) {
-            /**
-             * If there were errors, render the config page again
-             */
-            if (val !== undefined) {
-                res.render('account-password-config', {
-                    active: {account: true},
-                    loggedIn: req.cache.get('loggedIn'),
-                    errors: val
-                });
+    updatePassword: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser(),
+            errors = appmodel.getErrors(),
+            form = appmodel.getInputs();
 
-            /**
-             * Otherwise registration was a success
-             */
-            } else {
-                res.redirect('/account/config/success');
-            }
+        if(!loggedIn) {
+            return res.render('denied');
+        }
+
+        if(!errors && Object.keys(form).length > 0) {
+            return res.redirect('/account/config/success');
+        }
+
+        return res.render('account-password-config', {
+            loggedIn: loggedIn,
+            errors: errors
         });
+    },
 
+    success: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser();
+
+        if(!loggedIn) {
+            return res.render('denied');
+        }
+
+        return res.render('account-config-success', {
+            loggedIn: loggedIn
+        });
+    },
+
+    register: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser(),
+            form = appmodel.getInputs(),
+            errors = appmodel.getErrors();
+
+        if(!errors && Object.keys(form).length > 0) {
+            return res.redirect('/account/signup/success');
+        }
+
+        return res.render('register', {
+            loggedIn: loggedIn,
+            form: form,
+            errors: errors
+        });
+    },
+
+    registerSuccess: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser();
+
+        return res.render('register-success', {
+            loggedIn: loggedIn
+        });
     }
-
 };
 
-module.exports = account;
+module.exports = accountView;

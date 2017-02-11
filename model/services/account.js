@@ -14,7 +14,7 @@ const lifx_api = "https://cloud.lifx.com/oauth";
 
 let Account = {
 
-    register: function (params, cache) {
+    register: function (params) {
 
         let email = params.email.trim(),
             fname = params.fname.trim(),
@@ -24,34 +24,10 @@ let Account = {
 
         let errors = {};
 
-        /**
-         * Make sure the passwords are equal
-         */
         if (password1 !== password2) {
             errors.confirm = ['Passwords must match.'];
         }
 
-        /**
-         * This function is called to stop the promise chain that will occur below
-         * when errors should stop the service from completing registration
-         *
-         * Saves the errors and related form information to cache
-         */
-        let resolve = function () {
-            cache.set('errors', errors);
-            cache.set('form', {
-                email: email,
-                fname: fname,
-                lname: lname
-            });
-
-            return Promise.resolve(errors);
-        };
-
-        /**
-         * Create a user domain object from the inputted values and validate
-         * this information
-         */
          let user = new Entity.User({
              email: email,
              fname: fname,
@@ -65,14 +41,14 @@ let Account = {
             }
 
             /**
-             * If the user's email didn't validate
+             * Stop registration if the user's email didn't validate
              */
             if (errors.email) {
-                return resolve();
+                return Promise.reject(errors);
             }
 
             /**
-             * We need to make sure the user's email deosn't exist already
+             * Make sure the user's email deosn't exist already
              */
             return new Entity.User({email: email}).fetch();
         }).then(function (match){
@@ -81,7 +57,7 @@ let Account = {
             }
 
             if (Object.keys(errors).length !== 0) {
-                return resolve();
+                return Promise.reject(errors);
             }
 
             let pwdBuffer = Buffer.from(password1);
@@ -95,15 +71,16 @@ let Account = {
             return user.save({
                 password: hash
             });
-        }).catch(console.log.bind(console));
+        });
     },
 
-    updatePassword: function(params, cache, sess) {
-        let client = Recognition.knowsClient({required: true}, cache, sess);
+    updatePassword: function(params, sess) {
+        let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            cache.set('auth-error', true);
-            return Promise.resolve();
+            return Promise.reject({
+                authError: true
+            });
         }
 
         let password = params.password,
@@ -111,12 +88,6 @@ let Account = {
             confirmNewPassword = params.confirmNewPassword;
 
         let errors = {};
-
-        let resolve = function () {
-            cache.set('errors', errors);
-
-            return Promise.resolve(errors);
-        };
 
         if (newPassword !== confirmNewPassword) {
             errors.confirm = ['Passwords must match.'];
@@ -135,7 +106,7 @@ let Account = {
         }).then(function (user) {
             if(!user) {
                 error.general = ['Couldn\'t find user'];
-                return Promise.resolve(false);
+                return Promise.reject(errors);
             }
 
             let pwdHash = Buffer.from(user.get('password')),
@@ -143,15 +114,14 @@ let Account = {
 
             if (!sodium.crypto_pwhash_argon2i_str_verify(pwdHash, pwdBuffer)) {
                 errors.auth = ['Credentials did not authenticate.'];
-                console.log('bad login');
-                return Promise.resolve(false);
+                return Promise.reject(errors);
             }
 
             return Promise.resolve(user);
 
         }).then(function (user) {
             if (Object.keys(errors).length !== 0 || !user) {
-                return resolve();
+                return Promise.reject(errors);
             }
 
             let pwdBuffer = Buffer.from(newPassword);
@@ -167,29 +137,19 @@ let Account = {
 
     },
 
-    updateInformation: function(params, cache, sess) {
-        let client = Recognition.knowsClient({required: true}, cache, sess);
+    updateInformation: function(params, sess) {
+        let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            cache.set('auth-error', true);
-            return Promise.resolve();
+            return Promise.reject({
+                authError: true
+            });
         }
 
         let fname = params.fname.trim(),
             lname = params.lname.trim();
 
         let errors = {};
-
-        let resolve = function () {
-            cache.set('errors', errors);
-            cache.set('form', {
-                email: email,
-                fname: fname,
-                lname: lname
-            });
-
-            return Promise.resolve(errors);
-        };
 
         /**
          * Create a user domain object from the inputted values and validate
@@ -210,19 +170,20 @@ let Account = {
               * If there are errors, resolve
               */
               if (Object.keys(errors).length !== 0) {
-                  return resolve();
+                  return Promise.reject(errors);
               }
 
              return user.save();
          });
     },
 
-    authorizationRedirect: function(cache, sess) {
-        let client = Recognition.knowsClient({required: true}, cache, sess);
+    prepareRedirect: function(sess) {
+        let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            cache.set('auth-error', true);
-            return Promise.resolve();
+            return Promise.reject({
+                authError: true
+            });
         }
 
         /**
@@ -243,17 +204,17 @@ let Account = {
             response_type: 'code'
         });
 
-        cache.set('query', query);
-        return Promise.resolve();
+        return Promise.resolve(query);
 
     },
 
-    authorize: function(params, cache, sess) {
-        let client = Recognition.knowsClient({required: true}, cache, sess);
+    authorize: function(params, sess) {
+        let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            cache.set('auth-error', true);
-            return Promise.resolve();
+            return Promise.reject({
+                authError: true
+            });
         }
 
         let data = {
@@ -273,23 +234,18 @@ let Account = {
          * Request the access token
          */
         return request.post(lifx_api + '/token', options, function (err, res, bod) {
-            (function() {
-                /**
-                 * Reject the token if client has incorrect state parameter
-                 */
-                if (sess.request_state != params.state) {
-                    return Promise.reject('Did not validate.');
-                }
+            if (sess.request_state != params.state) {
+                return Promise.reject({
+                    stateError: 'Request does not validate.'
+                });
+            }
 
-                let token = bod.access_token;
+            let token = bod.access_token;
 
-                return new Entity.User({id: client.id}).save(
-                    { token: token, },
-                    { patch: true }
-                );
-            }()).then(function() {
-                return Promise.resolve();
-            }).catch(console.log.bind(console));
+            return new Entity.User({id: client.id}).save(
+                { token: token, },
+                { patch: true }
+            );
         });
     }
 

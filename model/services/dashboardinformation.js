@@ -10,17 +10,13 @@ let Entity = require('../entities'),
 
 let DashboardInformation = {
 
-    /**
-     * Stores a list of orbs associated with authenticated user to inputted cache
-     * @param  {Object} cache Cache object to write to
-     * @param  {Object} sess     Persisting sssion object
-     * @return {Promise}         A promise
-     */
-    initializeOrbList: function(cache, sess) {
-        client = Recognition.knowsClient({required: true}, cache, sess);
+    getOrbList: function(sess) {
+        let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            return Promise.resolve();
+            return Promise.reject({
+                authError: true
+            });
         }
 
         let orbList = [];
@@ -60,19 +56,17 @@ let DashboardInformation = {
 
             return Promise.all(meterPromises);
         }).then(function() {
-            /**
-             * Store the orb list to cache and resolve
-             */
-            cache.set('orb-list', orbList);
-            return Promise.resolve();
+            return Promise.resolve(orbList);
         });
     },
 
-    initializeOrb: function(orbId, cache, sess) {
-        client = Recognition.knowsClient({required: true}, cache, sess);
+    getOrb: function(orbId, sess) {
+        let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            return Promise.resolve();
+            return Promise.reject({
+                authError: true
+            });
         }
 
         return new Entity.Orb({
@@ -83,27 +77,20 @@ let DashboardInformation = {
                 return Promise.reject('Records don\'t exist for the targetted orb');
             }
 
-            cache.set('orb-info', orb.attributes);
-            return Promise.resolve();
+            return Promise.resolve(orb.attributes);
         });
     },
 
-    /**
-     * Stores a list of orbs associated with authenticated user merged with orbs
-     * pulled from the API to inputted cache
-     * @param  {Object} cache Cache object to write to
-     * @param  {Object} sess     Persisting sssion object
-     * @return {Promise}         A promise
-     */
-    initializeBulbList: function(cache, sess) {
-        client = Recognition.knowsClient({required: true}, cache, sess);
+    getBulbList: function(sess) {
+        let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            return Promise.resolve();
+            return Promise.reject({
+                authError: true
+            });
         }
 
         let bulbList = {}, updatedClient;
-
 
         return new Entity.User({id: client.id}).fetch().then(function (user) {
             updatedClient = user;
@@ -113,21 +100,18 @@ let DashboardInformation = {
              * authorize their account with LifX
              */
             if (user.get('token') == null || user.get('token') === '') {
-                cache.set('authorization-notice', 'This account isn\'t authorized with a LifX account. Please authorize to link your accounts.');
-                return Promise.resolve({authorizationNotice: true});
+                return Promise.reject('This account isn\'t authroized with a LIFX account. Please authorize to link your accounts.');
             }
 
             return LifxBulbAPI.getBulbList(updatedClient.get('token'));
         }).then(function (bulbsFromAPI) {
-
-            if(bulbsFromAPI && !bulbsFromAPI.authorizationNotice) {
+            if(bulbsFromAPI) {
                 JSON.parse(bulbsFromAPI).forEach(function (bulb) {
                     bulbList[bulb.id] = {info: bulb};
                 });
             }
 
-            return Entity.Bulb.collection().query('where', 'owner', '=', client.id)
-                    .fetch({withRelated: ['orb']});
+            return Entity.Bulb.collection().query('where', 'owner', '=', client.id).fetch({withRelated: ['orb']});
         }).then(function (bulbCollection) {
 
             if (bulbCollection) {
@@ -138,47 +122,40 @@ let DashboardInformation = {
                 });
             }
 
-            /**
-             * The bulb list is finalized now; store it to cache & resolve
-             */
-            cache.set('bulb-list', bulbList);
-            return Promise.resolve();
-        }).then(function() {
             for (var key in bulbList) {
                 let bulb = bulbList[key];
 
                 if(bulb.info && (bulb.info.label.substring(0,4) === "LIFX"
                     || bulb.info.group.name === "My Room"
                     || bulb.info.location.name === "My Group")) {
-                    cache.set('labelling-notice', true);
+                    /**
+                     * @TODO
+                     */
+                    //bulbList.labellingNotice = true;
 
                     break;
                 }
             }
 
-            return Promise.resolve();
+            return Promise.resolve(bulbList);
         }).catch(function(reason) {
             /**
              * If there was an exception, set a generic authorization notice &
              * resolve
              */
             console.log(reason);
-            cache.set('authorization-notice', 'The access token associated with your account went bad. Please reauthorize to link your accounts.');
-            return Promise.resolve();
+            return Promise.reject('The access token associated with your account went bad. Please reauthorize to link your accounts.');
         });
 
     },
 
-    /**
-     * Stores a list of meters associated with authenticated user merged with orbs
-     * pulled from the API to inputted cache
-     * @param  {Object} cache Cache object to write to
-     * @param  {Object} sess     Persisting sssion object
-     * @return {Promise}         A promise
-     */
-    initializeMeterList: function (cache, sess) {
-        if (!Recognition.knowsClient({required: true}, cache, sess)) {
-            return Promise.resolve();
+    getMeterList: function (sess) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            return Promise.reject({
+                authError: true
+            });
         }
 
         /**
@@ -202,21 +179,17 @@ let DashboardInformation = {
                 });
             });
 
-            cache.set('meter-list', meterList);
-            return Promise.resolve();
+            return Promise.resolve(meterList);
         });
     },
 
-    /**
-     * Stores a list of orb instructions associted with authenticated user to the
-     * inputted cache
-     * @param  {Object} cache Cache object to write to
-     * @param  {Object} sess     Persisting session object
-     * @return {Promise}         A promise
-     */
-    initializeOrbInstructionsList: function(cache, sess) {
-        if (!Recognition.knowsClient({required: true}, cache, sess)) {
-            return Promise.resolve();
+    getOrbInstructionsList: function(sess) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            return Promise.reject({
+                authError: true
+            });
         }
 
         /**
@@ -263,8 +236,7 @@ let DashboardInformation = {
             });
 
         }).then(function (list) {
-            cache.set('orb-instruction-list', list);
-            return Promise.resolve();
+            return Promise.resolve(list);
         });
     }
 };

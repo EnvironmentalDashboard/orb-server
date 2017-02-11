@@ -14,23 +14,11 @@ let Recognition = {
         return sess.authenticatedUser;
     },
 
-    /**
-     * Returns the authenticated client's account information or false if the
-     * server can't recognize the client
-     * @param  {Object} sess  Persisting session object
-     * @param  {Object} cache Cache object to write to
-     * @return {Object}       User's info or false.
-     */
-    knowsClient: function(params, cache, sess) {
+    knowsClient: function(sess) {
         let loggedIn = false;
 
         if(sess.authenticatedUser) {
             loggedIn = true;
-            cache.set('loggedIn', sess.authenticatedUser);
-        }
-
-        if(params.required) {
-            cache.set('auth-error', !loggedIn);
         }
 
         return sess.authenticatedUser || loggedIn;
@@ -38,57 +26,34 @@ let Recognition = {
 
     /**
      * Same as knowsClient but regathers the users info from the datbaase
-     * @param  {Object} sess  Persisting session object
-     * @param  {Object} cache Cache object to write to
-     * @return {Object}       User's info or false.
      */
-    refreshClient: function (cache, sess) {
-        let loggedIn = false, me = this;
+    refreshClient: function (sess) {
+        let loggedIn = false;
 
         if(!sess.authenticatedUser) {
-            cache.set('auth-error', true);
-            return false;
+            return Promise.reject({ authError: true });
         }
 
         return new Entity.User({id: sess.authenticatedUser.id}).fetch().then(function (match) {
-            me.certifyClient(match, sess);
-            cache.set('loggedIn', match);
+            Recognition.certifyClient(match, sess);
 
-            return match;
+            return Promise.resolve();
         });
     },
 
-    forget: function(cache, sess) {
+    forget: function(sess) {
         sess.authenticatedUser = null;
-        cache.set('loggedIn', sess.authenticatedUser);
+        return Promise.resolve();
     },
 
-    /**
-     * Recognizes (login) a client
-     * @param  {Object} params Object with user's email, password
-     * @param  {Object} cache  Cache object to write to
-     * @param  {[type]} sess   [description]
-     * @return {[type]}        [description]
-     */
-    login: function(params, cache, sess) {
+
+    login: function(params, sess) {
 
         /**
          * Need to keep track of errors
          * @type {Object}
          */
         let errors = {};
-
-        /**
-         * Set a resolve function to store the errors in the request cache
-         * before calling the done callback, only if there are errors.
-         */
-        let resolve = function() {
-            if(Object.keys(errors).length !== 0) {
-                cache.set('errors', errors);
-            }
-
-            return Promise.resolve();
-        };
 
         return new Entity.User({email: params.email}).fetch().then(function (match) {
             if (match) {
@@ -102,7 +67,12 @@ let Recognition = {
                      */
 
                     Recognition.certifyClient(match, sess);
-                    return resolve();
+
+                    if(Object.keys(errors).length !== 0) {
+                        return Promise.reject(errors);
+                    }
+
+                    return Promise.resolve();
                 }
             }
 
@@ -111,7 +81,7 @@ let Recognition = {
              * client failed to authenticate
              */
             errors.login = ['Credentials did not authenticate. Please try again.'];
-            return resolve();
+            return Promise.reject(errors);
         });
 
     }

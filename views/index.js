@@ -10,13 +10,15 @@ let _ = require('lodash');
  */
 
 let views = [
-    'page',
-    'account',
+    'default',
     'authentication',
+    'dashboard',
+    'orb',
+    'guide',
+    'bulb',
+    'account',
     'authorization',
-    'configuration',
-    'json',
-    'css'
+    'orbInstructions'
 ];
 
 /**

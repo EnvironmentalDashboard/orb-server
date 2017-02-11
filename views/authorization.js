@@ -1,24 +1,40 @@
-/**
- * Authorization view
- */
-
 let lifx_api = "https://cloud.lifx.com/oauth";
 
-let authorization = {
-    authorize: function (req, res, next) {
-        let query = req.cache.get('query');
+let authenticationView = {
+    authorize: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser(),
+            queryString = appmodel.getQueryString();
 
-        res.redirect(lifx_api + '/authorize?' + query);
+        if(!loggedIn) {
+            return res.render('denied');
+        }
 
+        res.redirect(lifx_api + '/authorize?' + queryString);
     },
 
-    redirect: function (req, res, next) {
+    redirect: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser();
+
+        if(!loggedIn) {
+            return res.render('denied');
+        }
+
         return res.render('auth-success', {
-            active: {account: true},
-            loggedIn: req.cache.get('loggedIn')
+            loggedIn: loggedIn
+        });
+    },
+
+    confirm: function (res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser();
+
+        if(!loggedIn) {
+            return res.render('denied');
+        }
+
+        return res.render('auth-confirm', {
+            loggedIn: loggedIn
         });
     }
-
 };
 
-module.exports = authorization;
+module.exports = authenticationView;
