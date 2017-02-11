@@ -4,11 +4,11 @@ var dashboard = {
     iterator: 0,
 
     retrieveBulbList: function() {
-        return Service.DashboardInformation.getBulbList(this.session).catch(this.setErrors.bind(this));
+        return Service.Bulb.retrieveList(this.session).catch(this.setErrors.bind(this));
     },
 
     retrieveOrbList: function() {
-        return Service.DashboardInformation.getOrbList(this.session).catch(this.setErrors.bind(this));
+        return Service.Orb.retrieveList(this.session).catch(this.setErrors.bind(this));
     }
 };
 

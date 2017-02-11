@@ -7,6 +7,7 @@ let validator = require('validator'),
 
 let Entity = require('../entities'),
     Recognition = require('./recognition'),
+    OrbEmulator = require('./orbemulator'),
     LifxBulbAPI = require('./lifxbulbapi');
 
 let Orb = {
@@ -21,13 +22,12 @@ let Orb = {
      * @param  {Object}   params   Object with id, daysets, start, end parameters
      * @return {Promise}           Returns a promise with error or stdout
      */
-    relativeUsageCalculator: function (params) {
+    retrieveRelativeUsage: function (params) {
         let id = params.id, //meter ID
             daySets = params.daySets.slice(1, -1),
             sampleSize = params.sampleSize;
 
         //return Promise.resolve(Math.floor(Math.random()*101));
-
 
         return new Promise(function (resolve, reject) {
             exec(
@@ -42,51 +42,6 @@ let Orb = {
             );
         });
 
-
-    },
-
-    /**
-     * Emulates an inputted orb
-     * @param {Promise} orb Resolves with an object with hue and frequeny.
-     * @param {Integer} meter The meter that should be emulated
-     */
-    emulate: function (orb, meter) {
-
-        if (isNaN(meter)) {
-            return Promise.reject('Unknown meter');
-        }
-
-        /**
-         * Holds arrays of orb percentile hues
-         * @type {Array}
-         */
-        let hues = [
-            [120, 83, 60, 38, 0], //meter1 colors
-            [180, 220, 250, 285, 315] //meter2 colors
-        ];
-
-        /**
-         * Decide on meter id
-         */
-        let meters = [orb.get('meter1'), orb.get('meter2')];
-
-        return this.relativeUsageCalculator({
-            id: meters[meter-1],
-            daySets: orb.get('daySets'),
-            sampleSize: orb.get('sampleSize')
-        }).then(function (percentage) {
-
-            let hue = hues[meter-1][Math.round((percentage/100) * 4)],
-                frequency = ((percentage/100)*2.5) + .5; //times per second
-
-            return Promise.resolve({
-                hue: hue,
-                frequency: frequency,
-                period: 1/frequency,
-                usage: percentage
-            });
-
-        }).catch(console.log.bind(console));
 
     },
 
@@ -118,12 +73,83 @@ let Orb = {
                  */
                 let meter = ((+new Date()/20000|0) % 2)+1;
 
-                me.emulate(bulb.relations.orb, meter).then(function (instruction) {
+                OrbEmulator.emulate(bulb.relations.orb, meter).then(function (instruction) {
                     me.dispatchInstruction(instruction, bulb);
                 });
             });
         })
-    }
+    },
+
+    retrieveList: function(sess) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            return Promise.reject({
+                authError: true
+            });
+        }
+
+        let orbList = [];
+
+        /**
+         * Query for a collection of all orbs related to authenticated client
+         */
+        return Entity.Orb.collection().query('where', 'owner', '=', client.id).orderBy('title').fetch({
+            withRelated: ['meter1', 'meter2']
+        }).then(function (results) {
+            /**
+             * Loop through each orb and store it in orbList
+             */
+            let meterPromises = [];
+
+            results.forEach(function (orb) {
+                let orbInfo = {id: orb.get('id'), title: orb.get('title')};
+
+                meterPromises.push(orb.related('meter1').related('building').fetch().then(function (match) {
+                    orbInfo.meter1 = {
+                        building: match.get('name'),
+                        name: orb.related('meter1').get('name')
+                    };
+
+                    return orb.related('meter2').related('building').fetch();
+                }).then(function (match) {
+                    orbInfo.meter2 = {
+                        building: match.get('name'),
+                        name: orb.related('meter2').get('name')
+                    };
+
+                    return true;
+                }));
+
+                orbList.push(orbInfo);
+            });
+
+            return Promise.all(meterPromises);
+        }).then(function() {
+            return Promise.resolve(orbList);
+        });
+    },
+
+    retrieve: function(orbId, sess) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            return Promise.reject({
+                authError: true
+            });
+        }
+
+        return new Entity.Orb({
+            id: orbId,
+            owner: client.id
+        }).fetch().then(function (orb) {
+            if(!orb) {
+                return Promise.reject('Records don\'t exist for the targetted orb');
+            }
+
+            return Promise.resolve(orb.attributes);
+        });
+    },
 };
 
 module.exports = Orb;

@@ -21,7 +21,7 @@ var orb = {
             return Promise.resolve();
         }
 
-        return Service.DashboardInformation.getOrb(this.targetOrbId, this.session).catch(this.setErrors.bind(this));
+        return Service.Orb.retrieve(this.targetOrbId, this.session).catch(this.setErrors.bind(this));
     },
 
     retrieveMeterList: function() {
