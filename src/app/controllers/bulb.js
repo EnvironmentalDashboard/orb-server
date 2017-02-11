@@ -1,4 +1,4 @@
-let Service = require('../model/services');
+let Service = require('../../model/services');
 
 let bulbController = {
     update: function (req, appmodel) {
@@ -7,7 +7,7 @@ let bulbController = {
             enabled: req.body.enabled,
             orb: req.body.orb
         };
-        
+
         return Service.Configuration.saveBulb(params, req.session);
     }
 };

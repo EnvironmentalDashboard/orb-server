@@ -2,7 +2,7 @@
  * @overview Responsible for account services
  */
 
-let Bookshelf = require('../../lib/dbconnect.js'),
+let Bookshelf = require('../entities/base.js'),
     util = require('util');
 
 let Entity = require('../entities'),

@@ -21,8 +21,8 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
  * Local dependencies
  */
 
-let router = require('./router'),
-    Service = require('./model/services'),
+let router = require('./components/router'),
+    Service = require('../model/services'),
     hbsHelpers = require('./lib/helpers.hbs');
 
 /**
@@ -71,8 +71,8 @@ app.use(session({
 }));
 
 // Front-end resources
-app.use(express.static('./public'));
-app.use(express.static('./bower_components'));
+app.use(express.static('../public'));
+app.use(express.static('../../bower_components'));
 
 app.use(bodyParser.urlencoded({
     extended: true

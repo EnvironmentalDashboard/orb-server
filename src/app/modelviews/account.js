@@ -1,9 +1,9 @@
-let Service = require('../model/services'),
+let Service = require('../../model/services'),
     modelview = require('./modelview');
 
 var account = modelview({
     inputs: {},
-    
+
     setInputs: function (inputs) {
         this.inputs = inputs;
     },

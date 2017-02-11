@@ -1,4 +1,4 @@
-let Service = require('../model/services'),
+let Service = require('../../model/services'),
     modelview = require('./modelview');
 
 var dashboard = modelview({

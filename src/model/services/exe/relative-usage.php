@@ -5,8 +5,8 @@
  * Meter class
  */
 
-require __DIR__ . '/../../includes/db.php';
-require __DIR__ . '/../../includes/class.Meter.php';
+require __DIR__ . '/../../../../../includes/db.php';
+require __DIR__ . '/../../../../../includes/class.Meter.php';
 
 // ..$id, $daySets, $sampleSize
 $id = $argv[1];

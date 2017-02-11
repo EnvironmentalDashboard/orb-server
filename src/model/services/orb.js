@@ -31,7 +31,7 @@ let Orb = {
 
         return new Promise(function (resolve, reject) {
             exec(
-                "php ./exe/relative-usage.php '" + id + "' '" + daySets + "' '" + sampleSize + "'",
+                "php ../model/services/exe/relative-usage.php '" + id + "' '" + daySets + "' '" + sampleSize + "'",
                 function (err, stdout, stderr) {
                     if (err) {
                         reject(err);

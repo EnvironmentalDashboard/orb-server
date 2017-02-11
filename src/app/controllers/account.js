@@ -1,4 +1,4 @@
-let Service = require('../model/services');
+let Service = require('../../model/services');
 
 let accountController = {
     index: function (req, appmodel) {
@@ -35,13 +35,13 @@ let accountController = {
             password2: req.body.confirm
         };
 
+        delete req.body.password;
+        delete req.body.confirm;
+
+        appmodel.setInputs(req.body);
+
         return Service.Account.register(params, req.cache).catch(function (errors) {
             appmodel.setErrors(errors);
-
-            delete params.password1;
-            delete params.password2;
-
-            appmodel.setInputs(params);
         });
     }
 };

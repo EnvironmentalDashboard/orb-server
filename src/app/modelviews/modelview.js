@@ -1,4 +1,4 @@
-let Service = require('../model/services');
+let Service = require('../../model/services');
 
 let modelview = {
     session: {},

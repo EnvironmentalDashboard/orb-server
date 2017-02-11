@@ -2,9 +2,9 @@
  * Router
  * @overview Handles application routing mechanisms
  */
-let controllers = require('./controllers'),
-    views = require('./views'),
-    modelviews = require('./modelviews');
+let controllers = require('../controllers'),
+    views = require('../views'),
+    modelviews = require('../modelviews');
 
 /**
  * Holds all application routes
