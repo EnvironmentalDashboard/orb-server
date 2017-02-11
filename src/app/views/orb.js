@@ -34,11 +34,6 @@ let orbView = {
                         if (dataGrouping[haystackIndex] && dataGrouping[haystackIndex].indexOf(needle+1) > -1) {
                             return ' checked';
                         }
-                    },
-                    selected: function (selectedValue, comparedValue) {
-                        if(selectedValue == comparedValue) {
-                            return ' selected';
-                        }
                     }
                 }
             });

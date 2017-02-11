@@ -23,7 +23,7 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
 
 let router = require('./components/router'),
     Service = require('../model/services'),
-    hbsHelpers = require('./lib/helpers.hbs');
+    hbsHelpers = require('./components/presentationhelpers');
 
 /**
  * Configuration
