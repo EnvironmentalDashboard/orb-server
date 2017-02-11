@@ -2,13 +2,11 @@
  * @overview Bulb entitiy
  */
 
-let Bookshelf = require('../components/bookshelf');
-
 let User = require('./user'),
     Orb = require('./orb');
 
 
-var Bulb = Bookshelf.Model.extend({
+var Bulb = {
     tableName: 'orb-server_bulbs',
 
     owner: function() {
@@ -22,6 +20,6 @@ var Bulb = Bookshelf.Model.extend({
     validate: function() {
         return Promise.resolve();
     }
-});
+};
 
 module.exports = Bulb;

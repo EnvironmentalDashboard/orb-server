@@ -4,16 +4,14 @@
  * This is likely to change
  */
 
-let Bookshelf = require('../components/bookshelf');
-
 let Building = require('./building');
 
-let Meter = Bookshelf.Model.extend({
+let Meter = {
     tableName: 'meters',
     idAttribute: 'bos_uuid',
     building: function() {
         return this.belongsTo('Building', 'building_id');
     }
-});
+};
 
 module.exports = Meter;

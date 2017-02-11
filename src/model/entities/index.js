@@ -26,6 +26,6 @@ let entities = [
  */
 
 entities.forEach(function (name) {
-    module.exports[name] = require('./' + name.toLowerCase());
+    module.exports[name] = Bookshelf.Model.extend(require('./' + name.toLowerCase()));
     Bookshelf.model(name, module.exports[name]);
 });

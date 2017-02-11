@@ -4,15 +4,13 @@
  * This is likely to change
  */
 
-let Bookshelf = require('../components/bookshelf');
-
 let Meter = require('./meter');
 
-let Building = Bookshelf.Model.extend({
+let Building = {
     tableName: 'buildings',
     meters: function() {
         return this.hasMany('Meter', 'building_id');
     }
-});
+};
 
 module.exports = Building;

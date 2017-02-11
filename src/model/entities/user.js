@@ -2,13 +2,12 @@
  * @overview User entitiy
  */
 
-let Bookshelf = require('../components/bookshelf'),
-    validator = require('validator');
+let validator = require('validator');
 
 let Orb = require('./orb'),
     Bulb = require('./bulb');
 
-let User = Bookshelf.Model.extend({
+let User = {
     tableName: 'orb-server_users',
 
     orbs: function() {
@@ -54,6 +53,6 @@ let User = Bookshelf.Model.extend({
             return Promise.resolve();
         }
     }
-});
+};
 
 module.exports = User;
