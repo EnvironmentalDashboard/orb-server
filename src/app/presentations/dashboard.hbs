@@ -18,9 +18,9 @@
             </div>
         </div>
 
-        {{#if authorizationNotice}}
+        {{#if error}}
         <div class="alert alert-warning clearfix ui-alert-action">
-            <p>{{authorizationNotice}}</p>
+            <p>{{error}}</p>
             <a href="/auth/confirm" class="btn pull-right btn-primary">Authorize</a>
         </div>
         {{/if}}

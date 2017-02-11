@@ -18,7 +18,6 @@ let OrbEmulator = {
      * @param {Integer} meter The meter that should be emulated
      */
     emulate: function (orb, meter) {
-
         if (isNaN(meter)) {
             return Promise.reject('Unknown meter');
         }

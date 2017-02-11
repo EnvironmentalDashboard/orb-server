@@ -5,7 +5,7 @@ var orbInstructions = {
     targetOrbId: null,
 
     retrieveInstructions: function() {
-        return Service.DashboardInformation.getOrbInstructionsList(this.session).catch(this.setErrors.bind(this));
+        return Service.Orb.retrieveInstructionsList(this.session).catch(this.setErrors.bind(this));
     }
 };
 
