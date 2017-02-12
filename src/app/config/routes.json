@@ -166,7 +166,7 @@
         "pattern": "/account/signup",
         "resource": "account",
         "action": {
-                "view": "register"
+            "view": "register"
         }
     },
     {
@@ -183,7 +183,7 @@
         "pattern": "/account/signup/success",
         "resource": "account",
         "action": {
-                "view": "registerSuccess"
+            "view": "registerSuccess"
         }
     },
     {
@@ -191,7 +191,7 @@
         "pattern": "/account/signin",
         "resource": "authentication",
         "action": {
-                "view": "login"
+            "view": "login"
         }
     },
     {
@@ -217,7 +217,7 @@
         "pattern": "/auth/confirm",
         "resource": "authorization",
         "action": {
-                "view": "confirm"
+            "view": "confirm"
         }
     },
     {
@@ -243,7 +243,7 @@
         "pattern": "/orb-instructions/json",
         "resource": "orbInstructions",
         "action": {
-                "view": "json"
+            "view": "json"
         }
     },
     {
@@ -251,7 +251,7 @@
         "pattern": "/orb-instructions/animations.css",
         "resource": "orbInstructions",
         "action": {
-                "view": "css"
+            "view": "css"
         }
     }
 ]
