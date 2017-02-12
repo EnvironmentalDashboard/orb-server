@@ -11,7 +11,7 @@ let accountView = {
         });
     },
 
-    config: function (res, appmodel) {
+    save: function (res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             form = appmodel.getInputs(),
             errors = appmodel.getErrors();

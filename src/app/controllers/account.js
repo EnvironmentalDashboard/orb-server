@@ -5,7 +5,7 @@ let accountController = {
         return Service.Recognition.refreshClient(req.session).catch(appmodel.setErrors.bind(appmodel));
     },
 
-    config: function (req, appmodel) {
+    save: function (req, appmodel) {
         let params = {
             fname: req.body.fname,
             lname: req.body.lname

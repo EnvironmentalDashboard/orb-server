@@ -29,7 +29,7 @@
         "pattern": "/dash/orb/new",
         "resource": "orb",
         "action": {
-            "view": "configure"
+            "view": "save"
         }
     },
     {
@@ -37,7 +37,7 @@
         "pattern": "/dash/orb/new",
         "resource": "orb",
         "action": {
-            "controller": "configure",
+            "controller": "save",
             "view": "configure"
         }
     },
@@ -67,7 +67,7 @@
         "resource": "orb",
         "action": {
             "controller": "load",
-            "view": "configure"
+            "view": "save"
         }
     },
     {
@@ -75,8 +75,8 @@
         "pattern": "/dash/orb/edit/:orbId",
         "resource": "orb",
         "action": {
-            "controller": "configure",
-            "view": "configure"
+            "controller": "save",
+            "view": "save"
         }
     },
 
