@@ -1,7 +1,7 @@
 let Service = require('../../model/services');
 
 let orbController = {
-    save: function (req, appmodel) {
+    configure: function (req, appmodel) {
         let params = {
             id: req.params.orbId,
             title: req.body.title,
