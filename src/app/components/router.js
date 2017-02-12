@@ -6,86 +6,50 @@ let controllers = require('../controllers'),
     views = require('../views'),
     modelviews = require('../modelviews');
 
-/**
- * Holds all application routes
- * @type {Array}
- */
- var routes = [
-    ['get', '/', [Promise.resolve.bind(Promise), views.default.index], modelviews.default],
-    ['get', '/guide', [Promise.resolve.bind(Promise), views.guide.index], modelviews.guide],
+module.exports.import = function(routes, app) {
+   routes.forEach(function(route) {
+       /**
+        * Validate route
+        */
+       if(!modelviews[route.resource]) {
+           return Promise.reject('Missing modelview `'+ route.resource +'` ('+ route.pattern +')');
+       }
 
-    // Dashboard
-    ['get', '/dash', [controllers.dashboard.index, views.dashboard.index], modelviews.dashboard],
+       if(route.action.controller && !controllers[route.resource]) {
+           return Promise.reject('Missing controller `'+ route.resource +'` ('+ route.pattern +')');
+       }
 
-    ['get', '/dash/orb/new', [Promise.resolve.bind(Promise), views.orb.configure], modelviews.orb],
-    ['post', '/dash/orb/new', [controllers.orb.save, views.orb.configure], modelviews.orb],
+       if(route.action.controller && !controllers[route.resource][route.action.controller]) {
+           return Promise.reject('Invalid controller action `'+ route.action.controller +'` ('+ route.pattern +')');
+       }
 
-    ['get', '/dash/orb/delete/:orbId', [controllers.orb.load, views.orb.deletePrompt], modelviews.orb],
-    ['post', '/dash/orb/delete/:orbId', [controllers.orb.delete, views.orb.delete], modelviews.orb],
+       if(route.action.view && !views[route.resource]) {
+           return Promise.reject('Missing view `'+ route.resource +'` ('+ route.pattern +')');
+       }
 
-    ['get', '/dash/orb/edit/:orbId', [controllers.orb.load, views.orb.configure], modelviews.orb],
-    ['post', '/dash/orb/edit/:orbId', [controllers.orb.save, views.orb.configure], modelviews.orb],
+       if(route.action.view && !views[route.resource][route.action.view]) {
+           return Promise.reject('Invalid view action `'+ route.action.view +'` ('+ route.pattern +')');
+       }
 
-    ['get', '/dash/orb/success', [Promise.resolve.bind(Promise), views.orb.success], modelviews.orb],
+       /**
+        * Route wiring
+        */
+       let appmodel = new modelviews[route.resource];
 
-    ['post', '/dash/bulb/update', [controllers.bulb.update, views.bulb.update], modelviews.bulb],
+       app[route.method](route.pattern, function(req, res, next) {
+           appmodel.setSession(req.session);
 
-    // Account configuration
-    ['get', '/account', [controllers.account.index, views.account.index], modelviews.account],
+           if(!route.action || !route.action.controller) {
+               return next();
+           }
 
-    ['get', '/account/config', [controllers.account.index, views.account.config], modelviews.account],
-    ['post', '/account/config', [controllers.account.config, views.account.config], modelviews.account],
+           return controllers[route.resource][route.action.controller](req, appmodel).then(function() {
+               return next();
+           }).catch(console.log.bind(console));
+       });
 
-    ['get', '/account/security', [Promise.resolve.bind(Promise), views.account.updatePassword], modelviews.account],
-    ['post', '/account/security', [controllers.account.updatePassword, views.account.updatePassword], modelviews.account],
-
-    ['get', '/account/config/success', [controllers.account.success, views.account.success], modelviews.account],
-    ['get', '/account/security/success', [controllers.account.success, views.account.success], modelviews.account],
-
-    // Registration
-    ['get', '/account/signup', [Promise.resolve.bind(Promise), views.account.register], modelviews.account],
-    ['post', '/account/signup', [controllers.account.register, views.account.register], modelviews.account],
-    ['get', '/account/signup/success', [Promise.resolve.bind(Promise), views.account.registerSuccess], modelviews.account],
-
-    // Recognnition
-    ['get', '/account/signin', [Promise.resolve.bind(Promise), views.authentication.login], modelviews.authentication],
-    ['post', '/account/signin', [controllers.authentication.login, views.authentication.login], modelviews.authentication],
-    ['get', '/account/signout', [controllers.authentication.logout, views.authentication.logout], modelviews.authentication],
-
-    // Authorization
-    ['get', '/auth/confirm', [Promise.resolve.bind(Promise), views.authorization.confirm], modelviews.authorization],
-    ['get', '/auth/go', [controllers.authorization.authorize, views.authorization.authorize], modelviews.authorization],
-    ['get', '/redirect', [controllers.authorization.redirect, views.authorization.redirect], modelviews.authorization],
-
-    // JSON pages
-    ['get', '/orb-instructions/json', [Promise.resolve.bind(Promise), views.orbInstructions.json], modelviews.orbInstructions],
-
-    // Dynamic CSS
-    ['get', '/orb-instructions/animations.css', [Promise.resolve.bind(Promise), views.orbInstructions.css], modelviews.orbInstructions]
- ];
-
- module.exports.initialize = function(app) {
-    routes.forEach(function(params) {
-        [method, route, [controller, view], modelview] = params;
-
-        (function(modelview, view, controller){
-            var appmodel;
-
-            app[method](route, function(req, res, next) {
-                appmodel = new modelview;
-
-                if(typeof appmodel.setSession === "function") {
-                    appmodel.setSession(req.session);
-                }
-
-                return controller(req, appmodel).then(function() {
-                    return next();
-                }).catch("Controller rejected: " + console.log);
-            });
-
-            app[method](route, function(req, res, next) {
-                return view(res, appmodel);
-            })
-        }(modelview, view, controller));
-    });
- };
+       app[route.method](route.pattern, function(req, res, next) {
+           return views[route.resource][route.action.view](res, appmodel);
+       });
+   });
+};
