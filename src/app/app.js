@@ -23,7 +23,8 @@ let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
 
 let router = require('./components/router'),
     Service = require('../model/services'),
-    hbsHelpers = require('./components/presentationhelpers');
+    hbsHelpers = require('./components/presentationhelpers'),
+    routes = require('./config/routes.json');
 
 /**
  * Configuration
@@ -83,8 +84,7 @@ app.use(bodyParser.json());
 /**
  * Routing
  */
-
-router.initialize(app);
+router.import(routes, app);
 
 /**
  * Orb instruction dispatching
