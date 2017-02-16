@@ -26,7 +26,7 @@ let accountView = {
 
         return res.render('account-config', {
             loggedIn: loggedIn,
-            form: loggedIn,
+            form: form || loggedIn,
             errors: errors
         });
     },

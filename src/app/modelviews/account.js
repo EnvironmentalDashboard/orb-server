@@ -1,7 +1,7 @@
 let Service = require('../../model/services');
 
 var account = {
-    inputs: {},
+    inputs: false,
 
     setInputs: function (inputs) {
         this.inputs = inputs;
