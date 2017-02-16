@@ -13,8 +13,8 @@ CREATE TABLE `orb-server_orbs` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `owner` int(11) NOT NULL,
   `title` varchar(150) NOT NULL,
-  `meter1` varchar(255) DEFAULT NULL,
-  `meter2` varchar(255) DEFAULT NULL,
+  `relativeValue1Id` varchar(255) DEFAULT NULL,
+  `relativeValue2Id` varchar(255) DEFAULT NULL,
   `daySets` varchar(255) NOT NULL,
   `sampleSize` int(11) NOT NULL,
   PRIMARY KEY (`id`)
