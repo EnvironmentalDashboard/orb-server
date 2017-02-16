@@ -34,9 +34,11 @@ module.exports.import = function(routes, app) {
        /**
         * Route wiring
         */
-       let appmodel = new modelviews[route.resource];
+       var appmodel;
 
        app[route.method](route.pattern, function(req, res, next) {
+           appmodel = new modelviews[route.resource];
+
            appmodel.setSession(req.session);
 
            if(!route.action || !route.action.controller) {
