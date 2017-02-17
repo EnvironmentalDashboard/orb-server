@@ -3,7 +3,7 @@
  */
 
 let User = require('./user'),
-    Meter = require('./meter'),
+    RelativeValue = require('./relativeValue'),
     Bulb = require('./bulb');
 
 
@@ -18,12 +18,12 @@ var Orb = {
         return this.hasMany('Bulb', 'orb');
     },
 
-    meter1: function() {
-        return this.belongsTo('Meter', 'meter1', 'bos_uuid');
+    relativeValue1: function() {
+        return this.hasOne('RelativeValue', 'relativeValue1', 'id');
     },
 
-    meter2: function() {
-        return this.belongsTo('Meter', 'meter2', 'bos_uuid');
+    relativeValue2: function() {
+        return this.hasOne('RelativeValue', 'relativeValue2', 'id');
     },
 
     validate: function() {

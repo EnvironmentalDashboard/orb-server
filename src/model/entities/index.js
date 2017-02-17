@@ -18,7 +18,8 @@ let entities = [
     'Orb',
     'Meter',
     'Building',
-    'Bulb'
+    'Bulb',
+    'RelativeValue'
 ];
 
 /**
