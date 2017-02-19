@@ -5,10 +5,10 @@
  */
 
 let RelativeValue = {
-    tableName: 'relative_value',
+    tableName: 'relative_values',
     idAttribute: 'id',
     meter: function() {
-        return this.belongsTo('Meter', 'meter', 'id');
+        return this.belongsTo('Meter', 'meter_uuid');
     }
 };
 

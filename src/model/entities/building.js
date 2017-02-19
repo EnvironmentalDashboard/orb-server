@@ -8,9 +8,7 @@ let Meter = require('./meter');
 
 let Building = {
     tableName: 'buildings',
-    meters: function() {
-        return this.hasMany('Meter', 'building_id');
-    }
+    idAttribute: 'id'
 };
 
 module.exports = Building;
