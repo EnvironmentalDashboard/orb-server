@@ -151,7 +151,7 @@ let Account = {
             /**
              * Generate password hash using Argon 2i and save user
              */
-            let pwdBuffer = Buffer.from(newPassword);
+            pwdBuffer = Buffer.from(newPassword);
 
             let hash = Buffer.from(sodium.crypto_pwhash_argon2i_str(
                 pwdBuffer,
