@@ -7,8 +7,7 @@ let validator = require('validator'),
 
 let Entity = require('../entities'),
     Recognition = require('./recognition'),
-    LifxBulbAPI = require('./lifxbulbapi'),
-    Orb = require('./orb');
+    LifxBulbAPI = require('./lifxbulbapi');
 
 let OrbEmulator = {
 
@@ -18,7 +17,7 @@ let OrbEmulator = {
      * @param {Integer} meter The meter that should be emulated
      */
     emulate: function (orb, meter) {
-        if (isNaN(meter)) {
+        if (isNaN(meter) || !(meter === 1 || meter === 2)) {
             return Promise.reject('Unknown meter');
         }
 
@@ -31,23 +30,21 @@ let OrbEmulator = {
             [180, 220, 250, 285, 315] //meter2 colors
         ];
 
-        /**
-         * Decide on meter id
-         */
-        let meters = [orb.get('meter1'), orb.get('meter2')];
+        return orb.related('relativeValue' + meter).fetch().then(function (relativeValue) {
+            let percentage = relativeValue.get('relative_value');
 
-        return Orb.retrieveRelativeUsage({
-            id: meters[meter-1],
-            daySets: orb.get('daySets'),
-            sampleSize: orb.get('sampleSize')
-        }).then(function (percentage) {
             let hue = hues[meter-1][Math.round((percentage/100) * 4)],
                 frequency = ((percentage/100)*2.5) + .5; //times per second
+
+            if(percentage < 0) {
+                hue = -1;
+                frequency = 0;
+            }
 
             return Promise.resolve({
                 hue: hue,
                 frequency: frequency,
-                period: 1/frequency,
+                period: frequency != 0 ? 1/frequency : 0,
                 usage: percentage
             });
 
