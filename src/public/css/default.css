@@ -35,7 +35,7 @@
     border-radius: 50%;
     position: relative;
     overflow: hidden;
-    background: green;
+    background: #ccc;
     display: inline-block;
     width: 100%;
 }
