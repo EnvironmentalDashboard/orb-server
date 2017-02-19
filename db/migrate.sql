@@ -15,8 +15,6 @@ CREATE TABLE `orb-server_orbs` (
   `title` varchar(150) NOT NULL,
   `relativeValue1Id` varchar(255) DEFAULT NULL,
   `relativeValue2Id` varchar(255) DEFAULT NULL,
-  `daySets` varchar(255) NOT NULL,
-  `sampleSize` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
