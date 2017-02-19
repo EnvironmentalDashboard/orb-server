@@ -10,12 +10,19 @@ let querystring = require('querystring'),
 let Entity = require('../entities'),
     Recognition = require('./recognition');
 
+/**
+ * @todo API clutter shouldn't be in the Account service
+ */
 const lifx_api = "https://cloud.lifx.com/oauth";
 
 let Account = {
 
-    register: function (params) {
-
+    /**
+     * Takes parameters and attempts registration.
+     * @param  {Object} params Registration parameters
+     * @return {Promise} Resolves on success, rejects on errors.
+     */
+    register: function(params) {
         let email = params.email.trim(),
             fname = params.fname.trim(),
             lname = params.lname.trim(),
@@ -28,38 +35,47 @@ let Account = {
             errors.confirm = ['Passwords must match.'];
         }
 
-         let user = new Entity.User({
-             email: email,
-             fname: fname,
-             lname: lname,
-             password: password1
-         });
+        /**
+         * Forge a User instance to validate and manipulate
+         * @type {User}
+         */
+        let user = new Entity.User({
+            email: email,
+            fname: fname,
+            lname: lname,
+            password: password1
+        });
 
-        return user.validate().then(function (validationErrs) {
+        return user.validate().then(function(validationErrs) {
             if (validationErrs) {
-                Object.assign(errors, validationErrs);
+                Object.assign(errors, validationErrs); //Merge errors
             }
 
-            /**
-             * Stop registration if the user's email didn't validate
-             */
+            //Stop registation if user's email didn't validate
             if (errors.email) {
                 return Promise.reject(errors);
             }
 
             /**
-             * Make sure the user's email deosn't exist already
+             * Fetch users by inputted email to check for pre-existing users
+             * with same email
              */
-            return new Entity.User({email: email}).fetch();
-        }).then(function (match){
+            return new Entity.User({
+                email: email
+            }).fetch();
+        }).then(function(match) {
             if (match) {
                 errors.email = ['Email already taken.'];
             }
 
+            //Any eerrors up until now justify rejection
             if (Object.keys(errors).length !== 0) {
                 return Promise.reject(errors);
             }
 
+            /**
+             * Generate password hash using Argon 2i and register the user
+             */
             let pwdBuffer = Buffer.from(password1);
 
             let hash = Buffer.from(sodium.crypto_pwhash_argon2i_str(
@@ -74,6 +90,12 @@ let Account = {
         });
     },
 
+    /**
+     * Updates user's password
+     * @param  {Object} params Password update parameters
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves on success, rejects on errors.
+     */
     updatePassword: function(params, sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -93,37 +115,42 @@ let Account = {
             errors.confirm = ['Passwords must match.'];
         }
 
-        return new Entity.User({password: newPassword}).validate().then(function (validationErrs) {
+        return new Entity.User({
+            password: newPassword
+        }).validate().then(function(validationErrs) {
             if (validationErrs) {
-                Object.assign(errors, validationErrs);
+                Object.assign(errors, validationErrs); //Merge errors
             }
 
             /**
-             * Fetch user and confirm that their old password is correct
+             * Fetch user and confirm that their (old) password authenticates
              */
-
-            return new Entity.User({id: client.id}).fetch();
-        }).then(function (user) {
-            if(!user) {
+            return new Entity.User({
+                id: client.id
+            }).fetch();
+        }).then(function(user) {
+            if (!user) {
                 error.general = ['Couldn\'t find user'];
                 return Promise.reject(errors);
             }
 
+            /**
+             * Use Argon 2i to confirm match
+             */
             let pwdHash = Buffer.from(user.get('password')),
                 pwdBuffer = Buffer.from(password);
 
             if (!sodium.crypto_pwhash_argon2i_str_verify(pwdHash, pwdBuffer)) {
                 errors.auth = ['Credentials did not authenticate.'];
-                return Promise.reject(errors);
             }
 
-            return Promise.resolve(user);
-
-        }).then(function (user) {
             if (Object.keys(errors).length !== 0 || !user) {
                 return Promise.reject(errors);
             }
 
+            /**
+             * Generate password hash using Argon 2i and save user
+             */
             let pwdBuffer = Buffer.from(newPassword);
 
             let hash = Buffer.from(sodium.crypto_pwhash_argon2i_str(
@@ -132,11 +159,18 @@ let Account = {
                 sodium.crypto_pwhash_MEMLIMIT_INTERACTIVE
             ));
 
-            return user.set({password: hash}).save();
+            return user.set({
+                password: hash
+            }).save();
         });
-
     },
 
+    /**
+     * Updates user's account information
+     * @param  {Object} params Account update parameters
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves on success, rejects on errors.
+     */
     updateInformation: function(params, sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -152,31 +186,37 @@ let Account = {
         let errors = {};
 
         /**
-         * Create a user domain object from the inputted values and validate
-         * this information
+         * Forge a User entity from the inputted values and validate this information
          */
-         let user = new Entity.User({
-             fname: fname,
-             lname: lname,
-             id: client.id
-         });
+        let user = new Entity.User({
+            fname: fname,
+            lname: lname,
+            id: client.id
+        });
 
-         return user.validate().then(function (validationErrs) {
-             if (validationErrs) {
-                 Object.assign(errors, validationErrs);
-             }
+        return user.validate().then(function(validationErrs) {
+            if (validationErrs) {
+                Object.assign(errors, validationErrs); //Merge errors
+            }
 
-             /**
-              * If there are errors, resolve
-              */
-              if (Object.keys(errors).length !== 0) {
-                  return Promise.reject(errors);
-              }
+            if (Object.keys(errors).length !== 0) {
+                return Promise.reject(errors);
+            }
 
-             return user.save();
-         });
+            /**
+             * No errors; save and resolve
+             */
+            return user.save();
+        });
     },
 
+    /**
+     * Prepare for authorization redirect
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves on success, rejects on errors.
+     *
+     * @todo this be/contain potential API clutter
+     */
     prepareRedirect: function(sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -192,7 +232,7 @@ let Account = {
          * alphanumerics
          * @type {String}
          */
-        let state = (Buffer.from(''+(Math.random() * +new Date())).toString('base64'))
+        let state = (Buffer.from('' + (Math.random() * +new Date())).toString('base64'))
             .replace(/[^0-9a-z]/gi, '');
 
         sess.request_state = state;
@@ -205,9 +245,16 @@ let Account = {
         });
 
         return Promise.resolve(query);
-
     },
 
+    /**
+     * Authorize this user by updating their account token
+     * @param  {Object} params Account auth parameters
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves on success, rejects on errors.
+     *
+     * @todo this may be/contain potential API clutter
+     */
     authorize: function(params, sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -217,6 +264,11 @@ let Account = {
             });
         }
 
+        /**
+         * Parameters which must be included in request to gain access to the
+         * user's access token, given their response token
+         * @type {Object}
+         */
         let data = {
             client_id: process.env.LIFX_CLIENT_ID,
             client_secret: process.env.LIFX_CLIENT_SECRET,
@@ -226,26 +278,34 @@ let Account = {
 
         let options = {
             json: data,
-            headers: {'User-Agent': 'node.js'}
+            headers: {
+                'User-Agent': 'node.js'
+            }
         };
 
 
         /**
          * Request the access token
          */
-        return request.post(lifx_api + '/token', options, function (err, res, bod) {
+        return request.post(lifx_api + '/token', options, function(err, res, bod) {
             if (sess.request_state != params.state) {
                 return Promise.reject({
                     stateError: 'Request does not validate.'
                 });
             }
 
+            /**
+             * Everything went well; save the access token
+             */
             let token = bod.access_token;
 
-            return new Entity.User({id: client.id}).save(
-                { token: token, },
-                { patch: true }
-            );
+            return new Entity.User({
+                id: client.id
+            }).save({
+                token: token,
+            }, {
+                patch: true
+            });
         });
     }
 
