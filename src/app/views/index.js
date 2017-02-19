@@ -23,6 +23,6 @@ let views = [
  * Include views
  */
 
-views.forEach(function (name) {
+views.forEach(function(name) {
     module.exports[name] = require('./' + name);
 });

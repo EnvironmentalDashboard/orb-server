@@ -21,6 +21,6 @@ let controllers = [
  * Include controllers
  */
 
-controllers.forEach(function (name) {
+controllers.forEach(function(name) {
     exports[name] = require('./' + name);
 });

@@ -4,7 +4,7 @@ var authentication = {
     inputs: null,
     queryString: null,
 
-    setInputs: function (inputs) {
+    setInputs: function(inputs) {
         this.inputs = inputs;
     },
 
@@ -12,11 +12,11 @@ var authentication = {
         return this.inputs;
     },
 
-    setQueryString: function (queryString) {
+    setQueryString: function(queryString) {
         this.queryString = queryString;
     },
 
-    getQueryString: function (queryString) {
+    getQueryString: function(queryString) {
         return this.queryString;
     }
 };

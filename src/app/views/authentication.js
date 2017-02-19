@@ -1,10 +1,10 @@
 let authenticationView = {
-    login: function (res, appmodel) {
+    login: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             errors = appmodel.getErrors(),
             form = appmodel.getInputs();
 
-        if(loggedIn) {
+        if (loggedIn) {
             return res.redirect('/dash');
         }
 
@@ -15,7 +15,7 @@ let authenticationView = {
         });
     },
 
-    logout: function (res, appmodel) {
+    logout: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser();
 
         if (loggedIn) {

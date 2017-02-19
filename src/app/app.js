@@ -7,7 +7,9 @@
  * Exteneral dependencies
  */
 
-let dotenv = require('dotenv').config({path: "./config/orb-server.env"}),
+let dotenv = require('dotenv').config({
+        path: "./config/orb-server.env"
+    }),
     express = require('express'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
@@ -57,13 +59,13 @@ app.set('views', './presentations');
  */
 
 // Enforce secure connection
- app.use(function(req, res, next) {
-     if(!req.secure) {
-         return res.redirect(301, ['https://', req.get('host'), req.url].join(''));
-     }
+app.use(function(req, res, next) {
+    if (!req.secure) {
+        return res.redirect(301, ['https://', req.get('host'), req.url].join(''));
+    }
 
-     next();
- });
+    next();
+});
 
 app.use(session({
     secret: process.env.SESS_SECRET,

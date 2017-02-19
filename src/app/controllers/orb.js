@@ -1,7 +1,7 @@
 let Service = require('../../model/services');
 
 let orbController = {
-    configure: function (req, appmodel) {
+    configure: function(req, appmodel) {
         let params = {
             id: req.params.orbId,
             title: req.body.title,
@@ -22,7 +22,7 @@ let orbController = {
         appmodel.setInputs(req.body);
         appmodel.setTargetOrb(req.params.orbId);
 
-        return Service.Orb.save(params, req.session).catch(function (errors) {
+        return Service.Orb.save(params, req.session).catch(function(errors) {
             appmodel.setErrors(errors);
         });
     },

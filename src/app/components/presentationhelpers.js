@@ -3,8 +3,8 @@
  */
 
 let helpers = {
-    selected: function (selectedValue, comparedValue) {
-        if(selectedValue == comparedValue) {
+    selected: function(selectedValue, comparedValue) {
+        if (selectedValue == comparedValue) {
             return ' selected';
         }
     },

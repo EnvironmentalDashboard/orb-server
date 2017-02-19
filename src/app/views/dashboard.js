@@ -1,5 +1,5 @@
 let defaultView = {
-    index: function (res, appmodel) {
+    index: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             bulbListPromise = appmodel.retrieveBulbList(),
             orbListPromise = appmodel.retrieveOrbList();
@@ -17,9 +17,9 @@ let defaultView = {
             for (var key in bulbList) {
                 let bulb = bulbList[key];
 
-                if(bulb.info && (bulb.info.label.substring(0,4) === "LIFX"
-                    || bulb.info.group.name === "My Room"
-                    || bulb.info.location.name === "My Group")) {
+                if (bulb.info && (bulb.info.label.substring(0, 4) === "LIFX" ||
+                        bulb.info.group.name === "My Room" ||
+                        bulb.info.location.name === "My Group")) {
                     labellingNotice = true;
 
                     break;
@@ -30,7 +30,7 @@ let defaultView = {
                 loggedIn: loggedIn,
                 bulbs: bulbList,
                 orbs: orbList,
-                stylesheets: ['/orb-instructions/animations.css?'+(+new Date())],
+                stylesheets: ['/orb-instructions/animations.css?' + (+new Date())],
                 error: error,
                 labellingNotice: labellingNotice
             });

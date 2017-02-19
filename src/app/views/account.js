@@ -1,8 +1,8 @@
 let accountView = {
-    index: function (res, appmodel) {
+    index: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser();
 
-        if(!loggedIn) {
+        if (!loggedIn) {
             return res.render('denied');
         }
 
@@ -11,16 +11,16 @@ let accountView = {
         });
     },
 
-    save: function (res, appmodel) {
+    save: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             form = appmodel.getInputs(),
             errors = appmodel.getErrors();
 
-        if(appmodel.getAuthError()) {
+        if (appmodel.getAuthError()) {
             return res.render('denied');
         }
 
-        if(!errors && Object.keys(form).length > 0) {
+        if (!errors && Object.keys(form).length > 0) {
             return res.redirect('/account/config/success');
         }
 
@@ -31,16 +31,16 @@ let accountView = {
         });
     },
 
-    updatePassword: function (res, appmodel) {
+    updatePassword: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             errors = appmodel.getErrors(),
             form = appmodel.getInputs();
 
-        if(!loggedIn) {
+        if (!loggedIn) {
             return res.render('denied');
         }
 
-        if(!errors && Object.keys(form).length > 0) {
+        if (!errors && Object.keys(form).length > 0) {
             return res.redirect('/account/config/success');
         }
 
@@ -50,10 +50,10 @@ let accountView = {
         });
     },
 
-    success: function (res, appmodel) {
+    success: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser();
 
-        if(!loggedIn) {
+        if (!loggedIn) {
             return res.render('denied');
         }
 
@@ -62,12 +62,12 @@ let accountView = {
         });
     },
 
-    register: function (res, appmodel) {
+    register: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             form = appmodel.getInputs(),
             errors = appmodel.getErrors();
 
-        if(!errors && Object.keys(form).length > 0) {
+        if (!errors && Object.keys(form).length > 0) {
             return res.redirect('/account/signup/success');
         }
 
@@ -78,7 +78,7 @@ let accountView = {
         });
     },
 
-    registerSuccess: function (res, appmodel) {
+    registerSuccess: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser();
 
         return res.render('register-success', {

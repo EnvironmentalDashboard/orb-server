@@ -1,11 +1,11 @@
 let orbInstructionsView = {
-    css: function (res, appmodel) {
+    css: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             orbInstructionsPromise = appmodel.retrieveInstructions();
 
 
-        return orbInstructionsPromise.then(function (instructions) {
-            if(appmodel.getAuthError()) {
+        return orbInstructionsPromise.then(function(instructions) {
+            if (appmodel.getAuthError()) {
                 return res.render('denied');
             }
 
@@ -22,13 +22,13 @@ let orbInstructionsView = {
         let loggedIn = appmodel.getAuthenticatedUser(),
             orbInstructionsPromise = appmodel.retrieveInstructions();
 
-        return orbInstructionsPromise.then(function (instructions) {
+        return orbInstructionsPromise.then(function(instructions) {
             if (appmodel.getAuthError()) {
                 return res.render('denied');
             }
 
-                res.setHeader('Content-Type', 'application/json');
-                return res.json(instructions);
+            res.setHeader('Content-Type', 'application/json');
+            return res.json(instructions);
         });
     }
 };

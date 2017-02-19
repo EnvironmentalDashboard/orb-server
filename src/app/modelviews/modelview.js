@@ -16,7 +16,7 @@ let modelview = {
         return this.errors && this.errors.authError;
     },
 
-    setErrors: function (errors) {
+    setErrors: function(errors) {
         this.errors = errors;
     },
     getErrors: function() {
@@ -25,8 +25,8 @@ let modelview = {
 
 };
 
-module.exports = function (childAttrs) {
-    let childObj = function() { };
+module.exports = function(childAttrs) {
+    let childObj = function() {};
     childObj.prototype = Object.assign({}, modelview, childAttrs);
 
     return childObj;

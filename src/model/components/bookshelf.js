@@ -14,7 +14,7 @@ let knex = require('knex')({
         "database": process.env.DB_NAME,
         "charset": process.env.DB_ENCODING
     }
- });
+});
 
 let Bookshelf = require('bookshelf')(knex);
 Bookshelf.plugin('registry');

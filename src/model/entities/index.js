@@ -26,7 +26,7 @@ let entities = [
  * Include controllers
  */
 
-entities.forEach(function (name) {
+entities.forEach(function(name) {
     module.exports[name] = Bookshelf.Model.extend(require('./' + name.toLowerCase()));
     Bookshelf.model(name, module.exports[name]);
 });

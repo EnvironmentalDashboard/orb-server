@@ -25,6 +25,6 @@ let modelviews = [
  * Include modelviews
  */
 
-modelviews.forEach(function (name) {
+modelviews.forEach(function(name) {
     exports[name] = modelview(require('./' + name));
 });

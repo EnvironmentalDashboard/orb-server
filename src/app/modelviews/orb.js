@@ -1,10 +1,14 @@
 let Service = require('../../model/services');
 
 var orb = {
-    inputs: {daySets: [[1,2,3,4,5,6,7]]},
+    inputs: {
+        daySets: [
+            [1, 2, 3, 4, 5, 6, 7]
+        ]
+    },
     targetOrbId: null,
 
-    setInputs: function (inputs) {
+    setInputs: function(inputs) {
         this.inputs = inputs;
     },
 
@@ -12,12 +16,12 @@ var orb = {
         return this.inputs;
     },
 
-    setTargetOrb: function (id) {
+    setTargetOrb: function(id) {
         this.targetOrbId = id;
     },
 
     retrieveTargetOrb: function() {
-        if(!this.targetOrbId) {
+        if (!this.targetOrbId) {
             return Promise.resolve();
         }
 

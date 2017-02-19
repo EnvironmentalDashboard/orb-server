@@ -27,13 +27,12 @@ let User = {
         let errors = {};
 
         //Name must be allphanumeric
-        if ((fname !== undefined
-                && !fname.match(/^[0-9a-z ]+$/i)
-                && fname.length !== 0)
-            || (lname !== undefined
-                && !lname.match(/^[0-9a-z ]+$/i)
-                && lname.length !== 0))
-        {
+        if ((fname !== undefined &&
+                !fname.match(/^[0-9a-z ]+$/i) &&
+                fname.length !== 0) ||
+            (lname !== undefined &&
+                !lname.match(/^[0-9a-z ]+$/i) &&
+                lname.length !== 0)) {
             errors.name = ['Name fields must be alphanumeric (0-9a-Z).'];
         }
 

@@ -1,5 +1,5 @@
 let bulbView = {
-    update: function (res, appmodel) {
+    update: function(res, appmodel) {
         return res.redirect('/dash');
     }
 };

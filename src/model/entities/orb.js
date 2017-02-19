@@ -31,7 +31,7 @@ var Orb = {
 
         let errors = {};
 
-        if(title.length > 150) {
+        if (title.length > 150) {
             errors.title = ['Title too long. 150 characters maximum.'];
         }
 
