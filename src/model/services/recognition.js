@@ -37,7 +37,7 @@ let Recognition = {
         return new Entity.User({id: sess.authenticatedUser.id}).fetch().then(function (match) {
             Recognition.certifyClient(match, sess);
 
-            return Promise.resolve();
+            return Promise.resolve(match);
         });
     },
 
