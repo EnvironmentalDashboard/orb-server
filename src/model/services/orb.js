@@ -12,39 +12,6 @@ let Entity = require('../entities'),
 
 let Orb = {
 
-    /**
-     * Calculates relative usage by delegating the calculation to a shell script, which
-     * outsources it.
-     *
-     * WARNING! This service passes raw parameter input to the shell. ONLY pass safe
-     * filtered values to this function.
-     *
-     * @param  {Object}   params   Object with id, daysets, start, end parameters
-     * @return {Promise}           Returns a promise with error or stdout
-     */
-    retrieveRelativeUsage: function (params) {
-        let id = params.id, //meter ID
-            daySets = params.daySets.slice(1, -1),
-            sampleSize = params.sampleSize;
-
-        //return Promise.resolve(Math.floor(Math.random()*101));
-
-        return new Promise(function (resolve, reject) {
-            exec(
-                "php ../model/services/exe/relative-usage.php '" + id + "' '" + daySets + "' '" + sampleSize + "'",
-                function (err, stdout, stderr) {
-                    if (err) {
-                        reject(err);
-                    }
-
-                    resolve(stdout);
-                }
-            );
-        });
-
-
-    },
-
     retrieveList: function(sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -60,7 +27,7 @@ let Orb = {
          * Query for a collection of all orbs related to authenticated client
          */
         return Entity.Orb.collection().query('where', 'owner', '=', client.id).orderBy('title').fetch({
-            withRelated: ['meter1', 'meter2']
+            withRelated: ['relativeValue1', 'relativeValue2']
         }).then(function (results) {
             /**
              * Loop through each orb and store it in orbList
@@ -70,23 +37,27 @@ let Orb = {
             results.forEach(function (orb) {
                 let orbInfo = {id: orb.get('id'), title: orb.get('title')};
 
-                meterPromises.push(orb.related('meter1').related('building').fetch().then(function (match) {
+                let meterPromise = orb.related('relativeValue1').related('meter').fetch({
+                    withRelated: ['building']
+                }).then(function(meter) {
                     orbInfo.meter1 = {
-                        building: match.get('name'),
-                        name: orb.related('meter1').get('name')
+                        building: meter.related('building').get('name'),
+                        name: meter.get('name')
                     };
 
-                    return orb.related('meter2').related('building').fetch();
-                }).then(function (match) {
+                    return orb.related('relativeValue2').related('meter').fetch({
+                        withRelated: ['building']
+                    });
+                }).then(function(meter) {
                     orbInfo.meter2 = {
-                        building: match.get('name'),
-                        name: orb.related('meter2').get('name')
+                        building: meter.related('building').get('name'),
+                        name: meter.get('name')
                     };
 
-                    return true;
-                }));
+                    orbList.push(orbInfo);
+                });
 
-                orbList.push(orbInfo);
+                meterPromises.push(meterPromise);
             });
 
             return Promise.all(meterPromises);
@@ -219,18 +190,21 @@ let Orb = {
             sampleSize = 50;
         }
 
-        let daySets = JSON.stringify(unfilteredDaySets.filter(function (val) {
+        let daySets = unfilteredDaySets.filter(function (val) {
             return val;
-        }));
+        });
 
         let orb = new Entity.Orb({
             title: title,
-            meter1: meter1,
-            meter2: meter2,
-            owner: client.id,
-            daySets: daySets,
-            sampleSize: sampleSize
+            owner: client.id
         });
+
+        /**
+         * If this is an update, we will need to ensure we update relative value
+         * columns rather than creating new ones. These keep track of that.
+         */
+        let relativeValue1ForeignKey = null,
+            relativeValue2ForeignKey = null;
 
         /**
          * Validation chain
@@ -242,7 +216,7 @@ let Orb = {
                 Object.assign(errors, validationErrs);
             }
 
-            return new Entity.Meter({id: meter1}).fetch();
+            return Promise.resolve();
         }).then(function() {
             /**
              * If this is an update, not an insert
@@ -264,12 +238,17 @@ let Orb = {
         }).then(function (matchedOrb) {
             if(params.id && !matchedOrb) {
                 errors.denied = ['Cannot find orb with ID ' + params.id + ' associated with this account.'];
+            } else if(params.id) {
+                relativeValue1ForeignKey = matchedOrb.get('relativeValue1Id');
+                relativeValue2ForeignKey = matchedOrb.get('relativeValue2Id');
             }
 
-            return new Entity.Meter({'bos_uuid': meter1}).fetch()
+            return new Entity.Meter({'bos_uuid': meter1}).fetch();
         }).then(function (match) {
             if (!match) {
                 errors.meter1 = ['Meter not found in our database.'];
+            } else {
+
             }
 
             return new Entity.Meter({'bos_uuid': meter2}).fetch();
@@ -286,6 +265,54 @@ let Orb = {
                 return Promise.reject(errors);
             }
 
+            return Promise.resolve();
+        }).then(function () {
+
+            /**
+             * Generate `grouping` array
+             */
+            let opt = daySets.map(function(daySets) {
+                let obj = {
+                    days: daySets,
+                    npoints: sampleSize
+                };
+
+                return obj;
+            });
+
+            /**
+             * Create, save RelativeValue instances
+             */
+            let relativeValues = [
+                new Entity.RelativeValue({
+                    'id': relativeValue1ForeignKey,
+                    'meter_uuid': meter1,
+                    'relative_value': -1,
+                    'grouping': JSON.stringify(opt)
+                }),
+                new Entity.RelativeValue({
+                    'id': relativeValue2ForeignKey,
+                    'meter_uuid': meter2,
+                    'relative_value': -1,
+                    'grouping': JSON.stringify(opt)
+                }),
+            ];
+
+            let relativeValuePromises = relativeValues.map(function(relVal) {
+                return relVal.save();
+            });
+
+            return Promise.all(relativeValuePromises);
+
+        }).then(function(relativeValues) {
+            /**
+             * Once saving is complete, the relativeValues have primary keys
+             */
+            orb.set({
+                relativeValue1Id: relativeValues[0].get('id'),
+                relativeValue2Id: relativeValues[1].get('id')
+            });
+        }).then(function() {
             return orb.save();
         });
     },
@@ -302,7 +329,7 @@ let Orb = {
         return new Entity.Orb({
             id: orbId,
             owner: client.id
-        }).fetch({withRelated:['meter1', 'meter2']}).then(function(match) {
+        }).fetch({withRelated:['relativeValue1', 'relativeValue2']}).then(function(match) {
             /**
              * Change bulbs assigned to this orb
              *
@@ -314,12 +341,18 @@ let Orb = {
             });
 
             /**
+             * Delete associated relative values
+             */
+            let relativeValue1Promise = match.related('relativeValue1').destroy(),
+                relativeValue2Promise = match.related('relativeValue2').destroy();
+
+            /**
              * Delete this orb
              */
             let deleteOrbPromise = match.destroy();
 
             return Promise.all(
-                [affectBulbsPromise, deleteOrbPromise]
+                [affectBulbsPromise, deleteOrbPromise, relativeValue1Promise, relativeValue2Promise]
             );
         });
     },
