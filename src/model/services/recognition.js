@@ -7,7 +7,6 @@ let sodium = require('sodium').api;
 let Entity = require('../entities');
 
 let Recognition = {
-
     certifyClient: function(user, sess) {
         sess.authenticatedUser = user.attributes;
 
@@ -17,24 +16,25 @@ let Recognition = {
     knowsClient: function(sess) {
         let loggedIn = false;
 
-        if(sess.authenticatedUser) {
+        if (sess.authenticatedUser) {
             loggedIn = true;
         }
 
         return sess.authenticatedUser || loggedIn;
     },
 
-    /**
-     * Same as knowsClient but regathers the users info from the datbaase
-     */
-    refreshClient: function (sess) {
+    refreshClient: function(sess) {
         let loggedIn = false;
 
-        if(!sess.authenticatedUser) {
-            return Promise.reject({ authError: true });
+        if (!sess.authenticatedUser) {
+            return Promise.reject({
+                authError: true
+            });
         }
 
-        return new Entity.User({id: sess.authenticatedUser.id}).fetch().then(function (match) {
+        return new Entity.User({
+            id: sess.authenticatedUser.id
+        }).fetch().then(function(match) {
             Recognition.certifyClient(match, sess);
 
             return Promise.resolve(match);
@@ -55,7 +55,9 @@ let Recognition = {
          */
         let errors = {};
 
-        return new Entity.User({email: params.email}).fetch().then(function (match) {
+        return new Entity.User({
+            email: params.email
+        }).fetch().then(function(match) {
             if (match) {
                 let pwdHash = Buffer.from(match.get('password')),
                     pwdBuffer = Buffer.from(params.password);
@@ -68,7 +70,7 @@ let Recognition = {
 
                     Recognition.certifyClient(match, sess);
 
-                    if(Object.keys(errors).length !== 0) {
+                    if (Object.keys(errors).length !== 0) {
                         return Promise.reject(errors);
                     }
 

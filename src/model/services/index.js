@@ -22,6 +22,6 @@ let groups = [
  * Include controllers
  */
 
-groups.forEach(function (name) {
+groups.forEach(function(name) {
     module.exports[name] = require('./' + name.toLowerCase());
 });

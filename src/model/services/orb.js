@@ -1,5 +1,9 @@
 /**
  * @overview Responsible for orb services
+ *
+ * @todo things in here are overly-complicated and desperately require refactoring.
+ * Some things should go in separate services, like an OrbList service or the
+ * emulator service
  */
 
 let validator = require('validator'),
@@ -11,7 +15,11 @@ let Entity = require('../entities'),
     LifxBulbAPI = require('./lifxbulbapi');
 
 let Orb = {
-
+    /**
+     * Retrieves a list of all orbs
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves on success, rejects on error.
+     */
     retrieveList: function(sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -21,6 +29,10 @@ let Orb = {
             });
         }
 
+        /**
+         * Keeps track of all orbs
+         * @type {Array}
+         */
         let orbList = [];
 
         /**
@@ -28,15 +40,28 @@ let Orb = {
          */
         return Entity.Orb.collection().query('where', 'owner', '=', client.id).orderBy('title').fetch({
             withRelated: ['relativeValue1', 'relativeValue2']
-        }).then(function (results) {
+        }).then(function(results) {
             /**
              * Loop through each orb and store it in orbList
+             *
+             * This process is convoluted: meterPromises is an array which carries
+             * promises receiving relevant meter information and adding that information
+             * to orbList.
              */
             let meterPromises = [];
 
-            results.forEach(function (orb) {
-                let orbInfo = {id: orb.get('id'), title: orb.get('title')};
+            results.forEach(function(orb) {
+                let orbInfo = {
+                    id: orb.get('id'),
+                    title: orb.get('title')
+                };
 
+                /**
+                 * MeterPromise fetches the meter, building info for relativeValue1
+                 * & relativeValue2, stores relevant information on orbInfo, then
+                 * pushes orbInfo onto the end of orbList
+                 * @type {Promise}
+                 */
                 let meterPromise = orb.related('relativeValue1').related('meter').fetch({
                     withRelated: ['building']
                 }).then(function(meter) {
@@ -66,6 +91,13 @@ let Orb = {
         });
     },
 
+    /**
+     * Retrieves a list of orb instructions using the emulator
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves on success, rejects on error.
+     *
+     * @todo this might go on OrbEmulator service rather than Orb service
+     */
     retrieveInstructionsList: function(sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -79,7 +111,7 @@ let Orb = {
          * Query for a collection of all orbs associated with the recognized
          * client
          */
-        return Entity.Orb.collection().query('where', 'owner', '=', client.id).fetch().then(function (orbs) {
+        return Entity.Orb.collection().query('where', 'owner', '=', client.id).fetch().then(function(orbs) {
             /**
              * Stores promises of relative usage calculation
              * @type {Array}
@@ -95,21 +127,36 @@ let Orb = {
 
             let instructions = {};
 
-            orbs.forEach(function (orb) {
+            /**
+             * this is also convoluted. One variable stores the promises while
+             * the other stores the orb information pertinent to that promise.
+             */
+            orbs.forEach(function(orb) {
                 relativeUsagePromises.push(OrbEmulator.emulate(orb, 1));
                 relativeUsagePromises.push(OrbEmulator.emulate(orb, 2));
 
-                keyToOrb.push({orb: orb, meter: 1});
-                keyToOrb.push({orb: orb, meter: 2});
+                keyToOrb.push({
+                    orb: orb,
+                    meter: 1
+                });
+                keyToOrb.push({
+                    orb: orb,
+                    meter: 2
+                });
             });
 
-            return Promise.all(relativeUsagePromises).then(function (instructionsReturned) {
-                instructionsReturned.forEach(function(instruction, key){
+            /**
+             * On resolve, combine the two separate tracking arrays into one
+             */
+            return Promise.all(relativeUsagePromises).then(function(instructionsReturned) {
+                instructionsReturned.forEach(function(instruction, key) {
                     let orbId = keyToOrb[key].orb.get('id'),
                         meter = keyToOrb[key].meter;
 
                     if (!instructions[orbId]) {
-                        instructions[orbId] = {meters: []};
+                        instructions[orbId] = {
+                            meters: []
+                        };
                     }
 
                     instructions[orbId].meters[meter] = instruction;
@@ -117,11 +164,17 @@ let Orb = {
                 return Promise.resolve(instructions);
             });
 
-        }).then(function (list) {
+        }).then(function(list) {
             return Promise.resolve(list);
         });
     },
 
+    /**
+     * Retrieves information about single orb
+     * @param  {Integer} orbId ID of orb to recieve
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves on success, rejects on errors.
+     */
     retrieve: function(orbId, sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -131,11 +184,14 @@ let Orb = {
             });
         }
 
+        /**
+         * Fetches the specified orb limited to the session-authenticated user
+         */
         return new Entity.Orb({
             id: orbId,
             owner: client.id
-        }).fetch().then(function (orb) {
-            if(!orb) {
+        }).fetch().then(function(orb) {
+            if (!orb) {
                 return Promise.reject('Records don\'t exist for the targetted orb');
             }
 
@@ -143,6 +199,12 @@ let Orb = {
         });
     },
 
+    /**
+     * Takes orb parameters and attempts save.
+     * @param  {Object} params Configuration parameters
+     * @param {Object} sess Session object
+     * @return {Promise} Resolves on success, rejects on errors.
+     */
     save: function(params, sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -171,7 +233,7 @@ let Orb = {
          */
         let unfilteredDaySets = [];
 
-        inputtedDaySets.forEach(function (val, index) {
+        inputtedDaySets.forEach(function(val, index) {
             let key = parseInt(val, 10) || 0;
 
             if (!unfilteredDaySets[key]) {
@@ -190,7 +252,7 @@ let Orb = {
             sampleSize = 50;
         }
 
-        let daySets = unfilteredDaySets.filter(function (val) {
+        let daySets = unfilteredDaySets.filter(function(val) {
             return val;
         });
 
@@ -211,7 +273,7 @@ let Orb = {
          *
          * @TODO meter validation will need to change when BuildingOS is integrated
          */
-        return orb.validate().then(function (validationErrs) {
+        return orb.validate().then(function(validationErrs) {
             if (validationErrs) {
                 Object.assign(errors, validationErrs);
             }
@@ -221,38 +283,47 @@ let Orb = {
             /**
              * If this is an update, not an insert
              */
-            if(params.id) {
+            if (params.id) {
                 /**
                  * Set the orb's ID to the requested ID
                  */
-                orb.set({id: params.id});
+                orb.set({
+                    id: params.id
+                });
 
                 /**
                  * Need to make sure the client owns this orb, so query for an
                  * orb with the requested ID owned by the client
                  */
-                return new Entity.Orb({id: params.id, owner: client.id}).fetch();
+                return new Entity.Orb({
+                    id: params.id,
+                    owner: client.id
+                }).fetch();
             }
 
             return Promise.resolve();
-        }).then(function (matchedOrb) {
-            if(params.id && !matchedOrb) {
+        }).then(function(matchedOrb) {
+            if (params.id && !matchedOrb) {
                 errors.denied = ['Cannot find orb with ID ' + params.id + ' associated with this account.'];
-            } else if(params.id) {
+            } else if (params.id) {
                 relativeValue1ForeignKey = matchedOrb.get('relativeValue1Id');
                 relativeValue2ForeignKey = matchedOrb.get('relativeValue2Id');
             }
 
-            return new Entity.Meter({'bos_uuid': meter1}).fetch();
-        }).then(function (match) {
+            return new Entity.Meter({
+                'bos_uuid': meter1
+            }).fetch();
+        }).then(function(match) {
             if (!match) {
                 errors.meter1 = ['Meter not found in our database.'];
             } else {
 
             }
 
-            return new Entity.Meter({'bos_uuid': meter2}).fetch();
-        }).then(function (match) {
+            return new Entity.Meter({
+                'bos_uuid': meter2
+            }).fetch();
+        }).then(function(match) {
             if (!match) {
                 errors.meter2 = ['Meter not found in our database.'];
             }
@@ -266,7 +337,7 @@ let Orb = {
             }
 
             return Promise.resolve();
-        }).then(function () {
+        }).then(function() {
 
             /**
              * Generate `grouping` array
@@ -329,7 +400,9 @@ let Orb = {
         return new Entity.Orb({
             id: orbId,
             owner: client.id
-        }).fetch({withRelated:['relativeValue1', 'relativeValue2']}).then(function(match) {
+        }).fetch({
+            withRelated: ['relativeValue1', 'relativeValue2']
+        }).then(function(match) {
             /**
              * Change bulbs assigned to this orb
              *
