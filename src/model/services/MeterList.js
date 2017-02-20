@@ -3,13 +3,15 @@
  */
 
 let Entity = require('../entities'),
-    Recognition = require('./Recognition'),
-    LifxBulbAPI = require('./LifxBulbAPI'),
-    OrbEmulator = require('./OrbEmulator'),
-    Orb = require('./Orb');
+    Recognition = require('./Recognition');
 
 
 let MeterList = {
+    /**
+     * Retrieves the MeterList
+     * @param  {Object} sess Session Object
+     * @return {Promise} Resolves with list on success, reject on errors.
+     */
     retrieve: function(sess) {
         let client = Recognition.knowsClient(sess);
 
