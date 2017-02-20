@@ -9,7 +9,7 @@
  */
 let groups = [
     'Account',
-    'DashboardInformation',
+    'MeterList',
     'LifxBulbAPI',
     'Orb',
     'OrbList',

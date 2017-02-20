@@ -29,7 +29,7 @@ var orb = {
     },
 
     retrieveMeterList: function() {
-        return Service.DashboardInformation.getMeterList(this.session).catch(this.setErrors.bind(this));
+        return Service.MeterList.retrieve(this.session).catch(this.setErrors.bind(this));
     }
 };
 

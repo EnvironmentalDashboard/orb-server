@@ -1,7 +1,5 @@
 /**
- * @overview Responsible for dashboard services (dashboard generation)
- *
- * @todo Do something with this (turn it into Meter service, possibly)
+ * @overview Responsible for meter listing services
  */
 
 let Entity = require('../entities'),
@@ -11,8 +9,8 @@ let Entity = require('../entities'),
     Orb = require('./Orb');
 
 
-let DashboardInformation = {
-    getMeterList: function(sess) {
+let MeterList = {
+    retrieve: function(sess) {
         let client = Recognition.knowsClient(sess);
 
         if (!client) {
@@ -49,4 +47,4 @@ let DashboardInformation = {
     }
 };
 
-module.exports = DashboardInformation;
+module.exports = MeterList;
