@@ -7,7 +7,7 @@
 let requestPromise = require('request-promise-native');
 
 let Entity = require('../entities'),
-    Recognition = require('./recognition');
+    Recognition = require('./Recognition');
 
 let LifxBulbAPI = {
     /**

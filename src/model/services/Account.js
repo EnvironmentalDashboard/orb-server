@@ -8,7 +8,7 @@ let querystring = require('querystring'),
     sodium = require('sodium').api;
 
 let Entity = require('../entities'),
-    Recognition = require('./recognition');
+    Recognition = require('./Recognition');
 
 /**
  * @todo API clutter shouldn't be in the Account service

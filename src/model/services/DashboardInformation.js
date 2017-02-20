@@ -5,10 +5,10 @@
  */
 
 let Entity = require('../entities'),
-    Recognition = require('./recognition'),
-    LifxBulbAPI = require('./lifxbulbapi'),
-    OrbEmulator = require('./orbemulator'),
-    Orb = require('./orb');
+    Recognition = require('./Recognition'),
+    LifxBulbAPI = require('./LifxBulbAPI'),
+    OrbEmulator = require('./OrbEmulator'),
+    Orb = require('./Orb');
 
 
 let DashboardInformation = {

@@ -9,7 +9,7 @@ var orbInstructions = {
     targetOrbId: null,
 
     retrieveInstructions: function() {
-        return Service.Orb.retrieveInstructionsList(this.session).catch(this.setErrors.bind(this));
+        return Service.OrbList.retrieveInstructionsList(this.session).catch(this.setErrors.bind(this));
     }
 };
 

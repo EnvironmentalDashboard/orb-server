@@ -12,9 +12,11 @@ let groups = [
     'DashboardInformation',
     'LifxBulbAPI',
     'Orb',
+    'OrbList',
     'OrbEmulator',
     'OrbInstructionsDispatcher',
     'Bulb',
+    'BulbList',
     'Recognition'
 ];
 
@@ -23,5 +25,5 @@ let groups = [
  */
 
 groups.forEach(function(name) {
-    module.exports[name] = require('./' + name.toLowerCase());
+    module.exports[name] = require('./' + name);
 });
