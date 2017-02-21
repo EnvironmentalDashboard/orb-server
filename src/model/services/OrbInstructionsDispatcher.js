@@ -18,6 +18,8 @@ let OrbInstructionsDispatcher = {
     dispatchAll: function() {
         let me = this;
 
+        console.log('test');
+
         Entity.Bulb.collection().query('where', 'enabled', '=', '1').fetch({
                 withRelated: ['orb']
             })
@@ -31,17 +33,39 @@ let OrbInstructionsDispatcher = {
                     let meter = ((+new Date() / 20000 | 0) % 2) + 1;
 
                     OrbEmulator.emulate(bulb.relations.orb, meter).then(function(instruction) {
+                        let packet = {
+                            from_color: 'hue:' + instruction.hue + ' brightness:.6 saturation:1',
+                            color: 'hue:' + instruction.hue + ' brightness:.3 saturation:1',
+                            period: 1 / instruction.frequency,
+                            cycles: 10 * instruction.frequency
+                        };
+
+                        let selector = 'id:' + bulb.get('selector');
 
                         return new Entity.User({
                             id: bulb.get('owner')
                         }).fetch().then(function(owner) {
-                            return LifxBulbAPI.setBreathe({
-                                from_color: 'hue:' + instruction.hue + ' brightness:.6 saturation:1',
-                                color: 'hue:' + instruction.hue + ' brightness:.3 saturation:1',
-                                period: 1 / instruction.frequency,
-                                cycles: 10 * instruction.frequency
-                            }, 'id:' + bulb.get('selector'), owner.get('token')).then(function(mes) {
-                                Promise.resolve();
+                            return LifxBulbAPI.setBreathe(packet, selector, owner.get('token')).then(function(response) {
+
+                                /**
+                                 * Holds interpreted bulb states
+                                 * @todo This logic needs to go inside the LIFX API
+                                 * @type Object
+                                 */
+                                let status = {
+                                    'ok': 1,
+                                    'offline': 0,
+                                    'timed_out': -1
+                                };
+
+                                let responseBody = JSON.parse(response.body);
+
+                                /**
+                                 * Set the bulbs state in the database
+                                 */
+                                bulb.set('status', status[responseBody.results[0].status]);
+                                return bulb.save();
+
                             }).catch(console.log.bind(console));
                         });
 

@@ -39,7 +39,8 @@ let Bulb = {
             owner: client.id,
             selector: selector,
             enabled: enabled === "true", //convert string to Boolean
-            orb: orb
+            orb: orb,
+            status: null
         };
 
         let bulb = new Entity.Bulb(bulbParams);
