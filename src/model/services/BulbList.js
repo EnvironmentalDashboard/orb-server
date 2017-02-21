@@ -50,7 +50,7 @@ let BulbList = {
              * authorize their account with LifX
              */
             if (user.get('token') == null || user.get('token') === '') {
-                return Promise.reject('This account isn\'t authroized with a LIFX account. Please authorize to link your accounts.');
+                return Promise.reject('This account isn\'t authorized with a LIFX account. Please authorize to link your accounts.');
             }
 
             /**
