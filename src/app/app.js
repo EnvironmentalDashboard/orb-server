@@ -90,10 +90,10 @@ router.import(routes, app);
 
 /**
  * Orb instruction dispatching
- *
+ */
 
-setInterval(function() {
+//setInterval(function() {
 
     Service.OrbInstructionsDispatcher.dispatchAll();
 
-}, 5000);*/
+//}, 5000);
