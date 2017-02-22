@@ -17,7 +17,8 @@ let groups = [
     'OrbInstructionsDispatcher',
     'Bulb',
     'BulbList',
-    'Recognition'
+    'Recognition',
+    'RelativeValue'
 ];
 
 /**
