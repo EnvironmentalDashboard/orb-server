@@ -8,7 +8,8 @@ let validator = require('validator'),
 let Entity = require('../entities'),
     Recognition = require('./Recognition'),
     OrbEmulator = require('./OrbEmulator'),
-    LifxBulbAPI = require('./LifxBulbAPI');
+    LifxBulbAPI = require('./LifxBulbAPI'),
+    RelativeValue = require('./RelativeValue');
 
 let Orb = {
     /**
@@ -225,9 +226,14 @@ let Orb = {
                 relativeValue1Id: relativeValues[0].get('id'),
                 relativeValue2Id: relativeValues[1].get('id')
             });
-        }).then(function() {
+
+            RelativeValue.update([
+                relativeValues[0],
+                relativeValues[1]
+            ]);
+
             return orb.save();
-        });
+        }).catch(console.log.bind(console));
     },
 
     delete: function(orbId, sess) {
