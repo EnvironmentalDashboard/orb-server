@@ -34,7 +34,7 @@ let OrbEmulator = {
             let percentage = relativeValue.get('relative_value');
 
             let hue = hues[meter - 1][Math.round((percentage / 100) * 4)],
-                frequency = ((percentage / 100) * 2.5) + .5; //times per second
+                frequency = ((percentage / 100) * 1.7) + .25; //times per second
 
             /**
              * Percentage of -1 indicates it hasn't been updated yet.
