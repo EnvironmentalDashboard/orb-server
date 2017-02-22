@@ -18,8 +18,6 @@ let OrbInstructionsDispatcher = {
     dispatchAll: function() {
         let me = this;
 
-        console.log('test');
-
         Entity.Bulb.collection().query('where', 'enabled', '=', '1').fetch({
                 withRelated: ['orb']
             })
@@ -53,9 +51,9 @@ let OrbInstructionsDispatcher = {
                                  * @type Object
                                  */
                                 let status = {
-                                    'ok': 1,
-                                    'offline': 0,
-                                    'timed_out': -1
+                                    'ok': 'online',
+                                    'offline': 'offline',
+                                    'timed_out': 'unknown'
                                 };
 
                                 let responseBody = JSON.parse(response.body);
