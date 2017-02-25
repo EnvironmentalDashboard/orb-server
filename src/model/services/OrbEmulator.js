@@ -6,8 +6,7 @@ let validator = require('validator'),
     exec = require('child_process').exec;
 
 let Entity = require('../entities'),
-    Recognition = require('./Recognition'),
-    LifxBulbAPI = require('./LifxBulbAPI');
+    Recognition = require('./Recognition');
 
 let OrbEmulator = {
 

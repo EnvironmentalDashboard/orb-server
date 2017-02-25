@@ -4,8 +4,7 @@
 
 let Entity = require('../entities'),
     Recognition = require('./Recognition'),
-    OrbEmulator = require('./OrbEmulator'),
-    LifxBulbAPI = require('./LifxBulbAPI');
+    OrbEmulator = require('./OrbEmulator');
 
 let OrbList = {
     /**

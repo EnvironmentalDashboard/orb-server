@@ -8,7 +8,6 @@ let validator = require('validator'),
 let Entity = require('../entities'),
     Recognition = require('./Recognition'),
     OrbEmulator = require('./OrbEmulator'),
-    LifxBulbAPI = require('./LifxBulbAPI'),
     RelativeValue = require('./RelativeValue');
 
 let Orb = {

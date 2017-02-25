@@ -6,8 +6,7 @@ let Bookshelf = require('../components/bookshelf'),
     util = require('util');
 
 let Entity = require('../entities'),
-    Recognition = require('./Recognition'),
-    LifxBulbAPI = require('./LifxBulbAPI');
+    Recognition = require('./Recognition');
 
 let Bulb = {
     /**
