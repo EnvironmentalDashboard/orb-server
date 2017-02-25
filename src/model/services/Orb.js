@@ -33,12 +33,12 @@ let Orb = {
         return new Entity.Orb({
             id: orbId,
             owner: client.id
-        }).fetch().then(function(orb) {
+        }).fetch({ withRelated: ['relativeValue1', 'relativeValue2'] }).then(function(orb) {
             if (!orb) {
                 return Promise.reject('Records don\'t exist for the targetted orb');
             }
 
-            return Promise.resolve(orb.attributes);
+            return Promise.resolve(orb);
         });
     },
 

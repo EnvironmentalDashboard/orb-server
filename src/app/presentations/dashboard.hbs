@@ -42,6 +42,7 @@
                     <th>Label</th>
                     <th>Location</th>
                     <th>Group</th>
+                    <th>Status</th>
                     <th>Controls</th>
                 </tr>
             </thead>
@@ -58,7 +59,13 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     {{/if}}
-
+                    <td class="text-capitalize">
+                        {{#if this.config.attributes.enabled}}
+                        {{this.config.attributes.status}}
+                        {{else}}
+                        Disabled
+                        {{/if}}
+                    </td>
                     <td>
                         <form action="/dash/bulb/update" method="post">
                             <div class="col-sm-6">
@@ -161,7 +168,8 @@
 $(document).ready(function() {
     $("#bulbs-table").tablesorter({
         headers: {
-            4: {sorter: false}
+            4: {sorter: false},
+            5: {sorter: false}
         },
         cssAsc: 'asc',
         cssDesc: 'desc',

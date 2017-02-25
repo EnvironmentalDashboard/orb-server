@@ -54,6 +54,17 @@ let BulbList = {
             }
 
             /**
+             * If the client is known to have a bad token
+             */
+            if (user.get('badToken') == 1) {
+                return Promise.reject('The access token associated with your account went bad. Please reauthorize to link your accounts.');
+            }
+
+            /**
+             * @todo should check pauseUntil column also
+             */
+
+            /**
              * Step 1 (bulbs from API)
              */
             return LifxBulbAPI.getBulbList(client.get('token')).catch(function() {

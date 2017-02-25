@@ -19,10 +19,12 @@ let OrbInstructionsDispatcher = {
         let me = this;
 
         Entity.Bulb.collection().query('where', 'enabled', '=', '1').fetch({
-                withRelated: ['orb']
+                withRelated: ['orb', 'owner']
             })
             .then(function(bulbs) {
                 bulbs.forEach(function(bulb) {
+                    console.log(Math.round(+new Date/1000)+ " : " + bulb.related('owner').get('pauseUntil'));
+
                     /**
                      * Calculate which meter to display. Every 20 seconds, this changes.
                      * Take the timestamp in ms and divide by 1000ms/1s, then divide by
@@ -44,25 +46,22 @@ let OrbInstructionsDispatcher = {
                             id: bulb.get('owner')
                         }).fetch().then(function(owner) {
                             return LifxBulbAPI.setBreathe(packet, selector, owner.get('token')).then(function(response) {
-
                                 /**
-                                 * Holds interpreted bulb states
-                                 * @todo This logic needs to go inside the LIFX API
-                                 * @type Object
+                                 * Interpret response instructions
                                  */
-                                let status = {
-                                    'ok': 'online',
-                                    'offline': 'offline',
-                                    'timed_out': 'unknown'
-                                };
+                                let responsePromises = [];
 
-                                let responseBody = JSON.parse(response.body);
+                                if (response.instructions.user) {
+                                    owner.set(response.instructions.user);
+                                    responsePromises.push(owner.save());
+                                }
 
-                                /**
-                                 * Set the bulbs state in the database
-                                 */
-                                bulb.set('status', status[responseBody.results[0].status]);
-                                return bulb.save();
+                                if(response.instructions.bulb) {
+                                    bulb.set(response.instructions.bulb);
+                                    responsePromises.push(bulb.save());
+                                }
+
+                                return Promise.all(responsePromises);
 
                             }).catch(console.log.bind(console));
                         });

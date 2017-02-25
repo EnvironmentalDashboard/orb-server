@@ -25,7 +25,7 @@ CREATE TABLE `orb-server_users` (
   `fname` varchar(100) DEFAULT NULL,
   `lname` varchar(100) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
-  `pauseUntil` timestamp NULL DEFAULT NULL,
+  `pauseUntil` int(11) NULL DEFAULT NULL,
   `badToken` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `orb_server_users_token_unique` (`token`)

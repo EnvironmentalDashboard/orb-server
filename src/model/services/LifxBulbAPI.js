@@ -41,6 +41,52 @@ let LifxBulbAPI = {
             form: params,
             simple: false,
             resolveWithFullResponse: true //Without this no headers are returned
+        }).then(function(response) {
+            let instructions = {
+                bulb: {}
+            };
+
+            switch (response.statusCode) {
+                case 401 || 403:
+                    instructions.user = {
+                        badToken: 1
+                    };
+
+                    break;
+
+                case 404:
+                    instructions.bulb = {
+                        enabled: -1
+                    };
+
+                    break;
+
+                case 429:
+                    instructions.user = {
+                        pauseUntil: response.headers['x-ratelimit-reset']
+                    };
+
+                    break;
+
+                case 207 || 200:
+                    /**
+                     * Holds interpreted bulb states
+                     * @type Object
+                     */
+                    let status = {
+                        'ok': 'online',
+                        'offline': 'offline',
+                        'timed_out': 'unknown'
+                    };
+
+                    instructions.bulb.status = JSON.parse(response.body).results[0].status;
+                    break;
+            }
+
+            return Promise.resolve({
+                raw: response,
+                instructions: instructions
+            });
         });
     }
 
