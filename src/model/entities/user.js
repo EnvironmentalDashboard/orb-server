@@ -33,7 +33,7 @@ let User = {
             (lname !== undefined &&
                 !lname.match(/^[0-9a-z ]+$/i) &&
                 lname.length !== 0)) {
-            errors.name = ['Name fields must be alphanumeric (0-9a-Z).'];
+            errors.name = ['Name fields must be alphanumeric (0-9 A-Z).'];
         }
 
         // Passwords have minlneghth 5
