@@ -23,7 +23,7 @@ let OrbInstructionsDispatcher = {
             })
             .then(function(bulbs) {
                 bulbs.forEach(function(bulb) {
-                    console.log(Math.round(+new Date/1000)+ " : " + bulb.related('owner').get('pauseUntil'));
+                    //console.log(Math.round(+new Date/1000)+ " : " + bulb.related('owner').get('pauseUntil'));
 
                     /**
                      * Calculate which meter to display. Every 20 seconds, this changes.
