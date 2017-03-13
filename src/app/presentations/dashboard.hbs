@@ -110,6 +110,10 @@
                         </form>
                     </td>
                 </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6">No bulbs are associated with this account.</td>
+                </tr>
                 {{/each}}
             </tbody>
         </table>
@@ -154,6 +158,10 @@
                             <a href="/dash/orb/delete/{{this.id}}" class="btn btn-danger">Delete</a>
                         </p>
                     </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6">No virtual orbs are associated with this account.</td>
                 </tr>
                 {{/each}}
             </tbody>
