@@ -4,7 +4,7 @@ CREATE TABLE `orb-server_bulbs` (
   `selector` varchar(255) NOT NULL,
   `orb` int(11) DEFAULT NULL,
   `enabled` tinyint(1) NOT NULL,
-  `status` int(11) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `orb_server_bulbs_selector_unique` (`selector`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
