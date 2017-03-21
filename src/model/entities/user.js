@@ -11,12 +11,16 @@ let User = {
     tableName: 'orb-server_users',
 
     orbs: function() {
-        return this.hasMany('Orb', 'id');
+        return this.hasMany('Orb', 'owner', 'id');
     },
 
     bulbs: function() {
-        return this.hasMany('Bulb', 'id');
+        return this.hasMany('Bulb', 'owner', 'id');
     },
+
+    integrations: function() {
+        return this.hasMany('Integration', 'owner', 'id');
+    }
 
     validate: function() {
         let fname = this.get('fname'),
