@@ -20,7 +20,7 @@ let User = {
 
     integrations: function() {
         return this.hasMany('Integration', 'owner', 'id');
-    }
+    },
 
     validate: function() {
         let fname = this.get('fname'),

@@ -2,11 +2,11 @@
  * @overview Integrations entitiy
  */
 
-let User = require('./user')
+let User = require('./user');
 
 
 var Integration = {
-    tableName: 'orb-server_bulbs',
+    tableName: 'orb-server_integrations',
 
     owner: function() {
         return this.belongsTo('User', 'owner');

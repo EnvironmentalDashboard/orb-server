@@ -1,26 +1,27 @@
-let lifx_api = "https://cloud.lifx.com/oauth";
-
 let authenticationView = {
     authorize: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
-            queryString = appmodel.getQueryString();
+            redirectAddress = appmodel.getRedirectAddress();
 
         if (!loggedIn) {
             return res.render('denied');
         }
 
-        res.redirect(lifx_api + '/authorize?' + queryString);
+        res.redirect(redirectAddress);
     },
 
     redirect: function(res, appmodel) {
-        let loggedIn = appmodel.getAuthenticatedUser();
+        let loggedIn = appmodel.getAuthenticatedUser(),
+            errors = appmodel.getErrors();
 
         if (!loggedIn) {
             return res.render('denied');
         }
 
-        return res.render('auth-success', {
-            loggedIn: loggedIn
+        return res.render('auth-redirect', {
+            loggedIn: loggedIn,
+            errors: errors,
+            integration: appmodel.getIntegration()
         });
     },
 
@@ -32,6 +33,36 @@ let authenticationView = {
         }
 
         return res.render('auth-confirm', {
+            loggedIn: loggedIn
+        });
+    },
+
+    label: function(res, appmodel) {
+        //@todo make sure user is editting a valid integration
+
+        let loggedIn = appmodel.getAuthenticatedUser(),
+            errors = appmodel.getErrors(),
+            form = appmodel.getInputs();
+
+        if (!loggedIn) {
+            return res.render('denied');
+        }
+
+        if(!errors && Object.keys(form).length > 1) {
+            return res.redirect('/auth/label/success');
+        }
+
+        return res.render('auth-redirect', {
+            loggedIn: loggedIn,
+            errors: errors,
+            integration: appmodel.getIntegration()
+        });
+    },
+
+    success: function(res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser();
+
+        return res.render('auth-success', {
             loggedIn: loggedIn
         });
     }

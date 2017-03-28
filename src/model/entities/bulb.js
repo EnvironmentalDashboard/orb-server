@@ -3,7 +3,8 @@
  */
 
 let User = require('./user'),
-    Orb = require('./orb');
+    Orb = require('./orb'),
+    Integration = require('./integration');
 
 
 var Bulb = {
@@ -15,6 +16,10 @@ var Bulb = {
 
     orb: function() {
         return this.belongsTo('Orb', 'orb');
+    },
+
+    integration: function() {
+        return this.belongsTo('Integration', 'integration');
     },
 
     validate: function() {

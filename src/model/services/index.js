@@ -10,7 +10,6 @@
 let groups = [
     'Account',
     'MeterList',
-    'LifxBulbAPI',
     'Orb',
     'OrbList',
     'OrbEmulator',
@@ -18,6 +17,7 @@ let groups = [
     'Bulb',
     'BulbList',
     'Recognition',
+    'BulbIntegration',
     'RelativeValue'
 ];
 

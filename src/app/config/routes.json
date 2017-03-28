@@ -237,6 +237,25 @@
         }
     },
     {
+        "method": "post",
+        "pattern": "/auth/label/:integrationId",
+        "resource": "authorization",
+        "action": {
+            "controller": "label",
+            "view": "label"
+        }
+    },
+
+    {
+        "method": "get",
+        "pattern": "/auth/success",
+        "resource": "authorization",
+        "action": {
+            "view": "success"
+        }
+    },
+
+    {
         "method": "get",
         "pattern": "/orb-instructions/json",
         "resource": "orbInstructions",

@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Authorization</h2>
+
+        {{#if errors}}
+
+        <div class="panel panel-danger">
+            <div class="panel-heading">Authorization Failed</div>
+            <div class="panel-body">
+                <p>The third-party integration failed. Please try again.</p>
+
+                <p class="pull-right no-margin">
+                <a href="/dash" class="btn btn-primary">Back to dashboard</a>
+                </p>
+            </div>
+        </div>
+
+        {{else}}
+
+        <div class="panel panel-info">
+            <div class="panel-heading">Authorization Configuration</div>
+            <div class="panel-body">
+                <p>Please create a label for this integration for your future reference.</p>
+
+                <form action="/auth/label/{{integration.id}}" method="post">
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label for="label">Label</label>
+
+                            <input type="text" aria-describedby="label-help" class="form-control" name="label" id="label" value="{{integration.attributes.label}}">
+
+                            <p id="label-help" class="help-block">E.g., "Jane's LIFX" or "JaneSmith@ivy.edu"</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" name="authorize" class="btn btn-default btn-primary" value="Save">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {{/if}}
+
+    </div>
+</div>

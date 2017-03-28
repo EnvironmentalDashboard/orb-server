@@ -2,8 +2,7 @@
  * @overview Responsible for account services
  */
 
-let querystring = require('querystring'),
-    request = require('request-promise-native'),
+let request = require('request-promise-native'),
     validator = require('validator'),
     sodium = require('sodium').api;
 
@@ -130,7 +129,7 @@ let Account = {
             }).fetch();
         }).then(function(user) {
             if (!user) {
-                error.general = ['Couldn\'t find user'];
+                errors.general = ['Couldn\'t find user'];
                 return Promise.reject(errors);
             }
 
@@ -207,105 +206,6 @@ let Account = {
              * No errors; save and resolve
              */
             return user.save();
-        });
-    },
-
-    /**
-     * Prepare for authorization redirect
-     * @param  {Object} sess Session object
-     * @return {Promise} Resolves on success, rejects on errors.
-     *
-     * @todo this be/contain potential API clutter
-     */
-    prepareRedirect: function(sess) {
-        let client = Recognition.knowsClient(sess);
-
-        if (!client) {
-            return Promise.reject({
-                authError: true
-            });
-        }
-
-        /**
-         * Random, unguessable string to prevent CSS attacks: base64 encodes the
-         * timestamp multipled by a psuedorandom decimal (0-1) and removes non-
-         * alphanumerics
-         * @type {String}
-         */
-        let state = (Buffer.from('' + (Math.random() * +new Date())).toString('base64'))
-            .replace(/[^0-9a-z]/gi, '');
-
-        sess.request_state = state;
-
-        let query = querystring.stringify({
-            client_id: process.env.LIFX_CLIENT_ID,
-            scope: 'remote_control:all',
-            state: state,
-            response_type: 'code'
-        });
-
-        return Promise.resolve(query);
-    },
-
-    /**
-     * Authorize this user by updating their account token
-     * @param  {Object} params Account auth parameters
-     * @param  {Object} sess Session object
-     * @return {Promise} Resolves on success, rejects on errors.
-     *
-     * @todo this may be/contain potential API clutter
-     */
-    authorize: function(params, sess) {
-        let client = Recognition.knowsClient(sess);
-
-        if (!client) {
-            return Promise.reject({
-                authError: true
-            });
-        }
-
-        /**
-         * Parameters which must be included in request to gain access to the
-         * user's access token, given their response token
-         * @type {Object}
-         */
-        let data = {
-            client_id: process.env.LIFX_CLIENT_ID,
-            client_secret: process.env.LIFX_CLIENT_SECRET,
-            code: params.code,
-            grant_type: 'authorization_code'
-        };
-
-        let options = {
-            json: data,
-            headers: {
-                'User-Agent': 'node.js'
-            }
-        };
-
-
-        /**
-         * Request the access token
-         */
-        return request.post(lifx_api + '/token', options, function(err, res, bod) {
-            if (sess.request_state != params.state) {
-                return Promise.reject({
-                    stateError: 'Request does not validate.'
-                });
-            }
-
-            /**
-             * Everything went well; save the access token
-             */
-            let token = bod.access_token;
-
-            return new Entity.User({
-                id: client.id
-            }).save({
-                token: token,
-            }, {
-                patch: true
-            });
         });
     }
 

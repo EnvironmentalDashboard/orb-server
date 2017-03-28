@@ -19,7 +19,8 @@ let entities = [
     'Meter',
     'Building',
     'Bulb',
-    'RelativeValue'
+    'RelativeValue',
+    'Integration'
 ];
 
 /**

@@ -7,7 +7,7 @@ let Bookshelf = require('../components/bookshelf'),
 
 let Entity = require('../entities'),
     Recognition = require('./Recognition'),
-    LifxBulbAPI = require('./LifxBulbAPI');
+    BulbAPIIntegrations = require('./BulbAPIIntegrations');
 
 let BulbList = {
     /**
@@ -44,6 +44,10 @@ let BulbList = {
          */
         return Recognition.refreshClient(sess).then(function(user) {
             client = user;
+
+            /**
+             * @todo Redo all of this...
+             */
 
             /**
              * If the client's token is empty/null then they haven't tried to

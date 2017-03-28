@@ -31,6 +31,7 @@ CREATE TABLE `orb-server_users` (
 CREATE TABLE `orb-server_integrations` (
   `id` int(11) NOT NULL,
   `type` int(11) NOT NULL COMMENT '1 LIFX',
+  `label` varchar(255) NULL,
   `owner` int(11) NOT NULL,
   `token` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL COMMENT '0 bad token, 1 no issues',

@@ -1,8 +1,17 @@
 let Service = require('../../model/services');
 
 var authentication = {
+    integration: null,
     inputs: null,
-    queryString: null,
+    redirectAddress: null,
+
+    setIntegration: function(integration) {
+        this.integration = integration;
+    },
+
+    getIntegration: function() {
+        return this.integration;
+    },
 
     setInputs: function(inputs) {
         this.inputs = inputs;
@@ -12,12 +21,12 @@ var authentication = {
         return this.inputs;
     },
 
-    setQueryString: function(queryString) {
-        this.queryString = queryString;
+    setRedirectAddress: function(redirectAddress) {
+        this.redirectAddress = redirectAddress;
     },
 
-    getQueryString: function(queryString) {
-        return this.queryString;
+    getRedirectAddress: function(redirectAddress) {
+        return this.redirectAddress;
     }
 };
 

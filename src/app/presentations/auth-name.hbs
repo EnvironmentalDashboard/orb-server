@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Authorization Configuration</h2>
+
+        <p>Please label this account authorization. Using the username of the third-party account, along with the type of account (i.e., LIFX) is suggested. This is only for your personal management purposes.</p>
+
+        {{#if errors}}
+
+        <div class="alert alert-danger">
+            <p><strong>There was a problem with your configuration.</strong> Please check for errors.</p>
+        </div>
+
+        {{/if}}
+
+        <form action="/redirect" method="post">
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="label">Label</label>
+                    <input type="text" class="form-control" name="label" id="label" value="{{form.defaultLabel}}">
+                </div>
+            </div>
+
+            {{#if errors.label}}
+
+            <div>
+                <div class="alert alert-warning">
+                    {{#each errors.label}}
+                        <p>{{this}}</p>
+                    {{/each}}
+                </div>
+            </div>
+
+            {{/if}}
+
+            <div class="form-group">
+                <input type="submit" name="authorize" class="btn btn-default btn-primary" value="Complete authorization">
+            </div>
+        </form>
+    </div>
+</div>

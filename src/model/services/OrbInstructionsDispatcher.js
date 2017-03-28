@@ -7,7 +7,7 @@ let validator = require('validator'),
 
 let Entity = require('../entities'),
     Recognition = require('./Recognition'),
-    LifxBulbAPI = require('./LifxBulbAPI'),
+    BulbAPIIntegrations = require('./BulbAPIIntegrations'),
     OrbEmulator = require('./OrbEmulator');
 
 let OrbInstructionsDispatcher = {
@@ -19,7 +19,7 @@ let OrbInstructionsDispatcher = {
         let me = this;
 
         Entity.Bulb.collection().query('where', 'enabled', '=', '1').fetch({
-                withRelated: ['orb', 'owner']
+                withRelated: ['orb', 'owner', 'integration']
             })
             .then(function(bulbs) {
                 bulbs.forEach(function(bulb) {
@@ -40,30 +40,29 @@ let OrbInstructionsDispatcher = {
                             cycles: 10 * instruction.frequency
                         };
 
-                        let selector = 'id:' + bulb.get('selector');
+                        let selector = 'id:' + bulb.get('selector'),
+                            integration = bulb.related('integration'),
+                            BulbAPI = BulbAPIIntegrations[integration.get('type')];
 
-                        return new Entity.User({
-                            id: bulb.get('owner')
-                        }).fetch().then(function(owner) {
-                            return LifxBulbAPI.setBreathe(packet, selector, owner.get('token')).then(function(response) {
-                                /**
-                                 * Interpret response instructions
-                                 */
-                                let responsePromises = [];
 
-                                if (response.instructions.user) {
-                                    owner.set(response.instructions.user);
-                                    responsePromises.push(owner.save());
-                                }
 
-                                if(response.instructions.bulb) {
-                                    bulb.set(response.instructions.bulb);
-                                    responsePromises.push(bulb.save());
-                                }
+                        return BulbAPI.breathe(packet, selector, integration.get('token')).then(function(response) {
+                            /**
+                             * Interpret response instructions
+                             */
+                            let responsePromises = [];
 
-                                return Promise.all(responsePromises);
+                            if (response.instructions.integration) {
+                                integration.set(response.instructions.integration);
+                                responsePromises.push(integration.save());
+                            }
 
-                            }).catch(console.log.bind(console));
+                            if(response.instructions.bulb) {
+                                bulb.set(response.instructions.bulb);
+                                responsePromises.push(bulb.save());
+                            }
+
+                            return Promise.all(responsePromises);
                         });
 
                     });
