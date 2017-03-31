@@ -42,55 +42,45 @@ let BulbList = {
          * Note: If bulb exists in database but not API, it will not propagate in
          * the list
          */
-        return Recognition.refreshClient(sess).then(function(user) {
-            client = user;
+        return Entity.Integration.collection().fetch({
+            owner: client.id
+        }).then(function(results) {
+            let bulbListRetrievals = [];
 
-            /**
-             * @todo Redo all of this...
-             */
+            results.forEach(function(integration) {
+                let API = BulbAPIIntegrations[integration.attributes.type];
 
-            /**
-             * If the client's token is empty/null then they haven't tried to
-             * authorize their account with LifX
-             */
-            if (user.get('token') == null || user.get('token') === '') {
-                return Promise.reject('This account is not currently linked with a LIFX account. Please authorize to link your accounts.');
-            }
+                let retrieval = API.retrieveBulbList(integration.attributes.token).then(function(response) {
+                    let bulbsFromAPI = response.results;
 
-            /**
-             * If the client is known to have a bad token
-             */
-            if (user.get('badToken') == 1) {
-                return Promise.reject('The access token associated with your account went bad. Please reauthorize to link your accounts.');
-            }
+                    if (response.instructions.integration) {
+                        integration.set(response.instructions.integration);
+                        bulbListRetrievals.push(integration.save());
+                    }
 
-            /**
-             * @todo should check pauseUntil column also
-             */
+                    /**
+                     * Add each bulb to the list
+                     * @todo instructions
+                     */
 
-            /**
-             * Step 1 (bulbs from API)
-             */
-            return LifxBulbAPI.getBulbList(client.get('token')).catch(function() {
-                return Promise.reject('The access token associated with your account went bad. Please reauthorize to link your accounts.');
+                    JSON.parse(bulbsFromAPI).forEach(function(bulb) {
+                        bulbList[bulb.id] = {
+                            info: bulb
+                        };
+                    });
+                });
+
+                bulbListRetrievals.push(retrieval);
             });
 
-        }).then(function(bulbsFromAPI) {
+            return Promise.all(bulbListRetrievals);
+        }).then(function() {
             /**
-             * Add each bulb to the list
-             */
-            JSON.parse(bulbsFromAPI).forEach(function(bulb) {
-                bulbList[bulb.id] = {
-                    info: bulb
-                };
-            });
-
-            /**
-             * Step 2 (bulbs from database)
-             */
-            return Entity.Bulb.collection().query('where', 'owner', '=', client.id).fetch({
-                withRelated: ['orb']
-            });
+              * Step 2 (bulbs from database)
+              */
+             return Entity.Bulb.collection().query('where', 'owner', '=', client.id).fetch({
+                 withRelated: ['orb']
+             });
         }).then(function(bulbCollection) {
 
             if (bulbCollection) {
@@ -104,7 +94,6 @@ let BulbList = {
 
             return Promise.resolve(bulbList);
         });
-
     }
 };
 

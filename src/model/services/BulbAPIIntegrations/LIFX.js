@@ -45,12 +45,39 @@ let LIFXAPI = {
     },
 
     retrieveBulbList: function(token) {
+        let method = function(response) {
+            let instructions = {};
+
+            switch (response.statusCode) {
+                case 401 || 403:
+                    //Bad token
+                    instructions.integration = {
+                        status: 0
+                    };
+
+                    break;
+
+                case 429:
+                    //Must pause until...
+                    instructions.integration = {
+                        pauseUntil: response.headers['x-ratelimit-reset']
+                    };
+                    break;
+            }
+
+            return Promise.resolve({
+                results: response.body || '[]',
+                instructions: instructions
+            });
+        };
+
         return requestPromise({
             url: urls.interface + 'all',
             headers: {
                 "Authorization": "Bearer " + token
-            }
-        });
+            },
+            resolveWithFullResponse: true //Without this no headers are returned
+        }).then(method).catch(method);
     },
 
     breathe: function(params, selector, token) {

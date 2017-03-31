@@ -18,9 +18,16 @@
             </div>
         </div>
 
-        {{#if error}}
+        {{#if integration.errors}}
         <div class="alert alert-warning clearfix ui-alert-action">
-            <p>{{error}}</p>
+            <p>An access token associated with your account went bad. Please visit your bulb integration settings to reauthorize.</p>
+            <a href="/account/#integrations" class="btn pull-right btn-primary">Integration settings</a>
+        </div>
+        {{/if}}
+
+        {{#if integration.none}}
+        <div class="alert alert-warning clearfix ui-alert-action">
+            <p>This account is not currently linked with a LIFX account. Please authorize to link your accounts.</p>
             <a href="/auth/confirm" class="btn pull-right btn-primary">Authorize</a>
         </div>
         {{/if}}
@@ -31,10 +38,7 @@
             </ul>
         </div>
         {{/if}}
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-12">
+
         <table id="bulbs-table" class="table table-striped ui-table">
             <thead>
                 <tr>
@@ -128,10 +132,6 @@
                 <p>The virtual orbs associated with your account are listed below. Prior to assigning a virtual orb to a bulb, you must configure the virtual orb here.</p>
             </div>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-12">
         <p>
             <a href="/dash/orb/new" class="btn btn-primary">Create a virtual orb</a>
         </p>

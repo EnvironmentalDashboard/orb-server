@@ -1,13 +1,28 @@
 let accountView = {
     index: function(res, appmodel) {
-        let loggedIn = appmodel.getAuthenticatedUser();
+        let loggedIn = appmodel.getAuthenticatedUser(),
+            bulbIntegrationListPromise = appmodel.retrieveIntegrationList();
 
         if (!loggedIn) {
             return res.render('denied');
         }
 
-        return res.render('account', {
-            loggedIn: loggedIn
+        bulbIntegrationListPromise.then(function(integrationList) {
+            let integrations = [];
+
+            integrationList.forEach(function(integration){
+                integrations.push({
+                    id: integration.attributes.id,
+                    label: integration.attributes.label || false,
+                    type: integration.attributes.type,
+                    requiresAuth: integration.attributes.status !== 1,
+                });
+            });
+
+            return res.render('account', {
+                loggedIn: loggedIn,
+                integrations: integrations
+            });
         });
     },
 

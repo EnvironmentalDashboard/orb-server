@@ -36,5 +36,39 @@
     </div>
     <div class="col-sm-12">
         <h3>Third-party Integrations</h3>
+
+        <table class="table table-striped ui-table">
+            <thead>
+                <tr>
+                    <th>Label</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Configuration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each integrations}}
+                <tr{{#if this.requiresAuth}} class="danger"{{/if}}>
+                    <td>{{#if this.label}}{{this.label}}{{else}}<i>Unlabeled</i>{{/if}}</td>
+                    <td>{{this.type}}</td>
+                    <td>{{#if this.requiresAuth}}Requires authorization{{else}}Ok.{{/if}}</div></td>
+                    <td>
+                        <p>
+                            {{#if this.requiresAuth}}
+                            <a href="/auth/confirm/{{this.id}}" class="btn btn-default">Reauthorize</a>
+                            {{else}}
+                            <a href="/auth/label/{{this.id}}" class="btn btn-default">Edit</a>
+                            {{/if}}
+                            <a href="/auth/delete/{{this.id}}" class="btn btn-danger">Delete</a>
+                        </p>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6">No virtual orbs are associated with this account.</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </div>
 </div>

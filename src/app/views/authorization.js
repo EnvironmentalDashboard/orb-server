@@ -1,13 +1,18 @@
 let authenticationView = {
     authorize: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
-            redirectAddress = appmodel.getRedirectAddress();
+            redirectAddress = appmodel.getRedirectAddress(),
+            errors = appmodel.getErrors();
 
         if (!loggedIn) {
             return res.render('denied');
         }
 
-        res.redirect(redirectAddress);
+        if(errors) {
+            return res.render('denied');
+        }
+
+        return res.redirect(redirectAddress);
     },
 
     redirect: function(res, appmodel) {
@@ -26,14 +31,16 @@ let authenticationView = {
     },
 
     confirm: function(res, appmodel) {
-        let loggedIn = appmodel.getAuthenticatedUser();
+        let loggedIn = appmodel.getAuthenticatedUser(),
+            integrationId = appmodel.getIntegration();
 
         if (!loggedIn) {
             return res.render('denied');
         }
 
         return res.render('auth-confirm', {
-            loggedIn: loggedIn
+            loggedIn: loggedIn,
+            integrationId: integrationId
         });
     },
 
@@ -42,7 +49,8 @@ let authenticationView = {
 
         let loggedIn = appmodel.getAuthenticatedUser(),
             errors = appmodel.getErrors(),
-            form = appmodel.getInputs();
+            form = appmodel.getInputs(),
+            targetIntegrationPromise = appmodel.retrieveTargetIntegration();
 
         if (!loggedIn) {
             return res.render('denied');
@@ -52,10 +60,13 @@ let authenticationView = {
             return res.redirect('/auth/label/success');
         }
 
-        return res.render('auth-redirect', {
-            loggedIn: loggedIn,
-            errors: errors,
-            integration: appmodel.getIntegration()
+        targetIntegrationPromise.then(function(integration){
+            return res.render('auth-label', {
+                loggedIn: loggedIn,
+                form: Object.assign({}, integration, form),
+                errors: errors,
+                integration: appmodel.getIntegration()
+            });
         });
     },
 
@@ -65,6 +76,26 @@ let authenticationView = {
         return res.render('auth-success', {
             loggedIn: loggedIn
         });
+    },
+
+    deletePrompt: function(res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser(),
+            integrationPrompise = appmodel.retrieveTargetIntegration();
+
+        return integrationPrompise.then(function(integration) {
+            if (appmodel.getAuthError()) {
+                return res.render('denied');
+            }
+
+            res.render('auth-delete-confirm', {
+                loggedIn: loggedIn,
+                integration: integration
+            });
+        });
+    },
+
+    delete: function(res, appmodel) {
+        res.redirect('/account');
     }
 };
 

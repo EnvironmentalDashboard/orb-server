@@ -2,14 +2,23 @@ let defaultView = {
     index: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             bulbListPromise = appmodel.retrieveBulbList(),
-            orbListPromise = appmodel.retrieveOrbList();
+            orbListPromise = appmodel.retrieveOrbList(),
+            integrationListPromise = bulbListPromise.then(appmodel.retrieveIntegrationList.bind(appmodel));
 
-        return Promise.all([bulbListPromise, orbListPromise]).then(function(results) {
-            [bulbList, orbList] = results;
-
+        return Promise.all([bulbListPromise, orbListPromise, integrationListPromise]).then(function(results) {
             if (appmodel.getAuthError()) {
                 return res.render('denied');
             }
+
+            [bulbList, orbList, integrationList] = results;
+
+            let integrationError = false;
+
+            integrationList.forEach(function(integration){
+                if(integration.get('status') === 0) {
+                    integrationError = true;
+                }
+            });
 
             let error = appmodel.getErrors(),
                 labellingNotice = false;
@@ -31,7 +40,10 @@ let defaultView = {
                 bulbs: bulbList,
                 orbs: orbList,
                 stylesheets: ['/orb-instructions/animations.css?' + (+new Date())],
-                error: error,
+                integration: {
+                    none: integrationList.length < 1,
+                    errors: integrationError
+                },
                 labellingNotice: labellingNotice
             });
         });

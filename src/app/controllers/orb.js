@@ -22,9 +22,7 @@ let orbController = {
         appmodel.setInputs(req.body);
         appmodel.setTargetOrb(req.params.orbId);
 
-        return Service.Orb.save(params, req.session).catch(function(errors) {
-            appmodel.setErrors(errors);
-        });
+        return Service.Orb.save(params, req.session).catch(appmodel.setErrors.bind(appmodel));
     },
 
     load: function(req, appmodel) {

@@ -18,6 +18,7 @@ let groups = [
     'BulbList',
     'Recognition',
     'BulbIntegration',
+    'BulbIntegrationList',
     'RelativeValue'
 ];
 

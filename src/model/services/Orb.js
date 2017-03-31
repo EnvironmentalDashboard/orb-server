@@ -232,7 +232,7 @@ let Orb = {
             ]);
 
             return orb.save();
-        }).catch(console.log.bind(console));
+        });
     },
 
     delete: function(orbId, sess) {

@@ -20,7 +20,7 @@ let orbView = {
             return res.render('orb-config', {
                 loggedIn: loggedIn,
                 errors: errors,
-                form: Object.assign({}, form, orbInfo),
+                form: Object.assign({}, orbInfo, form),
                 buildings: metersByBuilding,
                 days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 helpers: {

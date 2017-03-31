@@ -212,7 +212,16 @@
     },
     {
         "method": "get",
-        "pattern": "/auth/confirm",
+        "pattern": "/auth/confirm/:integrationId",
+        "resource": "authorization",
+        "action": {
+            "controller": "confirm",
+            "view": "confirm"
+        }
+    },
+    {
+        "method": "get",
+        "pattern": "/auth/confirm/",
         "resource": "authorization",
         "action": {
             "view": "confirm"
@@ -220,11 +229,38 @@
     },
     {
         "method": "get",
-        "pattern": "/auth/go",
+        "pattern": "/auth/go/:integrationId",
         "resource": "authorization",
         "action": {
             "controller": "authorize",
             "view": "authorize"
+        }
+    },
+    {
+        "method": "get",
+        "pattern": "/auth/go/",
+        "resource": "authorization",
+        "action": {
+            "controller": "authorize",
+            "view": "authorize"
+        }
+    },
+    {
+        "method": "get",
+        "pattern": "/auth/delete/:integrationId",
+        "resource": "authorization",
+        "action": {
+            "controller": "load",
+            "view": "deletePrompt"
+        }
+    },
+    {
+        "method": "post",
+        "pattern": "/auth/delete/:integrationId",
+        "resource": "authorization",
+        "action": {
+            "controller": "delete",
+            "view": "delete"
         }
     },
     {
@@ -237,21 +273,29 @@
         }
     },
     {
+        "method": "get",
+        "pattern": "/auth/label/success",
+        "resource": "authorization",
+        "action": {
+            "view": "success"
+        }
+    },
+    {
+        "method": "get",
+        "pattern": "/auth/label/:integrationId",
+        "resource": "authorization",
+        "action": {
+            "controller": "load",
+            "view": "label"
+        }
+    },
+    {
         "method": "post",
         "pattern": "/auth/label/:integrationId",
         "resource": "authorization",
         "action": {
             "controller": "label",
             "view": "label"
-        }
-    },
-
-    {
-        "method": "get",
-        "pattern": "/auth/success",
-        "resource": "authorization",
-        "action": {
-            "view": "success"
         }
     },
 

@@ -9,6 +9,10 @@ var dashboard = {
 
     retrieveOrbList: function() {
         return Service.OrbList.retrieve(this.session).catch(this.setErrors.bind(this));
+    },
+
+    retrieveIntegrationList: function() {
+        return Service.BulbIntegrationList.retrieve(this.session).catch(this.setErrors.bind(this));
     }
 };
 
