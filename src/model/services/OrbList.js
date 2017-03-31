@@ -87,8 +87,6 @@ let OrbList = {
      * Retrieves a list of orb instructions using the emulator
      * @param  {Object} sess Session object
      * @return {Promise} Resolves on success, rejects on error.
-     *
-     * @todo this might go on OrbEmulator service rather than Orb service
      */
     retrieveInstructionsList: function(sess) {
         let client = Recognition.knowsClient(sess);

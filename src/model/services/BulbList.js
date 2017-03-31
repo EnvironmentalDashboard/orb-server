@@ -47,12 +47,18 @@ let BulbList = {
         }).then(function(results) {
             let bulbListRetrievals = [];
 
+            /**
+              * Step 1 (bulbs from API)
+              */
             results.forEach(function(integration) {
                 let API = BulbAPIIntegrations[integration.attributes.type];
 
                 let retrieval = API.retrieveBulbList(integration.attributes.token).then(function(response) {
                     let bulbsFromAPI = response.results;
 
+                    /**
+                     * Follow any instructions given to modify the integration
+                     */
                     if (response.instructions.integration) {
                         integration.set(response.instructions.integration);
                         bulbListRetrievals.push(integration.save());
@@ -60,9 +66,7 @@ let BulbList = {
 
                     /**
                      * Add each bulb to the list
-                     * @todo instructions
                      */
-
                     JSON.parse(bulbsFromAPI).forEach(function(bulb) {
                         bulbList[bulb.id] = {
                             info: bulb

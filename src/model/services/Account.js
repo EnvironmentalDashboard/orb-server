@@ -9,11 +9,6 @@ let request = require('request-promise-native'),
 let Entity = require('../entities'),
     Recognition = require('./Recognition');
 
-/**
- * @todo API clutter shouldn't be in the Account service
- */
-const lifx_api = "https://cloud.lifx.com/oauth";
-
 let Account = {
 
     /**
