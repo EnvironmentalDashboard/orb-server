@@ -17,13 +17,10 @@ let modelview = {
     },
 
     setErrors: function(errors) {
-        console.log("before: " + errors);
         this.errors = errors;
-        console.log("after: " + this.errors);
     },
-    
+
     getErrors: function() {
-        console.log("got errors: " +this.errors);
         return this.errors;
     }
 
