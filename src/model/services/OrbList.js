@@ -66,10 +66,12 @@ let OrbList = {
                         withRelated: ['building']
                     });
                 }).then(function(meter) {
-                    orbInfo.meter2 = {
-                        building: meter.related('building').get('name'),
-                        name: meter.get('name')
-                    };
+                    if(meter) {
+                        orbInfo.meter2 = {
+                            building: meter.related('building').get('name'),
+                            name: meter.get('name')
+                        };
+                    }
 
                     orbList.push(orbInfo);
                 });

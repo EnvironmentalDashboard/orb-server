@@ -152,23 +152,31 @@ let Orb = {
                 relativeValue2ForeignKey = matchedOrb.get('relativeValue2Id');
             }
 
+            if(meter2 && meter2 !== "") {
+                return new Entity.Meter({
+                    'bos_uuid': meter2
+                }).fetch().then(function(match) {
+                    if (!match) {
+                        errors.meter2 = ['Meter not found in database.'];
+                    }
+                });
+            } else {
+                return Promise.resolve();
+            }
+        }).then(function(){
             return new Entity.Meter({
                 'bos_uuid': meter1
             }).fetch();
         }).then(function(match) {
             if (!match) {
-                errors.meter1 = ['Meter not found in our database.'];
-            } else {
-
+                errors.meter1 = ['Meter not found in database.'];
             }
 
             return new Entity.Meter({
                 'bos_uuid': meter2
             }).fetch();
         }).then(function(match) {
-            if (!match) {
-                errors.meter2 = ['Meter not found in our database.'];
-            }
+
 
             /**
              * This is the last error check; resolve here if there are errors to

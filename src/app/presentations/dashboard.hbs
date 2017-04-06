@@ -151,7 +151,13 @@
                     <td class="col-sm-2">{{#if this.title}}{{this.title}}{{else}}Untitled orb{{/if}}</td>
                     <td class="col-sm-1 sort-use-next ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-1"></div></td>
                     <td class="col-sm-3">{{this.meter1.building}} {{this.meter1.name}}</td>
-                    <td class="col-sm-1 sort-use-next ui-orb-wrap"><div class="ui-orb orb-{{this.id}}-meter-2"></div></td>
+                    <td class="col-sm-1 sort-use-next ui-orb-wrap">
+                        {{#if this.meter2}}
+                        <div class="ui-orb orb-{{this.id}}-meter-2"></div>
+                        {{else}}
+                        No meter.
+                        {{/if}}
+                    </td>
                     <td class="col-sm-3">{{this.meter2.building}} {{this.meter2.name}}</td>
                     <td class="col-sm-2">
                         <p>
