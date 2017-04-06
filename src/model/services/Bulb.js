@@ -26,6 +26,7 @@ let Bulb = {
         let errors = {};
 
         let selector = params.selector,
+            integration = params.integration,
             enabled = params.enabled;
 
         /**
@@ -39,6 +40,7 @@ let Bulb = {
             selector: selector,
             enabled: enabled === "true", //convert string to Boolean
             orb: orb,
+            integration: integration,
             status: null
         };
 
@@ -72,12 +74,13 @@ let Bulb = {
                  * and Bookshelf do not support upserts
                  */
                 let query = util.format(`\
-                    INSERT INTO \`%s\` (owner, enabled, orb, selector)
-                        VALUES (:owner, :enabled, :orb, :selector)
+                    INSERT INTO \`%s\` (owner, enabled, orb, selector, integration)
+                        VALUES (:owner, :enabled, :orb, :selector, :integration)
                     ON DUPLICATE KEY UPDATE
                         enabled = :enabled,
                         orb = :orb,
-                        owner = :owner
+                        owner = :owner,
+                        integration = :integration
                 `, bulb.tableName);
 
                 return Bookshelf.knex.raw(query, bulbParams);

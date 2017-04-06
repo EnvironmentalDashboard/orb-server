@@ -36,6 +36,8 @@ let BulbList = {
          * Happens in 2 steps:
          *  1. Bulbs are retrieved from API and information from the API is stored
          *     inside the bulbList object.
+         *      - Loop through every integration
+         *      - Add bulbs from every integration onto the bulb list
          *  2. Bulbs are queried from the database, and the configuration settings
          *     are set on the already-created values from step #1
          *
@@ -49,6 +51,8 @@ let BulbList = {
 
             /**
               * Step 1 (bulbs from API)
+              *
+              * Loop through every integration
               */
             results.forEach(function(integration) {
                 let API = BulbAPIIntegrations[integration.attributes.type];
@@ -69,6 +73,7 @@ let BulbList = {
                      */
                     JSON.parse(bulbsFromAPI).forEach(function(bulb) {
                         bulbList[bulb.id] = {
+                            integration: integration.get('id'),
                             info: bulb
                         };
                     });
