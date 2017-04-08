@@ -8,8 +8,8 @@ let authenticationView = {
             return res.render('denied');
         }
 
-        if(errors) {
-            return res.render('denied');
+        if (errors) {
+            return res.render('no-record');
         }
 
         return res.redirect(redirectAddress);
@@ -45,22 +45,25 @@ let authenticationView = {
     },
 
     label: function(res, appmodel) {
-        //@todo make sure user is editting a valid integration
-
         let loggedIn = appmodel.getAuthenticatedUser(),
-            errors = appmodel.getErrors(),
             form = appmodel.getInputs(),
             targetIntegrationPromise = appmodel.retrieveTargetIntegration();
 
-        if (!loggedIn) {
-            return res.render('denied');
-        }
-
-        if(!errors && Object.keys(form).length > 1) {
-            return res.redirect('/auth/label/success');
-        }
-
         targetIntegrationPromise.then(function(integration){
+            let errors = appmodel.getErrors();
+
+            if (appmodel.getAuthError()) {
+                return res.render('denied');
+            }
+
+            if (errors.noRecord) {
+                return res.render('no-record');
+            }
+
+            if(!errors && Object.keys(form).length > 1) {
+                return res.redirect('/auth/label/success');
+            }
+
             return res.render('auth-label', {
                 loggedIn: loggedIn,
                 form: Object.assign({}, integration, form),
@@ -85,6 +88,10 @@ let authenticationView = {
         return integrationPrompise.then(function(integration) {
             if (appmodel.getAuthError()) {
                 return res.render('denied');
+            }
+
+            if (errors.noRecord) {
+                return res.render('no-record');
             }
 
             res.render('auth-delete-confirm', {

@@ -29,21 +29,22 @@ let BulbIntegration = {
         let state = (Buffer.from('' + (Math.random() * +new Date())).toString('base64'))
             .replace(/[^0-9a-z]/gi, '');
 
-        return new Promise(function (resolve, reject) {
+        return (function() {
             if(!id) {
-                return resolve();
+                return Promise.resolve();
             }
 
-            return new Entity.Integration({id: id, owner: client.id}).fetch().then(function (result) {
-                if(!result) {
-                    return reject("Can't find integration.");
+            return new Entity.Integration({id: id, owner: client.id}).fetch().then(function (results) {
+                if(!results) {
+                    return Promise.reject({
+                        noRecord: true
+                    });
                 }
 
                 state += "~" + id;
-                return resolve();
-
+                return Promise.resolve();
             });
-        }).then(function() {
+        }()).then(function() {
             sess.request_state = state;
 
             let query = querystring.stringify({
@@ -153,7 +154,9 @@ let BulbIntegration = {
             owner: client.id
         }).fetch().then(function(integration) {
             if (!integration) {
-                return Promise.reject('Records don\'t exist for the targetted integration');
+                return Promise.reject({
+                    noRecord: true
+                });
             }
 
             return Promise.resolve(integration);
