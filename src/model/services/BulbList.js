@@ -44,9 +44,8 @@ let BulbList = {
          * Note: If bulb exists in database but not API, it will not propagate in
          * the list
          */
-        return Entity.Integration.collection().fetch({
-            owner: client.id
-        }).then(function(results) {
+
+        return Entity.Integration.collection().query('where', 'owner', '=', client.id).fetch().then(function(results) {
             let bulbListRetrievals = [];
 
             /**

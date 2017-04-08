@@ -18,7 +18,7 @@ let BulbIntegrationList = {
             });
         }
 
-        return Entity.Integration.collection().fetch({owner: client.id }).then(function (results) {
+        return Entity.Integration.collection().query('where', 'owner', '=', client.id).fetch().then(function (results) {
             return results.models;
         });
     }
