@@ -1,16 +1,21 @@
 let orbView = {
     configure: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
-            errors = appmodel.getErrors(),
             form = appmodel.getInputs(),
             meterListPromise = appmodel.retrieveMeterList(),
             orbPromise = appmodel.retrieveTargetOrb();
 
         return Promise.all([meterListPromise, orbPromise]).then(function(results) {
+            let errors = appmodel.getErrors();
+
             [metersByBuilding, orbInfo] = results;
 
             if (appmodel.getAuthError()) {
                 return res.render('denied');
+            }
+
+            if (errors.noRecord) {
+                return res.render('no-record');
             }
 
             if (!errors && Object.keys(form).length > 1) {
@@ -57,6 +62,10 @@ let orbView = {
         return orbPromise.then(function(orbInfo) {
             if (appmodel.getAuthError()) {
                 return res.render('denied');
+            }
+
+            if (errors.noRecord) {
+                return res.render('no-record');
             }
 
             res.render('orb-delete-confirm', {

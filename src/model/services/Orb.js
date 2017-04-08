@@ -34,7 +34,9 @@ let Orb = {
             owner: client.id
         }).fetch({ withRelated: ['relativeValue1', 'relativeValue2'] }).then(function(orb) {
             if (!orb) {
-                return Promise.reject('Records don\'t exist for the targetted orb');
+                return Promise.reject({
+                    noRecord: true
+                });
             }
 
             return Promise.resolve(orb);
@@ -146,7 +148,7 @@ let Orb = {
             return Promise.resolve();
         }).then(function(matchedOrb) {
             if (params.id && !matchedOrb) {
-                errors.denied = ['Cannot find orb with ID ' + params.id + ' associated with this account.'];
+                errors.noRecord = true;
             } else if (params.id) {
                 relativeValue1ForeignKey = matchedOrb.get('relativeValue1Id');
                 relativeValue2ForeignKey = matchedOrb.get('relativeValue2Id');
