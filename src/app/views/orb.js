@@ -64,6 +64,8 @@ let orbView = {
             orbPromise = appmodel.retrieveTargetOrb();
 
         return orbPromise.then(function(orbInfo) {
+            let errors = appmodel.getErrors();
+            
             if (appmodel.getAuthError()) {
                 return res.render('denied');
             }
