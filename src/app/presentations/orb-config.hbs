@@ -12,6 +12,8 @@
 
         {{/if}}
 
+        <h3>Properties</h3>
+
         <form method="post">
             <div class="row">
                 <div class="form-group col-sm-12">
@@ -104,11 +106,11 @@
 
             {{/if}}
 
-            <!-- DAY SETS -->
+            <h3>Typical Use Calculation</h3>
 
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <label for="meter2">Typical use data groupings <span class="text-info">*</span></label>
+                    <label for="meter2">Data groupings <span class="text-info">*</span></label>
 
                     <p id="datagroupings-help">Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates. Some buildings are used differently on different days of the week. Buildings with different schedules for Mondays, Wednesdays, and Fridays than Tuesdays and Thursdays may have three groups for typical use: Sunday and Saturday; Monday, Wednesday, and Friday; and Tuesday and Thursday.</p>
 
@@ -126,7 +128,7 @@
                         {{#each days}}
 
                         <tr>
-                            <td class="ui-table-left">Group {{@key}}</td>
+                            <td class="ui-table-left">Group {{add @key 1}}</td>
 
                             {{#each ../days}}
                             <td>
