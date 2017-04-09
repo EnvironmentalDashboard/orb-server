@@ -48,6 +48,9 @@ let Orb = {
      * @param  {Object} params Configuration parameters
      * @param {Object} sess Session object
      * @return {Promise} Resolves on success, rejects on errors.
+     *
+     * @TODO this has gotten pretty messy... might want to do all processing
+     * prior to sending information to the model.
      */
     save: function(params, sess) {
         let client = Recognition.knowsClient(sess);
@@ -62,7 +65,7 @@ let Orb = {
             meter1 = params.meter1,
             meter2 = params.meter2,
             inputtedDaySets = params.daySets,
-            sampleSize = params.sampleSize;
+            sampleSizes = params.sampleSizes;
 
         /**
          * Need to track errors
@@ -75,29 +78,25 @@ let Orb = {
          * represents a group) to a parseable, day-grouped string
          * @type {[type]}
          */
-        let unfilteredDaySets = [];
+        let daySets = [];
 
         inputtedDaySets.forEach(function(val, index) {
             let key = parseInt(val, 10) || 0;
 
-            if (!unfilteredDaySets[key]) {
-                unfilteredDaySets[key] = [];
+            if (!daySets[key]) {
+                daySets[key] = [];
             }
 
-            unfilteredDaySets[key].push(index + 1);
-        });
+            daySets[key].push(index + 1);
 
-        /**
-         * Sample size must be between 5 and 20
-         */
-        if (sampleSize < 5) {
-            sampleSize = 5;
-        } else if (sampleSize > 50) {
-            sampleSize = 50;
-        }
-
-        let daySets = unfilteredDaySets.filter(function(val) {
-            return val;
+            /**
+             * Sample sizes must be between 5 and 20
+             */
+            if (sampleSizes[index] < 5) {
+                sampleSizes[index] = 5;
+            } else if (sampleSizes[index] > 50) {
+                sampleSizes[index] = 50;
+            }
         });
 
         let orb = new Entity.Orb({
@@ -194,13 +193,17 @@ let Orb = {
             /**
              * Generate `grouping` array
              */
-            let opt = daySets.map(function(daySets) {
+            let groupingObj = daySets.map(function(set, key) {
                 let obj = {
-                    days: daySets,
-                    npoints: sampleSize
+                    days: set,
+                    npoints: sampleSizes[key]
                 };
 
                 return obj;
+            });
+
+            let filteredGroupingObj = groupingObj.filter(function(val) {
+                return val.days.length > 0;
             });
 
             /**
@@ -211,13 +214,13 @@ let Orb = {
                     'id': relativeValue1ForeignKey,
                     'meter_uuid': meter1,
                     'relative_value': -1,
-                    'grouping': JSON.stringify(opt)
+                    'grouping': JSON.stringify(filteredGroupingObj)
                 }),
                 new Entity.RelativeValue({
                     'id': relativeValue2ForeignKey,
                     'meter_uuid': meter2,
                     'relative_value': -1,
-                    'grouping': JSON.stringify(opt)
+                    'grouping': JSON.stringify(filteredGroupingObj)
                 }),
             ];
 

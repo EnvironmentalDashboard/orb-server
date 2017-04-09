@@ -122,6 +122,8 @@
                                 {{#each days}}
                                 <th>{{this}}</th>
                                 {{/each}}
+
+                                <th>Sample size</th>
                             </tr>
                         </thead>
 
@@ -135,6 +137,10 @@
                                 <input type="radio" name="day_{{@key}}" value="{{@../key}}"{{checked ../../form.daySets @../key @key}}>
                             </td>
                             {{/each}}
+
+                            <td>
+                                <input type="number" class="form-control" name="samplesize_{{@key}}">
+                            </td>
                         </tr>
 
                         {{/each}}
@@ -164,7 +170,14 @@
                 <div class="form-group col-sm-12">
                     <label for="interval">Sample size <span class="text-info">*</span></label>
 
-                    <p>Data for recent days are used to calculate typical use. Sample size dictates how many days of prior data are used. If less data are available than specified below, the algorithm will use as much data as it can collect.</p>
+                    <p>Data for recent days are used to calculate typical use. Sample size dictates how many days of prior data are used. If less data are available than specified, the algorithm will use as much data as it can collect.</p>
+
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" name="customGroupings" value="true">
+                        Specify sample size for each individual data grouping.
+                      </label>
+                    </div>
 
                     <input type="number" min="5" max="50" value="{{#if form.sampleSize}}{{form.sampleSize}}{{else}}5{{/if}}" class="form-control" name="sample">
 
