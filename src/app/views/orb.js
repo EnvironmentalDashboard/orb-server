@@ -35,7 +35,9 @@ let orbView = {
                         ];
 
                         if (orbInfo && orbInfo.daySets) {
-                            dataGrouping = JSON.parse(orbInfo.daySets);
+                            dataGrouping = orbInfo.daySets.map(function(set) {
+                                return set.days;
+                            });
                         }
 
                         if (dataGrouping[haystackIndex] && dataGrouping[haystackIndex].indexOf(needle + 1) > -1) {
@@ -45,6 +47,13 @@ let orbView = {
 
                     add: function(a, b) {
                         return a + b;
+                    },
+
+                    npoints: function(arr, key) {
+                        console.log(arr[key]);
+                        console.log(typeof arr[key]);
+
+                        return arr[key] && arr[key].npoints ? arr[key].npoints : null;
                     }
                 }
             });
@@ -65,7 +74,7 @@ let orbView = {
 
         return orbPromise.then(function(orbInfo) {
             let errors = appmodel.getErrors();
-            
+
             if (appmodel.getAuthError()) {
                 return res.render('denied');
             }

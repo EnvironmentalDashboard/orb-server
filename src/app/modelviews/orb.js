@@ -1,11 +1,7 @@
 let Service = require('../../model/services');
 
 var orb = {
-    inputs: {
-        daySets: [
-            [1, 2, 3, 4, 5, 6, 7]
-        ]
-    },
+    inputs: {},
     targetOrbId: null,
 
     setInputs: function(inputs) {
@@ -28,7 +24,8 @@ var orb = {
         return Service.Orb.retrieve(this.targetOrbId, this.session).then(function(orb) {
             return Promise.resolve(Object.assign({}, orb.attributes, {
                 meter1: orb.related('relativeValue1').get('meter_uuid'),
-                meter2: orb.related('relativeValue2').get('meter_uuid')
+                meter2: orb.related('relativeValue2').get('meter_uuid'),
+                daySets: JSON.parse(orb.related('relativeValue1').get('grouping'))
             }));
         }).catch(this.setErrors.bind(this));
     },
