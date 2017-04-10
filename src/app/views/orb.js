@@ -50,9 +50,6 @@ let orbView = {
                     },
 
                     npoints: function(arr, key) {
-                        console.log(arr[key]);
-                        console.log(typeof arr[key]);
-
                         return arr[key] && arr[key].npoints ? arr[key].npoints : null;
                     }
                 }
