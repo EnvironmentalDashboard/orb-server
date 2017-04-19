@@ -45,17 +45,13 @@ let OrbInstructionsDispatcher = {
                         meter = ((+new Date() / 20000 | 0) % 2) + 1;
                     }
 
-                    console.log(bulb.related('orb').get('id') + ' ] [ ' + meter);
-
-                    return Promise.resolve();
-
                     return OrbEmulator.emulate(bulb.relations.orb, meter);
                 }).then(function(instruction) {
                     let packet = {
                         from_color: 'hue:' + instruction.hue + ' brightness:.6 saturation:1',
                         color: 'hue:' + instruction.hue + ' brightness:.3 saturation:1',
                         period: 1 / instruction.frequency,
-                        cycles: 10 * instruction.frequency
+                        cycles: 40 * instruction.frequency
                     };
 
                     let selector = 'id:' + bulb.get('selector');
