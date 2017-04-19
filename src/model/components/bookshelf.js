@@ -2,6 +2,10 @@
  * @overview Provides model layer with Bookshelf ORM
  *
  * NOTE: Database interaction should only be done through the model layer.
+ *
+ * Debugging : Knex crashes when server closes connections
+ * - set pool min/max
+ * - play with `afterCreate`
  */
 
 let knex = require('knex')({
@@ -13,6 +17,10 @@ let knex = require('knex')({
         "password": process.env.DB_PWD,
         "database": process.env.DB_NAME,
         "charset": process.env.DB_ENCODING
+    },
+    pool: {
+        min: 5,
+        max: 15
     }
 });
 
