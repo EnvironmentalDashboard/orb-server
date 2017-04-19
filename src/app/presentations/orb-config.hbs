@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" id="orb-config">
     <div class="col-sm-12">
         <h2>Virtual orb configuration</h2>
 
@@ -114,7 +114,7 @@
 
                     <p id="datagroupings-help">Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates. Some buildings are used differently on different days of the week. Buildings with different schedules for Mondays, Wednesdays, and Fridays than Tuesdays and Thursdays may have three groups for typical use: Sunday and Saturday; Monday, Wednesday, and Friday; and Tuesday and Thursday.</p>
 
-                    <table class="ui-datagroup-table table table-striped col-sm-12" aria-describedby="datagroupings-help">
+                    <table class="ui-datagroup-table table table-striped col-sm-12" id="configurationTable" aria-describedby="datagroupings-help">
                         <thead>
                             <tr>
                                 <th>&nbsp;</th>
@@ -123,7 +123,7 @@
                                 <th>{{this}}</th>
                                 {{/each}}
 
-                                <th>Sample size</th>
+                                <th># of Days</th>
                             </tr>
                         </thead>
 
@@ -139,7 +139,7 @@
                             {{/each}}
 
                             <td>
-                                <input type="number" class="form-control" name="samplesize_{{@key}}" value="{{npoints ../form.daySets @key}}">
+                                <input type="number" class="form-control input-sm" name="samplesize_{{@key}}" value="{{npoints ../form.daySets @key}}">
                             </td>
                         </tr>
 
@@ -168,18 +168,18 @@
 
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <label for="interval">Sample size <span class="text-info">*</span></label>
+                    <label for="interval"># of Days <span class="text-info">*</span></label>
 
-                    <p>Data for recent days are used to calculate typical use. Sample size dictates how many days of prior data are used. If less data are available than specified, the algorithm will use as much data as it can collect.</p>
+                    <p>Data for recent days are used to calculate typical use. Number of days dictates how many days of prior data are used. If less data are available than specified, the algorithm will use as much data as it can collect.</p>
 
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" name="customGroupings" value="true">
+                        <input type="checkbox" id="sampleSizeToggler" name="customGroupings" value="true">
                         Specify sample size for each individual data grouping.
                       </label>
                     </div>
 
-                    <input type="number" min="5" max="50" value="{{#if form.sampleSize}}{{form.sampleSize}}{{else}}5{{/if}}" class="form-control" name="sample">
+                    <input type="number" min="5" max="50" value="{{#if form.sampleSize}}{{form.sampleSize}}{{else}}5{{/if}}" class="form-control" name="sample" id="sampleSize">
 
                     <p class="help-block">Minimum 5 points, maximum 50 points.</p>
                 </div>
@@ -210,3 +210,17 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#sampleSizeToggler").click(function() {
+        let checked = this.checked;
+
+        if (checked) {
+            $("#orb-config").addClass("multipleSampleSizes");
+        } else {
+            $("#orb-config").removeClass("multipleSampleSizes");
+        }
+    });
+});
+</script>

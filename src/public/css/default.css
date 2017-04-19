@@ -177,6 +177,24 @@
     text-align: left;
 }
 
+#configurationTable thead th:nth-child(9),
+#configurationTable tr td:nth-child(9) {
+    display: none;
+}
+
+.multipleSampleSizes #configurationTable thead th:nth-child(9),
+.multipleSampleSizes #configurationTable tr td:nth-child(9) {
+    display: table-cell;
+}
+
+#sampleSize {
+    display: block;
+}
+
+.multipleSampleSizes #sampleSize {
+    display: none;
+}
+
 .ui-label {
     font-weight: bold;
     margin: 0;

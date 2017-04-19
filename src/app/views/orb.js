@@ -22,6 +22,15 @@ let orbView = {
                 return res.redirect('/dash/orb/success');
             }
 
+            /**
+             * @todo Check if all sample sizes are the same or not
+             */
+            if (orbInfo.daySets.isArray()) {
+                orbInfo.daySets.forEach(function(daySet) {
+
+                });
+            }
+
             return res.render('orb-config', {
                 loggedIn: loggedIn,
                 errors: errors,
