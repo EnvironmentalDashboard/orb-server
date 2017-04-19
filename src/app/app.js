@@ -96,4 +96,4 @@ setInterval(function() {
 
     Service.OrbInstructionsDispatcher.dispatchAll();
 
-}, 5000);
+}, 20000);
