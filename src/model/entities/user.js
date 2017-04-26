@@ -4,8 +4,8 @@
 
 let validator = require('validator');
 
-let Orb = require('./orb'),
-    Bulb = require('./bulb');
+let Orb = require('./Orb'),
+    Bulb = require('./Bulb');
 
 let User = {
     tableName: 'orb-server_users',

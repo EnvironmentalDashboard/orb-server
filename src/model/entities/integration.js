@@ -2,7 +2,7 @@
  * @overview Integrations entitiy
  */
 
-let User = require('./user');
+let User = require('./User');
 
 
 var Integration = {

@@ -2,9 +2,9 @@
  * @overview Bulb entitiy
  */
 
-let User = require('./user'),
-    Orb = require('./orb'),
-    Integration = require('./integration');
+let User = require('./User'),
+    Orb = require('./Orb'),
+    Integration = require('./Integration');
 
 
 var Bulb = {

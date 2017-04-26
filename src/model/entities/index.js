@@ -14,6 +14,8 @@ let Bookshelf = require('../components/bookshelf');
  * @type {Array}
  */
 let entities = [
+    'API',
+    'CoreUser',
     'User',
     'Orb',
     'Meter',
@@ -28,6 +30,6 @@ let entities = [
  */
 
 entities.forEach(function(name) {
-    module.exports[name] = Bookshelf.Model.extend(require('./' + name.toLowerCase()));
+    module.exports[name] = Bookshelf.Model.extend(require('./' + name));
     Bookshelf.model(name, module.exports[name]);
 });

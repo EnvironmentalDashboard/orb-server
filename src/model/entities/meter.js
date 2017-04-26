@@ -4,7 +4,7 @@
  * This is likely to change
  */
 
-let Building = require('./building');
+let Building = require('./Building');
 
 let Meter = {
     tableName: 'meters',

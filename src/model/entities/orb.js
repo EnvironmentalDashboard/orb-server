@@ -2,9 +2,9 @@
  * @overview Orb entitiy
  */
 
-let User = require('./user'),
-    RelativeValue = require('./relativevalue'),
-    Bulb = require('./bulb');
+let User = require('./User'),
+    RelativeValue = require('./RelativeValue'),
+    Bulb = require('./Bulb');
 
 
 var Orb = {
