@@ -9,6 +9,7 @@
  */
 let groups = [
     'Account',
+    'BuildingDataIntegration',
     'MeterList',
     'Orb',
     'OrbList',
