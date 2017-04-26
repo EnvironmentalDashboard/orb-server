@@ -10,16 +10,16 @@
 let groups = [
     'Account',
     'BuildingDataIntegration',
+    'BulbIntegration',
+    'BulbIntegrationList',
+    'Bulb',
+    'BulbList',
     'MeterList',
     'Orb',
     'OrbList',
     'OrbEmulator',
     'OrbInstructionsDispatcher',
-    'Bulb',
-    'BulbList',
     'Recognition',
-    'BulbIntegration',
-    'BulbIntegrationList',
     'RelativeValue'
 ];
 
