@@ -24,12 +24,12 @@ let orbView = {
 
             /**
              * @todo Check if all sample sizes are the same or not
-             */
-            if (orbInfo.daySets.isArray()) {
+             *
+            if (orbInfo && orbInfo.daySets.isArray()) {
                 orbInfo.daySets.forEach(function(daySet) {
 
                 });
-            }
+            }*/
 
             return res.render('orb-config', {
                 loggedIn: loggedIn,
@@ -59,6 +59,10 @@ let orbView = {
                     },
 
                     npoints: function(arr, key) {
+                        if(!arr) {
+                            return ;
+                        }
+
                         return arr[key] && arr[key].npoints ? arr[key].npoints : null;
                     }
                 }
