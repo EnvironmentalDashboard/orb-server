@@ -155,7 +155,8 @@ let Orb = {
 
             if(meter2 && meter2 !== "") {
                 return new Entity.Meter({
-                    'bos_uuid': meter2
+                    'bos_uuid': meter2,
+                    'user_id': client.coreUserID
                 }).fetch().then(function(match) {
                     if (!match) {
                         errors.meter2 = ['Meter not found in database.'];
@@ -166,18 +167,13 @@ let Orb = {
             }
         }).then(function(){
             return new Entity.Meter({
-                'bos_uuid': meter1
+                'bos_uuid': meter1,
+                'user_id': client.coreUserID
             }).fetch();
         }).then(function(match) {
             if (!match) {
                 errors.meter1 = ['Meter not found in database.'];
             }
-
-            return new Entity.Meter({
-                'bos_uuid': meter2
-            }).fetch();
-        }).then(function(match) {
-
 
             /**
              * This is the last error check; resolve here if there are errors to

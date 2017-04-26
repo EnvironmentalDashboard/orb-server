@@ -24,7 +24,7 @@ let MeterList = {
         /**
          * Get all the meters in the database
          */
-        return Entity.Meter.collection().fetch({
+        return Entity.Meter.collection().query('where', 'user_id', '=', client.coreUserID).fetch({
             withRelated: ['building']
         }).then(function(results) {
             let meterList = {};
