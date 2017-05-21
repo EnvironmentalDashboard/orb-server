@@ -210,13 +210,15 @@ let Orb = {
                     'id': relativeValue1ForeignKey,
                     'meter_uuid': meter1,
                     'relative_value': -1,
-                    'grouping': JSON.stringify(filteredGroupingObj)
+                    'grouping': JSON.stringify(filteredGroupingObj),
+                    'permission': 'orb_server'
                 }),
                 new Entity.RelativeValue({
                     'id': relativeValue2ForeignKey,
                     'meter_uuid': meter2,
                     'relative_value': -1,
-                    'grouping': JSON.stringify(filteredGroupingObj)
+                    'grouping': JSON.stringify(filteredGroupingObj),
+                    'permission': 'orb_server'
                 }),
             ];
 
