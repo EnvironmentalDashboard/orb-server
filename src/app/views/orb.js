@@ -23,18 +23,28 @@ let orbView = {
             }
 
             /**
-             * @todo Check if all sample sizes are the same or not
-             *
-            if (orbInfo && orbInfo.daySets.isArray()) {
-                orbInfo.daySets.forEach(function(daySet) {
+             * Check if all sample sizes are the same or not
+             */
+            let customSamples = false;
 
+            if (orbInfo && orbInfo.daySets && Array.isArray(orbInfo.daySets)) {
+                let nPointsArr = [];
+                orbInfo.daySets.forEach(function(daySet) {
+                    nPointsArr.push(daySet.npoints)
                 });
-            }*/
+
+                let testEquality = function(val, i, arr) {
+                    return val !== arr[0];
+                };
+
+                customSamples = nPointsArr.some(testEquality);
+            }
 
             return res.render('orb-config', {
                 loggedIn: loggedIn,
                 errors: errors,
                 form: Object.assign({}, orbInfo, form),
+                customSamples: customSamples,
                 buildings: metersByBuilding,
                 days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 helpers: {

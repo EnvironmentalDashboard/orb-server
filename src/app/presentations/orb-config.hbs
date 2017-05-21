@@ -1,4 +1,4 @@
-<div class="row" id="orb-config">
+<div class="row{{#if customSamples}} multipleSampleSizes{{/if}}" id="orb-config">
     <div class="col-sm-12">
         <h2>Virtual orb configuration</h2>
 
@@ -76,7 +76,7 @@
 
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <label for="meter2">Meter #2 <span class="text-info">*</span></label>
+                    <label for="meter2">Meter #2</label>
                     <select name="meter2" id="meter2" class="form-control">
                         <option value="">None</option>
                         {{#each buildings}}
@@ -123,7 +123,6 @@
                                 <th>{{this}}</th>
                                 {{/each}}
 
-                                <th># of Days</th>
                             </tr>
                         </thead>
 
@@ -174,7 +173,7 @@
 
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" id="sampleSizeToggler" name="customGroupings" value="true">
+                        <input type="checkbox" id="sampleSizeToggler" name="customGroupings" {{#if customSamples}}checked{{/if}} value="true">
                         Specify sample size for each individual data grouping.
                       </label>
                     </div>
