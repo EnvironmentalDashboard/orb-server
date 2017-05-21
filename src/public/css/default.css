@@ -182,6 +182,10 @@
     display: none;
 }
 
+#configurationTable th.n-days {
+    min-width: 75px;
+}
+
 .multipleSampleSizes #configurationTable thead th:nth-child(9),
 .multipleSampleSizes #configurationTable tr td:nth-child(9) {
     display: table-cell;
