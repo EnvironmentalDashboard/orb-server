@@ -1,13 +1,28 @@
 let accountView = {
     index: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
-            bulbIntegrationListPromise = appmodel.retrieveIntegrationList();
+            bulbIntegrationListPromise = appmodel.retrieveIntegrationList(),
+            buildingDataIntegrationPromise = appmodel.retrieveBuildingDataIntegration();
 
-        if (!loggedIn) {
-            return res.render('denied');
-        }
+        return Promise.all([bulbIntegrationListPromise, buildingDataIntegrationPromise]).then(function(results) {
+            if (appmodel.getAuthError()) {
+                return res.render('denied');
+            }
 
-        bulbIntegrationListPromise.then(function(integrationList) {
+            [integrationList, buildingDataIntegration] = results;
+
+            /**
+             * Building Data Integration Processing
+             */
+            let buildingsAPI = {};
+
+            if(buildingDataIntegration && buildingDataIntegration.related) {
+                buildingsAPI.username = buildingDataIntegration.relations.API.attributes.username;
+            }
+
+            /**
+             * Bulb Integration processing
+             */
             let integrations = [];
 
             integrationList.forEach(function(integration){
@@ -21,7 +36,8 @@ let accountView = {
 
             return res.render('account', {
                 loggedIn: loggedIn,
-                integrations: integrations
+                integrations: integrations,
+                buildingsAPI: buildingsAPI
             });
         });
     },
@@ -85,6 +101,8 @@ let accountView = {
         if (!errors && Object.keys(form).length > 0) {
             return res.redirect('/account/signup/success');
         }
+
+        console.log(errors);
 
         return res.render('register', {
             loggedIn: loggedIn,

@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Building Data Configuration</h2>
+
+        {{#if errors}}
+
+        <div class="alert alert-danger">
+            <p><strong>There was a problem with these configuration settings.</strong> The credentials provided were rejected.</p>
+        </div>
+
+        {{/if}}
+
+        <form action="/building-data/config" method="post">
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <label for="username">Username</label>
+
+                    <input type="text" aria-describedby="label-help" class="form-control" name="username" id="username" value="{{form.username}}">
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <label for="password">Password</label>
+
+                    <input type="password" aria-describedby="label-help" class="form-control" name="password" id="password">
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <label for="clientId">Client ID</label>
+
+                    <input type="text" aria-describedby="label-help" class="form-control" name="clientId" id="clientId" value="{{form.clientId}}">
+                </div>
+
+                <div class="form-group col-sm-12">
+                    <label for="clientSecret">Client Secret</label>
+
+                    <input type="text" aria-describedby="label-help" class="form-control" name="clientSecret" id="clientSecret">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" name="authorize" class="btn btn-default btn-primary" value="Save">
+            </div>
+        </form>
+    </div>
+</div>

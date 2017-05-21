@@ -35,7 +35,39 @@
         </div>
     </div>
     <div class="col-sm-12">
-        <h3>Third-party Bulb Integrations</h3>
+        <h3>BuildingOS Connection</h3>
+
+        <div class="alert alert-info clearfix">
+            <strong>Note:</strong> Only one BuildingOS integration per account.
+        </div>
+
+        {{#unless buildingsAPI.username}}
+        <div>
+            <a href="/building-data/config" class="btn btn-primary">Add new integration</a>
+        </div>
+        {{/unless}}
+
+        <table class="table table-striped ui-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if buildingsAPI.username}}
+                <tr>
+                    <td>{{buildingsAPI.username}}</td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6">No BuildingOS integration associated with this account.</td>
+                </tr>
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-12">
+        <h3>Bulb Integrations</h3>
 
         <div>
             <a href="/auth/confirm" class="btn btn-primary">Add new integration</a>

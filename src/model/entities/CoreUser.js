@@ -6,7 +6,11 @@
 
 let Building = {
     tableName: 'users',
-    idAttribute: 'id'
+    idAttribute: 'id',
+
+    API: function() {
+        return this.belongsTo('API', 'api_id');
+    }
 };
 
 module.exports = Building;

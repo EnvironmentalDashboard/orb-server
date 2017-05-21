@@ -9,6 +9,7 @@
 
 let controllers = [
     'default',
+    'buildingdata',
     'authentication',
     'dashboard',
     'orb',
