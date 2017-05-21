@@ -2,7 +2,7 @@ let Service = require('../../model/services');
 
 let orbController = {
     configure: function(req, appmodel) {
-        let sampleSizes = new Array(7).fill(req.params.sample || 5);
+        let sampleSizes = new Array(7).fill(req.body.sample || 5);
 
         if (req.body.customGroupings) {
             console.log('using custom!');

@@ -178,8 +178,7 @@
                         Specify sample size for each individual data grouping.
                       </label>
                     </div>
-
-                    <input type="number" min="5" max="50" value="{{#if form.sampleSize}}{{form.sampleSize}}{{else}}5{{/if}}" class="form-control" name="sample" id="sampleSize">
+                    <input type="number" min="5" max="50" value="{{#if form.daySets}}{{form.daySets.0.npoints}}{{else}}5{{/if}}" class="form-control" name="sample" id="sampleSize">
 
                     <p class="help-block">Minimum 5 points, maximum 50 points.</p>
                 </div>
