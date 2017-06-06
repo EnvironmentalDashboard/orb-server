@@ -86,6 +86,8 @@ let authenticationView = {
             integrationPrompise = appmodel.retrieveTargetIntegration();
 
         return integrationPrompise.then(function(integration) {
+            let errors = appmodel.getErrors();
+            
             if (appmodel.getAuthError()) {
                 return res.render('denied');
             }
