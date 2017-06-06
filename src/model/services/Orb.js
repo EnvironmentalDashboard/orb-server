@@ -106,7 +106,9 @@ let Orb = {
 
         /**
          * If this is an update, we will need to ensure we update relative value
-         * columns rather than creating new ones. These keep track of that.
+         * columns rather than creating new ones.
+         *
+         * These keep track of that.
          */
         let relativeValue1ForeignKey = null,
             relativeValue2ForeignKey = null;
