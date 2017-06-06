@@ -20,7 +20,10 @@ let knex = require('knex')({
     },
     pool: {
         min: 5,
-        max: 15
+        max: 15,
+        ping: function (conn, callback) {
+            conn.query('SELECT 1', callback);
+        }
     }
 });
 
