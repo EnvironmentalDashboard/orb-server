@@ -73,6 +73,7 @@ let BulbList = {
                     JSON.parse(bulbsFromAPI).forEach(function(bulb) {
                         bulbList[bulb.id] = {
                             integration: integration.get('id'),
+                            integrationLabel: integration.get('label'),
                             info: bulb
                         };
                     });

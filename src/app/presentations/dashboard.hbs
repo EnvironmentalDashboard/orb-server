@@ -43,6 +43,7 @@
             <thead>
                 <tr>
                     <th>Selector ID</th>
+                    <th>Source</th>
                     <th>Label</th>
                     <th>Location</th>
                     <th>Group</th>
@@ -54,6 +55,7 @@
                 {{#each bulbs}}
                 <tr>
                     <td>{{@key}}</td>
+                    <td>{{this.integrationLabel}}</td>
                     {{#if this.info}}
                     <td>{{this.info.label}}</td>
                     <td>{{this.info.location.name}}</td>
@@ -183,8 +185,8 @@
 $(document).ready(function() {
     $("#bulbs-table").tablesorter({
         headers: {
-            4: {sorter: false},
-            5: {sorter: false}
+            5: {sorter: false},
+            6: {sorter: false}
         },
         cssAsc: 'asc',
         cssDesc: 'desc',
