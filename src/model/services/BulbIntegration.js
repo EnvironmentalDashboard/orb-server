@@ -9,6 +9,13 @@ let Entity = require('../entities'),
     BulbAPIIntegrations = require('./BulbAPIIntegrations');
 
 let BulbIntegration = {
+    /**
+     * Prepares client to redirect to bulb integration authorization page
+     * @param  {int} id Id of bulb integration (falsey if new integration)
+     * @param  {string} type which Bulb API integration to use
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves with URL to redirect to
+     */
     prepareRedirect: function(id, type, sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -30,17 +37,29 @@ let BulbIntegration = {
             .replace(/[^0-9a-z]/gi, '');
 
         return (function() {
+            /**
+             * Resolve this step if this isn't an update to an existing integration
+             */
             if(!id) {
                 return Promise.resolve();
             }
 
+            /**
+             * Fetch the integration being updated
+             */
             return new Entity.Integration({id: id, owner: client.id}).fetch().then(function (results) {
-                if(!results) {
+                if(!results) { //doesn't exist
                     return Promise.reject({
                         noRecord: true
                     });
                 }
 
+                /**
+                 * To keep track that we're updating, append something to the
+                 * `state` variable (this is potentially bad practice)
+                 *
+                 * {state}~{id_to_update}
+                 */
                 state += "~" + id;
                 return Promise.resolve();
             });
@@ -59,6 +78,12 @@ let BulbIntegration = {
         });
     },
 
+    /**
+     * Updates the label for an already-existing integration
+     * @param  {Object} params Parameters for update
+     * @param  {Object} sess   Session object
+     * @return {Promise}
+     */
     updateLabel: function(params, sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -73,6 +98,9 @@ let BulbIntegration = {
         return new Entity.Integration({
             id: params.id
         }).fetch().then(function(integration) {
+            /**
+             * Reject if can't find integration to update
+             */
             if(!integration) {
                 errors.general = ['Couldn\'t find integration'];
                 return Promise.reject(errors);
@@ -84,6 +112,12 @@ let BulbIntegration = {
         });
     },
 
+    /**
+     * Deletes an integration
+     * @param  {int} integrationId Id associated with integration to delete
+     * @param  {Object} sess Session object
+     * @return {Promise}
+     */
     delete: function(integrationId, sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -99,6 +133,9 @@ let BulbIntegration = {
             id: integrationId,
             owner: client.id,
         }).fetch().then(function (integration) {
+            /**
+             * Reject if can't find integration to delete
+             */
             if(!integration) {
                 errors.general = ['Couldn\'t find integration'];
                 return Promise.reject(errors);
@@ -108,6 +145,13 @@ let BulbIntegration = {
         });
     },
 
+    /**
+     * Authorizes a user with a bulb integration
+     * @param  {Object} params Object with integration ID, label, etc...
+     * @param  {string} type Integration type to use
+     * @param  {Object} sess Session object
+     * @return {[type]}        [description]
+     */
     authorize: function(params, type, sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -121,6 +165,10 @@ let BulbIntegration = {
             id = params.integrationId || null,
             label = params.label || "Authorization on " + (new Date()).toString();
 
+        /**
+         * Check to make sure that the state received from 3rd party equals the
+         * state stored in session
+         */
         if (sess.request_state != params.state) {
             return Promise.reject('Request was hijacked.');
         }
@@ -137,6 +185,12 @@ let BulbIntegration = {
         }).catch(console.log.bind(console));
     },
 
+    /**
+     * Retrieve bulb integration information
+     * @param  {int} integrationId integration ID to look for
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves on success
+     */
     retrieve: function(integrationId, sess) {
         let client = Recognition.knowsClient(sess);
 

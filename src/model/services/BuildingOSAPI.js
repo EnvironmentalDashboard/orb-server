@@ -1,5 +1,5 @@
 /**
- * @overview •	Responsibilities include validating credentials & exchanging
+ * @overview Responsibilities include validating credentials & exchanging
  * access tokens.
  */
 let requestPromise = require('request-promise-native');
@@ -13,6 +13,14 @@ let urls = {
 
 let BuildingOSAPI = {
 
+    /**
+     * Exchanges tokens
+     * @param  {string} user
+     * @param  {string} pass
+     * @param  {string} id
+     * @param  {string} secret
+     * @return {Promise} Resolves with access token or rejects
+     */
     exchangeAccessCode: function(user, pass, id, secret) {
         let options = {
             method: 'POST',

@@ -1,5 +1,5 @@
 /**
- * @overview Responsible for account services
+ * @overview Lists the bulb integrations
  */
 
 let querystring = require('querystring');
@@ -8,7 +8,11 @@ let Entity = require('../entities'),
     Recognition = require('./Recognition');
 
 let BulbIntegrationList = {
-
+    /**
+     * Retrieves list of bulb integrations
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves on success
+     */
     retrieve: function(sess) {
         let client = Recognition.knowsClient(sess);
 
