@@ -127,7 +127,8 @@ let LIFXAPI = {
                     let status = {
                         'ok': 'online',
                         'offline': 'offline',
-                        'timed_out': 'unknown'
+                        'timed_out': 'unknown',
+                        'Timed_out': 'unknown'
                     };
 
                     //Bulb status is...
