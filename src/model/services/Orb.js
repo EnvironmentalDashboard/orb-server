@@ -132,9 +132,7 @@ let Orb = {
                 /**
                  * Set the orb's ID to the requested ID
                  */
-                orb.set({
-                    id: params.id
-                });
+                orb.set({ id: params.id });
 
                 /**
                  * Need to make sure the client owns this orb, so query for an
