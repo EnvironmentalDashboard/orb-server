@@ -348,5 +348,16 @@
         "action": {
             "view": "css"
         }
+    },
+
+
+    {
+        "method": "get",
+        "pattern": "/docs/:page",
+        "resource": "docs",
+        "action": {
+            "controller": "index",
+            "view": "index"
+        }
     }
 ]

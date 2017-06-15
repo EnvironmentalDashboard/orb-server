@@ -1,0 +1,94 @@
+:sectnums:
+:toclevels: 3
+:toc:
+:showtitle:
+
+= Documentation
+
+== Dashboard
+
+*Figure 1* Environmental Dashboard homepage
+
+The Environmental Orb Dashboard displays all bulbs and orbs associated with an account (see Figure 1). Any configuration option can be accessed by beginning on this page.
+
+=== Virtual Orbs
+
+Virtual orbs appear on the Environmental Orb Dashboard under “Your Virtual Orbs” (see label 1 in Figure 1). Virtual orbs allow users to pair 1-2 meters together along with other configuration settings (explained in link:#_attributes[1.1.3. Attributes]) to create virtual representations of an Environmental Orb. Virtual orbs can be assigned to bulbs so that the bulb emulates the assigned virtual orb.
+
+==== Creating
+
+On the Environmental Orb Dashboard, click “Create a virtual orb.”
+
+==== Deleting
+
+On the Environmental Orb Dashboard, identify the target orb and click “Delete” beside it. Confirm the deletion on the next page.
+
+==== Attributes
+
+*Title* +
+Used as a label when assigning a virtual orb to a bulb. Brief and descriptive titles make recognition easy.
+
+*Meters* +
+The meter(s) to display feedback for. If two meters are selected, the emulation switches every 6 seconds between each.
+
+*Typical use data groupings* +
+Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates. Some buildings are used differently on different days of the week. Buildings with different schedules for Mondays, Wednesdays, and Fridays than Tuesdays and Thursdays may have three groups for typical use: Sunday and Saturday; Monday, Wednesday, and Friday; and Tuesday and Thursday.
+
+*Sample size* +
+Data from recent days are used to calculate typical use. Sample size dictates how many days of prior data are used. If less data are available than specified below, the algorithm will use as much data as it can collect.
+
+=== Bulbs
+
+Bulbs are displayed on the Environmental Orb Dashboard under “Your Bulbs” (see label 2 in Figure 1). The list is gathered by detecting all bulbs claimed on your LIFX account. Without linking your Environmental Orb Account to a LIFX Cloud account, no bulbs will appear in this section.
+
+You can turn a bulb into an Environmental Orb by assigning a virtual orb to it.
+
+==== Controls
+
+*Turn “On” or “Off”* +
+Turning an orb off disables it while turning an orb on enables it.
+
+*Assigning an orb* +
+Selecting a virtual orb label in the drop down next a bulb assigns the virtual orb to the bulb.
+
+== Third-Party Integrations
+
+
+*Figure 2* Integration configuration page.
+
+The Environmental Orb requires _at least_ two third-party integrations: a building data integration (i.e., BuildingOS by Lucid) and a WiFi light bulb integration (i.e., LIFX). The integration configuration page (see Figure 2) can be accessed by clicking on the email address of the currently logged-in user in the top right and selecting “Integrations.” This section goes through each component and delineates how the online interface allows both building data and WiFi bulbs to be configured.
+
+=== Building Data Integration
+
+The building data integration is used to retrieve resource use data for meters assigned to orbs created in the dashboard. Currently, the only third-party building data platform compatible with the Environmental Orb is BuildingOS by Lucid.
+
+==== Adding a Building Data Integration
+
+Add a building data integration by selecting “Add new integration” (see near label 1 in Figure 2). The prompt will ask for a username, password, client ID, and client secret. The client ID and secret can be obtained through the API panel on your BuildingOS dashboard. The grant type must be password-based.
+
+==== Removing a Building Data Integration
+
+To edit or remove your building data integration, please contact Environmental Dashboard.
+
+=== WiFi Light Bulb Integration
+
+The WiFi light bulb integration is used to send commands to light bulbs configured as orbs within the dashboard. Currently, the only third-party light bulb integration platform compatible with the Environmental Orb is LIFX.
+
+==== Adding a Light Bulb Integration
+
+Add a light bulb integration by selecting “Add new integration” (see near label 2 in Figure 2). Follow the on-screen instructions to login to LIFX and authorize your account. After completing authorization, a prompt will request a label for the LIFX account just authorized. This label will be used to keep track of the LIFX account integrations associated with your Environmental Orb account.
+
+==== Editing a Light Bulb Integration
+
+Edit a light bulb integration by selecting “Edit” (see near label 2 in Figure 2). The only modifiable attribute of bulb integrations is the label chosen.
+
+==== Light Bulb Integration “Requires Authorization”
+
+Sometimes after authorizing a LIFX account, the authorization key received by Environmental Orb goes bad. This is expected when using third-party integrations. Reauthorization is required on the event this happens by clicking “Authorize” next to the affected integration.
+
+== Account
+
+
+*Figure 3* Account configuration and summary page.
+
+Account information can be reviewed and changed. Access your Account overview by clicking on the email address of the currently logged-in user in the top right and selecting “Account.”

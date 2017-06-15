@@ -19,6 +19,7 @@ let views = [
     'authorization',
     'orbInstructions'
     'integration',
+    'docs'
 ];
 
 /**

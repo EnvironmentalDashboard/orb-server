@@ -21,6 +21,7 @@ let modelviews = [
     'integration',
     'authorization',
     'orbInstructions'
+    'docs'
 ];
 
 /**

@@ -16,6 +16,7 @@ let controllers = [
     'bulb',
     'account',
     'authorization'
+    'docs'
 ];
 
 /**
