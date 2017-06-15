@@ -31,11 +31,15 @@ Used as a label when assigning a virtual orb to a bulb. Brief and descriptive ti
 ===== Meters
 The meter(s) to display feedback for. If two meters are selected, the emulation switches every 6 seconds between each.
 
-===== Typical use data groupings
-Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates. Some buildings are used differently on different days of the week. Buildings with different schedules for Mondays, Wednesdays, and Fridays than Tuesdays and Thursdays may have three groups for typical use: Sunday and Saturday; Monday, Wednesday, and Friday; and Tuesday and Thursday.
+==== Typical Use Algorithm
+Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. Sample sizes for the algorithm may be configured universally or on a group-by-group basis.
+
+
+===== Data Groupings
+Days of the week where resource usage is expected to be similar may be grouped together to create more accurate feedback. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates.
 
 ===== Sample size
-Data from recent days are used to calculate typical use. Sample size dictates how many days of prior data are used. If less data are available than specified below, the algorithm will use as much data as it can collect.
+Data from recent days belonging to the same data group are used to calculate typical use. Sample size dictates how many days of prior data are used. If less data are available than specified, the algorithm will use as much data as it can collect.
 
 === Bulbs
 

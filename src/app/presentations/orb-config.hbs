@@ -1,6 +1,8 @@
 <div class="row{{#if customSamples}} multipleSampleSizes{{/if}}" id="orb-config">
     <div class="col-sm-12">
-        <h2>Virtual orb configuration</h2>
+        <h2>Virtual Orb Configuration</h2>
+
+        <p>Configure a virtual orb so that relative usage information can be conveyed visually through Environmental Orb standard colors <a href="/docs/full/#_virtual_orbs" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
 
         <p>Required fields indicated with asterisk (*).</p>
 
@@ -17,7 +19,7 @@
         <form method="post">
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <label for="title">Title</label>
+                    <label for="title">Title <a href="/docs/full/#_title" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></label>
 
                     <p id="title-help">A virtual orb's title is used as a label when assigning a virtual orb to a bulb. Brief and descriptive titles make recognition easy.</p>
 
@@ -44,7 +46,7 @@
 
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <label for="meter1">Meter #1 <span class="text-info">*</span></label>
+                    <label for="meter1">Meter #1 <span class="text-info">*</span> <a href="/docs/full/#_meters" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></label>
 
                     <select required name="meter1" id="meter1" class="form-control">
                         {{#each buildings}}
@@ -108,9 +110,11 @@
 
             <h3>Typical Use Calculation</h3>
 
+            <p>Manage the algorithm inputs used to calculate the orb's typical usage <a href="/docs/full/#_typical_use_algorithm" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
+
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <label for="meter2">Data groupings <span class="text-info">*</span></label>
+                    <label for="meter2">Data groupings <span class="text-info">*</span> <a href="/docs/full/#_data_groupings" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></label>
 
                     <p id="datagroupings-help">Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates. Some buildings are used differently on different days of the week. Buildings with different schedules for Mondays, Wednesdays, and Fridays than Tuesdays and Thursdays may have three groups for typical use: Sunday and Saturday; Monday, Wednesday, and Friday; and Tuesday and Thursday.</p>
 
@@ -123,7 +127,7 @@
                                 <th>{{this}}</th>
                                 {{/each}}
 
-                                <th class="n-days"># of Days</th>
+                                <th class="n-days">Sample size <i>(days)</i></th>
                             </tr>
                         </thead>
 
@@ -168,9 +172,9 @@
 
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <label for="interval"># of Days <span class="text-info">*</span></label>
+                    <label for="interval">Sample size <i>(days)</i> <span class="text-info">*</span> <a href="/docs/full/#_sample_size" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></label>
 
-                    <p>Data for recent days are used to calculate typical use. Number of days dictates how many days of prior data are used. If less data are available than specified, the algorithm will use as much data as it can collect.</p>
+                    <p>Sample size dictates how many days of prior data are used. If less data are available than specified, the algorithm will use as much data as it can collect.</p>
 
                     <div class="checkbox">
                       <label>
