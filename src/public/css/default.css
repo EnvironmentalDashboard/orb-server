@@ -264,6 +264,10 @@ a:hover {
     color: #418e39;
 }
 
+.panel-heading a, .panel-heading a:hover{
+    color: inherit;
+}
+
 .btn-primary, .btn-primary:link {
     background: #5ABA50;
     border-color: #418e39;
