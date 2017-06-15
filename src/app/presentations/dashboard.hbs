@@ -7,7 +7,9 @@
     <div class="col-sm-12">
         <h3>Your Bulbs</h3>
         <div class="panel panel-info">
-            <div class="panel-heading">Bulb Configuration</div>
+            <div class="panel-heading">
+                Bulb Configuration
+                <a href="/docs/full/#_bulbs" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></div>
             <div class="panel-body">
                 <p>The LIFX bulbs associated with your account are listed below. Each module can be configured:</p>
                 <ul>
@@ -34,7 +36,7 @@
 
         {{#if labellingNotice}}
         <div class="alert alert-warning clearfix">
-            <p>One or more of your bulbs were detected to be using default LIFX labels. While not required, labelling your bulbs make them more manageable. For help on labelling your bulbs, see <a href="https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app" target="_blank">"Setting up the LIFX App"</a> and <a href="https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup" target="_blank">"LIFX Bulb Setup."</a>
+            <p>One or more of your bulbs were detected to be using default LIFX labels. While not required, labelling your bulbs make them more manageable. For help on labelling your bulbs, see <a href="https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app" target="_blank">"Setting up the LIFX App" <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a> and <a href="https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup" target="_blank">"LIFX Bulb Setup" <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>.</a> Read more about labelling in our documentation: <a href="/docs/full/#_labelling">Labelling <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
             </p>
         </div>
         {{/if}}
@@ -43,12 +45,12 @@
             <thead>
                 <tr>
                     <th>Selector ID</th>
-                    <th>Source</th>
-                    <th>Label</th>
-                    <th>Location</th>
-                    <th>Group</th>
-                    <th>Status</th>
-                    <th>Controls</th>
+                    <th>Source <a href="/docs/full/#_source" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
+                    <th>Label <a href="/docs/full/#_label" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
+                    <th>Location <a href="/docs/full/#_location" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
+                    <th>Group  <a href="/docs/full/#_group" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
+                    <th>Status <a href="/docs/full/#_status" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
+                    <th>Controls <a href="/docs/full/#_controls" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
                 </tr>
             </thead>
             <tbody>
@@ -130,7 +132,10 @@
     <div class="col-sm-12">
         <h3>Your Virtual Orbs</h3>
         <div class="panel panel-info">
-            <div class="panel-heading">Virtual Orb Configuration</div>
+            <div class="panel-heading">
+                Virtual Orb Configuration
+                <a href="/docs/full/#_virtual_orbs" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>
+            </div>
             <div class="panel-body">
                 <p>The virtual orbs associated with your account are listed below. Prior to assigning a virtual orb to a bulb, you must configure the virtual orb here.</p>
             </div>
@@ -141,10 +146,10 @@
         <table id="orbs-table" class="table table-striped ui-table">
             <thead>
                 <tr>
-                    <th>Label</th>
-                    <th colspan="2">Meter 1</th>
+                    <th>Title <a href="/docs/full/#_title" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></div></th>
+                    <th colspan="2">Meter 1 <a href="/docs/full/#_meters" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></div></th>
                     <th colspan="2">Meter 2</th>
-                    <th>Configuration options</th>
+                    <th>Options</th>
                 </tr>
             </thead>
             <tbody>
@@ -207,6 +212,10 @@ $(document).ready(function() {
         cssAsc: 'asc',
         cssDesc: 'desc',
         cssHeader: 'sort'
+    });
+
+    $("table a").click(function(event) {
+        event.stopPropagation();
     });
 });
 </script>
