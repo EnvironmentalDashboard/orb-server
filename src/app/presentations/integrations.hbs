@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Third-Party Integrations</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h3>BuildingOS Connection</h3>
+
+        <p>Used to retrieve resource use data for meters assigned to orbs created in the dashboard.</p>
+
+        <div class="alert alert-info clearfix">
+            <strong>Note:</strong> Only one BuildingOS integration per account.
+        </div>
+
+        {{#unless buildingsAPI.username}}
+        <div>
+            <a href="/building-data/config" class="btn btn-primary">Add new integration</a>
+        </div>
+        {{/unless}}
+
+        <table class="table table-striped ui-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if buildingsAPI.username}}
+                <tr>
+                    <td>{{buildingsAPI.username}}</td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6">No BuildingOS integration associated with this account.</td>
+                </tr>
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-sm-12">
+        <h3>Bulb Integrations</h3>
+
+        <p>Used to send Environmental Orb commands to physical hardware.</p>
+
+        <div>
+            <a href="/auth/confirm" class="btn btn-primary">Add new integration</a>
+        </div>
+
+        <table class="table table-striped ui-table">
+            <thead>
+                <tr>
+                    <th>Label</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Configuration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each integrations}}
+                <tr{{#if this.requiresAuth}} class="danger"{{/if}}>
+                    <td>{{#if this.label}}{{this.label}}{{else}}<i>Unlabeled</i>{{/if}}</td>
+                    <td>{{this.type}}</td>
+                    <td>{{#if this.requiresAuth}}Requires authorization{{else}}Ok.{{/if}}</div></td>
+                    <td>
+                        <p>
+                            {{#if this.requiresAuth}}
+                            <a href="/auth/confirm/{{this.id}}" class="btn btn-default">Reauthorize</a>
+                            {{else}}
+                            <a href="/auth/label/{{this.id}}" class="btn btn-default">Edit</a>
+                            {{/if}}
+                            <a href="/auth/delete/{{this.id}}" class="btn btn-danger">Delete</a>
+                        </p>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6">No 3rd party integrations are associated with this account.</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

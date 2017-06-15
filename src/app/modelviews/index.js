@@ -18,6 +18,7 @@ let modelviews = [
     'guide',
     'bulb',
     'account',
+    'integration',
     'authorization',
     'orbInstructions'
 ];

@@ -99,6 +99,15 @@
     },
     {
         "method": "get",
+        "pattern": "/integrations",
+        "resource": "integration",
+        "action": {
+            "controller": "index",
+            "view": "index"
+        }
+    },
+    {
+        "method": "get",
         "pattern": "/account",
         "resource": "account",
         "action": {
