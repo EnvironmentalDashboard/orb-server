@@ -75,7 +75,8 @@ let orbView = {
 
                         return arr[key] && arr[key].npoints ? arr[key].npoints : null;
                     }
-                }
+                },
+                active: {dashboard: true}
             });
         });
     },

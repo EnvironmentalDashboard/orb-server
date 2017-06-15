@@ -45,6 +45,7 @@ let defaultView = {
                     errors: integrationError
                 },
                 labellingNotice: labellingNotice
+                active: { dashboard: true },
             });
         });
     }

@@ -3,7 +3,8 @@ let guideView = {
         let loggedIn = appmodel.getAuthenticatedUser();
 
         return res.render('guide', {
-            loggedIn: loggedIn
+            loggedIn: loggedIn,
+            active: {guide: true}
         });
     }
 };
