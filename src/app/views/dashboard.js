@@ -44,8 +44,9 @@ let defaultView = {
                     none: integrationList.length < 1,
                     errors: integrationError
                 },
-                labellingNotice: labellingNotice
+                labellingNotice: labellingNotice,
                 active: { dashboard: true },
+                cleanAccount: Object.keys(bulbList).length === 0 && orbList.length === 0
             });
         });
     }
