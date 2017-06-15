@@ -20,7 +20,7 @@ let modelviews = [
     'account',
     'integration',
     'authorization',
-    'orbInstructions'
+    'orbInstructions',
     'docs'
 ];
 
