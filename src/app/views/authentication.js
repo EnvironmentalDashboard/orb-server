@@ -11,7 +11,11 @@ let authenticationView = {
         return res.render('login', {
             loggedIn: loggedIn,
             errors: errors,
-            form: form
+            form: form,
+            page: {
+                active: { signin: true },
+                title: "Sign In"
+            }
         });
     },
 
@@ -21,11 +25,18 @@ let authenticationView = {
         if (loggedIn) {
             //Something went wrong...
             return res.render('bad-request', {
-                loggedIn: loggedIn
+                loggedIn: loggedIn,
+                page: {
+                    title: "Bad Request"
+                }
             });
         }
 
-        return res.render('logout-success');
+        return res.render('logout-success', {
+            page: {
+                title: "Logged Out"
+            }
+        });
     }
 };
 

@@ -47,6 +47,10 @@ let orbView = {
                 customSamples: customSamples,
                 buildings: metersByBuilding,
                 days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                page: {
+                    active: {dashboard: true},
+                    title: "Orb Configuration"
+                },
                 helpers: {
                     checked: function(array, haystackIndex, needle) {
                         let dataGrouping = [
@@ -85,7 +89,11 @@ let orbView = {
         let loggedIn = appmodel.getAuthenticatedUser();
 
         return res.render('orb-config-success', {
-            loggedIn: loggedIn
+            loggedIn: loggedIn,
+            page: {
+                active: { dashboard: true },
+                title: "Configuration Success"
+            }
         });
     },
 
@@ -106,7 +114,11 @@ let orbView = {
 
             res.render('orb-delete-confirm', {
                 loggedIn: loggedIn,
-                orb: orbInfo
+                orb: orbInfo,
+                page: {
+                    active: {dashboard: true},
+                    title: "Delete Configmration"
+                }
             });
         });
     },

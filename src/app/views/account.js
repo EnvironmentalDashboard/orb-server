@@ -3,7 +3,11 @@ let accountView = {
         let loggedIn = appmodel.getAuthenticatedUser();
 
         return res.render('account', {
-            loggedIn: loggedIn
+            loggedIn: loggedIn,
+            page: {
+                active: { account:true },
+                title: "Account Overview"
+            }
         });
     },
 
@@ -23,7 +27,11 @@ let accountView = {
         return res.render('account-config', {
             loggedIn: loggedIn,
             form: form || loggedIn,
-            errors: errors
+            errors: errors,
+            page: {
+                active: { account:true },
+                title: "Account Settings"
+            }
         });
     },
 
@@ -42,7 +50,11 @@ let accountView = {
 
         return res.render('account-password-config', {
             loggedIn: loggedIn,
-            errors: errors
+            errors: errors,
+            page: {
+                active: { account:true },
+                title: "Change Password"
+            }
         });
     },
 
@@ -54,7 +66,11 @@ let accountView = {
         }
 
         return res.render('account-config-success', {
-            loggedIn: loggedIn
+            loggedIn: loggedIn,
+            page: {
+                active: { account:true },
+                title: "Configuration Success"
+            }
         });
     },
 
@@ -67,12 +83,14 @@ let accountView = {
             return res.redirect('/account/signup/success');
         }
 
-        console.log(errors);
-
         return res.render('register', {
             loggedIn: loggedIn,
             form: form,
-            errors: errors
+            errors: errors,
+            page: {
+                active: { signup: true },
+                title: "Register"
+            }
         });
     },
 
@@ -80,7 +98,11 @@ let accountView = {
         let loggedIn = appmodel.getAuthenticatedUser();
 
         return res.render('register-success', {
-            loggedIn: loggedIn
+            loggedIn: loggedIn,
+            page: {
+                active: { signup: true },
+                title: "Registration Success"
+            }
         });
     }
 };

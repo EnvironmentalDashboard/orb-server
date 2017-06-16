@@ -26,7 +26,10 @@ let authenticationView = {
         return res.render('auth-redirect', {
             loggedIn: loggedIn,
             errors: errors,
-            integration: appmodel.getIntegration()
+            integration: appmodel.getIntegration(),
+            page: {
+                title: "Redirected"
+            }
         });
     },
 
@@ -40,7 +43,10 @@ let authenticationView = {
 
         return res.render('auth-confirm', {
             loggedIn: loggedIn,
-            integrationId: integrationId
+            integrationId: integrationId,
+            page: {
+                title: "Authroization Confirmation"
+            }
         });
     },
 
@@ -68,7 +74,10 @@ let authenticationView = {
                 loggedIn: loggedIn,
                 form: Object.assign({}, integration, form),
                 errors: errors,
-                integration: appmodel.getIntegration()
+                integration: appmodel.getIntegration(),
+                page: {
+                    title: "Label Integration"
+                }
             });
         });
     },
@@ -77,7 +86,10 @@ let authenticationView = {
         let loggedIn = appmodel.getAuthenticatedUser();
 
         return res.render('auth-success', {
-            loggedIn: loggedIn
+            loggedIn: loggedIn,
+            page: {
+                title: "Authorization Sucess"
+            }
         });
     },
 
@@ -87,7 +99,7 @@ let authenticationView = {
 
         return integrationPrompise.then(function(integration) {
             let errors = appmodel.getErrors();
-            
+
             if (appmodel.getAuthError()) {
                 return res.render('denied');
             }
@@ -98,7 +110,10 @@ let authenticationView = {
 
             res.render('auth-delete-confirm', {
                 loggedIn: loggedIn,
-                integration: integration
+                integration: integration,
+                page: {
+                    title: "Delete Confirmation"
+                }
             });
         });
     },

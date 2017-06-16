@@ -15,15 +15,21 @@ let dataView = {
         return res.render('building-data-config', {
             loggedIn: loggedIn,
             errors: errors,
-            form: form
+            form: form,
+            page: {
+                title: "Building Integration Configuration"
+            }
         });
     },
 
     success: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser();
-        
+
         return res.render('building-data-success', {
-            loggedIn: loggedIn
+            loggedIn: loggedIn,
+            page: {
+                title: "Configuration Success"
+            }
         })
     }
 };

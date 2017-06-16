@@ -39,13 +39,16 @@ let defaultView = {
                 loggedIn: loggedIn,
                 bulbs: bulbList,
                 orbs: orbList,
-                stylesheets: ['/orb-instructions/animations.css?' + (+new Date())],
+                page: {
+                    stylesheets: ['/orb-instructions/animations.css?' + (+new Date())],
+                    active: { dashboard: true },
+                    title: "Dashboard"
+                },
                 integration: {
                     none: integrationList.length < 1,
                     errors: integrationError
                 },
                 labellingNotice: labellingNotice,
-                active: { dashboard: true },
                 cleanAccount: Object.keys(bulbList).length === 0 && orbList.length === 0
             });
         });

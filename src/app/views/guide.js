@@ -4,7 +4,9 @@ let guideView = {
 
         return res.render('guide', {
             loggedIn: loggedIn,
-            active: {guide: true}
+            page: {
+                active: { guide: true }
+            }
         });
     }
 };

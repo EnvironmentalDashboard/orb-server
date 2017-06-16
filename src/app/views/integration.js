@@ -38,11 +38,15 @@ let integrationsView = {
             return res.render('integrations', {
                 loggedIn: loggedIn,
                 integrations: integrations,
-                buildingsAPI: buildingsAPI
+                buildingsAPI: buildingsAPI,
+                page: {
+                    active: {account:true},
+                    title: "Integrations"
+                }
             });
         });
     }
-    
+
 };
 
 module.exports = integrationsView;
