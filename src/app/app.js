@@ -29,6 +29,16 @@ let router = require('./components/router'),
     routes = require('./config/routes.json');
 
 /**
+ * Memory leaks?
+ */
+
+const memwatch = require('memwatch-next');
+
+memwatch.on('leak', (info) => {
+    console.error('Memory leak detected:\n', info);
+});
+
+/**
  * Configuration
  */
 let app = express();
