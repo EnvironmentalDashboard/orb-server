@@ -1,7 +1,192 @@
-.no-margin {
-    margin: 0;
-}
+/**
+ * General theming ------------------------------------------------------------
+ *
+ * Contains link and button styling
+ */
 
+
+ /**
+  * Link theming
+  */
+
+ a {
+     color: #5ABA50;
+     text-decoration: underline;
+ }
+
+ a:hover {
+     color: #418e39;
+ }
+
+ .btn:link {
+     text-decoration: none;
+ }
+
+ .panel-heading a, .panel-heading a:hover{
+     color: inherit; /* used to accomodate doc links in panel headers */
+ }
+
+ /**
+  * Button theming
+  */
+  .btn-primary, .btn-primary:link {
+      background: #5ABA50;
+      border-color: #418e39;
+  }
+
+  .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+      background: #418e39 !important;
+      border-color: #418e39 !important;
+  }
+
+/**
+ * Template theming ------------------------------------------------------------
+ *
+ * Contains header, navigation, footer styling
+ */
+
+ /**
+  * Header navigation
+  */
+
+ .ui-navbar {
+     background: #5ABA50;
+     color: #fff;
+     border-color: #418e39;
+ }
+
+ .ui-navbar li > a:link,
+ .ui-navbar li > a:visited,
+ .ui-navbar a.navbar-brand {
+     color: #fff;
+     text-decoration: none;
+ }
+
+ .ui-navbar a.navbar-brand {
+     background: url(/images/logo-white.png) left center no-repeat;
+     background-size: 15%;
+     padding-left: 40px;
+     margin-left: 0 !important;
+ }
+
+ .ui-navbar li > a:hover,
+ .ui-navbar li.open > a:link,
+ .ui-navbar li.open > a:visited {
+     background-color: rgb(75, 175, 60) !important;
+ }
+
+ .ui-navbar li > a:active {
+     text-decoration: underline;
+ }
+
+ .ui-navbar li.active > a:link,
+ .ui-navbar li.active > a:visited,
+ .ui-navbar li.active > a:hover {
+     background-color: rgb(65, 139, 55) !important;
+ }
+
+ .ui-navbar .dropdown li > a:link,
+ .ui-navbar .dropdown li > a:visited {
+     color: #000;
+ }
+
+ .ui-navbar .dropdown-menu li > a:hover {
+     color: #fff;
+ }
+
+ /**
+  * Stacked links (used on docs)
+  */
+ .ui-nav-stacked.nav-pills {
+     margin-top: 20px;
+ }
+
+ .ui-nav-stacked.nav-pills > li > a,
+ .ui-nav-stacked.nav-pills > li > a:focus,
+ .ui-nav-stacked.nav-pills > li > a:hover {
+     border-radius: 0;
+     padding: 5px 15px;
+     background: #f2f2f2;
+     color: #5ABA50;
+ }
+
+ .ui-nav-stacked.nav-pills > li.active > a,
+ .ui-nav-stacked.nav-pills > li.active>a:focus,
+ .ui-nav-stacked.nav-pills > li.active>a:hover {
+     background: #5ABA50;
+     color: #fff;
+ }
+
+ /**
+  * Footer
+  */
+
+ .ui-footer {
+     margin: 20px auto;
+ }
+
+ .ui-footer .row-wrap {
+     position: relative;
+     width: 100%;
+     padding: 20px 0;
+     margin-right: 0;
+ }
+
+ .ui-footer .row-wrap:before {
+     display: block;
+     content: "";
+     height: 1px;
+     position: absolute;
+     left: 15px;
+     top: 0;
+     right: 15px;
+     background: rgb(210, 210, 210);
+ }
+
+ .ui-footer .row p {
+     margin-bottom: 0;
+ }
+
+ .ui-footer .ui-footer-logo {
+     width: 40px;
+     margin: 0 10px 0 0;
+ }
+
+ .ui-footer ul.footer-nav {
+     list-style-type: none;
+     padding: 0;
+ }
+
+ .ui-footer ul.footer-nav li {
+     float: left;
+     margin: 0 20px 0 0;
+     position: relative;
+ }
+
+ .ui-footer ul.footer-nav li:after {
+     content: "•";
+     position: absolute;
+     top: 0;
+     right: -12px;
+ }
+
+ .ui-footer ul.footer-nav li:last-of-type:after {
+     content: "";
+ }
+
+ .ui-footer ul.footer-nav.pull-right li {
+     margin: 0 0 0 20px;
+ }
+
+ /**
+  * Special dashboard components -----------------------------------------------
+  *
+  * Contains radio button toggler, orb presentation
+  */
+
+/**
+ * Radio button toggler
+ */
 .ui-btn-toggle {
     background: #fff;
     display: inline-block;
@@ -21,6 +206,9 @@
     color: #fff;
 }
 
+/**
+ * Orb visual presentation
+ */
 .ui-orb {
     padding-top: 100%;
     border-radius: 50%;
@@ -38,6 +226,15 @@
     background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0), rgba(0, 0, 0, .2));
 }
 
+/**
+ * Table styling ---------------------------------------------------------------
+ *
+ * Contains generic table, data grouping table, table sorting options
+ */
+
+/**
+ * General table styles
+ */
 .ui-table p {
     margin: 0;
 }
@@ -47,6 +244,9 @@
     background: #fff;
 }
 
+/**
+ * Table sorting controls
+ */
 .ui-table th.sort:hover {
     background: rgb(249, 249, 249) !important;
     cursor: pointer;
@@ -93,6 +293,9 @@
     vertical-align: middle !important;
 }
 
+/**
+ * Data grouping table
+ */
 .ui-datagroup-table tr {
     vertical-align: middle;
 }
@@ -107,6 +310,13 @@
 .ui-datagroup-table tr td:first-child {
     text-align: left;
 }
+
+/**
+ * Data grouping, dynamic controls
+ *
+ * Changes along with sample size:
+ * Users can choose whether to do universal sample size or individual
+ */
 
 #configuration-table thead th:nth-child(9),
 #configuration-table tr td:nth-child(9) {
@@ -130,161 +340,10 @@
     display: none;
 }
 
-a {
-    color: #5ABA50;
-    text-decoration: underline;
-}
 
-a:hover {
-    color: #418e39;
-}
-
-.btn:link {
-    text-decoration: none;
-}
 
 /**
- * Quick n' dirty theming...
- */
-
-.ui-navbar {
-    background: #5ABA50;
-    color: #fff;
-    border-color: #418e39;
-}
-
-.ui-navbar li > a:link,
-.ui-navbar li > a:visited,
-.ui-navbar a.navbar-brand {
-    color: #fff;
-    text-decoration: none;
-}
-
-.ui-navbar a.navbar-brand {
-    background: url(/images/logo-white.png) left center no-repeat;
-    background-size: 15%;
-    padding-left: 40px;
-    margin-left: 0 !important;
-}
-
-.ui-navbar li > a:hover,
-.ui-navbar li.open > a:link,
-.ui-navbar li.open > a:visited {
-    background-color: rgb(75, 175, 60) !important;
-}
-
-.ui-navbar li > a:active {
-    text-decoration: underline;
-}
-
-.ui-navbar li.active > a:link,
-.ui-navbar li.active > a:visited,
-.ui-navbar li.active > a:hover {
-    background-color: rgb(65, 139, 55) !important;
-}
-
-.ui-navbar .dropdown li > a:link,
-.ui-navbar .dropdown li > a:visited {
-    color: #000;
-}
-
-.ui-navbar .dropdown-menu li > a:hover {
-    color: #fff;
-}
-
-.ui-nav-stacked.nav-pills {
-    margin-top: 20px;
-}
-
-.ui-nav-stacked.nav-pills > li > a,
-.ui-nav-stacked.nav-pills > li > a:focus,
-.ui-nav-stacked.nav-pills > li > a:hover {
-    border-radius: 0;
-    padding: 5px 15px;
-    background: #f2f2f2;
-    color: #5ABA50;
-}
-
-.ui-nav-stacked.nav-pills > li.active > a,
-.ui-nav-stacked.nav-pills > li.active>a:focus,
-.ui-nav-stacked.nav-pills > li.active>a:hover {
-    background: #5ABA50;
-    color: #fff;
-}
-
-.panel-heading a, .panel-heading a:hover{
-    color: inherit;
-}
-
-.btn-primary, .btn-primary:link {
-    background: #5ABA50;
-    border-color: #418e39;
-}
-
-.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-    background: #418e39 !important;
-    border-color: #418e39 !important;
-}
-
-.ui-footer {
-    margin: 20px auto;
-}
-
-.ui-footer .row-wrap {
-    position: relative;
-    width: 100%;
-    padding: 20px 0;
-    margin-right: 0;
-}
-
-.ui-footer .row-wrap:before {
-    display: block;
-    content: "";
-    height: 1px;
-    position: absolute;
-    left: 15px;
-    top: 0;
-    right: 15px;
-    background: rgb(210, 210, 210);
-}
-
-.ui-footer .row p {
-    margin-bottom: 0;
-}
-
-.ui-footer .ui-footer-logo {
-    width: 40px;
-    margin: 0 10px 0 0;
-}
-
-.ui-footer ul.footer-nav {
-    list-style-type: none;
-    padding: 0;
-}
-
-.ui-footer ul.footer-nav li {
-    float: left;
-    margin: 0 20px 0 0;
-    position: relative;
-}
-
-.ui-footer ul.footer-nav li:after {
-    content: "•";
-    position: absolute;
-    top: 0;
-    right: -12px;
-}
-
-.ui-footer ul.footer-nav li:last-of-type:after {
-    content: "";
-}
-
-.ui-footer ul.footer-nav.pull-right li {
-    margin: 0 0 0 20px;
-}
-
-/**
- * Documentation
+ * Documentation (uses Asciidoctor) --------------------------------------------
  */
 .docs {
     line-height: 170%;
@@ -332,14 +391,40 @@ a:hover {
 }
 
 @media(max-width: 768px) {
+    /**
+     * Template theming --------------------------------------------------------
+     *
+     * Contains header, navigation, footer styling
+     */
     .ui-navbar a.navbar-brand {
         margin-left: 10px !important;
     }
 
-    .ui-table thead th {
-        display: none;
-        color: #418e39;
+    .ui-footer .col-sm-6 {
+        width: 100%;
+        clear: both;
     }
+
+    .ui-footer .col-sm-6.pull-right .pull-right {
+        float: left !important;
+        width: 100%;
+    }
+
+    .ui-footer ul.footer-nav.pull-right li{
+        margin: 0 20px 0 0 !important;
+    }
+
+
+    /**
+     * Table styling -----------------------------------------------------------
+     *
+     * Contains generic table, data grouping table, table sorting options
+     */
+
+     .ui-table thead th {
+         display: none;
+         color: #418e39;
+     }
 
     .ui-table td, .ui-table th.sort {
         display: block !important;
@@ -356,22 +441,14 @@ a:hover {
         margin-bottom: 10px;
     }
 
+    /**
+     * Special dashboard components --------------------------------------------
+     *
+     * Contains radio button toggler, orb presentation
+     */
+
     .ui-orb-wrap {
         width: 30%;
         margin: 0 auto;
-    }
-
-    .ui-footer .col-sm-6 {
-        width: 100%;
-        clear: both;
-    }
-
-    .ui-footer .col-sm-6.pull-right .pull-right {
-        float: left !important;
-        width: 100%;
-    }
-
-    .ui-footer ul.footer-nav.pull-right li{
-        margin: 0 20px 0 0 !important;
     }
 }
