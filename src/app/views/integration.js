@@ -40,7 +40,7 @@ let integrationsView = {
                 integrations: integrations,
                 buildingsAPI: buildingsAPI,
                 page: {
-                    active: {account:true},
+                    active: {integrations:true},
                     title: "Integrations"
                 }
             });

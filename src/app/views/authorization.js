@@ -28,7 +28,8 @@ let authenticationView = {
             errors: errors,
             integration: appmodel.getIntegration(),
             page: {
-                title: "Redirected"
+                title: "Redirected",
+                active: {integrations: true}
             }
         });
     },
@@ -45,7 +46,8 @@ let authenticationView = {
             loggedIn: loggedIn,
             integrationId: integrationId,
             page: {
-                title: "Authroization Confirmation"
+                title: "Authorization Confirmation",
+                active: {integrations: true}
             }
         });
     },
@@ -76,7 +78,8 @@ let authenticationView = {
                 errors: errors,
                 integration: appmodel.getIntegration(),
                 page: {
-                    title: "Label Integration"
+                    title: "Label Integration",
+                    active: {integrations: true}
                 }
             });
         });
@@ -88,7 +91,8 @@ let authenticationView = {
         return res.render('auth-success', {
             loggedIn: loggedIn,
             page: {
-                title: "Authorization Sucess"
+                title: "Authorization Sucess",
+                active: {integrations: true}
             }
         });
     },
@@ -112,7 +116,8 @@ let authenticationView = {
                 loggedIn: loggedIn,
                 integration: integration,
                 page: {
-                    title: "Delete Confirmation"
+                    title: "Delete Confirmation",
+                    active: {integrations: true}
                 }
             });
         });

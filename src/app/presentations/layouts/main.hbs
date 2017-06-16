@@ -34,6 +34,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         {{#if loggedIn}}
                         <li{{#if page.active.dashboard}} class="active"{{/if}}><a href="/dash">Dashboard</a></li>
+                        <li{{#if page.active.integrations}} class="active"{{/if}}><a href="/integrations">Integrations</a></li>
                         <li{{#if page.active.docs}} class="active"{{/if}}><a href="/manuals">Manuals</a></li>
                         <li class="dropdown{{#if page.active.account}} active{{/if}}">
                             <a href="/account" id="account-options" title="Account settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -43,7 +44,6 @@
 
                             <ul class="dropdown-menu" aria-labelledby="account-options">
                                 <li><a href="/account">Account</a></li>
-                                <li><a href="/integrations">Third-party Integrations</a></li>
                                 <li><a href="/account/signout">Sign out</a></li>
                             </ul>
                         </li>

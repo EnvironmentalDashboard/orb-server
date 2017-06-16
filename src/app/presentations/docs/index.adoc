@@ -101,7 +101,7 @@ Bulbs are listed by gathering information from the WiFi bulb integrations that a
 .Integration configuration page
 image::integrations.screenshot.png[Integration configuration page, 100%]
 
-The Environmental Orb requires _at least_ two third-party integrations: a building data integration (i.e., BuildingOS by Lucid) and a WiFi light bulb integration (i.e., LIFX). The integration configuration page (see Figure 2) can be accessed by clicking on the email address of the currently logged-in user in the top right and selecting “Integrations.” This section goes through each component and delineates how the online interface allows both building data and WiFi bulbs to be configured.
+The Environmental Orb requires _at least_ two third-party integrations: a building data integration (i.e., BuildingOS by Lucid) and a WiFi light bulb integration (i.e., LIFX). The integration configuration page (see Figure 2) can be accessed by selecting “Integrations” in the header's navigation bar. This section goes through each component and delineates how the online interface allows both building data and WiFi bulbs to be configured.
 
 === Building Data Integration
 
