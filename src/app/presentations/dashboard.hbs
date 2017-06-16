@@ -98,25 +98,25 @@
                             </div>
                             <div class="ui-btn-toggle">
                                 {{#if this.config.attributes.enabled}}
-                                <label for="enable">
-                                    <input type="radio" id="enable" onchange="this.form.submit()" name="enabled" value="true" checked>
+                                <label for="enable-{{@key}}">
+                                    <input type="radio" id="enable-{{@key}}" onchange="this.form.submit()" name="enabled" value="true" checked>
                                     <span class="btn">On</span>
                                 </label>
 
-                                <label for="disable">
-                                    <input type="radio" id="disable" onchange="this.form.submit()" name="enabled" value="false">
+                                <label for="disable-{{@key}}">
+                                    <input type="radio" id="disable-{{@key}}" onchange="this.form.submit()" name="enabled" value="false">
                                     <span class="btn">Off</span>
                                 </label>
 
                                 {{else}}
 
-                                <label for="enable">
-                                    <input type="radio" id="enable" onchange="this.form.submit()" name="enabled" value="true">
+                                <label for="enable-{{@key}}">
+                                    <input type="radio" id="enable-{{@key}}" onchange="this.form.submit()" name="enabled" value="true">
                                     <span class="btn">On</span>
                                 </label>
 
-                                <label for="disable">
-                                    <input type="radio" id="disable" onchange="this.form.submit()" name="enabled" value="false" checked>
+                                <label for="disable-{{@key}}">
+                                    <input type="radio" id="disable-{{@key}}" onchange="this.form.submit()" name="enabled" value="false" checked>
                                     <span class="btn">Off</span>
                                 </label>
                                 {{/if}}
