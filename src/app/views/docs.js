@@ -12,14 +12,21 @@ let docsView = {
             });
         }
 
-        let page = appmodel.getPage(),
-            contentPromise = appmodel.fetchPageContent();
+        let contentPromise = appmodel.fetchPageContent(),
+            pages = JSON.parse(JSON.stringify(appmodel.getItems())),
+            slug = appmodel.getSlug();
+
+        pages[slug].active = true;
 
         return contentPromise.then(function(content){
             return res.render('docs', {
                 loggedIn: loggedIn,
                 content: asciidoctor.convert(content.toString()),
-                pages: appmodel.getItems()
+                pages: pages,
+                page: {
+                    active: { docs: true },
+                    title: pages[slug].label
+                }
             });
         });
 
