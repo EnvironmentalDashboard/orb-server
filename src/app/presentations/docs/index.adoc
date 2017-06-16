@@ -2,12 +2,14 @@
 :toclevels: 3
 :toc:
 :showtitle:
+:imagesdir: /images/docs
 
 = Documentation
 
 == Dashboard
 
-*Figure 1* Environmental Dashboard homepage
+.Environmental Dashboard homepage
+image::dashboard.screenshot.png[Environmental Dashboard homepage, 100%]
 
 The Environmental Orb Dashboard displays all bulbs and orbs associated with an account (see Figure 1). Any configuration option can be accessed by beginning on this page.
 
@@ -75,6 +77,7 @@ Assign the bulb to a group. _Example: College orbs._
 
 Bulb statuses give insight into the Environmental Orb's ability to communicate with a specific bulb. Reference the following table for status definitions.
 
+[.table.table-striped]
 [cols="20,80"]
 |===
 
@@ -95,8 +98,8 @@ Bulbs are listed by gathering information from the WiFi bulb integrations that a
 
 == Third-Party Integrations
 
-
-*Figure 2* Integration configuration page.
+.Integration configuration page
+image::integrations.screenshot.png[Integration configuration page, 100%]
 
 The Environmental Orb requires _at least_ two third-party integrations: a building data integration (i.e., BuildingOS by Lucid) and a WiFi light bulb integration (i.e., LIFX). The integration configuration page (see Figure 2) can be accessed by clicking on the email address of the currently logged-in user in the top right and selecting “Integrations.” This section goes through each component and delineates how the online interface allows both building data and WiFi bulbs to be configured.
 
@@ -132,13 +135,27 @@ Remove a light bulb integration by selecting "Delete" (see near label 2 in Figur
 
 For convenient managing, integrations should be labelled properly. A brief description of the 3rd-party account, or person associated with the 3rd-party account, should be entered as a label. Labels may be edited at any point in time. _Examples: Jim's LIFX, jim.doe@environmentalorb.org's LIFX._
 
+==== Status
+
+Integration statuses give insight into the Environmental Orb server's relationship with the WiFi bulb integration. Reference the following table for status definitions.
+
+[.table.table-striped]
+[cols="20,80"]
+|===
+
+| Ok | Communication with bulb server is successful.
+
+| Requires authorization | Communication with bulb server failed. Reauthorization is required.
+
+|===
+
 ==== “Requires Authorization”
 
 Sometimes after authorizing a LIFX account, the authorization key received by Environmental Orb goes bad. This is expected when using third-party integrations. Reauthorization is required on the event this happens by clicking “Authorize” next to the affected integration.
 
 == Account
 
-
-*Figure 3* Account configuration and summary page.
+.Account configuration and summary page.
+image::account-overview.screenshot.png[Account configuration and summary page., 100%]
 
 Account information can be reviewed and changed. Access your Account overview by clicking on the email address of the currently logged-in user in the top right and selecting “Account.”

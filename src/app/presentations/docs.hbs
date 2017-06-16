@@ -1,12 +1,12 @@
-<div class="row">
-    <div class="col-sm-8">
-        {{{content}}}
-    </div>
-    <div class="col-sm-4">
-        <ul>
+<div class="row docs">
+    <div class="col-sm-3">
+        <ul class="nav nav-pills nav-stacked ui-nav-stacked">
             {{#each pages}}
-            <li><a href="/docs/{{this.slug}}">{{this.label}}</a>
+            <li{{#if this.active}} class="active"{{/if}}><a href="/manuals/{{@key}}">{{this.label}}</a>
             {{/each}}
         </ul>
+    </div>
+    <div class="col-sm-9">
+        {{{content}}}
     </div>
 </div>

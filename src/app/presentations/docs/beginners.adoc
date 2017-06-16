@@ -4,7 +4,7 @@
 :showtitle:
 
 
-= Beginner’s Guide: Setting up an Environmental Orb +
+= Getting Started: Setting up an Environmental Orb +
 
 Environmental Orb requires a LIFX WiFi bulb and a BuildingOS account. This document will walk through the initial steps in linking these accounts and creating an Environmental Orb.
 
