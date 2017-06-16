@@ -349,11 +349,18 @@
             "view": "css"
         }
     },
-
-
     {
         "method": "get",
-        "pattern": "/docs/:page",
+        "pattern": "/manuals/:page",
+        "resource": "docs",
+        "action": {
+            "controller": "index",
+            "view": "index"
+        }
+    },
+    {
+        "method": "get",
+        "pattern": "/manuals",
         "resource": "docs",
         "action": {
             "controller": "index",
