@@ -1,13 +1,15 @@
 <div class="row">
     <div class="col-sm-12">
         <h2>Third-Party Integrations</h2>
+
+        <p>Environmental Orb depends on third-party services to provide feedback <a href="/docs/full/#_integrations" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
     </div>
 </div>
 <div class="row">
     <div class="col-sm-12">
         <h3>BuildingOS Connection</h3>
 
-        <p>Used to retrieve resource use data for meters assigned to orbs created in the dashboard.</p>
+        <p>Used to retrieve resource use data for meters assigned to orbs created in the dashboard <a href="/docs/full/#_building_data_integration" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
 
         <div class="alert alert-info clearfix">
             <strong>Note:</strong> Only one BuildingOS integration per account.
@@ -41,7 +43,7 @@
     <div class="col-sm-12">
         <h3>Bulb Integrations</h3>
 
-        <p>Used to send Environmental Orb commands to physical hardware.</p>
+        <p>Used to send Environmental Orb commands to physical hardware <a href="/docs/full/#_wifi_light_bulb_integration" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
 
         <div>
             <a href="/auth/confirm" class="btn btn-primary">Add new integration</a>
@@ -50,9 +52,9 @@
         <table class="table table-striped ui-table">
             <thead>
                 <tr>
-                    <th>Label</th>
+                    <th>Label <a href="/docs/full/#_labelling_2" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
                     <th>Type</th>
-                    <th>Status</th>
+                    <th>Status <a href="/docs/full/#_status_2" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
                     <th>Configuration</th>
                 </tr>
             </thead>
@@ -61,7 +63,7 @@
                 <tr{{#if this.requiresAuth}} class="danger"{{/if}}>
                     <td>{{#if this.label}}{{this.label}}{{else}}<i>Unlabeled</i>{{/if}}</td>
                     <td>{{this.type}}</td>
-                    <td>{{#if this.requiresAuth}}Requires authorization{{else}}Ok.{{/if}}</div></td>
+                    <td>{{#if this.requiresAuth}}Requires authorization{{else}}Ok{{/if}}</div></td>
                     <td>
                         <p>
                             {{#if this.requiresAuth}}
