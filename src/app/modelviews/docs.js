@@ -2,36 +2,29 @@ let Service = require('../../model/services'),
     fs = require('fs');
 
 var docs = {
-    items: [
-        { file: 'intro.adoc', slug: 'intro', label: 'Introduction' },
-        { file: 'beginners.adoc', slug: 'beginners', label: 'Beginner\'s Guide: Setting up an Environmental Orb'},
-        { file: 'index.adoc', slug: 'full', label: 'Documentation'}
-    ],
-    page: null,
+    items: {
+        'intro': { file: 'intro.adoc', label: 'Introduction' },
+        'beginners': { file: 'beginners.adoc', label: 'Getting Started' },
+        'full': { file: 'index.adoc', label: 'Documentation' }
+    },
+    slug: null,
 
     getItems: function() {
         return this.items;
     },
 
-    setPage: function(page) {
-        for(let i = 0; i < this.items.length; i++) {
-            if(this.items[i].slug === page) {
-                this.items[i].current = true;
-                this.page = this.items[i];
-
-                break;
-            }
-
-            if(i === this.items.length-1) {
-                return Promise.reject("Page doesn't exist");
-            }
+    setSlug: function(slug) {
+        if(slug in this.items) {
+            this.slug = slug;
+            return Promise.resolve();
         }
 
+        this.slug = "intro";
         return Promise.resolve();
     },
 
-    getPage: function() {
-        return this.page;
+    getSlug: function() {
+        return this.slug;
     },
 
     fetchPageContent: function() {
@@ -39,7 +32,7 @@ var docs = {
 
         return new Promise(function (resolve, reject) {
             try {
-                fs.readFile(__dirname + '/../presentations/docs/' + me.page.file, function(err, buffer){
+                fs.readFile(__dirname + '/../presentations/docs/' + me.items[me.slug].file, function(err, buffer){
                     if (err) return reject(err);
 
                     return resolve(buffer);
