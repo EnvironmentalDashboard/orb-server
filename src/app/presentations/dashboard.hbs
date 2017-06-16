@@ -33,15 +33,15 @@
         </div>
 
         {{#if integration.errors}}
-        <div class="alert alert-warning clearfix ui-alert-action">
-            <p>An access token associated with your account went bad. Please visit your bulb integration settings to reauthorize.</p>
+        <div class="alert alert-warning clearfix">
+            <p class="pull-left">An access token associated with your account went bad. Please visit your bulb integration settings to reauthorize.</p>
             <a href="/account/#integrations" class="btn pull-right btn-primary">Integration settings</a>
         </div>
         {{/if}}
 
         {{#if integration.none}}
-        <div class="alert alert-warning clearfix ui-alert-action">
-            <p>This account does not have any third-party bulb integrations (i.e., no linked LIFX accounts).</p>
+        <div class="alert alert-warning clearfix">
+            <p class="pull-left">This account does not have any third-party bulb integrations (i.e., no linked LIFX accounts).</p>
             <a href="/auth/confirm" class="btn pull-right btn-primary">Add integration</a>
         </div>
         {{/if}}

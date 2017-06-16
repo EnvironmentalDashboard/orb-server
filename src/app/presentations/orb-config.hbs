@@ -1,4 +1,4 @@
-<div class="row{{#if customSamples}} multipleSampleSizes{{/if}}" id="orb-config">
+<div class="row{{#if customSamples}} multiple-sample-sizes{{/if}}" id="orb-config">
     <div class="col-sm-12">
         <h2>Virtual Orb Configuration</h2>
 
@@ -116,9 +116,15 @@
                 <div class="form-group col-sm-12">
                     <label for="meter2">Data groupings <span class="text-info">*</span> <a href="/docs/full/#_data_groupings" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></label>
 
-                    <p id="datagroupings-help">Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates. Some buildings are used differently on different days of the week. Buildings with different schedules for Mondays, Wednesdays, and Fridays than Tuesdays and Thursdays may have three groups for typical use: Sunday and Saturday; Monday, Wednesday, and Friday; and Tuesday and Thursday.</p>
-
-                    <table class="ui-datagroup-table table table-striped col-sm-12" id="configurationTable" aria-describedby="datagroupings-help">
+                    <p id="datagroupings-help">Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates.</p>
+                </div>
+                <div class="form-group col-sm-12" id="preset-options">
+                    <input type="button" class="btn btn-default" value="Group everyday separately" data-preset="separate">
+                    <input type="button" class="btn btn-default" value="Group weekdays &amp; weekends separately" data-preset="weekendsWeekdays">
+                    <input type="button" class="btn btn-default" value="Group by a typical school schedule" data-preset="school">
+                </div>
+                <div class="form-group col-sm-12">
+                    <table class="ui-datagroup-table table table-striped col-sm-12" id="configuration-table" aria-describedby="datagroupings-help">
                         <thead>
                             <tr>
                                 <th>&nbsp;</th>
@@ -138,7 +144,7 @@
 
                             {{#each ../days}}
                             <td>
-                                <input type="radio" name="day_{{@key}}" value="{{@../key}}"{{checked ../../form.daySets @../key @key}}>
+                                <input type="radio" id="checkbox-group-{{@../key}}-day-{{@key}}" name="day_{{@key}}" value="{{@../key}}"{{checked ../../form.daySets @../key @key}}>
                             </td>
                             {{/each}}
 
@@ -178,11 +184,11 @@
 
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" id="sampleSizeToggler" name="customGroupings" {{#if customSamples}}checked{{/if}} value="true">
+                        <input type="checkbox" id="sample-size-toggler" name="customGroupings" {{#if customSamples}}checked{{/if}} value="true">
                         Specify sample size for each individual data grouping.
                       </label>
                     </div>
-                    <input type="number" min="5" max="50" value="{{#if form.daySets}}{{form.daySets.0.npoints}}{{else}}5{{/if}}" class="form-control" name="sample" id="sampleSize">
+                    <input type="number" min="5" max="50" value="{{#if form.daySets}}{{form.daySets.0.npoints}}{{else}}5{{/if}}" class="form-control" name="sample" id="sample-size">
 
                     <p class="help-block">Minimum 5 points, maximum 50 points.</p>
                 </div>
@@ -216,13 +222,58 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    $("#sampleSizeToggler").click(function() {
+    $("#sample-size-toggler").click(function() {
         let checked = this.checked;
 
         if (checked) {
-            $("#orb-config").addClass("multipleSampleSizes");
+            $("#orb-config").addClass("multiple-sample-sizes");
         } else {
-            $("#orb-config").removeClass("multipleSampleSizes");
+            $("#orb-config").removeClass("multiple-sample-sizes");
+        }
+    });
+
+    var presets = {
+        separate:
+            [
+                [1,0,0,0,0,0,0],
+                [0,1,0,0,0,0,0],
+                [0,0,1,0,0,0,0],
+                [0,0,0,1,0,0,0],
+                [0,0,0,0,1,0,0],
+                [0,0,0,0,0,1,0],
+                [0,0,0,0,0,0,1]
+            ],
+        weekendsWeekdays:
+            [
+                [1,0,0,0,0,0,1],
+                [0,1,1,1,1,1,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0]
+            ],
+        school:
+            [
+                [1,0,0,0,0,0,1],
+                [0,1,0,1,0,1,0],
+                [0,0,1,0,1,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0]
+            ]
+    };
+
+    $("#preset-options input").click(function(){
+        if($(this).attr('data-preset') in presets) {
+            let preset = presets[ $(this).attr('data-preset') ];
+
+            for(row in preset) {
+                for(column in preset[row]) {
+                    $("#checkbox-group-" + row + "-day-" + column).prop('checked', preset[row][column]);
+                }
+            }
         }
     });
 });

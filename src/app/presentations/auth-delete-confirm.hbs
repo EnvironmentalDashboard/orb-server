@@ -8,8 +8,14 @@
                 <p>Are you sure you want to delete "{{integration.label}}"? You cannot undo this. Any bulbs associated with this integration will dissappear from your dashboard.</p>
 
                 <div class="pull-right no-margin">
-                    <form method="post" class="ui-inline"><input type="submit" class="btn btn-danger" value="Delete"></form>
-                    <a href="/dash" class="btn btn-default">Cancel</a>
+                    <form method="post" class="form-inline">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-danger" value="Delete">
+                        </div>
+                        <div class="form-group">
+                            <a href="/dash" class="btn btn-default">Cancel</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
