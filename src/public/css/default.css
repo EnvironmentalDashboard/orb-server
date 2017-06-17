@@ -4,6 +4,10 @@
  * Contains link and button styling
  */
 
+body {
+    background: rgb(252,252,252);
+}
+
 
  /**
   * Link theming
@@ -204,6 +208,7 @@
 .ui-btn-toggle input[type=radio]:checked + span {
     background: #5ABA50;
     color: #fff;
+    border: 1px solid #418e39;
 }
 
 /**
@@ -242,6 +247,15 @@
 .ui-table th {
     position: relative;
     background: #fff;
+}
+
+.ui-table.table-striped tr {
+    border: 1px solid rgb(221,221,221);
+    background: rgb(250,250,250);
+}
+
+.ui-table.table-striped tbody > tr:nth-of-type(odd) {
+    background: rgb(245,245,245);
 }
 
 /**
@@ -296,10 +310,6 @@
 /**
  * Data grouping table
  */
-.ui-datagroup-table tr {
-    vertical-align: middle;
-}
-
 .ui-datagroup-table thead tr th,
 .ui-datagroup-table tr td {
     width: 12.5%;
@@ -309,6 +319,7 @@
 
 .ui-datagroup-table tr td:first-child {
     text-align: left;
+    font-weight: bold;
 }
 
 /**

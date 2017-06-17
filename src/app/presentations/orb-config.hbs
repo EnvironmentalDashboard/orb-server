@@ -119,12 +119,13 @@
                     <p id="datagroupings-help">Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates.</p>
                 </div>
                 <div class="form-group col-sm-12" id="preset-options">
-                    <input type="button" class="btn btn-default" value="Group everyday separately" data-preset="separate">
-                    <input type="button" class="btn btn-default" value="Group weekdays &amp; weekends separately" data-preset="weekendsWeekdays">
-                    <input type="button" class="btn btn-default" value="Group by a typical school schedule" data-preset="school">
+                    <p>For easy configuration, select the button below that best describes the chosen meter's resource use:</p>
+                    <input type="button" class="btn btn-default" value="Use significantly different each day" data-preset="separate">
+                    <input type="button" class="btn btn-default" value="Use significantly different during weekends/weekdays" data-preset="weekendsWeekdays">
+                    <input type="button" class="btn btn-default" value="Use follows typical school schedule" data-preset="school">
                 </div>
                 <div class="form-group col-sm-12">
-                    <table class="ui-datagroup-table table table-striped col-sm-12" id="configuration-table" aria-describedby="datagroupings-help">
+                    <table class="ui-datagroup-table ui-table table table-striped" id="configuration-table" aria-describedby="datagroupings-help">
                         <thead>
                             <tr>
                                 <th>&nbsp;</th>
