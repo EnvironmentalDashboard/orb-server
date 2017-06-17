@@ -2,7 +2,7 @@
     <div class="col-sm-12">
         <h2>Third-Party Integrations</h2>
 
-        <p>Environmental Orb depends on third-party services to provide feedback <a href="/manuals/full/#_integrations" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
+        <p>Environmental Orb depends on third-party services to provide feedback <a href="/manuals/full/#_third_party_integrations" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
     </div>
 </div>
 <div class="row">
@@ -12,13 +12,13 @@
         <p>Used to retrieve resource use data for meters assigned to orbs created in the dashboard <a href="/manuals/full/#_building_data_integration" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
 
         <div class="alert alert-info clearfix">
-            <strong>Note:</strong> Only one BuildingOS integration per account.
+            <p><strong>Note:</strong> Only one BuildingOS integration per account. To change your BuildingOS connection, please contact us.</p>
         </div>
 
         {{#unless buildingsAPI.username}}
-        <div>
+        <p>
             <a href="/building-data/config" class="btn btn-primary">Add new integration</a>
-        </div>
+        </p>
         {{/unless}}
 
         <table class="table table-striped ui-table">
@@ -45,9 +45,9 @@
 
         <p>Used to send Environmental Orb commands to physical hardware <a href="/manuals/full/#_wifi_light_bulb_integration" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
 
-        <div>
+        <p>
             <a href="/auth/confirm" class="btn btn-primary">Add new integration</a>
-        </div>
+        </p>
 
         <table class="table table-striped ui-table">
             <thead>
