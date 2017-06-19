@@ -21,6 +21,10 @@ let BuildingDataIntegration = {
             return Promise.reject({ authError: true });
         }
 
+        if('coreUserID' in client && !!client.coreUserID) {
+            return Promise.reject('Building data integration already linked');
+        }
+
         let username = params.username,
             password = params.password,
             clientId = params.clientId,
@@ -65,7 +69,7 @@ let BuildingDataIntegration = {
             });
 
             return user.save();
-        }).catch(console.log.bind(console));
+        });
     },
 
     /**
