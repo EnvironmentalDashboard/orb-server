@@ -127,7 +127,8 @@ let BulbIntegration = {
             });
         }
 
-        let errors = {};
+        let errors = {},
+            targetIntegration = null;
 
         return  new Entity.Integration({
             id: integrationId,
@@ -141,7 +142,18 @@ let BulbIntegration = {
                 return Promise.reject(errors);
             }
 
-            return integration.destroy();
+            targetIntegration = integration;
+
+            /**
+             * Delete bulbs associated with this integration
+             *
+             * Note: leaking storage logic into service layer
+             */
+            return Entity.Bulb.collection().query()
+                .where('integration', '=', integration.get('id')).del();
+
+        }).then(function(){
+            return targetIntegration.destroy();
         });
     },
 
@@ -150,7 +162,7 @@ let BulbIntegration = {
      * @param  {Object} params Object with integration ID, label, etc...
      * @param  {string} type Integration type to use
      * @param  {Object} sess Session object
-     * @return {[type]}        [description]
+     * @return {Promise}
      */
     authorize: function(params, type, sess) {
         let client = Recognition.knowsClient(sess);
