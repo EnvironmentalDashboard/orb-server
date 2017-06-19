@@ -41,12 +41,12 @@ let orbController = {
     },
 
     load: function(req, appmodel) {
-        appmodel.setTargetOrb(req.params.orbId);
+        appmodel.setTargetOrb(req.params.orbId).catch(appmodel.setErrors.bind(appmodel));
         return Promise.resolve();
     },
 
     delete: function(req, appmodel) {
-        return Service.Orb.delete(req.params.orbId, req.session);
+        return Service.Orb.delete(req.params.orbId, req.session).catch(appmodel.setErrors.bind(appmodel));
     }
 };
 

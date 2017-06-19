@@ -47,7 +47,9 @@ module.exports.import = function(routes, app) {
 
             return controllers[route.resource][route.action.controller](req, appmodel).then(function() {
                 return next();
-            }).catch(console.log.bind(console));
+            }).catch(function(err) {
+                console.log("Caught by router: " + err);
+            });
         });
 
         app[route.method](route.pattern, function(req, res, next) {

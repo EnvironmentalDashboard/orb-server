@@ -9,7 +9,7 @@ let bulbController = {
             orb: req.body.orb
         };
 
-        return Service.Bulb.save(params, req.session);
+        return Service.Bulb.save(params, req.session).catch(appmodel.setErrors.bind(appmodel));
     }
 };
 
