@@ -26,11 +26,24 @@ let OrbInstructionsDispatcher = {
                     BulbAPI = BulbAPIIntegrations[integration.get('type')];
 
                 /**
+                 * If the bulb doesn't have an orb assigned, switch it off
+                 */
+                if(!bulb.get('orb')) {
+                    bulb.set({
+                        enabled: 0
+                    });
+
+                    bulb.save();
+                    return ;
+                }
+
+                /**
                  * Determine which meter to display
                  *
                  * By default, use meter 1. If meter 2 exists, calculate whether
                  * to show meter 1 or meter 2 based on the time
                  */
+
                 bulb.related('orb').related('relativeValue2').fetch().then(function(relativeValue2) {
                     let meterId = relativeValue2.get('meter_uuid'),
                         meter = 1;
@@ -74,6 +87,8 @@ let OrbInstructionsDispatcher = {
                     }
 
                     return Promise.all(responsePromises);
+                }).catch(function(error) {
+                    console.log('LIFX API issue.')
                 });
 
             });
