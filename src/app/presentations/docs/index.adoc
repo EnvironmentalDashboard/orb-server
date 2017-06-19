@@ -54,6 +54,10 @@ You can turn a bulb into an Environmental Orb by assigning a virtual orb to it.
 ===== Turn “On” or “Off”
 Turning an orb off disables it while turning an orb on enables it.
 
+[NOTE]
+
+Bulbs that are turned "On" but don't have an assigned orb *will automatically be disabled.*
+
 ===== Assigning an orb
 Selecting a virtual orb label in the drop down next a bulb assigns the virtual orb to the bulb.
 
