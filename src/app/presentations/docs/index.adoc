@@ -87,13 +87,13 @@ Bulb statuses give insight into the Environmental Orb's ability to communicate w
 
 | Disabled | No communication with bulb server. Bulb is turned "Off."
 
-| Ok | Communication with LIFX server is successful and the bulb is online.
+| Online | Communication with LIFX server is successful and the bulb is online.
 
 | Offline | Communication with bulb server is successful but the bulb is turned off, disconnected from the internet, or otherwise unreachable by the server.
 
-| Timed_out | Communication with bulb server is successful but the bulb's status is unknown. Bulbs with a timed out status should automatically change to an "Ok" or "Offline" status within thirty seconds.
+| Timed out | Communication with bulb server is successful but the bulb's status is unknown. Bulbs with a timed out status should automatically change to an "Ok" or "Offline" status within thirty seconds.
 
-| _Other_ | Bulb statuses partly rely on the third-party WiFi bulb service. If a bulb's status is something other than listed above and not understandable, please contact us.
+| Unknown or _Other_ | Bulb statuses partly rely on the third-party WiFi bulb service. If a bulb's status is something other than listed above and not understandable, please contact us.
 |===
 
 ==== Source

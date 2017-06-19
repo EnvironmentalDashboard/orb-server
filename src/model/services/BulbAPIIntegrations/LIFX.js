@@ -127,12 +127,18 @@ let LIFXAPI = {
                     let status = {
                         'ok': 'online',
                         'offline': 'offline',
-                        'timed_out': 'unknown',
-                        'Timed_out': 'unknown'
+                        'timed_out': 'timed out'
                     };
 
                     //Bulb status is...
-                    instructions.bulb.status = JSON.parse(response.body).results[0].status;
+                    let reportedStatus = JSON.parse(response.body).results[0].status;
+
+                    if(reportedStatus in status) {
+                        instructions.bulb.status = status[reportedStatus];
+                    } else {
+                        instructions.bulb.status = "unknown";
+                    }
+
                     break;
             }
 
