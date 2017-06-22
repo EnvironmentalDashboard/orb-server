@@ -1,11 +1,39 @@
 <div class="row">
     <div class="col-sm-12">
-        <h2>Third-Party Integrations</h2>
-
-        <p>Environmental Orb depends on third-party services to provide feedback <a href="/manuals/full/#_third_party_integrations" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
+        <h2>Account Overview</h2>
     </div>
 </div>
 <div class="row">
+    <div class="col-sm-12">
+        <h3>Personal Information</h3>
+
+        <div class="row">
+            <div class=" col-sm-6">
+                <p><b>First name</b></p>
+                <p>{{#if loggedIn.fname}}{{loggedIn.fname}}{{else}}<i>No info</i>{{/if}}</p>
+            </div>
+            <div class=" col-sm-6">
+                <p><b>Last name</b></p>
+                <p>{{#if loggedIn.lname}}{{loggedIn.lname}}{{else}}<i>No info</i>{{/if}}</p>
+            </div>
+        </div>
+
+        <div class="">
+            <p><b>Email</b></p>
+            <p>{{#if loggedIn.email}}{{loggedIn.email}}{{else}}<i>No info</i>{{/if}}</p>
+        </div>
+
+        <div>
+            <a href="/account/config" class="btn btn-primary">Update info</a>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <h3>Security</h3>
+
+        <div>
+            <a href="/account/security" class="btn btn-primary">Change my password</a>
+        </div>
+    </div>
     <div class="col-sm-12">
         <h3>BuildingOS Connection</h3>
 
