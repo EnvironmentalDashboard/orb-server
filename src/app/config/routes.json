@@ -212,31 +212,6 @@
     },
     {
         "method": "get",
-        "pattern": "/building-data/config",
-        "resource": "buildingdata",
-        "action": {
-            "view": "configure"
-        }
-    },
-    {
-        "method": "post",
-        "pattern": "/building-data/config",
-        "resource": "buildingdata",
-        "action": {
-            "view": "configure",
-            "controller": "configure"
-        }
-    },
-    {
-        "method": "get",
-        "pattern": "/building-data/success",
-        "resource": "buildingdata",
-        "action": {
-            "view": "success"
-        }
-    },
-    {
-        "method": "get",
         "pattern": "/auth/confirm/:integrationId",
         "resource": "authorization",
         "action": {
