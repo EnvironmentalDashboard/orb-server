@@ -34,7 +34,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         {{#if loggedIn}}
                         <li{{#if page.active.dashboard}} class="active"{{/if}}><a href="/dash">Dashboard</a></li>
-                        <li{{#if page.active.docs}} class="active"{{/if}}><a href="/manuals">Manuals</a></li>
+                        <li{{#if page.active.docs}} class="active"{{/if}}><a href="/manuals">User Manuals</a></li>
                         <li class="dropdown{{#if page.active.account}} active{{/if}}">
                             <a href="/account" id="account-options" title="Account settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{loggedIn.email}}
@@ -48,7 +48,7 @@
                         </li>
                         {{else}}
 
-                        <li{{#if page.active.docs}} class="active"{{/if}}><a href="/manuals">Manuals</a></li>
+                        <li{{#if page.active.docs}} class="active"{{/if}}><a href="/manuals">User Manuals</a></li>
                         <li{{#if page.active.signin}} class="active"{{/if}}><a href="/account/signin">Login</a></li>
                         <li{{#if page.active.signup}} class="active"{{/if}}><a href="/account/signup">Sign up</a></li>
 
