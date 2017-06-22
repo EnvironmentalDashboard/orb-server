@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-12">
-        <h2>Building Data Configuration</h2>
+        <h2>Building Data Connection</h2>
 
         {{#if errors}}
 
@@ -13,27 +13,42 @@
         <form action="/building-data/config" method="post">
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <label for="username">Username</label>
+                    <label for="username">Organization Name</label>
 
-                    <input type="text" aria-describedby="label-help" class="form-control" name="username" id="username" value="{{form.username}}">
+                    <input type="text" class="form-control" name="organization" id="organization" placeholder="Organization Name" value="{{form.organization}}">
+                </div>
+                <div class="form-group col-sm-12">
+                    <p>Configuring a BuildingOS account through Environmental Orb only needs to be done once. If a member of your organization already has an Environmental Orb account and has already configured a BuildingOS connection, this step does not have to be done twice.</p>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" id="sample-size-toggler" name="customGroupings" {{#if customSamples}}checked{{/if}} value="true">
+                        Somebody from my organization has already configured a BuildingOS account on Environmental Orb.
+                      </label>
+                    </div>
                 </div>
 
-                <div class="form-group col-sm-12">
-                    <label for="password">Password</label>
+                <div class="form-group col-sm-6">
+                    <label for="username">BuildingOS Email</label>
 
-                    <input type="password" aria-describedby="label-help" class="form-control" name="password" id="password">
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Email" value="{{form.username}}">
                 </div>
 
-                <div class="form-group col-sm-12">
-                    <label for="clientId">Client ID</label>
+                <div class="form-group col-sm-6">
+                    <label for="password">BuildingOS Password</label>
 
-                    <input type="text" aria-describedby="label-help" class="form-control" name="clientId" id="clientId" value="{{form.clientId}}">
+                    <input type="password" class="form-control" name="password" placeholder="Password" id="password">
                 </div>
 
-                <div class="form-group col-sm-12">
-                    <label for="clientSecret">Client Secret</label>
+                <div class="form-group col-sm-6">
+                    <label for="clientId">BuildingOS Client ID</label>
 
-                    <input type="text" aria-describedby="label-help" class="form-control" name="clientSecret" id="clientSecret">
+                    <input type="text" class="form-control" name="clientId" id="clientId" placeholder="Client ID" value="{{form.clientId}}">
+                </div>
+
+                <div class="form-group col-sm-6">
+                    <label for="clientSecret">BuildingOS Client Secret</label>
+
+                    <input type="text" class="form-control" name="clientSecret" placeholder="Client Secret" id="clientSecret">
                 </div>
             </div>
 
