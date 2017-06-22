@@ -2,6 +2,7 @@
 :toclevels: 3
 :toc:
 :showtitle:
+:linkattrs:
 :imagesdir: /images/docs
 
 = Documentation
@@ -63,7 +64,7 @@ Selecting a virtual orb label in the drop down next a bulb assigns the virtual o
 
 ==== Labelling
 
-For convenient managing, bulbs should be labelled appropriately. When default labels are detected, a notice message will appear on your dashboard. To get rid of this message, custom labels must be entered. Bulb labels cannot be managed through the Environmental Orb interface; they must be edited through the third-party WiFi bulb service. See LIFX's documentation on link:https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app["Setting up the LIFX App"] and  link:https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup["LIFX Bulb Setup."]
+For convenient managing, bulbs should be labelled appropriately. When default labels are detected, a notice message will appear on your dashboard. To get rid of this message, custom labels must be entered. Bulb labels cannot be managed through the Environmental Orb interface; they must be edited through the third-party WiFi bulb service. See LIFX's documentation on link:https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app["Setting up the LIFX App", window="_blank"] and  link:https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup["LIFX Bulb Setup.", window="_blank"]
 
 ===== Label
 
