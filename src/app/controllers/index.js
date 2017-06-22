@@ -15,7 +15,6 @@ let controllers = [
     'orb',
     'bulb',
     'account',
-    'integration',
     'authorization',
     'docs'
 ];

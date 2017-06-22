@@ -17,7 +17,6 @@ let views = [
     'bulb',
     'account',
     'authorization',
-    'integration',
     'orbInstructions',
     'docs'
 ];
