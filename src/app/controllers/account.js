@@ -34,11 +34,18 @@ let accountController = {
             fname: req.body.fname,
             lname: req.body.lname,
             password1: req.body.password,
-            password2: req.body.confirm
+            password2: req.body.confirm,
+            organization: req.body.organization,
+            existingBos: req.body.existing_bos,
+            bosUser: req.body.bos_user,
+            bosPassword: req.body.bos_password,
+            clientId: req.body.bos_client_id,
+            clientSecret: req.body.bos_client_secret
         };
 
         delete req.body.password;
         delete req.body.confirm;
+        delete req.body.bos_password;
 
         appmodel.setInputs(req.body);
 

@@ -102,6 +102,63 @@
 
             {{/if}}
 
+            <div class="row" id="bos-conn">
+                <div class="form-group col-sm-12">
+                    <label for="username">Organization Name</label>
+
+                    <input type="text" class="form-control" name="organization" id="organization" placeholder="Organization Name" value="{{form.organization}}">
+                </div>
+                <div class="form-group col-sm-12">
+                    <label>BuildingOS Connection <span class="text-info">*</span></label>
+                    <p>Configuring a BuildingOS account through Environmental Orb only needs to be done once. If a member of your organization already has an Environmental Orb account and has already configured a BuildingOS connection, this step does not have to be done twice.</p>
+                    <div class="checkbox">
+                      <label id="bos-input-toggler">
+                        <input type="checkbox" name="existing_bos" id="existing-bos" {{#if form.existing_bos}}checked{{/if}} value="true">
+                        Somebody from my organization has already configured a BuildingOS account on Environmental Orb.
+                      </label>
+                    </div>
+                    <p class="bos-input">Otherwise, follow the steps in the <a href="http://docs.buildingosapi.apiary.io/#introduction/oauth2.0" target="_blank">BuildingOS OAuth 2.0 <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a> documentation for "Creating your API client" to obtain the following information: a <i>client ID</i> and <i>client secret</i></p>
+                </div>
+
+                <div class="form-group col-sm-6 bos-input">
+                    <label for="bos_username">BuildingOS Email <span class="text-info">*</span></label>
+
+                    <input type="text" class="form-control" name="bos_username" id="bos_username" placeholder="Email" value="{{form.bos_username}}">
+                </div>
+
+                <div class="form-group col-sm-6 bos-input">
+                    <label for="bos_password">BuildingOS Password <span class="text-info">*</span></label>
+
+                    <input type="password" class="form-control" name="bos_password" placeholder="Password" id="bos_password">
+                </div>
+
+                <div class="form-group col-sm-6 bos-input">
+                    <label for="bos_client_id">BuildingOS Client ID <span class="text-info">*</span></label>
+
+                    <input type="text" class="form-control" name="bos_client_id" id="bos_client_id" placeholder="Client ID" value="{{form.bos_client_id}}">
+                </div>
+
+                <div class="form-group col-sm-6 bos-input">
+                    <label for="bos_client_secret">BuildingOS Client Secret <span class="text-info">*</span></label>
+
+                    <input type="text" class="form-control" name="bos_client_secret" placeholder="Client Secret" id="bos_client_secret" value="{{form.bos_client_secret}}">
+                </div>
+            </div>
+
+            {{#if errors.buildingOS}}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-warning">
+                        {{#each errors.buildingOS}}
+                            <p>{{this}}</p>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+            {{/if}}
+
             <div class="row form-group">
                 <div class="col-sm-12">
                     <p>By clicking register, you affirm that you agree to the <a href="#tac">Terms and Conditions</a>.</p>
@@ -111,3 +168,19 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#existing-bos").change(function() {
+        let checked = this.checked;
+
+        if (checked) {
+            $("#bos-conn").addClass("hide-inputs");
+        } else {
+            $("#bos-conn").removeClass("hide-inputs");
+        }
+    });
+
+    $("#existing-bos").change();
+});
+</script>

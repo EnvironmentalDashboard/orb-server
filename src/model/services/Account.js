@@ -7,7 +7,8 @@ let request = require('request-promise-native'),
     sodium = require('sodium').api;
 
 let Entity = require('../entities'),
-    Recognition = require('./Recognition');
+    Recognition = require('./Recognition'),
+    BuildingDataIntegration = require('./BuildingDataIntegration');
 
 let Account = {
 
@@ -21,7 +22,15 @@ let Account = {
             fname = params.fname.trim(),
             lname = params.lname.trim(),
             password1 = params.password1,
-            password2 = params.password2;
+            password2 = params.password2,
+            integrationParams = {
+                organization: params.organization,
+                existing: params.existingBos,
+                username: params.bosUser,
+                password: params.bosPassword,
+                clientId: params.clientId,
+                clientSecret: params.clientSecret
+            };
 
         let errors = {};
 
@@ -40,7 +49,19 @@ let Account = {
             password: password1
         });
 
-        return user.validate().then(function(validationErrs) {
+        return (function() {
+            if(integrationParams.existing) {
+                return Promise.resolve();
+            }
+
+            return BuildingDataIntegration.validate(integrationParams).catch(function() {
+                errors.buildingOS = ['BuildingOS credentials did not authenticate.']
+                return Promise.resolve();
+            });
+
+        }()).then(function() {
+            return user.validate();
+        }).then(function(validationErrs) {
             if (validationErrs) {
                 Object.assign(errors, validationErrs); //Merge errors
             }
@@ -81,7 +102,14 @@ let Account = {
             return user.save({
                 password: hash
             });
-        });
+
+        }).then(function(user) {
+            /**
+             * Save the user's BOS information
+             */
+
+            return BuildingDataIntegration.save(user, integrationParams);
+        })
     },
 
     /**

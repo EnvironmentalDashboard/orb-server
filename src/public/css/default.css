@@ -352,6 +352,12 @@ body {
     display: none;
 }
 
+/**
+ * Registration building OS input toggle
+ */
+#bos-conn.hide-inputs .bos-input {
+    display: none;
+}
 
 
 /**
