@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-12">
-        <h2>Register an account</h2>
+        <h2>Create an Environmental Orb account</h2>
         <p>After completing this signup form, you'll be able to log into your Dashboard and begin configuring an Environmental Orb setup.</p>
         <p>Required fields indicated with asterisk (*).</p>
 
@@ -13,13 +13,14 @@
         {{/if}}
 
         <form action="/account/signup" method="post">
+            <h3>Account Details</h3>
             <div class="row">
                 <div class="form-group col-sm-6">
-                    <label for="fname">First name</label>
+                    <label for="fname">First Name</label>
                     <input type="text" class="form-control" name="fname" id="fname" value="{{form.fname}}" placeholder="First Name">
                 </div>
                 <div class="form-group col-sm-6">
-                    <label for="lname">Last name</label>
+                    <label for="lname">Last Name</label>
                     <input type="text" class="form-control" name="lname" id="lname" value="{{form.lname}}" placeholder="Last Name">
                 </div>
             </div>
@@ -62,13 +63,14 @@
 
             <div class="row">
                 <div class="form-group col-sm-6">
-                    <label for="password">Password <span class="text-info">*</span></label>
+                    <label for="password">Create a New Password <span class="text-info">*</span></label>
                     <input type="password" requiredd minlengh="5" class="form-control" aria-describedby="pwd-help" name="password" id="password" placeholder="Password">
                     <p id="pwd-help" class="help-block">Minimum 5 characters.</p>
                 </div>
                 <div class="form-group col-sm-6">
                     <label for="confirm">Confirm Password <span class="text-info">*</span></label>
-                    <input type="password" requiredd minlengh="5" class="form-control" name="confirm" id="confirm" placeholder="Confirm Password">
+                    <input type="password" requiredd minlengh="5" class="form-control" name="confirm" aria-describedby="pwd-conf-help" id="confirm" placeholder="Confirm Password">
+                    <p id="pwd-conf-help" class="help-block">Retype your new password.</p>
                 </div>
             </div>
 
