@@ -212,14 +212,6 @@
     },
     {
         "method": "get",
-        "pattern": "/auth/confirm/",
-        "resource": "authorization",
-        "action": {
-            "view": "confirm"
-        }
-    },
-    {
-        "method": "get",
         "pattern": "/auth/go/:integrationId",
         "resource": "authorization",
         "action": {
