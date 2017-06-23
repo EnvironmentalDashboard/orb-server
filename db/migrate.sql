@@ -26,6 +26,8 @@ CREATE TABLE `orb-server_users` (
   `lname` varchar(100) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `owner` int(11) DEFAULT NULL,
+  `coreUserID` int(11) DEFAULT NULL,
+  `permission` int(11) DEFAULT '0' NOT NULL COMMENT '0 = verification pending, 1 = normal user',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
