@@ -23,7 +23,7 @@ let BuildingDataIntegration = {
      * @param  {Object} params Parameter with user, pass, client id, client secret
      * @return {Promise} Resolves if successful
      */
-    save: function(user, params) {
+    save: function(user, params, token) {
         let username = params.username,
             password = params.password,
             clientId = params.clientId,
@@ -33,13 +33,7 @@ let BuildingDataIntegration = {
 
         let me = this;
 
-        return (function(){
-            if(existing) {
-                return Promise.resolve();
-            }
-
-            return this.validate(params);
-        }()).then(function(token) {
+        return (function() {
             /**
              * If the promise resolved then the credentials validate
              *
@@ -48,7 +42,7 @@ let BuildingDataIntegration = {
              * If the user claims there's an existing BOS account, don't create
              * an API entry
              */
-            if(existing) {
+            if (existing) {
                 return Promise.resolve(new Entity.API({
                     id: 0
                 }));
@@ -63,7 +57,8 @@ let BuildingDataIntegration = {
             });
 
             return api.save();
-        }).then(function(api) {
+
+        }()).then(function(api) {
             /**
              * Step 2 : Create a new core user (NOT an Orb Server user). The `api_id`
              * must point to the API entry just created
@@ -75,14 +70,16 @@ let BuildingDataIntegration = {
             });
 
             return extUser.save();
-        }).then(function(extUser){
+        }).then(function(extUser) {
             /**
              * Step 3 : Update the user's core ID to point to the core user just
              * created
              */
             return user.save({
                 coreUserID: extUser.get('id')
-            }, { patch: 'true' });
+            }, {
+                patch: 'true'
+            });
         });
     },
 
@@ -95,7 +92,9 @@ let BuildingDataIntegration = {
         let client = Recognition.knowsClient(sess);
 
         if (!client) {
-            return Promise.reject({ authError: true });
+            return Promise.reject({
+                authError: true
+            });
         }
 
         /**
@@ -107,7 +106,7 @@ let BuildingDataIntegration = {
             /**
              * Resolve if the current user doesn't have an associated core user
              */
-            if(!user.get('coreUserID') || user.get('coreUserID') == '0') {
+            if (!user.get('coreUserID') || user.get('coreUserID') == '0') {
                 return Promise.resolve(false);
             }
 
@@ -117,7 +116,9 @@ let BuildingDataIntegration = {
              */
             return new Entity.CoreUser({
                 id: user.get('coreUserID')
-            }).fetch({ withRelated: ['API'] });
+            }).fetch({
+                withRelated: ['API']
+            });
         });
     }
 
