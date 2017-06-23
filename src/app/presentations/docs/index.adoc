@@ -64,7 +64,7 @@ Selecting a virtual orb label in the drop down next a bulb assigns the virtual o
 
 ==== Labelling
 
-For convenient managing, bulbs should be labelled appropriately. When default labels are detected, a notice message will appear on your dashboard. To get rid of this message, custom labels must be entered. Bulb labels cannot be managed through the Environmental Orb interface; they must be edited through the third-party WiFi bulb service. See LIFX's documentation on link:https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app["Setting up the LIFX App", window="_blank"] and  link:https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup["LIFX Bulb Setup.", window="_blank"]
+For convenient managing, bulbs should be labelled appropriately. When default labels are detected, a notice message will appear on your dashboard. To get rid of this message, custom labels must be entered. Bulb labels cannot be managed through the Environmental Orb interface; they must be edited through the third-party WiFi bulb service. See LIFX's documentation on link:https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app["Setting up the LIFX App", window="_blank"] and link:https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup["LIFX Bulb Setup.", window="_blank"]
 
 ===== Label
 
@@ -99,50 +99,44 @@ Bulb statuses give insight into the Environmental Orb's ability to communicate w
 
 ==== Source
 
-Bulbs are listed by gathering information from the WiFi bulb integrations that are setup in your integration settings (see link:#_third-party_integrations[Third-Party Integrations]). The source field indicates which WiFi bulb integration the bulb is gathered from. The source field uses the integration's label, entered by the front-end user when confirming a WiFi bulb integration.
+Bulbs are listed by gathering information from the LIFX accounts that are setup in your account connection settings (see link:#_connections[Connections]). The source field indicates which LIFX account the bulb is gathered from. The source field uses the account’s label, entered by the user after authorizing their LIFX account.
 
-== Third-Party Integrations
+== Account Overview
 
-.Integration configuration page
-image::integrations.screenshot.png[Integration configuration page, 100%]
+.Account Overview page
+image::account.screenshot.png[Account Overview page, 100%]
 
-The Environmental Orb requires _at least_ two third-party integrations: a building data integration (i.e., BuildingOS by Lucid) and a WiFi light bulb integration (i.e., LIFX). The integration configuration page (see Figure 2) can be accessed by selecting “Integrations” in the header's navigation bar. This section goes through each component and delineates how the online interface allows both building data and WiFi bulbs to be configured.
+=== Connections
 
-=== Building Data Integration
+The Environmental Orb requires _at least_ two third-party account connections: a building data connection (i.e., BuildingOS by Lucid) and a WiFi light bulb connection (i.e., LIFX). The connection configuration can be accessed through the account settings. This section goes through each component and delineates how the interface allows both building data and WiFi bulbs to be configured.
 
-The building data integration is used to retrieve resource use data for meters assigned to orbs created in the dashboard. Currently, the only third-party building data platform compatible with the Environmental Orb is BuildingOS by Lucid.
+==== Building Data Connection
 
-==== Adding
+The building data connection is used to retrieve resource use data for meters assigned to orbs created in the dashboard. Currently, the only third-party building data platform compatible with the Environmental Orb is BuildingOS by Lucid. The settings for the building data connection are configured during the account registration process. Users are prompted for the following information on to their BuildingOS account: **email, password, client ID, client secret.** The last two pieces of information can be found by following the instructions delineated on the http://docs.buildingosapi.apiary.io/#introduction/oauth2.0[BuildingOS OAuth2.0, window="_blank"] docs to create an _Application Programming Interface_ (API) client. When following these instructions, grant type password-based must be used.
 
-Add a building data integration by selecting “Add new integration” (see near label 1 in Figure 2). The prompt will ask for a username, password, client ID, and client secret. The client ID and secret can be obtained through the API panel on your BuildingOS dashboard. The grant type must be password-based.
+==== WiFi Light Bulb Connection
 
-==== Removing
+The WiFi bulb connection is used to send commands to light bulbs configured as orbs within the dashboard. Currently, the only WiFi bulb connection platform compatible with the Environmental Orb is LIFX.
 
-To edit or remove your building data integration, please contact Environmental Dashboard.
+===== Adding
 
-=== WiFi Light Bulb Integration
+Add a WiFi bulb connection by selecting “Add new LIFX account" (see near label 2 in Figure 2). Follow the on-screen instructions to login to LIFX and authorize your account. After completing authorization, a prompt will request a label for the LIFX account just authorized. This label will be used to keep track of the LIFX account connections associated with your Environmental Orb account.
 
-The WiFi light bulb integration is used to send commands to light bulbs configured as orbs within the dashboard. Currently, the only third-party light bulb integration platform compatible with the Environmental Orb is LIFX.
+===== Editing
 
-==== Adding
+Edit an account connection by selecting “Edit” (see near label 2 in Figure 2). The only modifiable attribute is the connection label.
 
-Add a light bulb integration by selecting “Add new integration” (see near label 2 in Figure 2). Follow the on-screen instructions to login to LIFX and authorize your account. After completing authorization, a prompt will request a label for the LIFX account just authorized. This label will be used to keep track of the LIFX account integrations associated with your Environmental Orb account.
+===== Removing
 
-==== Editing
+Remove an account connection by selecting "Delete" (see near label 2 in Figure 2).
 
-Edit a light bulb integration by selecting “Edit” (see near label 2 in Figure 2). The only modifiable attribute of bulb integrations is the label chosen.
+===== Labelling
 
-==== Removing
+For convenient managing, account connections should be labelled properly. A brief description of the 3rd-party account, or person associated with the 3rd-party account, should be entered as a label. Labels may be edited at any point in time. _Examples: Jim's LIFX, jim.doe@environmentalorb.org's LIFX._
 
-Remove a light bulb integration by selecting "Delete" (see near label 2 in Figure 2).
+===== Status
 
-==== Labelling
-
-For convenient managing, integrations should be labelled properly. A brief description of the 3rd-party account, or person associated with the 3rd-party account, should be entered as a label. Labels may be edited at any point in time. _Examples: Jim's LIFX, jim.doe@environmentalorb.org's LIFX._
-
-==== Status
-
-Integration statuses give insight into the Environmental Orb server's relationship with the WiFi bulb integration. Reference the following table for status definitions.
+Account connection statuses give insight into the Environmental Orb server's relationship with the WiFi bulb server. Reference the following table for status definitions.
 
 [.table.table-striped]
 [cols="20,80"]
@@ -154,13 +148,10 @@ Integration statuses give insight into the Environmental Orb server's relationsh
 
 |===
 
-==== “Requires Authorization”
+===== “Requires Authorization”
 
-Sometimes after authorizing a LIFX account, the authorization key received by Environmental Orb goes bad. This is expected when using third-party integrations. Reauthorization is required on the event this happens by clicking “Authorize” next to the affected integration.
+Sometimes after authorizing a LIFX account, the authorization key received by Environmental Orb goes bad. This is expected when using third-party connections. Reauthorization is required on the event this happens by clicking “Authorize” next to the affected account connection.
 
-== Account
+=== Other Settings
 
-.Account configuration and summary page.
-image::account-overview.screenshot.png[Account configuration and summary page., 100%]
-
-Account information can be reviewed and changed. Access your Account overview by clicking on the email address of the currently logged-in user in the top right and selecting “Account.”
+Account details can be reviewed and changed. To edit the information associated with a user, select "Update info." To update your account security, select "Change my password."
