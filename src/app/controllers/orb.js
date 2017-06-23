@@ -41,7 +41,7 @@ let orbController = {
     },
 
     load: function(req, appmodel) {
-        appmodel.setTargetOrb(req.params.orbId).catch(appmodel.setErrors.bind(appmodel));
+        appmodel.setTargetOrb(req.params.orbId);
         return Promise.resolve();
     },
 
