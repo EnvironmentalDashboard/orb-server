@@ -34,14 +34,14 @@
 
         {{#if integration.errors}}
         <div class="alert alert-warning clearfix">
-            <p class="pull-left">An access token associated with your account went bad. Please visit your bulb integration settings to reauthorize.</p>
-            <a href="/account/#integrations" class="btn pull-right btn-primary">Integration settings</a>
+            <p class="pull-left">An access token associated with your account went bad. Please visit your bulb connection settings to reauthorize.</p>
+            <a href="/account/#integrations" class="btn pull-right btn-primary">Settings</a>
         </div>
         {{/if}}
 
         {{#if integration.none}}
         <div class="alert alert-warning clearfix">
-            <p class="pull-left">This account does not have any third-party bulb integrations (i.e., no linked LIFX accounts).</p>
+            <p class="pull-left">This account does not have any LIFX connections.</p>
             <a href="/auth/confirm" class="btn pull-right btn-primary">Add LIFX account</a>
         </div>
         {{/if}}
