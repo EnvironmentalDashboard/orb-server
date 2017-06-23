@@ -18,7 +18,7 @@ Environmental Orb must have access to a BuildingOS account from which to gather 
 
 == Create an Environmental Orb Account
 
-Register for an Environmental Orb account on the “link:https://environmentalorb.org/account/signup[Sign up]” page. If you've already created an account, you may sign in on the "link:https://environmentalorb.org/account/signin[Sign in]" page. If you're already signed in, your email will appear in the top right navigation bar.
+Register for an Environmental Orb account on the “link:https://environmentalorb.org/account/signup[Sign up]” page. If you've already created an account, you may sign in on the "link:https://environmentalorb.org/account/signin[Sign in]" page. If you're already signed in, your email will appear in the top right navigation bar. **After creating an account it must be approved before continuing on.**
 
 == Configure a LIFX Setup
 
@@ -28,7 +28,7 @@ Environmental Orb must have access to a LIFX Cloud account to send visual inform
  . Using the app, follow the instructions on “link:https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app[Setting up the LIFX app, window="_blank"]” to create a LIFX Cloud account and sign in to an account.
  . Follow the instructions on “link:https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup[LIFX Bulb setup, window="_blank"]” to claim a bulb. *You must select “claim” in your app in order to link it with your account.*
  . Login to your Environmental Orb account on the “link:https://environmentalorb.org/account/signin[Sign in]” page.
- . On the orb dashboard, authorize Environmental Orb to access your LIFX Cloud account by clicking “Authorize” on the yellow prompt under “Your Bulbs.”
+ . On the orb dashboard, authorize Environmental Orb to access your LIFX Cloud account by clicking "Add an integration" on the yellow prompt under “Your Bulbs.”
  . Follow the instructions and login to a LIFX Cloud account when prompted.
  . After authorizing, return to the orb dashboard. The table under “Your Bulbs” should populate with information for the bulbs connected to the authorized LIFX account.
 
@@ -36,7 +36,7 @@ Environmental Orb must have access to a LIFX Cloud account to send visual inform
 
 Creating an Environmental Orb requires that both a BuildingOS and LIFX Cloud account have been already authorized.
 
- . Login to your Environmental Orb account on the “link:https://environmentalorb.org/account/signin[Sign in]” page.
+ . Go to your link:https://environmentalorb.org/dash[Environmental Orb Dashboard.]
  . Select “Create a virtual orb” under “Your Orbs.”
  . Configure a virtual orb by following the instructions.
  . Save the orb and return to the dashboard.
