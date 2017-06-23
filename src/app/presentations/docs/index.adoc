@@ -112,7 +112,7 @@ The Environmental Orb requires _at least_ two third-party account connections: a
 
 ==== Building Data Connection
 
-The building data connection is used to retrieve resource use data for meters assigned to orbs created in the dashboard. Currently, the only third-party building data platform compatible with the Environmental Orb is BuildingOS by Lucid. The settings for the building data connection are configured during the account registration process. Users are prompted for the following information on to their BuildingOS account: **email, password, client ID, client secret.** The last two pieces of information can be found by following the instructions delineated on the http://docs.buildingosapi.apiary.io/#introduction/oauth2.0[BuildingOS OAuth2.0, window="_blank"] docs to create an _Application Programming Interface_ (API) client. When following these instructions, grant type password-based must be used.
+The building data connection is used to retrieve resource use data for meters assigned to orbs created in the dashboard. Currently, the only third-party building data platform compatible with the Environmental Orb is BuildingOS by Lucid. The settings for the building data connection are configured during the account registration process. Users are prompted for the following information on to their BuildingOS account: **email, password, client ID, client secret.** The last two pieces of information can be found by following the instructions delineated on the http://docs.buildingosapi.apiary.io/#introduction/oauth2.0[BuildingOS OAuth2.0, window="_blank"] docs to create an __Application Programming Interface__ (API) client. When following these instructions, grant type password-based must be used.
 
 ==== WiFi Light Bulb Connection
 
@@ -154,4 +154,4 @@ Sometimes after authorizing a LIFX account, the authorization key received by En
 
 === Other Settings
 
-Account details can be reviewed and changed. To edit the information associated with a user, select "Update info." To update your account security, select "Change my password."
+Account details can be reviewed and changed. To edit the information associated with a user, select "Update info." To update your account security, select "Change my password." See label 3 in Figure 2.
