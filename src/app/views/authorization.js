@@ -34,24 +34,6 @@ let authenticationView = {
         });
     },
 
-    confirm: function(res, appmodel) {
-        let loggedIn = appmodel.getAuthenticatedUser(),
-            integrationId = appmodel.getIntegration();
-
-        if (!loggedIn) {
-            return res.render('denied');
-        }
-
-        return res.render('auth-confirm', {
-            loggedIn: loggedIn,
-            integrationId: integrationId,
-            page: {
-                title: "Authorization Confirmation",
-                active: {integrations: true}
-            }
-        });
-    },
-
     label: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             form = appmodel.getInputs(),

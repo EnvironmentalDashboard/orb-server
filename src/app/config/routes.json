@@ -212,15 +212,6 @@
     },
     {
         "method": "get",
-        "pattern": "/auth/confirm/:integrationId",
-        "resource": "authorization",
-        "action": {
-            "controller": "confirm",
-            "view": "confirm"
-        }
-    },
-    {
-        "method": "get",
         "pattern": "/auth/confirm/",
         "resource": "authorization",
         "action": {
