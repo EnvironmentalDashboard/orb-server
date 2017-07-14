@@ -132,7 +132,9 @@ let Orb = {
                 /**
                  * Set the orb's ID to the requested ID
                  */
-                orb.set({ id: params.id });
+                orb.set({
+                    id: params.id
+                });
 
                 /**
                  * Need to make sure the client owns this orb, so query for an
@@ -155,8 +157,7 @@ let Orb = {
 
             if(meter2 && meter2 !== "") {
                 return new Entity.Meter({
-                    'bos_uuid': meter2,
-                    'user_id': client.coreUserID
+                    'bos_uuid': meter2
                 }).fetch().then(function(match) {
                     if (!match) {
                         errors.meter2 = ['Meter not found in database.'];
@@ -167,8 +168,7 @@ let Orb = {
             }
         }).then(function(){
             return new Entity.Meter({
-                'bos_uuid': meter1,
-                'user_id': client.coreUserID
+                'bos_uuid': meter1
             }).fetch();
         }).then(function(match) {
             if (!match) {
