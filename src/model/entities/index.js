@@ -22,7 +22,9 @@ let entities = [
     'Building',
     'Bulb',
     'RelativeValue',
-    'Integration'
+    'Integration',
+    'UserOrg',
+    'Organization'
 ];
 
 /**

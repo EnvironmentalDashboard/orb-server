@@ -54,6 +54,7 @@ let OrbList = {
                  * pushes orbInfo onto the end of orbList
                  * @type {Promise}
                  */
+
                 let meterPromise = orb.related('relativeValue1').related('meter').fetch({
                     withRelated: ['building']
                 }).then(function(meter) {
