@@ -1,11 +1,17 @@
 /**
- * @overview Responsible for orb services
+ * @overview Responsible for meter services
  */
 
 let Entity = require('../entities'),
     Recognition = require('./Recognition');
 
 let Meter = {
+    /**
+     * Retrieves a meter
+     * @param  {int} meterId Integer of meter to retrieve
+     * @param  {Object} sess Session object
+     * @return {Promise} Resolves on success, rejects on error
+     */
     retrieve: function(meterId, sess) {
         let client = Recognition.knowsClient(sess);
 
@@ -21,7 +27,7 @@ let Meter = {
             if(!meter) {
                 return Promise.reject({ noRecord: true });
             }
-            
+
             return Promise.resolve(meter);
         });
     }
