@@ -14,6 +14,7 @@ let groups = [
     'BulbIntegrationList',
     'Bulb',
     'BulbList',
+    'Meter',
     'MeterList',
     'Orb',
     'OrbList',
