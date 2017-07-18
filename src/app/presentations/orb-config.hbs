@@ -44,17 +44,42 @@
 
             {{/if}}
 
-            <div class="row">
-                <div class="form-group col-sm-12">
-                    <label for="meter1">Meter #1 <span class="text-info">*</span> <a href="/manuals/full/#_meters" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></label>
+            <h3>
+                Meter #1 <span class="text-info">*</span> <a href="/manuals/full/#_meters" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>
+            </h3>
 
-                    <select required name="meter1" id="meter1" class="form-control">
-                        {{#each buildings}}
-                        <optgroup label="{{@key}}">
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="org-selector-1">Organization</label>
+                    <select class="form-control" name="meter1Org" id="org-selector-1">
+                        {{#each meters.orgs}}
+                        <option value="{{this.id}}" data-dependent-value="org-{{@key}}"{{selected this.id ../form.meter1Org}}>{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="col-sm-12 form-group">
+                    <label for="building-selector-1">Building</label>
+                    <select class="form-control" name="meter1Building" id="building-selector-1" data-depends-on="org-selector-1">
+                        {{#each meters.buildings as |orgObj orgKey|}}
+                        <optgroup label="{{org orgKey}}" id="org-{{orgKey}}">
                             {{#each this}}
-                            <option value="{{this.id}}"{{selected ../../form.meter1 this.id}}>{{this.name}}</option>
+                            <option value="{{this.id}}" data-dependent-value="org-{{orgKey}}-building-{{@key}}"{{selected this.id ../../form.meter1Building}}>{{this.name}}</option>
                             {{/each}}
                         </optgroup>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="col-sm-12 form-group">
+                    <label for="meter-selector-1">Meter</label>
+                    <select class="form-control" name="meter1" id="meter-selector-1" data-depends-on="building-selector-1">
+                        {{#each meters.meters as |orgObj orgKey|}}
+                            {{#each this as |buildingObj buildingKey|}}
+                            <optgroup label="{{building orgKey buildingKey}}" id="org-{{orgKey}}-building-{{buildingKey}}">
+                                {{#each this as |meter meterKey|}}
+                                    <option value="{{meter.id}}"{{selected meter.id ../../../form.meter1}}>{{meter.meterName}}</option>
+                                {{/each}}
+                            </optgroup>
+                            {{/each}}
                         {{/each}}
                     </select>
                 </div>
@@ -76,17 +101,42 @@
 
             {{/if}}
 
+            <h3>
+                Meter #2 <span class="text-info">*</span> <a href="/manuals/full/#_meters" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>
+            </h3>
+
             <div class="row">
-                <div class="form-group col-sm-12">
-                    <label for="meter2">Meter #2</label>
-                    <select name="meter2" id="meter2" class="form-control">
-                        <option value="">None</option>
-                        {{#each buildings}}
-                        <optgroup label="{{@key}}">
+                <div class="col-sm-12 form-group">
+                    <label for="org-selector-2">Organization</label>
+                    <select class="form-control" name="meter2Org" id="org-selector-2">
+                        {{#each meters.orgs}}
+                        <option value="{{this.id}}" data-dependent-value="org-{{@key}}"{{selected this.id ../form.meter2Org}}>{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="col-sm-12 form-group">
+                    <label for="building-selector-2">Building</label>
+                    <select class="form-control" name="meter2Building" id="building-selector-2" data-depends-on="org-selector-2">
+                        {{#each meters.buildings as |orgObj orgKey|}}
+                        <optgroup label="{{org orgKey}}" id="org-{{orgKey}}">
                             {{#each this}}
-                            <option value="{{this.id}}"{{selected ../../form.meter2 this.id}}>{{this.name}}</option>
+                            <option value="{{this.id}}" data-dependent-value="org-{{orgKey}}-building-{{@key}}"{{selected this.id ../../form.meter2Building}}>{{this.name}}</option>
                             {{/each}}
                         </optgroup>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="col-sm-12 form-group">
+                    <label for="meter-selector-2">Meter</label>
+                    <select class="form-control" name="meter2" id="meter-selector-2" data-depends-on="building-selector-2">
+                        {{#each meters.meters as |orgObj orgKey|}}
+                            {{#each this as |buildingObj buildingKey|}}
+                            <optgroup label="{{building orgKey buildingKey}}" id="org-{{orgKey}}-building-{{buildingKey}}">
+                                {{#each this as |meter meterKey|}}
+                                    <option value="{{meter.id}}"{{selected meter.id ../../../form.meter2}}>{{meter.meterName}}</option>
+                                {{/each}}
+                            </optgroup>
+                            {{/each}}
                         {{/each}}
                     </select>
                 </div>
@@ -223,6 +273,11 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+    var dependentSelects = [
+        new DependentSelect(document.getElementById('meter-selector-1')),
+        new DependentSelect(document.getElementById('meter-selector-2'))
+    ];
+
     $("#sample-size-toggler").change(function() {
         let checked = this.checked;
 

@@ -8,7 +8,7 @@ let orbView = {
         return Promise.all([meterListPromise, orbPromise]).then(function(results) {
             let errors = appmodel.getErrors();
 
-            [metersByBuilding, orbInfo] = results;
+            [meters, orbInfo] = results;
 
             if (appmodel.getAuthError()) {
                 return res.render('denied');
@@ -45,7 +45,7 @@ let orbView = {
                 errors: errors,
                 form: Object.assign({}, orbInfo, form),
                 customSamples: customSamples,
-                buildings: metersByBuilding,
+                meters: meters,
                 days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 page: {
                     active: {dashboard: true},
@@ -78,6 +78,14 @@ let orbView = {
                         }
 
                         return arr[key] && arr[key].npoints ? arr[key].npoints : null;
+                    },
+
+                    building: function(orgKey, buildingKey) {
+                        return meters.buildings[orgKey][buildingKey].name;
+                    },
+
+                    org: function(orgKey) {
+                        return meters.orgs[orgKey].name;
                     }
                 },
                 active: {dashboard: true}
