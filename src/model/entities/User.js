@@ -5,7 +5,8 @@
 let validator = require('validator');
 
 let Orb = require('./Orb'),
-    Bulb = require('./Bulb');
+    Bulb = require('./Bulb'),
+    UserOrg = require('./UserOrg');
 
 let User = {
     tableName: 'orb-server_users',
@@ -20,6 +21,10 @@ let User = {
 
     integrations: function() {
         return this.hasMany('Integration', 'owner', 'id');
+    },
+
+    userOrgs: function() {
+        return this.hasMany('UserOrg', 'user_id', 'id');
     },
 
     validate: function() {
