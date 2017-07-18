@@ -21,30 +21,67 @@ let MeterList = {
             });
         }
 
-        /**
-         * Get all the meters in the database
-         */
-        return Entity.Meter.collection().query('where', 'user_id', '=', client.coreUserID).fetch({
-            withRelated: ['building']
-        }).then(function(results) {
-            let meterList = {};
+        return new Entity.User({ id: client.id }).fetch({
+            withRelated: ['userOrgs']
+        }).then(function(user) {
+            let orgList = [];
+            let buildingList = [];
+            let meterList = [];
 
-            results.forEach(function(meter) {
-                /**
-                 * Assign meters to the meter list with the building name as the
-                 * key
-                 */
-                if (!meterList[meter.relations.building.get('name')]) {
-                    meterList[meter.relations.building.get('name')] = [];
-                }
+            let userOrgs = user.related('userOrgs');
+            let userOrgPromises = [];
 
-                meterList[meter.relations.building.get('name')].push({
-                    name: meter.get('name'),
-                    id: meter.get('bos_uuid')
-                });
+            //Loop every userOrg
+            userOrgs.forEach(function(userOrg) {
+                //Fetch organization related to current UserOrg
+                userOrgPromises.push(userOrg.related('org').fetch().then(function(org) {
+                    let orgData = {
+                        name: org.get('name'),
+                        id: org.get('id')
+                    };
+
+                    //Add to org list
+                    let orgPos = orgList.push(orgData)-1;
+
+                    //Create arrays on both meterList and buildingList at orgPos
+                    buildingList[orgPos] = [];
+                    meterList[orgPos] = [];
+
+                    //Fetch meters related to organization
+                    return org.related('meters').fetch({
+                        withRelated: ['building']
+                    }).then(function (meters) {
+                        meters.forEach(function(meter) {
+                            let buildingData = {
+                                name: meter.related('building').get('name'),
+                                id: meter.related('building').get('id')
+                            };
+
+                            let buildingPos = buildingList[orgPos].findIndex(function(element) {
+                                return element.id === buildingData.id;
+                            });
+
+                            if(buildingPos === -1) {
+                                buildingPos = buildingList[orgPos].push(buildingData) - 1;
+                                meterList[orgPos][buildingPos] = [];
+                            }
+
+                            meterList[orgPos][buildingPos].push({
+                                meterName: meter.get('name'),
+                                id: meter.get('bos_uuid')
+                            });
+                        });
+                    }).catch(console.log.bind(console));
+                }));
             });
 
-            return Promise.resolve(meterList);
+            return Promise.all(userOrgPromises).then(function(){
+                return Promise.resolve({
+                    orgs: orgList,
+                    buildings: buildingList,
+                    meters: meterList
+                });
+            });
         });
     }
 };
