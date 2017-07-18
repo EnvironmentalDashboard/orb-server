@@ -9,13 +9,13 @@
  */
 let groups = [
     'Account',
-    'BuildingDataIntegration',
     'BulbIntegration',
     'BulbIntegrationList',
     'Bulb',
     'BulbList',
     'Meter',
     'MeterList',
+    'OrganizationList',
     'Orb',
     'OrbList',
     'OrbEmulator',
