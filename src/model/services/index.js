@@ -15,6 +15,7 @@ let groups = [
     'BulbList',
     'Meter',
     'MeterList',
+    'Organization',
     'OrganizationList',
     'Orb',
     'OrbList',

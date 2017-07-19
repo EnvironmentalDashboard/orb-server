@@ -28,6 +28,12 @@ let accountController = {
         return Service.Account.updatePassword(params, req.session).catch(appmodel.setErrors.bind(appmodel));
     },
 
+    updateOrganizations: function(req, appmodel) {
+        let organizations = Array.isArray(req.body.organizations) ? req.body.organizations : [req.body.organizations];
+
+        return Service.Organization.updateUser(organizations, req.session).catch(appmodel.setErrors.bind(appmodel));
+    },
+
     register: function(req, appmodel) {
         let params = {
             email: req.body.email,
@@ -35,12 +41,7 @@ let accountController = {
             lname: req.body.lname,
             password1: req.body.password,
             password2: req.body.confirm,
-            organization: req.body.organization,
-            existingBos: req.body.existing_bos,
-            bosUser: req.body.bos_user,
-            bosPassword: req.body.bos_password,
-            clientId: req.body.bos_client_id,
-            clientSecret: req.body.bos_client_secret
+            organizations: Array.isArray(req.body.organizations) ? req.body.organizations : [req.body.organizations]
         };
 
         delete req.body.password;

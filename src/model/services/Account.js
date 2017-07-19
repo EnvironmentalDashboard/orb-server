@@ -8,7 +8,7 @@ let request = require('request-promise-native'),
 
 let Entity = require('../entities'),
     Recognition = require('./Recognition'),
-    BuildingDataIntegration = require('./BuildingDataIntegration');
+    Organization = require('./Organization');
 
 let Account = {
 
@@ -23,14 +23,7 @@ let Account = {
             lname = params.lname.trim(),
             password1 = params.password1,
             password2 = params.password2,
-            integrationParams = {
-                organization: params.organization,
-                existing: params.existingBos,
-                username: params.bosUser,
-                password: params.bosPassword,
-                clientId: params.clientId,
-                clientSecret: params.clientSecret
-            };
+            organizations = params.organizations;
 
         let errors = {};
 
@@ -49,19 +42,7 @@ let Account = {
             password: password1
         });
 
-        return (function() {
-            if(integrationParams.existing) {
-                return Promise.resolve();
-            }
-
-            return BuildingDataIntegration.validate(integrationParams).catch(function() {
-                errors.buildingOS = ['BuildingOS credentials did not authenticate.']
-                return Promise.resolve();
-            });
-
-        }()).then(function() {
-            return user.validate();
-        }).then(function(validationErrs) {
+        return user.validate().then(function(validationErrs) {
             if (validationErrs) {
                 Object.assign(errors, validationErrs); //Merge errors
             }
@@ -103,13 +84,9 @@ let Account = {
                 password: hash
             });
 
-        }).then(function(user) {
-            /**
-             * Save the user's BOS information
-             */
-
-            return BuildingDataIntegration.save(user, integrationParams);
-        })
+        }).then(function(){
+            return Organization.addToUser(user, organizations);
+        });
     },
 
     /**

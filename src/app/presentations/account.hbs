@@ -35,32 +35,39 @@
         </div>
     </div>
     <div class="col-sm-12">
-        <h3>BuildingOS Connection</h3>
+        <h3>Organization Access</h3>
 
-        <p>Used to retrieve resource use data for meters assigned to orbs created in the dashboard <a href="/manuals/full/#_building_data_connection" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
+        <p>You have access to the following organizations.</p>
 
-        <div class="alert alert-info clearfix">
-            <p><strong>Note:</strong> Only one BuildingOS connection per account. To change your BuildingOS connection, please contact us.</p>
+        <ul class="list-group">
+            {{#each orgs}}
+            <li class="list-group-item">
+                <span>{{this.name}}</span>
+            </li>
+            {{/each}}
+        </ul>
+
+        <form action="/account/organization/update" method="post">
+            <ul class="list-group">
+                {{#each orgList}}
+                <li class="list-group-item">
+                    <label for="org-{{this.id}}">
+                        <input name="organizations" {{checkedIfIn this.id ../userOrgList}} id="org-{{this.id}}" value="{{this.id}}" type="checkbox">
+                        &nbsp;{{this.name}}
+                    </label>
+                </li>
+                {{/each}}
+            </ul>
+
+            <input type="submit" class="btn btn-primary" value="Update">
+        </form>
+    </div>
+    <div class="col-sm-12">
+        <h3>Security</h3>
+
+        <div>
+            <a href="/account/security" class="btn btn-primary">Change my password</a>
         </div>
-
-        <table class="table table-striped ui-table">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#if buildingsAPI.username}}
-                <tr>
-                    <td>{{buildingsAPI.username}}</td>
-                </tr>
-                {{else}}
-                <tr>
-                    <td colspan="6">No BuildingOS connection associated with this account.</td>
-                </tr>
-                {{/if}}
-            </tbody>
-        </table>
     </div>
     <div class="col-sm-12">
         <h3>LIFX Bulb Connections</h3>

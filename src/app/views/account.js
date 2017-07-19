@@ -2,23 +2,31 @@ let accountView = {
     index: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             bulbIntegrationListPromise = appmodel.retrieveIntegrationList(),
-            buildingDataIntegrationPromise = appmodel.retrieveBuildingDataIntegration();
+            userOrgListPromise = appmodel.retrieveUserOrganizationList(),
+            orgListPromise = appmodel.retrieveOrganizationList();
 
-        return Promise.all([bulbIntegrationListPromise, buildingDataIntegrationPromise]).then(function(results) {
+        let promises = [bulbIntegrationListPromise, userOrgListPromise, orgListPromise];
+
+        return Promise.all(promises).then(function(results) {
             if (appmodel.getAuthError()) {
                 return res.render('denied');
             }
 
-            [integrationList, buildingDataIntegration] = results;
+            [integrationList, userOrgList, orgList] = results;
 
             /**
-             * Building Data Integration Processing
+             * Org processing
              */
-            let buildingsAPI = {};
+            userOrgList = userOrgList.map(function(userOrg) {
+                return userOrg.attributes.org_id;
+            });
 
-            if(buildingDataIntegration && buildingDataIntegration.related) {
-                buildingsAPI.username = buildingDataIntegration.relations.API.attributes.username;
-            }
+            orgList = orgList.map(function(element) {
+                return {
+                    id: element.attributes.id,
+                    name: element.attributes.name
+                }
+            });
 
             /**
              * Bulb Integration processing
@@ -37,10 +45,30 @@ let accountView = {
             return res.render('account', {
                 loggedIn: loggedIn,
                 integrations: integrations,
-                buildingsAPI: buildingsAPI,
+                userOrgList: userOrgList,
+                orgList: orgList,
                 page: {
                     active: {account:true},
                     title: "Account Overview"
+                },
+                helpers: {
+                    checkedIfIn: function(val, haystack) {
+                        if (!val || !haystack) {
+                            console.log('cancelled');
+                            return false;
+                        }
+
+                        //If `haystack` is an array, see if `val` exists in it
+                        if(Array.isArray(haystack) && haystack.indexOf(val) > -1) {
+                            return "checked";
+
+                            //If `haystack` isn't an array, see if `val` equals it
+                        } else if(!Array.isArray(haystack) && val === haystack) {
+                            return "checked";
+                        }
+
+                        return ;
+                    }
                 }
             });
         });
@@ -93,6 +121,16 @@ let accountView = {
         });
     },
 
+    updateOrganizations: function(res, appmodel) {
+        let loggedIn = appmodel.getAuthenticatedUser();
+
+        if (!loggedIn) {
+            return res.render('denied');
+        }
+
+        return res.redirect('/account');
+    },
+
     success: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser();
 
@@ -112,20 +150,51 @@ let accountView = {
     register: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             form = appmodel.getInputs(),
-            errors = appmodel.getErrors();
+            errors = appmodel.getErrors(),
+            organizationListPromise = appmodel.retrieveOrganizationList();
 
         if (!errors && Object.keys(form).length > 0) {
             return res.redirect('/account/signup/success');
         }
 
-        return res.render('register', {
-            loggedIn: loggedIn,
-            form: form,
-            errors: errors,
-            page: {
-                active: { signup: true },
-                title: "Register"
-            }
+        return organizationListPromise.then(function(organizationList) {
+            organizationList = organizationList.map(function(element) {
+                return {
+                    id: element.attributes.id,
+                    name: element.attributes.name
+                }
+            });
+
+            console.log(errors);
+
+            res.render('register', {
+                loggedIn: loggedIn,
+                form: form,
+                errors: errors,
+                orgList: organizationList,
+                page: {
+                    active: { signup: true },
+                    title: "Register"
+                },
+                helpers: {
+                    checkedIfIn: function(val, haystack) {
+                        if (!val || !haystack) {
+                            return false;
+                        }
+
+                        //If `haystack` is an array, see if `val` exists in it
+                        if(Array.isArray(haystack) && haystack.indexOf(val.toString()) > -1) {
+                            return "checked";
+
+                        //If `haystack` isn't an array, see if `val` equals it
+                    } else if(!Array.isArray(haystack) && val.toString() === haystack) {
+                            return "checked";
+                        }
+
+                        return ;
+                    }
+                }
+            });
         });
     },
 

@@ -15,8 +15,12 @@ var account = {
         return Service.BulbIntegrationList.retrieve(this.session).catch(this.setErrors.bind(this));
     },
 
-    retrieveBuildingDataIntegration: function() {
-        return Service.BuildingDataIntegration.retrieve(this.session).catch(this.setErrors.bind(this));
+    retrieveOrganizationList: function() {
+        return Service.OrganizationList.retrieve().catch(this.setErrors.bind(this));
+    },
+
+    retrieveUserOrganizationList: function() {
+        return Service.OrganizationList.retrieveForUser(this.session).catch(this.setErrors.bind(this));
     }
 
 };

@@ -126,6 +126,16 @@
     },
 
     {
+        "method": "post",
+        "pattern": "/account/organization/update",
+        "resource": "account",
+        "action": {
+            "controller": "updateOrganizations",
+            "view": "updateOrganizations"
+        }
+    },
+
+    {
         "method": "get",
         "pattern": "/account/security",
         "resource": "account",

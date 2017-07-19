@@ -63,10 +63,6 @@ let Recognition = {
                     pwdBuffer = Buffer.from(params.password);
 
                 if (sodium.crypto_pwhash_argon2i_str_verify(pwdHash, pwdBuffer)) {
-                    if(match.get('permission') === 0) {
-                        errors.login = ['This account has not been approved by an administrator yet.'];
-                    }
-
                     if (Object.keys(errors).length !== 0) {
                         return Promise.reject(errors);
                     }
