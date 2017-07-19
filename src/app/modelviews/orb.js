@@ -34,8 +34,11 @@ var orb = {
         }).then(function(retrievedMeter) {
             meter1 = {
                 meter1Org: retrievedMeter.get('org_id'),
+                meter1OrgName: retrievedMeter.related('organization').get('name'),
                 meter1Building: retrievedMeter.get('building_id'),
-                meter1: retrievedMeter.get('bos_uuid')
+                meter1BuildingName: retrievedMeter.related('building').get('name'),
+                meter1: retrievedMeter.get('bos_uuid'),
+                meter1Name: retrievedMeter.get('name')
             };
 
             if(!orb.related('relativeValue2')) {
@@ -47,8 +50,11 @@ var orb = {
             if(retrievedMeter) {
                 meter2 = {
                     meter2Org: retrievedMeter.get('org_id'),
+                    meter2OrgName: retrievedMeter.related('organization').get('name'),
                     meter2Building: retrievedMeter.get('building_id'),
-                    meter2: retrievedMeter.get('bos_uuid')
+                    meter2BuildingName: retrievedMeter.related('building').get('name'),
+                    meter2: retrievedMeter.get('bos_uuid'),
+                    meter2Name: retrievedMeter.get('name')
                 };
             }
 

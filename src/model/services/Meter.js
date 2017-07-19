@@ -23,7 +23,8 @@ let Meter = {
 
         return new Entity.Meter({
             bos_uuid: meterId
-        }).fetch().then(function(meter) {
+        }).fetch({ withRelated: ['building', 'organization'] })
+        .then(function(meter) {
             if(!meter) {
                 return Promise.reject({ noRecord: true });
             }
