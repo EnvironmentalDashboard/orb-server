@@ -2,9 +2,9 @@
     <div class="col-sm-12">
         <h2>Virtual Orb Configuration</h2>
 
-        <p>Configure a virtual orb so that relative usage information can be conveyed visually through Environmental Orb standard colors <a href="/manuals/full/#_virtual_orbs" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
+        <p>Configure a virtual orb so that relative use information can be conveyed visually through Environmental Orb standard colors <a href="/manuals/full/#_virtual_orbs" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a>.</p>
 
-        <p>Required fields indicated with asterisk (*).</p>
+        <p>Required information indicated with asterisk (*).</p>
 
         {{#if errors}}
 
@@ -166,13 +166,13 @@
                 <div class="form-group col-sm-12">
                     <label for="meter2">Data groupings <span class="text-info">*</span> <a href="/manuals/full/#_data_groupings" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></label>
 
-                    <p id="datagroupings-help">Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates.</p>
+                    <p id="datagroupings-help">Orbs convey information about how current levels of resource use compare to typical resource use at the current hour of the day. The typical use algorithm allows days of the week in which patterns of use are similar to be grouped together. For ease of configuration, you can select the button below that best describes the chosen meter's expected resource use pattern. For example, office buildings are typically occupied less on weekends, but patterns of water and electricity use are often similar on the five working days. In this case, selecting “Pattern differs on weekdays &amp; weekends” is appropriate. You can further customize how data are grouped by clicking on the buttons to create as many groupings as you need. There are important tradeoffs that you should consider in selecting data groupings. These are explained in the documentation.</p>
                 </div>
                 <div class="form-group col-sm-12" id="preset-options">
-                    <p>For easy configuration, select the button below that best describes the chosen meter's resource use:</p>
-                    <input type="button" class="btn btn-default" value="Use significantly different each day" data-preset="separate">
-                    <input type="button" class="btn btn-default" value="Use significantly different during weekends/weekdays" data-preset="weekendsWeekdays">
-                    <input type="button" class="btn btn-default" value="Use follows typical school schedule" data-preset="school">
+                    <input type="button" class="btn btn-default" value="Pattern similar every day of the week" data-preset="similar">
+                    <input type="button" class="btn btn-default" value="Pattern differs on weekdays &amp; weekends" data-preset="weekendsWeekdays">
+                    <input type="button" class="btn btn-default" value="Pattern different on weekends, MWF &amp; TTh" data-preset="school">
+                    <input type="button" class="btn btn-default" value="Pattern differs each day of week" data-preset="separate">
                 </div>
                 <div class="form-group col-sm-12">
                     <table class="ui-datagroup-table ui-table table table-striped" id="configuration-table" aria-describedby="datagroupings-help">
@@ -184,7 +184,7 @@
                                 <th>{{this}}</th>
                                 {{/each}}
 
-                                <th class="n-days">Sample size <i>(days)</i></th>
+                                <th class="n-days">Typical use interval <i>(days)</i></th>
                             </tr>
                         </thead>
 
@@ -229,14 +229,14 @@
 
             <div class="row">
                 <div class="form-group col-sm-12">
-                    <label for="interval">Sample size <i>(days)</i> <span class="text-info">*</span> <a href="/manuals/full/#_sample_size" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></label>
+                    <label for="interval">Typical use interval <i>(days)</i> <span class="text-info">*</span> <a href="/manuals/full/#_sample_size" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></label>
 
-                    <p>Sample size dictates how many days of prior data are used. If less data are available than specified, the algorithm will use as much data as it can collect.</p>
+                    <p>Data from the mot recent days belonging to the same data group are used to calculate typical use. The “typical use interval” is the number of days of prior data that are used to calculate typical use. If less data are available than the selected interval, the algorithm will use as much data as it can collect. A minimum typical use interval of 5 days is necessary.</p>
 
                     <div class="checkbox">
                       <label>
                         <input type="checkbox" id="sample-size-toggler" name="customGroupings" {{#if customSamples}}checked{{/if}} value="true">
-                        Specify sample size for each individual data grouping.
+                        Specify typical use interval for each individual data grouping.
                       </label>
                     </div>
                     <input type="number" min="5" max="50" value="{{#if form.daySets}}{{form.daySets.0.npoints}}{{else}}5{{/if}}" class="form-control" name="sample" id="sample-size">
@@ -291,6 +291,16 @@ $(document).ready(function() {
     $("#sample-size-toggler").change();
 
     var presets = {
+        similar:
+            [
+                [1,1,1,1,1,1,1],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0]
+            ],
         separate:
             [
                 [1,0,0,0,0,0,0],

@@ -35,7 +35,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         {{#if loggedIn}}
                         <li{{#if page.active.dashboard}} class="active"{{/if}}><a href="/dash">Dashboard</a></li>
-                        <li{{#if page.active.docs}} class="active"{{/if}}><a href="/manuals">User Manuals</a></li>
+                        <li{{#if page.active.docs}} class="active"{{/if}}><a href="/manuals">Guide to Use</a></li>
                         <li class="dropdown{{#if page.active.account}} active{{/if}}">
                             <a href="/account" id="account-options" title="Account settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{loggedIn.email}}
@@ -83,8 +83,8 @@
                         </ul>
                     </div>
                     <div class="col-sm-6">
-                        <img src="/images/logo.png" class="pull-left ui-footer-logo">
-                        <p>Built by Environmental Dashboard</p>
+                        <a href="https://environmentaldashboard.org"><img src="/images/logo.png" class="pull-left ui-footer-logo"></a>
+                        <p>Built by <a href="https://environmentaldashboard.org">Environmental Dashboard</a></p>
                         <ul class="footer-nav">
                             <li><a href="#">Terms</a>
                             <li><a href="#">Privacy</a>

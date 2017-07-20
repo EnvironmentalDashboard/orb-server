@@ -1,14 +1,14 @@
 <div class="row">
     <div class="col-sm-12">
-        <h2>Environmental Orb Dashboard</h2>
+        <h2>Environmental Orb Management Dashboard</h2>
         {{#if cleanAccount}}
         <div class="panel panel-success">
             <div class="panel-heading">Welcome</div>
             <div class="panel-body">
                 <p>Your dashboard is a clean slate. You can get started by configuring a setup.</p>
                 <ul>
-                    <li>For help, see the <a href="/manuals">Environmental Orb Documentation <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>.</a>
-                    <li>For a step-by-step guide, see the <a href="/manuals/beginners">Beginner's Guide: Setting up an Environmental Orb <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>.</a>
+                    <li>For a step-by-step guide, see the <a href="/manuals/beginners">Getting Started: Setting up an Environmental Orb <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>.</a>
+                    <li>For detailed explanations and help, see the <a href="/manuals">Environmental Orb Documentation <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>.</a>
                 </ul>
             </div>
         </div>
@@ -23,12 +23,12 @@
                 Bulb Configuration
                 <a href="/manuals/full/#_bulbs" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></div>
             <div class="panel-body">
-                <p>The LIFX bulbs associated with your account are listed below. Each module can be configured:</p>
+                <p>The LIFX bulbs associated with your account are listed below. Each bulb can be configured:</p>
                 <ul>
-                    <li><strong>"On"</strong> or <strong>"Off"</strong> determines whether we are sending commands to your bulb
-                    <li>The drop down menu assigns an orb to your bulb
+                    <li><strong>"Enabled"</strong> or <strong>"Disabled"</strong> determines whether display instructions are currently being sent to a particular bulb
+                    <li>The drop down menu assigns a virtual orb to each bulb
                 </ul>
-                <p>To link a virtual orb with a bulb, turn on the bulb and assign it an orb. <strong>Bulbs that are enabled but do not have a virtual orb selected will be automatically switched off.</strong> Note that a bulb can only be assigned one virtual orb, but several bulbs can potentially be assigned to the same virtual orb.</p>
+                <p>To link a virtual orb with a LIFX bulb, install the bulb in any light socket, turn on the bulb and assign it to a virtual orb. <strong>Bulbs that are enabled but do not have a virtual orb selected will be automatically disabled.</strong> Note that each bulb can only be assigned one virtual orb, but several bulbs can potentially be assigned to the same virtual orb (for example, several bulbs in a building might be displaying the same information).</p>
             </div>
         </div>
 
@@ -100,12 +100,12 @@
                                 {{#if this.config.attributes.enabled}}
                                 <label for="enable-{{@key}}">
                                     <input type="radio" id="enable-{{@key}}" onchange="this.form.submit()" name="enabled" value="true" checked>
-                                    <span class="btn">On</span>
+                                    <span class="btn">Enabled</span>
                                 </label>
 
                                 <label for="disable-{{@key}}">
                                     <input type="radio" id="disable-{{@key}}" onchange="this.form.submit()" name="enabled" value="false">
-                                    <span class="btn">Off</span>
+                                    <span class="btn">Disabled</span>
                                 </label>
 
                                 {{else}}
