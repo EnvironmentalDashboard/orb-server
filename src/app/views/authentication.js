@@ -14,7 +14,7 @@ let authenticationView = {
             form: form,
             page: {
                 active: { signin: true },
-                title: "Sign In"
+                title: "Login"
             }
         });
     },
