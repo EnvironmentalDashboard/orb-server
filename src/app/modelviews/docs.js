@@ -3,8 +3,8 @@ let Service = require('../../model/services'),
 
 var docs = {
     items: {
-        'intro': { file: 'intro.adoc', label: 'Introduction' },
-        'beginners': { file: 'beginners.adoc', label: 'Getting Started' },
+        'intro': { file: 'intro.adoc', label: 'Background, Installation, and Hardware' },
+        'beginners': { file: 'beginners.adoc', label: 'Get Started' },
         'full': { file: 'index.adoc', label: 'Documentation' }
     },
     slug: null,
