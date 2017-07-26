@@ -5,7 +5,7 @@
 :showtitle:
 
 
-= Getting Started: Setting up an Environmental Orb +
+= Get Started: Setting up an Environmental Orb +
 
 Environmental Orb requires a LIFX WiFi bulb and a BuildingOS account. This document will walk through the initial steps in linking these accounts and creating an Environmental Orb.
 
@@ -18,7 +18,7 @@ Environmental Orb must have access to a BuildingOS account from which to gather 
 
 == Create an Environmental Orb Account
 
-Register for an Environmental Orb account on the “link:https://environmentalorb.org/account/signup[Sign up]” page. If you've already created an account, you may sign in on the "link:https://environmentalorb.org/account/signin[Sign in]" page. If you're already signed in, your email will appear in the top right navigation bar. **After creating an account it must be approved before continuing on.**
+Register for an Environmental Orb account on the “link:https://environmentalorb.org/account/signup[Login]” page. If you've already created an account, you may login on the "link:https://environmentalorb.org/account/signin[Loin]" page. If you're already logged in, your email will appear in the top right navigation bar.
 
 == Configure a LIFX Setup
 
@@ -32,9 +32,9 @@ Environmental Orb must have access to a LIFX Cloud account to send visual inform
  . Follow the instructions and login to a LIFX Cloud account when prompted.
  . After authorizing, return to the orb dashboard. The table under “Your Bulbs” should populate with information for the bulbs connected to the authorized LIFX account.
 
-== Creating an Environmental Orb
+== Create an Environmental Orb
 
-Creating an Environmental Orb requires that both a BuildingOS and LIFX Cloud account have been already authorized.
+Creating an Environmental Orb requires that data have been made available through an Environmental Dashboard account and that a LIFX Cloud account has already been authorized.
 
  . Go to your link:https://environmentalorb.org/dash[Environmental Orb Dashboard.]
  . Select “Create a virtual orb” under “Your Orbs.”

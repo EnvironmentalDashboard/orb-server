@@ -12,11 +12,11 @@
 .Environmental Dashboard homepage
 image::dashboard.screenshot.png[Environmental Dashboard homepage, 100%]
 
-The Environmental Orb Dashboard displays all bulbs and orbs associated with an account (see Figure 1). Any configuration option can be accessed by beginning on this page.
+The Environmental Orb Dashboard displays all bulbs and orbs associated with an account (see Figure 1). This Dashboard is used to connect virtual orbs with data from meters and it is where you assign each physical bulb in your account to display data from a virtual orb.
 
 === Virtual Orbs
 
-Virtual orbs appear on the Environmental Orb Dashboard under “Your Virtual Orbs” (see label 1 in Figure 1). Virtual orbs allow users to pair 1-2 meters together along with other configuration settings (explained in link:#_attributes[Attributes]) to create virtual representations of an Environmental Orb. Virtual orbs can be assigned to bulbs so that the bulb emulates the assigned virtual orb.
+Virtual orbs appear on the Environmental Orb Dashboard under “Your Virtual Orbs” (see label 1 in Figure 1). Virtual orbs allow users to select data from one or two meters and to determine how these data will be processed (explained in link:#_attributes[Attributes]) to create virtual representations of an Environmental Orb. Each physical bulb is assigned to display data from one virtual orb. However, one virtual orb can potentially be displayed on several physical bulbs.
 
 ==== Creating
 
@@ -32,55 +32,68 @@ On the Environmental Orb Dashboard, identify the target orb and click “Delete�
 Used as a label when assigning a virtual orb to a bulb. Brief and descriptive titles make recognition easy.
 
 ===== Meters
-The meter(s) to display feedback for. If two meters are selected, the emulation switches every 6 seconds between each.
+The meter(s) associated with a virtual orb. If two meters are selected, the physical orb switches every 6 seconds between each.
 
 ==== Typical Use Algorithm
-Orbs convey information about how current resource use compares to typical resource use at a given time. The typical use algorithm allows days of the week in which typical use is similar to be grouped together. Sample sizes for the algorithm may be configured universally or on a group-by-group basis.
+Orbs convey information about how the current level of resource use (the most recent meter reading(s) available) compare with typical resource use at this hour of the day. The typical use algorithm allows days of the week in which use patterns are typically similar to be grouped together. Users also specify a “typical use interval” or how many prior points are used to estimate typical use. The typical use interval may be configured universally or on a group-by-group basis.
 
+===== How typical use and relative use are calculated
+The rationale for the algorithm currently used is explained in detail in detail here [insert link to background]. Typical use is calculated for a given hour of the day by considering the average rate of use at the same hour of the day for similar days in the recent past (see data groupings below for explanation of options). So, for example, consider an orb that is displaying data for 6:35 pm on a Wednesday evening in a building for which patterns and magnitudes of electricity use are expected to be similar on weekdays and differs on weekends (data grouping = “Pattern differs on weekdays & weekends”). Assume that the previous 5 days of comparable data have been selected as the typical use interval. First, a set of data for average hourly rate of use (kW) are extracted from a database between 6:00-7:00 pm for the previous 5 weekdays (in this example M and Tu of this week and W, Th and F of the prior week).
+
+The relative use algorithm is optimized to compel the orb to spend approximately the same amount of time in each of its five colors. The way that this is accomplished is by ordering the typical use data from lowest to highest and then determining relative use based on where the current value falls in this sequence. For example, imagine the value of the five data points collected are 62.5, 63, 65, 66, 66.5 kW and the current reading at 6:35 pm is 64 kW. Because the current reading falls second in this list the relative value is calculated as 2/6 (a denominator of six because there are now six points in this list). This algorithm always produces a value that is between (or equal to) 0 and 1. The orb color spectrum is based on the algorithm value: red (value> 0.8) → orange ( 0.8> value> 0.6) → yellow (0.6 > value> 0.4) → greenish/yellow (0.4 > value> 0.2) → green (0.2 > value).
 
 ===== Data Groupings
-Days of the week where resource usage is expected to be similar may be grouped together to create more accurate feedback. For example, office buildings are occupied less on weekends. Marking weekends and weekdays as separate groups makes for better typical use estimates.
+Days of the week where resource use is expected to be similar may be grouped together to create more accurate feedback. For example, office buildings are typically occupied less on weekends, but patterns of water and electricity use are often similar on the five working days. In this case, selecting “Pattern differs on weekdays & weekends” is appropriate. You can further customize how data are grouped by clicking on the buttons to create as many groupings as you need. Note that it is generally best to choose the smallest number of groupings possible.
 
-===== Sample size
-Data from recent days belonging to the same data group are used to calculate typical use. Sample size dictates how many days of prior data are used. If less data are available than specified, the algorithm will use as much data as it can collect.
+===== Typical Use Intervals
+Data from the most recent days belonging to the same data group are used to calculate typical use. The “typical use interval” is the number of days of prior data that are used to calculate typical use. If less data are available than the selected interval specified, the algorithm will use as much data as it can collect. A minimum typical use interval of 5 days is necessary.
+
+===== Important Trade-Offs to Consider
+It is important to be aware of tradeoffs that occur in the selection of groupings and interval sizes. The more data groups that are created for a virtual orb, the further back in time it will be necessary to collect data to generate the number of points necessary to calculate typical use. For example, if all days are treated equally (i.e. “Pattern similar every day of the week” is selected) and an interval of 5 points is selected, then only the previous 5 days are needed to generate the necessary data. If an interval of 10 points is selected, then ten days are needed. On the other hand, if “Pattern differs on weekdays & weekends” is selected with a typical use interval of 5 days, then on a weekday the oldest data will be at least two days older than “Pattern similar every day” and on a weekend you will be going back three weeks in time to generate 5 days worth of weekend data for comparison. At the extreme, if “Pattern differs each day of week” is selected with a typical use interval of 5 days, then it will be necessary to go back 5 weeks to generate the typical use data for every single day of the week. Choosing algorithms that go further back in time is particularly problematic for situations in which there substantial changes in the calendar of building. For example, consider the start of a school year in a school building that has a low level of summer use. If “Pattern similar every day of the week” is selected, then the orb will glow in ways that exhibit high use for the first week of classes and then settle into a sensible pattern. On the other hand, if “Pattern differs each day of week” is selected than it will take 5 weeks before the orb fully settles into a pattern that is reflective of occupied use. Similarly, if there is a strong seasonal component to to resource consumption, choosing either a large number of groupings or a large typical use interval size will push the data used to calculate typical use further back in time. Buildings that use extensive air conditioning or use substantial electricity for heating (for example heat pump systems) can be expected to exhibit strong seasonality in electricity use. Comparing current use to an interval that includes data from well over a month back may result in behavior that is not a very good indication of typical use. Generally speaking it makes sense to minimize the number of groups and the sampling interval. A good compromise for many users, would be to choose the “Pattern differs on weekdays & weekends”, to select, “Specify typical use a 10 day interval for weekdays and a 5 day interval for weekends. This would ensure that weekday data are never more than 2 weeks old and weekend data is not more than 3 weeks old.
+
 
 === Bulbs
 
-Bulbs are displayed on the Environmental Orb Dashboard under “Your Bulbs” (see label 2 in Figure 1). The list is gathered by detecting all bulbs claimed on your LIFX account. Without linking your Environmental Orb Account to a LIFX Cloud account, no bulbs will appear in this section.
+Bulbs are displayed on the Environmental Orb Dashboard under “Your Bulbs” (see label 2 in Figure 1). The list is gathered by detecting all bulbs claimed on your LIFX account. Regardless of whether you have registered a bulb with LIFX, it will not appear in this list unless you have linked your  Environmental Orb Account to a LIFX Cloud account.
 
-You can turn a bulb into an Environmental Orb by assigning a virtual orb to it.
+You convert a bulb listed in this part of your Dashboard into an Environmental Orb by assigning a virtual orb to it. Each physical bulb can be assigned to display only a single virtual orb. However, multiple bulbs can be assigned to the same virtual orb.
 
 ==== Controls
 
 ===== Turn “On” or “Off”
-Turning an orb off disables it while turning an orb on enables it.
+Turning an orb off disables it so that it no longer displays data from the virtual orb to which it is assigned. Turning an orb on enables it to display data associated with its virtual orb. A disabled orb will display the color indicated in the last command it receives.
 
 [NOTE]
 
-Bulbs that are turned "On" but don't have an assigned orb *will automatically be disabled.*
+Bulbs that are turned "On" but are not yet assigned to a virtual orb *will automatically be disabled.*
 
 ===== Assigning an orb
-Selecting a virtual orb label in the drop down next a bulb assigns the virtual orb to the bulb.
+Selecting a virtual orb label in the drop down next to a bulb assigns the bulb to the virtual orb.
 
 ==== Labelling
 
 For convenient managing, bulbs should be labelled appropriately. When default labels are detected, a notice message will appear on your dashboard. To get rid of this message, custom labels must be entered. Bulb labels cannot be managed through the Environmental Orb interface; they must be edited through the third-party WiFi bulb service. See LIFX's documentation on link:https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app["Setting up the LIFX App", window="_blank"] and link:https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup["LIFX Bulb Setup.", window="_blank"]
 
+Bulb labels are edited through your LIFX account (See LIFX’s documentation on link:https://support.lifx.com/hc/en-us/articles/213449823-Setting-up-the-LIFX-app["Setting up the LIFX App", window="_blank"] and link:https://support.lifx.com/hc/en-us/articles/204538340-LIFX-Bulb-Setup["LIFX Bulb Setup", window="_blank"]); they cannot be changed through the Environmental Orb interface. For clarity bulbs should be given custom labels that are easy to understand. When the Environmental Orb dashboard detects default LIFX labels, a notice message will appear on your dashboard. To eliminate this message you need to enter custom labels through your LIFX account.
+
+===== Selector ID
+A unique identifier for your bulb, provided by LIFX.
+
 ===== Label
 
-A brief label for your bulb that describes what the bulb is used for. _Example: Chemistry Building Orb._
+Provide a brief label for your bulb that describes what the orb will be used for. _Example: Chemistry Building Orb._
 
 ===== Location
 
-The location of the bulb. _Example: North wall of atrium._
+The physical location in which the bulb will be installed. This helps keep track of multiple bulbs that are used within an organization. _Example: North wall of atrium._
 
 ===== Group
 
-Assign the bulb to a group. _Example: College orbs._
+Assign the bulb to a group. This helps keep track of groups of bulbs that might be used for different purposes within an organization. _Example: College dorm orbs._
 
 ==== Status
 
-Bulb statuses give insight into the Environmental Orb's ability to communicate with a specific bulb. Reference the following table for status definitions.
+Bulb status indicates the current status of communication between the Environmental Orb Dashboard and a bulb. Reference the following table for status definitions.
 
 [.table.table-striped]
 [cols="20,80"]
@@ -90,16 +103,16 @@ Bulb statuses give insight into the Environmental Orb's ability to communicate w
 
 | Online | Communication with LIFX server is successful and the bulb is online.
 
-| Offline | Communication with bulb server is successful but the bulb is turned off, disconnected from the internet, or otherwise unreachable by the server.
+| Offline | Communication with bulb server is successful but the bulb is physically turned off, disconnected from the internet, or otherwise unreachable by the LIFX server.
 
-| Timed out | Communication with bulb server is successful but the bulb's status is unknown. Bulbs with a timed out status should automatically change to an "Ok" or "Offline" status within thirty seconds.
+| Timed out | Communication between your Environmental Dashboard and the LIFX bulb server is successful but the bulb’s status is unknown. Bulbs with a timed out status should automatically change to an "Ok" or "Offline" status within thirty seconds.
 
-| Unknown or _Other_ | Bulb statuses partly rely on the third-party WiFi bulb service. If a bulb's status is something other than listed above and not understandable, please contact us.
+| Unknown or _Other_ | Bulb status is dependent on the third-party WiFi bulb service. If a bulb’s status is something other than listed above and not understandable, please contact us.
 |===
 
 ==== Source
 
-Bulbs are listed by gathering information from the LIFX accounts that are setup in your account connection settings (see link:#_connections[Connections]). The source field indicates which LIFX account the bulb is gathered from. The source field uses the account’s label, entered by the user after authorizing their LIFX account.
+Bulbs are listed by gathering information from the LIFX accounts that are established in your Environmental Orb Dashboard account connection settings (see link:#_connections[Connections]). The source field indicates which LIFX account a bulb is part of. The source field uses the LIFX account’s label, entered by the user after authorizing their LIFX account.
 
 == Account Overview
 
@@ -116,11 +129,11 @@ The building data connection is used to retrieve resource use data for meters as
 
 ==== WiFi Light Bulb Connection
 
-The WiFi bulb connection is used to send commands to light bulbs configured as orbs within the dashboard. Currently, the only WiFi bulb connection platform compatible with the Environmental Orb is LIFX.
+The WiFi bulb connection is used to send commands to LIFX light bulbs configured as orbs within your Environmental Dashboard account. Currently, the only WiFi bulb connection platform compatible with the Environmental Orb is LIFX.
 
 ===== Adding
 
-Add a WiFi bulb connection by selecting “Add new LIFX account" (see near label 2 in Figure 2). Follow the on-screen instructions to login to LIFX and authorize your account. After completing authorization, a prompt will request a label for the LIFX account just authorized. This label will be used to keep track of the LIFX account connections associated with your Environmental Orb account.
+Note that you need to have created a LIFX account to manage your bulbs.  Once you have done that you add your WiFi bulb connections by selecting “Add new LIFX account" (see near label 2 in Figure 2). Follow the on-screen instructions to login to LIFX and authorize your account. After completing authorization, a prompt will request a label for the LIFX account just authorized. This label will be used to keep track of the LIFX account connections associated with your Environmental Orb account.
 
 ===== Editing
 
