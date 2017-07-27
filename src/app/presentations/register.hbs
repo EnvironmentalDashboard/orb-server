@@ -2,6 +2,7 @@
     <div class="col-sm-12">
         <h2>Create an Environmental Orb account</h2>
         <p>After completing this signup form, you'll be able to log into your Dashboard and begin configuring an Environmental Orb setup.</p>
+        <p>Note that the email and password you use here will be used to log into your Environmental Orb account. These need not be the same as those you use for you LIFX (or BuildingOS) accounts -- it is important that you keep account information straight.</p>
         <p>Required fields indicated with asterisk (*).</p>
 
         {{#if errors}}
@@ -107,7 +108,7 @@
                     <label for="password">Organization Access</label>
                     <p>Environmental Orb uses data from preconfigured organizations to send feedback patterns to WiFi light bulbs. Choose which organizatons this account should have access to. This can be changed later.</p
                     <p><i>Don't see your organization?</i> Organizations must be preconfigured through Environmental Dashboard. To sign up, fill out the form <a href="#">here</a>.</p>
-                    
+
                     <ul class="list-group">
                         {{#each orgList}}
                         <li class="list-group-item">

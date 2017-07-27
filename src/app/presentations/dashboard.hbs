@@ -5,7 +5,8 @@
         <div class="panel panel-success">
             <div class="panel-heading">Welcome</div>
             <div class="panel-body">
-                <p>Your dashboard is a clean slate. You can get started by configuring a setup.</p>
+                <p>A complete Environmental Orb consists of both a physical bulb that communicates information on resource use in the form of a pulsing colored display and a “virtual orb” that specifies the data source and how you would like data from this source to be processed. This dashboard allows you to create a virtual orbs and then associate each virtual orb with a particular physical bulb.</p>
+                <p>Your do not have any bulbs or virtual orbs configured.</p>
                 <ul>
                     <li>For a step-by-step guide, see the <a href="/manuals/beginners">Getting Started: Setting up an Environmental Orb <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>.</a>
                     <li>For detailed explanations and help, see the <a href="/manuals">Environmental Orb Documentation <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>.</a>
@@ -29,6 +30,7 @@
                     <li>The drop down menu assigns a virtual orb to each bulb
                 </ul>
                 <p>To link a virtual orb with a LIFX bulb, install the bulb in any light socket, turn on the bulb and assign it to a virtual orb. <strong>Bulbs that are enabled but do not have a virtual orb selected will be automatically disabled.</strong> Note that each bulb can only be assigned one virtual orb, but several bulbs can potentially be assigned to the same virtual orb (for example, several bulbs in a building might be displaying the same information).</p>
+                <p>A successfully configured Environmental Orb displays a pulsing colored pattern. A bulb displaying a static, non-pulsing color has not been configured correctly.</p>
             </div>
         </div>
 
@@ -61,8 +63,11 @@
                     <th>Label <a href="/manuals/full/#_label" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
                     <th>Location <a href="/manuals/full/#_location" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
                     <th>Group  <a href="/manuals/full/#_group" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
+                    <th>Pulse Intensity <a href="/manuals/full/#_pulse_intensity" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
+                    <th>Brightness <a href="/manuals/full/#_brightness" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
                     <th>Status <a href="/manuals/full/#_status" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
-                    <th>Controls <a href="/manuals/full/#_controls" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
+                    <th>Power <a href="/manuals/full/#_status" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
+                    <th>Options <a href="/manuals/full/#_controls" title="Reference the docs"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" aria-label="Reference the docs"></span></a></th>
                 </tr>
             </thead>
             <tbody>
@@ -79,6 +84,8 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     {{/if}}
+                    <td>{{pulseIntensity this.config.attributes.pulse_intensity}}</td>
+                    <td>{{brightness this.config.attributes.brightness}}</td>
                     <td class="text-capitalize">
                         {{#if this.config.attributes.enabled}}
                         {{this.config.attributes.status}}
@@ -87,48 +94,16 @@
                         {{/if}}
                     </td>
                     <td>
-                        <form action="/dash/bulb/update" method="post">
-                            <div class="col-sm-6">
-                                <select name="orb" class="form-control" onchange="this.form.submit()">
-                                    <option value="">No orb assigned</option>
-                                    {{#each ../orbs}}
-                                    <option value="{{this.id}}"{{selected this.id ../this.config.relations.orb.id}}>{{this.title}}</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                            <div class="ui-btn-toggle">
-                                {{#if this.config.attributes.enabled}}
-                                <label for="enable-{{@key}}">
-                                    <input type="radio" id="enable-{{@key}}" onchange="this.form.submit()" name="enabled" value="true" checked>
-                                    <span class="btn">Enabled</span>
-                                </label>
-
-                                <label for="disable-{{@key}}">
-                                    <input type="radio" id="disable-{{@key}}" onchange="this.form.submit()" name="enabled" value="false">
-                                    <span class="btn">Disabled</span>
-                                </label>
-
-                                {{else}}
-
-                                <label for="enable-{{@key}}">
-                                    <input type="radio" id="enable-{{@key}}" onchange="this.form.submit()" name="enabled" value="true">
-                                    <span class="btn">On</span>
-                                </label>
-
-                                <label for="disable-{{@key}}">
-                                    <input type="radio" id="disable-{{@key}}" onchange="this.form.submit()" name="enabled" value="false" checked>
-                                    <span class="btn">Off</span>
-                                </label>
-                                {{/if}}
-                            </div>
-                            <input type="hidden" value="{{@key}}" name="selector">
-                            <input type="hidden" value="{{this.integration}}" name="integration">
-                            <noscript>
-                                <div class="form-group">
-                                    <input type="submit" value="Save" name="save" class="btn btn-default">
-                                </div>
-                            </noscript>
-                        </form>
+                        {{#if this.config.attributes.enabled}}
+                        Enabled
+                        {{else}}
+                        Disabled
+                        {{/if}}
+                    </td>
+                    <td>
+                        <p>
+                            <a href="/dash/bulb/edit/{{@key}}" class="btn btn-default">Edit</a>
+                        </p>
                     </td>
                 </tr>
                 {{else}}

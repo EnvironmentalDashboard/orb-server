@@ -27,7 +27,9 @@ let Bulb = {
 
         let selector = params.selector,
             integration = params.integration,
-            enabled = params.enabled;
+            enabled = params.enabled,
+            pulse_intensity = params.pulse_intensity,
+            brightness = params.brightness;
 
         /**
          * Filter the orb input so that empty is null
@@ -40,6 +42,8 @@ let Bulb = {
             selector: selector,
             enabled: enabled === "true", //convert string to Boolean
             orb: orb,
+            pulse_intensity: pulse_intensity,
+            brightness: brightness,
             integration: integration,
             status: null
         };
@@ -74,13 +78,15 @@ let Bulb = {
                  * and Bookshelf do not support upserts
                  */
                 let query = util.format(`\
-                    INSERT INTO \`%s\` (owner, enabled, orb, selector, integration)
-                        VALUES (:owner, :enabled, :orb, :selector, :integration)
+                    INSERT INTO \`%s\` (owner, enabled, orb, selector, integration, pulse_intensity, brightness)
+                        VALUES (:owner, :enabled, :orb, :selector, :integration, :pulse_intensity, :brightness)
                     ON DUPLICATE KEY UPDATE
                         enabled = :enabled,
                         orb = :orb,
                         owner = :owner,
-                        integration = :integration
+                        integration = :integration,
+                        pulse_intensity = :pulse_intensity,
+                        brightness = :brightness
                 `, bulb.tableName);
 
                 return Bookshelf.knex.raw(query, bulbParams);
@@ -90,6 +96,32 @@ let Bulb = {
             return Promise.resolve();
         })
 
+    },
+
+    retrieve: function(bulbSelector, sess) {
+        let client = Recognition.knowsClient(sess);
+
+        if (!client) {
+            return Promise.reject({
+                authError: true
+            });
+        }
+
+        /**
+         * Fetches the specified bulb limited to the session-authenticated user
+         */
+        return new Entity.Bulb({
+            selector: bulbSelector,
+            owner: client.id
+        }).fetch().then(function(bulb) {
+            if (!bulb) {
+                return Promise.reject({
+                    noRecord: true
+                });
+            }
+
+            return Promise.resolve(bulb);
+        });
     }
 };
 

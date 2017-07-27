@@ -89,14 +89,24 @@
     },
 
     {
-        "method": "post",
-        "pattern": "/dash/bulb/update",
+        "method": "get",
+        "pattern": "/dash/bulb/edit/:bulbId",
         "resource": "bulb",
         "action": {
-            "controller": "update",
-            "view": "update"
+            "controller": "load",
+            "view": "configure"
         }
     },
+    {
+        "method": "post",
+        "pattern": "/dash/bulb/edit/:bulbId",
+        "resource": "bulb",
+        "action": {
+            "controller": "configure",
+            "view": "configure"
+        }
+    },
+
     {
         "method": "get",
         "pattern": "/account",

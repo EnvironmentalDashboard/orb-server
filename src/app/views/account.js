@@ -54,7 +54,6 @@ let accountView = {
                 helpers: {
                     checkedIfIn: function(val, haystack) {
                         if (!val || !haystack) {
-                            console.log('cancelled');
                             return false;
                         }
 

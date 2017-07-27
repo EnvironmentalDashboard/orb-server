@@ -23,6 +23,17 @@ var Bulb = {
     },
 
     validate: function() {
+        let pulse_intensity = this.get('pulse_intensity'),
+            brightness = this.get('brightness');
+
+        if(!pulse_intensity || isNaN(pulse_intensity) || pulse_intensity < 0 || pulse_intensity > 1) {
+            this.attributes.pulse_intensity = .2;
+        }
+
+        if(!brightness || isNaN(brightness) || brightness < 0 || brightness > 1) {
+            this.attributes.brightness = .6;
+        }
+
         return Promise.resolve();
     }
 };

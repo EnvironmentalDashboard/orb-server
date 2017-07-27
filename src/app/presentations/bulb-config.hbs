@@ -1,0 +1,85 @@
+<div class="row{{#if customSamples}} multiple-sample-sizes{{/if}}" id="orb-config">
+    <div class="col-sm-12">
+        <h2>Bulb Configuration</h2>
+
+        <form method="post">
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <label for="orb">Assigned orb</label>
+
+                    <p id="orb-help">Select the orb this bulb should display.</p>
+
+                    <select name="orb" class="form-control" aria-describedby="orb-help">
+                        <option value="">No orb assigned</option>
+                        {{#each orbs}}
+                        <option value="{{this.id}}"{{selected this.id ../form.orb}}>{{this.title}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <label for="pulse">Pulse intensity</label>
+
+                    <p id="pulse-help">Pulse intensity dictates how strong the orb's flashing patterns are. Lower intensities make the pulsing pattern less noticeable.</p>
+
+                    <select name="pulse_intensity" class="form-control" aria-describedby="pulse-help">
+                        <option value=".1"{{selected '0.1' form.pulse_intensity}}>Very low</option>
+                        <option value=".15"{{selected '0.15' form.pulse_intensity}}>Low</option>
+                        <option value=".2"{{selected '0.2' form.pulse_intensity}}>Medium</option>
+                        <option value=".25"{{selected '0.25' form.pulse_intensity}}>High</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <label for="brightness">Brightness</label>
+
+                    <p id="brightness-help">Brightness dictates how bright the orb's colors are. Very low brightness suits a dim hallway, while high brightness is better for a lobby or well-lit area.</p>
+
+                    <select name="brightness" class="form-control" aria-describedby="brightness-help">
+                        <option value=".3"{{selected '0.3' form.brightness}}>Very low</option>
+                        <option value=".45"{{selected '0.45' form.brightness}}>Low</option>
+                        <option value=".6"{{selected '0.6' form.brightness}}>Medium</option>
+                        <option value=".75"{{selected '0.75' form.brightness}}>High</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <label>Power</label>
+
+                    <p id="power-help">Determines whether or not Environmental Orb instructions and data are sent to this bulb.</p>
+
+                    <p>
+                        <label>
+                            <input type="radio" name="enabled" value="true"{{checked true form.enabled}}>
+                            Enabled
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="radio" name="enabled" value="false"{{checked false form.enabled}}>
+                            Disabled
+                        </label>
+                    </p>
+                </div>
+            </div>
+
+            {{log form}}
+
+            <div class="row form-group">
+                <div class="col-sm-12">
+                    <input type="hidden" value="{{form.selector}}" name="selector">
+                    <input type="hidden" value="{{form.integration}}" name="integration">
+
+                    <input type="submit" name="save" class="btn btn-default" value="Save">
+                    <a href="/dash" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

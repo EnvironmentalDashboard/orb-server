@@ -51,25 +51,28 @@ let OrbInstructionsDispatcher = {
                     if(!!meterId) {
                         /**
                          * If relative value 2's meter exists:
-                         * Calculate which meter to display. Every 20 seconds, this changes.
+                         * Calculate which meter to display. Every 6 seconds, this changes.
                          * Take the timestamp in ms and divide by 1000ms/1s, then divide by
-                         * 20s. Floor this value (|0), mod 2 and add 1.
+                         * 6s. Floor this value (|0), mod 2 and add 1.
                          */
-                        meter = ((+new Date() / 20000 | 0) % 2) + 1;
+                        meter = ((+new Date() / 6000 | 0) % 2) + 1;
                     }
 
                     return OrbEmulator.emulate(bulb.relations.orb, meter);
                 }).then(function(instruction) {
+                    let fromBrightness = bulb.get('brightness'),
+                        toBrightness = bulb.get('brightness') - bulb.get('pulse_intensity');
+
                     let packet = {
-                        from_color: 'hue:' + instruction.hue + ' brightness:.6 saturation:1',
-                        color: 'hue:' + instruction.hue + ' brightness:.3 saturation:1',
+                        from_color: 'hue:' + instruction.hue + ' brightness:' + fromBrightness + ' saturation:1',
+                        color: 'hue:' + instruction.hue + ' brightness:' + toBrightness + ' saturation:1',
                         period: 1 / instruction.frequency,
                         cycles: 40 * instruction.frequency
                     };
 
                     let selector = 'id:' + bulb.get('selector');
 
-                    return BulbAPI.breathe(packet, selector, integration.get('token'))
+                    return BulbAPI.breathe(packet, selector, integration.get('token'));
                 }).then(function(response) {
                     /**
                      * Interpret response instructions
@@ -88,7 +91,7 @@ let OrbInstructionsDispatcher = {
 
                     return Promise.all(responsePromises);
                 }).catch(function(error) {
-                    console.log('LIFX API issue.')
+                    console.log('LIFX API timed out');
                 });
 
             });

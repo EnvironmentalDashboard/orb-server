@@ -1,15 +1,25 @@
 let Service = require('../../model/services');
 
 let bulbController = {
-    update: function(req, appmodel) {
+    configure: function(req, appmodel) {
         let params = {
             selector: req.body.selector,
             integration: req.body.integration,
             enabled: req.body.enabled,
-            orb: req.body.orb
+            orb: req.body.orb,
+            pulse_intensity: req.body.pulse_intensity,
+            brightness: req.body.brightness
         };
 
-        return Service.Bulb.save(params, req.session).catch(appmodel.setErrors.bind(appmodel));
+
+        appmodel.setTargetBulb(req.params.bulbId);
+
+        return Service.Bulb.save(params, req.session).catch(console.log.bind(console));
+    },
+
+    load: function(req, appmodel) {
+        appmodel.setTargetBulb(req.params.bulbId);
+        return Promise.resolve();
     }
 };
 

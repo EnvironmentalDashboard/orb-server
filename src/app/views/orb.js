@@ -15,7 +15,9 @@ let orbView = {
             }
 
             if (errors.noRecord) {
-                return res.render('no-record');
+                return res.render('no-record', {
+                    loggedIn: loggedIn
+                });
             }
 
             if (!errors && Object.keys(form).length > 1) {
