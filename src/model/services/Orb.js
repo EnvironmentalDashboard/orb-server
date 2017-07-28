@@ -64,6 +64,8 @@ let Orb = {
         let title = params.title.trim(),
             meter1 = params.meter1,
             meter2 = params.meter2,
+            colorScheme1 = params.colorScheme1,
+            colorScheme2 = params.colorScheme2,
             inputtedDaySets = params.daySets,
             sampleSizes = params.sampleSizes;
 
@@ -101,7 +103,9 @@ let Orb = {
 
         let orb = new Entity.Orb({
             title: title,
-            owner: client.id
+            owner: client.id,
+            colorScheme1: colorScheme1,
+            colorScheme2: colorScheme2
         });
 
         /**
@@ -160,7 +164,11 @@ let Orb = {
                     'bos_uuid': meter2
                 }).fetch().then(function(match) {
                     if (!match) {
-                        errors.meter2 = ['Meter not found in database.'];
+                        if(!("meter2" in errors) || !Array.isArray(errors.meter2)) {
+                            errors.meter2 = [];
+                        }
+
+                        errors.meter2.push('Meter not found in database.');
                     }
                 });
             } else {
@@ -172,7 +180,11 @@ let Orb = {
             }).fetch();
         }).then(function(match) {
             if (!match) {
-                errors.meter1 = ['Meter not found in database.'];
+                if(!("meter1" in errors) || !Array.isArray(errors.meter1)) {
+                    errors.meter1 = [];
+                }
+
+                errors.meter1.push('Meter not found in database.');
             }
 
             /**

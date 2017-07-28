@@ -88,7 +88,7 @@ let orbView = {
                 });
             }
 
-            if(notFound[1]) { //duplication is awful
+            if(notFound[1] && form.meter2) { //duplication is awful
                 if(form.meter1Org !== form.meter2Org) {
                     orgKey = meters.orgs.push({
                         id: form.meter2Org,
@@ -112,6 +112,10 @@ let orbView = {
                         meterName: form.meter2Name
                     });
                 }
+            }
+
+            if (!form.meter2) {
+                form.noMeter2 = true;
             }
 
             return res.render('orb-config', {

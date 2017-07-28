@@ -50,6 +50,14 @@
 
             <div class="row">
                 <div class="col-sm-12 form-group">
+                    <label for="colorScheme1">Color scheme</label>
+                    <select class="form-control" name="colorScheme1" id="colorScheme1">
+                        <option value="----">-------</option>
+                        <option value="0" {{selected '0' form.colorScheme1}}>Red-Yellow-Green</option>
+                        <option value="1" {{selected '1' form.colorScheme1}}>Shades of blue</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 form-group">
                     <label for="org-selector-1">Organization</label>
                     <select class="form-control" name="meter1Org" id="org-selector-1">
                         {{#each meters.orgs}}
@@ -106,6 +114,25 @@
             </h3>
 
             <div class="row">
+                <div class="col-sm-12 form-group">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" id="meter2-toggler" name="noMeter2"{{#if form.noMeter2}} checked {{/if}}value="true">
+                        Ignore meter #2 (only display data for meter #1).
+                      </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="meter2-selector-wrap">
+                <div class="col-sm-12 form-group">
+                    <label for="colorScheme2">Color scheme</label>
+                    <p>This may not be the same as meter #1's color scheme.</p>
+                    <select class="form-control" name="colorScheme2" id="colorScheme2">
+                        <option value="----">-------</option>
+                        <option value="0"{{selected '0' form.colorScheme2}}>Red-Yellow-Green</option>
+                        <option value="1"{{selected '1' form.colorScheme2}}>Shades of blue</option>
+                    </select>
+                </div>
                 <div class="col-sm-12 form-group">
                     <label for="org-selector-2">Organization</label>
                     <select class="form-control" name="meter2Org" id="org-selector-2">
@@ -278,6 +305,21 @@ $(document).ready(function() {
         new DependentSelect(document.getElementById('meter-selector-2'))
     ];
 
+    var exclusiveSelect = new ExclusiveSelect(document.getElementById('colorScheme1'), document.getElementById('colorScheme2'));
+
+    $("#meter2-toggler").change(function() {
+        let checked = this.checked;
+
+        if (checked) {
+            exclusiveSelect.stopExclusion();
+            $("#meter2-selector-wrap").hide(0);
+        } else {
+            exclusiveSelect.startExclusion();
+            $("#meter2-selector-wrap").show(0);
+        }
+    });
+
+
     $("#sample-size-toggler").change(function() {
         let checked = this.checked;
 
@@ -287,6 +329,8 @@ $(document).ready(function() {
             $("#orb-config").removeClass("multiple-sample-sizes");
         }
     });
+
+    $("#meter2-toggler").change();
 
     $("#sample-size-toggler").change();
 

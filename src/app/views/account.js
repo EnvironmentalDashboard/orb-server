@@ -164,8 +164,6 @@ let accountView = {
                 }
             });
 
-            console.log(errors);
-
             res.render('register', {
                 loggedIn: loggedIn,
                 form: form,

@@ -41,7 +41,7 @@ var orb = {
                 meter1Name: retrievedMeter.get('name')
             };
 
-            if(!orb.related('relativeValue2')) {
+            if(!orb.related('relativeValue2') || orb.related('relativeValue2').get('meter_uuid') == "") {
                 return Promise.resolve(false);
             }
 

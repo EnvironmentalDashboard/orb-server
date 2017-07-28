@@ -27,12 +27,35 @@ var Orb = {
     },
 
     validate: function() {
-        let title = this.get('title');
+        let title = this.get('title'),
+            colorScheme1 = this.get('colorScheme1'),
+            colorScheme2 = this.get('colorScheme2');
 
         let errors = {};
 
         if (title.length > 150) {
             errors.title = ['Title too long. 150 characters maximum.'];
+        }
+
+        if(colorScheme1 == colorScheme2) {
+            errors.meter1 = ['Color scheme must be different from meter 2\'s color scheme.'];
+            errors.meter2 = ['Color scheme must be different from meter 1\'s color scheme.'];
+        }
+
+        if(colorScheme1 != 0 && colorScheme1 != 1 && colorScheme1) {
+            if(!("meter1" in errors) || !Array.isArray(errors.meter1)) {
+                errors.meter1 = [];
+            }
+
+            errors.meter1.push('Invalid color scheme value.');
+        }
+
+        if(colorScheme2 != 0 && colorScheme2 != 1 && colorScheme2) {
+            if(!("meter2" in errors) || !Array.isArray(errors.meter2)) {
+                errors.meter2 = [];
+            }
+
+            errors.meter2.push('Invalid color scheme value.');
         }
 
         if (Object.keys(errors).length !== 0) {

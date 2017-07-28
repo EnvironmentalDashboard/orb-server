@@ -125,8 +125,8 @@ let OrbList = {
              * the other stores the orb information pertinent to that promise.
              */
             orbs.forEach(function(orb) {
-                relativeUsagePromises.push(OrbEmulator.emulate(orb, 1));
-                relativeUsagePromises.push(OrbEmulator.emulate(orb, 2));
+                relativeUsagePromises.push(OrbEmulator.emulate(orb, 1, orb.get('colorScheme1')));
+                relativeUsagePromises.push(OrbEmulator.emulate(orb, 2, orb.get('colorScheme2')));
 
                 keyToOrb.push({
                     orb: orb,

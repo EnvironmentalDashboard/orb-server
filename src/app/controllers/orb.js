@@ -5,7 +5,6 @@ let orbController = {
         let sampleSizes = new Array(7).fill(req.body.sample || 5);
 
         if (req.body.customGroupings) {
-            console.log('using custom!');
             sampleSizes = [
                 req.body.samplesize_0 || '5',
                 req.body.samplesize_1 || '5',
@@ -21,7 +20,9 @@ let orbController = {
             id: req.params.orbId,
             title: req.body.title,
             meter1: req.body.meter1,
-            meter2: req.body.meter2,
+            meter2: req.body.noMeter2 ? '' : req.body.meter2,
+            colorScheme1: req.body.colorScheme1,
+            colorScheme2: req.body.noMeter2 ? null : req.body.colorScheme2,
             daySets: [
                 req.body.day_0 || '0',
                 req.body.day_1 || '0',
