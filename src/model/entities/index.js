@@ -14,8 +14,6 @@ let Bookshelf = require('../components/bookshelf');
  * @type {Array}
  */
 let entities = [
-    'API',
-    'CoreUser',
     'User',
     'Orb',
     'Meter',

@@ -13,7 +13,6 @@ let modelviews = [
     'default',
     'authentication',
     'dashboard',
-    'buildingdata',
     'orb',
     'guide',
     'bulb',
