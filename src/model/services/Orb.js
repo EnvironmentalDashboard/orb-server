@@ -98,6 +98,8 @@ let Orb = {
                 sampleSizes[index] = 5;
             } else if (sampleSizes[index] > 50) {
                 sampleSizes[index] = 50;
+            } else {
+                sampleSizes[index] = parseInt(sampleSizes[index]);
             }
         });
 

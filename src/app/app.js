@@ -7,8 +7,9 @@
  * Exteneral dependencies
  */
 
-let dotenv = require('dotenv').config({
-        path: "./config/orb-server.env"
+let path = require('path'),
+    dotenv = require('dotenv').config({
+        path: path.join(__dirname, 'config', 'orb-server.env')
     }),
     express = require('express'),
     session = require('express-session'),
@@ -46,13 +47,13 @@ app.set('port', 3000);
 app.engine('.hbs', exphbs({
     defaultLayout: 'main',
     extname: '.hbs',
-    layoutsDir: './presentations/layouts',
-    partialsDir: './presentations/partials',
+    layoutsDir: path.join(__dirname, 'presentations', 'layouts'),
+    partialsDir: path.join(__dirname, 'presentations', 'partials'),
     helpers: hbsHelpers
 }));
 
 app.set('view engine', '.hbs');
-app.set('views', './presentations');
+app.set('views', path.join(__dirname, 'presentations'));
 
 /**
  * Middleware
@@ -74,8 +75,8 @@ app.use(session({
 }));
 
 // Front-end resources
-app.use(express.static('../public'));
-app.use(express.static('../../bower_components'));
+app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', '..', 'bower_components')));
 
 app.use(bodyParser.urlencoded({
     extended: true
