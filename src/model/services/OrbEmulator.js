@@ -25,9 +25,10 @@ let OrbEmulator = {
          * @type {Array}
          */
         let hues = [
-            [120, 83, 60, 38, 0], //meter1 colors
-            [180, 220, 250, 285, 315] //meter2 colors
-            // [120, 180, 188, 212, 250]
+            // [120, 83, 60, 38, 0], //meter1 colors
+            // [180, 220, 250, 285, 315] //meter2 colors
+            [[120, 0.1, 0.65], [180, 0.46, 0.5], [188, 0.76, 0.5], [212, 0.95, 0.77], [250, 1, 1]],//meter1 HSL
+            [[120, 0.1, 0.4], [180, 0.46, 0.3], [188, 0.76, 0.35], [212, 0.95, 0.6], [250, 1, 0.8]]//meter2 HSL
         ];
 
         return orb.related('relativeValue' + meter).fetch().then(function(relativeValue) {
