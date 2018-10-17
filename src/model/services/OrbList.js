@@ -152,8 +152,16 @@ let OrbList = {
                         };
                     }
 
+                    /* Temporary fix until variable names are fixed @todo */
+                    if(instruction.hue != -1) {
+                        instruction.hue = instruction.hue[0][0];
+                    } else {
+                        instruction.hue = -1;
+                    }
+
                     instructions[orbId].meters[meter] = instruction;
                 });
+
                 return Promise.resolve(instructions);
             });
 
