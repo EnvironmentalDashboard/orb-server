@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jeremyfifty9/orb-server#readme",
   "dependencies": {
+    "asciidoctor.js": "^1.5.9",
     "bookshelf": "^0.10.2",
     "bower": "^1.8.0",
     "dotenv": "^2.0.0",
@@ -24,13 +25,14 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.1",
     "knex": "^0.12.6",
+    "mysql": "^2.16.0",
     "node-cache": "^4.1.1",
     "node-gyp": "^3.4.0",
     "passport-local": "^1.0.0",
     "querystring": "^0.2.0",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
-    "sodium": "^2.0.1",
+    "sodium": "^3.0.2",
     "validator": "^6.2.1",
     "when": "^3.7.7"
   },
