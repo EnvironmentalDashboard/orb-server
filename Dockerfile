@@ -3,11 +3,11 @@ FROM node:latest
 RUN apt-get update && \
     apt-get -y upgrade
 
-WORKDIR /src
+WORKDIR /orb-server
 
 COPY . .
 
 RUN npm install
 
 EXPOSE 3000
-CMD sleep 99999
+CMD node /orb-server/src/app/app.js
