@@ -76,7 +76,7 @@ let Account = {
 
             let hash = Buffer.from(sodium.crypto_pwhash_argon2i_str(
                 pwdBuffer,
-                sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,
+                3,
                 sodium.crypto_pwhash_MEMLIMIT_INTERACTIVE
             ));
 
@@ -154,7 +154,7 @@ let Account = {
 
             let hash = Buffer.from(sodium.crypto_pwhash_argon2i_str(
                 pwdBuffer,
-                sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE,
+                3,
                 sodium.crypto_pwhash_MEMLIMIT_INTERACTIVE
             ));
 
