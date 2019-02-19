@@ -1,4 +1,4 @@
 node_modules/
 bower_components/
-*.env
+src/app/config/orb-server.env
 .ftpconfig
