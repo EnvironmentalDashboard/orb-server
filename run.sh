@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -dit -p 3000:3000 -v /etc/ssl/environmentalorb.org:/etc/ssl/environmentalorb.org orb-server
+docker run -dit -p 3000:3000 -e HTTPS=0 --restart always orb-server
