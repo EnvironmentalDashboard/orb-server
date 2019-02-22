@@ -87,7 +87,7 @@ let OrbInstructionsDispatcher = {
                         };
                     }
                     
-                    Promise.resolve(packet);
+                    return Promise.resolve(packet);
                 }).then(function(packet) {
                     let selector = 'id:' + bulb.get('selector');
 
