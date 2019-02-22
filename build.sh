@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build --name orb-server -t orb-server .
+docker build -t orb-server .
