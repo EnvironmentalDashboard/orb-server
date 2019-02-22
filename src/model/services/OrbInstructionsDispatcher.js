@@ -77,7 +77,7 @@ let OrbInstructionsDispatcher = {
                         };
                     } else {
                         let initialColor = instruction.pulseBetween[0],
-                            finalColor = instruction.pulseBetwee[1];
+                            finalColor = instruction.pulseBetween[1];
 
                         packet = {
                             from_color: 'hue:' + initialColor[0] + ' brightness:' + initialColor[1] + ' saturation:' + initialColor[2],
@@ -111,6 +111,7 @@ let OrbInstructionsDispatcher = {
                     return Promise.all(responsePromises);
                 }).catch(function(error) {
                     console.log('LIFX API timed out');
+                    console.log(error);
                 });
 
             });
