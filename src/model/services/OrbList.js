@@ -152,11 +152,16 @@ let OrbList = {
                         };
                     }
 
-                    /* Temporary fix until variable names are fixed @todo */
-                    if(instruction.hue != -1) {
-                        instruction.hue = instruction.hue[0];
+                    let colors = instruction.pulseBetween;
+
+                    if(instruction.pulseBetween === -1) {
+                        /**
+                         * The color of this orb could not be resolved
+                         */
+
+                        instruction.hue = 255;
                     } else {
-                        instruction.hue = -1;
+                        instruction.hue = colors[0][0];
                     }
 
                     instructions[orbId].meters[meter] = instruction;

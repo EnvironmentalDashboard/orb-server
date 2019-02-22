@@ -60,18 +60,35 @@ let OrbInstructionsDispatcher = {
 
                     return OrbEmulator.emulate(bulb.relations.orb, meter);
                 }).then(function(instruction) {
-                    let fromBrightness = bulb.get('brightness'), // TODO: remove
-                        toBrightness = bulb.get('brightness') - bulb.get('pulse_intensity');
+                    let packet = {};
 
-                    let packet = {
-                        // from_color: 'hue:' + instruction.hue + ' brightness:' + fromBrightness + ' saturation:1',
-                        from_color: 'hue:' + instruction.hue[0] + ' brightness:' + instruction.hue[2] + ' saturation:' + instruction.hue[1],
-                        // color: 'hue:' + instruction.hue + ' brightness:' + toBrightness + ' saturation:1',
-                        color: 'hue:' + instruction.hue[0] + ' brightness:' + instruction.hue[2] + ' saturation:' + instruction.hue[1],
-                        period: 1 / instruction.frequency,
-                        cycles: 40 * instruction.frequency
-                    };
+                    if(instruction.pulseBetween === -1) {
+                        /**
+                         * The color of this orb could not be resolved
+                         */
 
+                        let frequency = 3;
+
+                        packet = {
+                            from_color: 'hue:255 brightness:1 saturation:1',
+                            color: 'hue:0 brightness:0.5 saturation:0.5',
+                            period: 1 / frequency,
+                            cycles: 40 * frequency
+                        };
+                    } else {
+                        let initialColor = instruction.pulseBetween[0],
+                            finalColor = instruction.pulseBetwee[1];
+
+                        packet = {
+                            from_color: 'hue:' + initialColor[0] + ' brightness:' + initialColor[1] + ' saturation:' + initialColor[2],
+                            color: 'hue:' + finalColor[0] + ' brightness:' + finalColor[1] + ' saturation:' + finalColor[2],
+                            period: 1 / instruction.frequency,
+                            cycles: 40 * instruction.frequency
+                        };
+                    }
+                    
+                    Promise.resolve(packet);
+                }).then(function(packet) {
                     let selector = 'id:' + bulb.get('selector');
 
                     return BulbAPI.breathe(packet, selector, integration.get('token'));

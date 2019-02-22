@@ -24,17 +24,34 @@ let OrbEmulator = {
          * Holds arrays of orb percentile hues
          * @type {Array}
          */
-        let hues = [
-            // [120, 83, 60, 38, 0], //meter1 colors
-            // [180, 220, 250, 285, 315] //meter2 colors
-            [[120, 0.1, 0.65], [180, 0.46, 0.5], [188, 0.76, 0.5], [212, 0.95, 0.77], [250, 1, 1]],//meter1 HSL
-            [[120, 0.1, 0.4], [180, 0.46, 0.3], [188, 0.76, 0.35], [212, 0.95, 0.6], [250, 1, 0.8]]//meter2 HSL
+        let colors = [
+            /* Scheme 1 - Green/Red */
+            [
+                /* Green */
+                [[120, 1, 0.6],     [120, 1, 0.25]],
+                [[70, 1, 0.6],      [70, 1, 0.25]],
+                [[60, 1, 0.6],      [60, 1, 0.35]],
+                [[37, 1, 0.6],      [37, 1, 0.25]],
+                [[0, 1, 0.6],       [0, 1, 0.3]]
+                /* Red */
+            ],
+
+            /* Scheme 2 - White/Blue */
+            [
+                /* White */
+                [[320, 0, 0.4],     [320, 0, 0.2]],
+                [[180, 0.46, 0.6],  [180, 0.46, 0.3]],
+                [[188, 0.76, 0.5],  [188, 0.76, 0.3]],
+                [[212, 0.9, 0.77],  [212, 0.9, 0.4]],
+                [[255, 1, 0.35],    [255, 1, 0.2]]
+                /* Blue */
+            ]
         ];
 
         return orb.related('relativeValue' + meter).fetch().then(function(relativeValue) {
-            if (!(orb.get('colorScheme' + meter) in hues)) {
+            if (!(orb.get('colorScheme' + meter) in colors)) {
                 return Promise.resolve({
-                    hue: -1,
+                    pulseBetween: -1,
                     frequency: 0,
                     period: 0,
                     usage: -1
@@ -44,10 +61,10 @@ let OrbEmulator = {
             let percentage = relativeValue.get('relative_value');
 
             let key = Math.round((percentage / 100) * 4),
-                hue = -1;
+                pulseBetween = -1;
 
-            if(key in hues[orb.get('colorScheme' + meter)]) {
-                hue = hues[orb.get('colorScheme' + meter)][key];
+            if(key in colors[orb.get('colorScheme' + meter)]) {
+                pulseBetween = colors[orb.get('colorScheme' + meter)][key];
             }
 
             let frequency = ((percentage / 100) * 1.7) + .25; //times per second
@@ -56,12 +73,12 @@ let OrbEmulator = {
              * Percentage of -1 indicates it hasn't been updated yet.
              */
             if (percentage < 0) {
-                hue = -1;
+                pulseBetween = -1;
                 frequency = 0;
             }
 
             return Promise.resolve({
-                hue: hue,
+                pulseBetween: pulseBetween,
                 frequency: frequency,
                 period: frequency != 0 ? 1 / frequency : 0,
                 usage: percentage
