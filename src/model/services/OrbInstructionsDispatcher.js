@@ -111,7 +111,6 @@ let OrbInstructionsDispatcher = {
                     return Promise.all(responsePromises);
                 }).catch(function(error) {
                     console.log('LIFX API timed out');
-                    console.log(error);
                 });
 
             });
