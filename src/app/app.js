@@ -18,7 +18,8 @@ let path = require('path'),
     http = require('http'),
     https = require('https'),
     fs = require('fs'),
-    NodeCache = require('node-cache');
+    NodeCache = require('node-cache'),
+    use_https = process.env.HTTPS === '1';
 
 /**
  * Local dependencies
@@ -34,13 +35,17 @@ let router = require('./components/router'),
  */
 let app = express();
 
-var options = {
-    key: fs.readFileSync(process.env.SSL_KEY),
-    cert: fs.readFileSync(process.env.SSL_CERT),
-    ca: fs.readFileSync(process.env.SSL_INTERMEDIATES),
-};
+if (use_https) {
+    var options = {
+        key: fs.readFileSync(process.env.SSL_KEY),
+        cert: fs.readFileSync(process.env.SSL_CERT),
+        ca: fs.readFileSync(process.env.SSL_INTERMEDIATES),
+    };
 
-https.createServer(options, app).listen(3000);
+    https.createServer(options, app).listen(3000);
+} else {
+    http.createServer(app).listen(3000);
+}
 
 app.set('port', 3000);
 
@@ -60,19 +65,24 @@ app.set('views', path.join(__dirname, 'presentations'));
  */
 
 // Enforce secure connection
-app.use(function(req, res, next) {
-    if (!req.secure) {
-        return res.redirect(301, ['https://', req.get('host'), req.url].join(''));
-    }
+if (use_https) {
+    app.use(function (req, res, next) {
+        if (!req.secure) {
+            return res.redirect(301, ['https://', req.get('host'), req.url].join(''));
+        }
 
-    next();
-});
-
-app.use(session({
-    secret: process.env.SESS_SECRET,
-    resave: false,
-    saveUninitialized: true
-}));
+        next();
+    });
+    app.use(session({
+        secret: process.env.SESS_SECRET,
+        resave: false,
+        saveUninitialized: true
+    }));  
+} else {
+    app.use(session({
+        secret: process.env.SESS_SECRET
+    }));
+}
 
 // Front-end resources
 app.use(express.static(path.join(__dirname, '..', 'public')));
