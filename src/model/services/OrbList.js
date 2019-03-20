@@ -159,9 +159,33 @@ let OrbList = {
                          * The color of this orb could not be resolved
                          */
 
-                        instruction.hue = 255;
+                        instruction.hue1 = 255;
+                        instruction.saturation1 = 255;
+                        instruction.lightness1 = 255;
+
+                        instruction.hue2 = 255;
+                        instruction.saturation2 = 255;
+                        instruction.lightness2 = 255;
                     } else {
-                        instruction.hue = colors[0][0];
+                        let initialColor = colors[0],
+                            finalColor = colors[1];
+                        
+                        // var l = (2 - hsv.s / 100) * hsv.v / 2;
+                        // from https://stackoverflow.com/questions/3423214/convert-hsb-hsv-color-to-hsl
+                        let lightness1 = (2 - initialColor[2]) * initialColor[1] / 2,
+                            lightness2 = (2 - finalColor[2]) * finalColor[1] / 2;
+
+                        // var s = hsv.s * hsv.v / (l < 50 ? l * 2 : 200 - l * 2)
+                        let saturation1 = initialColor[1] * initialColor[2] / (lightness1 < 0.5 ? lightness1 * 2 : 2 - lightness1 * 2),
+                            saturation2 = finalColor[1] * finalColor[2] / (lightness2 < 0.5 ? lightness2 * 2 : 2 - lightness2 * 2);
+
+                        instruction.hue1 = initialColor[0];
+                        instruction.saturation1 = saturation1*100;
+                        instruction.lightness1 = lightness1*100;
+
+                        instruction.hue2 = finalColor[0];
+                        instruction.saturation2 = saturation2*100;
+                        instruction.lightness2 = lightness2*100;
                     }
 
                     instructions[orbId].meters[meter] = instruction;

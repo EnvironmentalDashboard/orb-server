@@ -18,6 +18,9 @@
 @keyframes orb-{{@../key}}-meter-{{@key}} {
     0% { background-color: hsl({{hue}}, 100%, 70%); }
     100% { background-color: hsl({{hue}}, 80%, 50%); }
+
+    0% { background-color: hsl({{hue1}}, {{saturation1}}%, {{lightness1}}%); }
+    100% { background-color: hsl({{hue2}}, {{saturation2}}%, {{lightness2}}%); }
 }
 .orb-{{@../key}}-meter-{{@key}} {
     animation-duration: {{period}}s; /* period */
