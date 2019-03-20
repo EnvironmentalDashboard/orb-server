@@ -172,8 +172,8 @@ let OrbList = {
                         
                         // var l = (2 - hsv.s / 100) * hsv.v / 2;
                         // from https://stackoverflow.com/questions/3423214/convert-hsb-hsv-color-to-hsl
-                        let lightness1 = (2 - initialColor[2]) * initialColor[1] / 2,
-                            lightness2 = (2 - finalColor[2]) * finalColor[1] / 2;
+                        let lightness1 = (2 - initialColor[1]) * initialColor[2] / 2,
+                            lightness2 = (2 - finalColor[1]) * finalColor[2] / 2;
 
                         // var s = hsv.s * hsv.v / (l < 50 ? l * 2 : 200 - l * 2)
                         let saturation1 = initialColor[1] * initialColor[2] / (lightness1 < 0.5 ? lightness1 * 2 : 2 - lightness1 * 2),
