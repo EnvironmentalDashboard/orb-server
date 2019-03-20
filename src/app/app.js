@@ -7,6 +7,8 @@
  * Exteneral dependencies
  */
 
+ const use_https = process.env.HTTPS === '1';
+
 let path = require('path'),
     dotenv = require('dotenv').config({
         path: path.join(__dirname, 'config', 'orb-server.env')
@@ -18,8 +20,7 @@ let path = require('path'),
     http = require('http'),
     https = require('https'),
     fs = require('fs'),
-    NodeCache = require('node-cache'),
-    use_https = process.env.HTTPS === '1';
+    NodeCache = require('node-cache');
 
 /**
  * Local dependencies
@@ -33,7 +34,8 @@ let router = require('./components/router'),
 /**
  * Configuration
  */
-let app = express();
+let app = express(),
+    server;
 
 if (use_https) {
     var options = {
@@ -42,10 +44,12 @@ if (use_https) {
         ca: fs.readFileSync(process.env.SSL_INTERMEDIATES),
     };
 
-    https.createServer(options, app).listen(3000);
+    server = https.createServer(options, app);
 } else {
-    http.createServer(app).listen(3000);
+    server = http.createServer(app);
 }
+
+server.listen(3000);
 
 app.set('port', 3000);
 
