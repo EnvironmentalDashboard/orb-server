@@ -70,8 +70,8 @@ let OrbInstructionsDispatcher = {
                         let frequency = 3;
 
                         packet = {
-                            from_color: 'hue:255 brightness:1 saturation:1',
-                            color: 'hue:0 brightness:0.5 saturation:0.5',
+                            from_color: 'hue:0 brightness:0.7 saturation:1',
+                            color: 'hue:0 brightness:0.7 saturation:1',
                             period: 1 / frequency,
                             cycles: 40 * frequency
                         };
