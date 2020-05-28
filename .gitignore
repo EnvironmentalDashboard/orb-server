@@ -1,4 +1,5 @@
 node_modules/
-bower_components/
 src/app/config/orb-server.env
+src/model/services/exe/local.php
+src/model/services/exe/remote.php
 .ftpconfig
