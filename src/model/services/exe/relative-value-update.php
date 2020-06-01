@@ -12,8 +12,8 @@ $ids = json_decode($argv[1]);
 
 $in = str_repeat('?, ', count($ids) - 1) . '?';
 
-require '/var/www/html/oberlin/includes/db.php';
-require '/var/www/html/oberlin/includes/class.Meter.php';
+require 'db.php';
+require 'class.Meter.php';
 
 $query = 'SELECT relative_values.*, meters.current, meters.id AS meter_id
 FROM relative_values
