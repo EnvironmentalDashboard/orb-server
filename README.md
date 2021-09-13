@@ -1,4 +1,4 @@
-# orb-server
+# orb-server (Gen 2 LifX bulbs)
 
 This project requires two files in order to run: src/app/config/orb-server.env and src/model/services/exe/remote.php. These files should be retrieved from someone who has already set up the project.
 
