@@ -1,10 +1,21 @@
+/* Creates a variable with access to everything inside our service folder inside of model*/
 let Service = require('../../model/services');
 
+/* 
+Creates an accountController Object 
+    - Containing following information
+        - index
+        - save
+        - updatePassword
+        - updateOrganizations
+        - register
+*/
 let accountController = {
     index: function(req, appmodel) {
         return Service.Recognition.refreshClient(req.session).catch(appmodel.setErrors.bind(appmodel));
     },
 
+    /* Takes in new client information client and saves it */
     save: function(req, appmodel) {
         let params = {
             fname: req.body.fname,
@@ -15,6 +26,7 @@ let accountController = {
         return Service.Account.updateInformation(params, req.session).catch(appmodel.setErrors.bind(appmodel));
     },
 
+    /* Updates Password from inputs. Checsk ot see if prior password was correct before setting new password */
     updatePassword: function(req, appmodel) {
         let params = {
             password: req.body.password,
@@ -28,6 +40,7 @@ let accountController = {
         return Service.Account.updatePassword(params, req.session).catch(appmodel.setErrors.bind(appmodel));
     },
 
+    /* Checks to see if new organization is in our list of organizations. If not, it creates a new one */ 
     updateOrganizations: function(req, appmodel) {
         let organizations = Array.isArray(req.body.organizations) ? req.body.organizations : [req.body.organizations];
 
