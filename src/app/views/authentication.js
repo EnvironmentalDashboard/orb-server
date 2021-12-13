@@ -1,4 +1,11 @@
+/**
+ * Authorization file to login or logout user alongside
+ * managing possible views for user based on Login status
+**/
+
+/** Creates authenticationView object for login and logout views **/
 let authenticationView = {
+
     login: function(res, appmodel) {
         let loggedIn = appmodel.getAuthenticatedUser(),
             errors = appmodel.getErrors(),

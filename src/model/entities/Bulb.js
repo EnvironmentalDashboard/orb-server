@@ -56,6 +56,8 @@ var Bulb = {
         }
 
         // Returns the promise value of the promise value of the Promise Object
+        // Creates a new promise that is immediately resolved, which results in an initial result of nothing
+        // This is the same as using Promise.resolve(undefined)
         return Promise.resolve();
     }
 };
