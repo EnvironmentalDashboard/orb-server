@@ -1,5 +1,7 @@
 /**
  * @overview Handles all services for easy importing
+ *
+ * Allows us to easily identify which services and groups we want to authenticate
  */
 
 /**

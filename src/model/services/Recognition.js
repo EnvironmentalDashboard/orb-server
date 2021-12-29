@@ -2,6 +2,7 @@
  * @overview Responsible for user recognition
  */
 
+
 let sodium = require('sodium').api;
 
 let Entity = require('../entities');
@@ -13,6 +14,10 @@ let Recognition = {
         return sess.authenticatedUser;
     },
 
+    /** Checks to see if a user is logged in
+     * @property {function} knownClient
+     * @param {} sess
+     */
     knowsClient: function(sess) {
         let loggedIn = false;
 

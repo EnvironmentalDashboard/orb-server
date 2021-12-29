@@ -1,42 +1,53 @@
 /**
- * @overview Bulb entitiy
+ * @overview Bulb entitity
  */
 
-/** Grabs code from User.js, Orb.js, and Integration.js for file **/
-/** Uses require to grab the module **/
+
+/** Grabs code using require() to grab modules
+ *  @param {String} User.js User file
+ *  @param {String} Orb.js Orb file
+ *  @param Integration.js Integration file
+ */
 let User = require('./User'),
     Orb = require('./Orb'),
     Integration = require('./Integration');
 
 /**
- * Creates Object Bulb:
-     * Creates tables called 'orb-server_bulbs' with information:
-     *      - owner
-     *      - orb
-     *      - integration
-     *      - validate
- * Function belongTo: creates a one-to-one association between target and item. Used in this case for
- * association for item to column in table
-**/
+ * Holds and obtains information about Bulb
+ * @name Bulb
+ * @type {Variable}
+ */
 var Bulb = {
     tableName: 'orb-server_bulbs',
 
-    // Stores User as owner of the bulb in tableName
+    /** Stores User as owner of the bulb in tableName
+     * @property {function} owner
+     * @return {Boolean} Creates a one to one association in table
+     * */
     owner: function() {
         return this.belongsTo('User', 'owner');
     },
 
-    // Stores Orb as the orb in tableName
+    /** Stores Orb as the orb in tableName
+     * @property {function} orb
+     * @return {Boolean} Creates a one to one association in table
+     * */
     orb: function() {
         return this.belongsTo('Orb', 'orb');
     },
 
-    // Stores Integration as the integration in tableName
+    /** Stores Integration as the integration in tableName
+     * @property {function} integration
+     * @return {Boolean} Creates a one to one association in table
+     * */
     integration: function() {
         return this.belongsTo('Integration', 'integration');
     },
 
-    //
+    /** Gets and stores the proper bulb intensity
+     * @property {Function} validate Checks and sets bulbs intensity
+     * @return {Promise} Resolves on success, rejects on error
+     */
     validate: function() {
         // Stores the pulse intensity and brightness of the bulb
         let pulse_intensity = this.get('pulse_intensity'),
@@ -62,4 +73,5 @@ var Bulb = {
     }
 };
 
+// Exports Bulb Variable to be used in other files
 module.exports = Bulb;
