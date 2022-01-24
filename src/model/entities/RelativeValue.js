@@ -1,5 +1,5 @@
 /**
- * @overview RelativeValue entitiy
+ * @overview RelativeValue entitity
  *
  * This is likely to change
  */

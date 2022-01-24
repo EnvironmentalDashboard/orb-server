@@ -1,5 +1,5 @@
 /**
- * @overview Integrations entitiy
+Add * @overview Integrations entitity
  */
 
 let User = require('./User');

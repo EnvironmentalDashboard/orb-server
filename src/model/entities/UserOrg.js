@@ -1,5 +1,5 @@
 /**
- * @overview UserOrg (Map) entitiy
+ * @overview UserOrg (Map) entitity
  */
 
 let User = require('./User'),

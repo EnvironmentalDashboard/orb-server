@@ -2,21 +2,33 @@
  * @overview Responsible for user recognition
  */
 
-
+// Stores api for sodium for file
 let sodium = require('sodium').api;
 
+// Stores entities module for file
 let Entity = require('../entities');
 
+/** Process and apply methods to recognition of client
+ *  @name Recognition
+ *  @type {}
+ */
 let Recognition = {
+    /**
+     *  @property {function} certifyClient Sets session's authenicatedUser with user attributes
+     *  @param user Current user using program
+     *  @param sess Current session
+     *  @returns {sess.authenticatedUser}
+     */
     certifyClient: function(user, sess) {
         sess.authenticatedUser = user.attributes;
 
         return sess.authenticatedUser;
     },
 
-    /** Checks to see if a user is logged in
-     * @property {function} knownClient
-     * @param {} sess
+    /**
+     * @property {function} knownClient Checks to see if a user is logged in
+     * @param sess session variable
+     * @returns {sess.authenticatedUser|boolean}
      */
     knowsClient: function(sess) {
         let loggedIn = false;
@@ -28,6 +40,11 @@ let Recognition = {
         return sess.authenticatedUser || loggedIn;
     },
 
+    /**
+     * @property {function} refreshClient Checks if we have logged-in user. If
+     * @param sess
+     * @returns {Promise<never>|*}
+     */
     refreshClient: function(sess) {
         let loggedIn = false;
 

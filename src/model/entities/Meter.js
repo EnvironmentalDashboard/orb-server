@@ -1,5 +1,5 @@
 /**
- * @overview Meter entitiy
+ * @overview Meter entitity
  *
  * This is likely to change
  */

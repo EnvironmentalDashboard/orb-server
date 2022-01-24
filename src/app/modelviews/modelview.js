@@ -13,7 +13,7 @@ let modelview = {
     session: {},
     errors: false,
 
-    /** @property {function} setSession sets global session variable to parameter value
+    /** @property {function} setSession Sets global session variable to parameter value
      *  @param session
      */
     setSession: function(session) {

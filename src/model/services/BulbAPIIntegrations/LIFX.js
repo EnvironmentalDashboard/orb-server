@@ -1,3 +1,4 @@
+/** LIFEX Bulb Integration File **/
 let requestPromise = require('request-promise-native');
 
 let urls = {
